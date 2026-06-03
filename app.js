@@ -2311,14 +2311,14 @@ function renderEmployeePublishChannelsPage(isCreate, name) {
               <div class="publish-channel-meta">
                 <span class="publish-channel-icon">◫</span>
                 <div>
-                  <strong>工具中心</strong>
-                  <p>开启后将工作流发布至工具中心，上架后暂不可关闭或下架，仅可通过删除工作流移除。</p>
+                  <strong>前台数字员工</strong>
+                  <p>开启后将数字员工「${escapeHtml(employeeName)}」发布到前台应用，成员可在前台入口中直接找到并使用；发布后不支持直接关闭，如需停用请调整可见范围。</p>
                 </div>
               </div>
-              <button class="publish-switch active" type="button" aria-label="工具中心已开启"></button>
+              <button class="publish-switch active" type="button" aria-label="数字员工已发布"></button>
             </div>
             <div class="publish-visibility-row">
-              <label>公开范围</label>
+              <label>可见范围</label>
               <div class="publish-tag-list">
                 <span class="publish-tag">刘静 <i>x</i></span>
               </div>
