@@ -73,6 +73,7 @@
       .nav-item.active { color: #222; background: rgba(0,0,0,.06); font-weight: 600; }
       .icon { display: inline-grid; place-items: center; width: 28px; height: 28px; flex: 0 0 auto; }
       .icon svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .icon img { display: block; width: 100%; height: 100%; object-fit: contain; }
       .menu-label { font-size: 20px; line-height: 1; }
       .nav-divider { height: 1px; margin: 8px 10px 4px; background: var(--line); }
       .nav-group-divider { height: 1px; margin: 8px 12px; background: var(--line); }
@@ -505,6 +506,7 @@
       .nav-item:hover, .settings-trigger:hover { color: #161e32; background: #f7f8fa; }
       .icon { width: 18px; height: 18px; }
       .icon svg { width: 18px; height: 18px; stroke-width: 1.8; }
+      .icon img { width: 18px; height: 18px; }
       .menu-label { font-size: 14px; line-height: 20px; }
       .nav-divider { margin: 8px 8px 4px; }
       .nav-group-divider { height: 1px; margin: 8px 12px; background: #ebecf4; }
@@ -517,9 +519,10 @@
 
       .employee-mode .sidebar { padding: 16px 8px 12px; }
       .employee-mode .brand { height: 40px; margin-bottom: 12px; }
-      .employee-mode .brand-logo { display: none; }
-      .employee-mode .nav { padding: 8px 0; }
-      .employee-mode .nav-item, .employee-mode .settings-trigger { width: 40px; height: 40px; border-radius: 8px; }
+      .employee-mode .brand-logo { visibility: hidden; }
+      .employee-mode .nav { padding: 0; }
+      .employee-mode .nav-item { width: 40px; height: 38px; border-radius: 8px; }
+      .employee-mode .settings-trigger { width: 40px; height: 40px; border-radius: 8px; }
       .employee-mode .nav-divider { width: 32px; margin: 8px auto; }
       .employee-mode .nav-group-divider { width: 32px; margin: 8px auto; }
 
@@ -649,7 +652,7 @@
           <button class="nav-item" data-page="square"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="2.2"/><circle cx="17" cy="7" r="2.2"/><circle cx="7" cy="17" r="2.2"/><circle cx="17" cy="17" r="2.2"/></svg></span><span class="menu-label">智能体广场</span></button>
           <button class="nav-item" data-page="files"><span class="icon"><svg viewBox="0 0 24 24"><path d="M6 4h4l3 16H9z"/><path d="M12 4h4l3 16h-4z"/><path d="M5 20h15"/></svg></span><span class="menu-label">文件</span></button>
           <div class="nav-group-divider" aria-hidden="true"></div>
-          <button class="nav-item employee-entry" data-page="employee"><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 7a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></svg></span><span class="menu-label">数字员工</span></button>
+          <button class="nav-item employee-entry" data-page="employee"><span class="icon"><img src="./assets/digital-employee-icon.png" alt="" /></span><span class="menu-label">数字员工</span></button>
           <div class="nav-divider"></div>
           <div class="recent-title">最近对话</div>
           <button class="recent-item">帮我整理本周项目进度</button>
