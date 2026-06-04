@@ -45,6 +45,7 @@
       .brand-actions svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2; }
       .brand-logo { display: inline-flex; align-items: center; width: 86px; height: 34px; color: var(--primary); flex: 0 0 auto; }
       .brand-logo-full-icon { width: 86px; height: 34px; }
+      .brand-logo-compact { display: none; width: 34px; height: 34px; object-fit: contain; }
       .employee-mode .sidebar { padding: 20px 12px 14px; }
       .employee-mode .brand { justify-content: center; padding: 0; margin-bottom: 22px; }
       .employee-mode .brand-name,
@@ -495,6 +496,7 @@
       .brand { height: 40px; margin-bottom: 12px; padding: 0 12px; }
       .brand-logo { width: 86px; height: 34px; color: #4941e6; }
       .brand-logo-full-icon { width: 86px; height: 34px; }
+      .brand-logo-compact { width: 34px; height: 34px; }
       .brand-name { color: #161e32; font-size: 16px; line-height: 22px; font-weight: 600; }
       .brand-actions { gap: 8px; color: #6a6e80; }
       .brand-actions button { width: 32px; height: 32px; border-radius: 6px; }
@@ -518,8 +520,10 @@
       .popover-item { height: 32px; border-radius: 6px; font-size: 13px; line-height: 18px; }
 
       .employee-mode .sidebar { padding: 16px 8px 12px; }
-      .employee-mode .brand { height: 40px; margin-bottom: 12px; }
-      .employee-mode .brand-logo { visibility: hidden; }
+      .employee-mode .brand { height: 40px; margin-bottom: 12px; justify-content: center; padding: 0; }
+      .employee-mode .brand-logo { justify-content: center; width: 40px; height: 40px; visibility: visible; }
+      .employee-mode .brand-logo-full-icon { display: none; }
+      .employee-mode .brand-logo-compact { display: block; }
       .employee-mode .nav { padding: 0; }
       .employee-mode .nav-item { width: 40px; height: 38px; border-radius: 8px; }
       .employee-mode .settings-trigger { width: 40px; height: 40px; border-radius: 8px; }
@@ -640,7 +644,7 @@
     <div class="app">
       <aside class="sidebar">
         <div class="brand">
-          <span class="brand-logo"><iconpark-icon name="logonewtext" class="brand-logo-full-icon" color="currentColor" width="86px" height="34px"></iconpark-icon></span>
+          <span class="brand-logo"><iconpark-icon name="logonewtext" class="brand-logo-full-icon" color="currentColor" width="86px" height="34px"></iconpark-icon><img class="brand-logo-compact" src="./assets/logo_onyimg.svg" alt="万卷" /></span>
           <span class="brand-actions">
             <button type="button" title="搜索"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.2-4.2"/></svg></button>
             <button type="button" title="布局"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M12 4v16"/></svg></button>
