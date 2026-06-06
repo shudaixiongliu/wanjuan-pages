@@ -489,6 +489,53 @@
       .placeholder h2 { margin: 12px 0 6px; color: #32384c; font-size: 18px; }
       .placeholder p { margin: 0; font-size: 13px; }
 
+      .schedule-page { padding: 16px; background: #f7f8fa; }
+      .schedule-shell { min-height: calc(100vh - 32px); padding: 16px; border: 1px solid #ebecf4; border-radius: 8px; background: #fff; }
+      .schedule-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+      .schedule-title h1 { margin: 0; color: #161e32; font-size: 16px; line-height: 22px; font-weight: 600; }
+      .schedule-title p { margin: 6px 0 0; color: #6a6e80; font-size: 13px; line-height: 18px; }
+      .schedule-actions { display: flex; gap: 8px; }
+      .schedule-tabs { display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 1px solid #ebecf4; }
+      .schedule-tab { position: relative; height: 40px; padding: 0 4px; color: #6a6e80; border: 0; background: transparent; font-size: 14px; line-height: 20px; font-weight: 600; }
+      .schedule-tab.active { color: #161e32; }
+      .schedule-tab.active::after { content: ""; position: absolute; right: 0; bottom: -1px; left: 0; height: 2px; border-radius: 2px; background: #4941e6; }
+      .schedule-panel[hidden] { display: none; }
+      .schedule-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+      .schedule-card { min-height: 170px; padding: 16px; border: 1px solid #ebecf4; border-radius: 8px; background: #fff; }
+      .schedule-card-head { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+      .schedule-card-title { color: #32384c; font-size: 15px; line-height: 20px; font-weight: 600; }
+      .schedule-badge { display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; font-size: 12px; line-height: 16px; white-space: nowrap; }
+      .schedule-badge.running { color: #18a36d; background: rgba(35, 191, 107, .12); }
+      .schedule-badge.paused { color: #8b92a3; background: #f1f2f6; }
+      .schedule-card-desc { display: -webkit-box; overflow: hidden; min-height: 40px; margin: 0 0 14px; color: #6a6e80; font-size: 13px; line-height: 20px; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+      .schedule-meta { display: grid; gap: 6px; color: #6a6e80; font-size: 12px; line-height: 16px; }
+      .schedule-meta strong { color: #32384c; font-weight: 500; }
+      .schedule-result-list { overflow: hidden; border: 1px solid #ebecf4; border-radius: 8px; background: #fff; }
+      .schedule-result-row { display: grid; grid-template-columns: minmax(0, 1fr) 130px 92px; gap: 16px; align-items: center; min-height: 72px; padding: 14px 16px; border-bottom: 1px solid #ebecf4; }
+      .schedule-result-row:last-child { border-bottom: 0; }
+      .schedule-result-title { color: #32384c; font-size: 14px; line-height: 20px; font-weight: 600; }
+      .schedule-result-desc { overflow: hidden; margin-top: 4px; color: #6a6e80; font-size: 13px; line-height: 18px; text-overflow: ellipsis; white-space: nowrap; }
+      .schedule-result-time { color: #6a6e80; font-size: 12px; line-height: 16px; }
+      .schedule-result-status { justify-self: end; }
+      .schedule-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 16px; }
+      .schedule-field { display: grid; gap: 6px; color: #32384c; font-size: 13px; line-height: 18px; font-weight: 500; }
+      .schedule-field.full { grid-column: 1 / -1; }
+      .schedule-field input,
+      .schedule-field select,
+      .schedule-field textarea {
+        width: 100%; border: 1px solid #dfe3ee; border-radius: 6px; outline: 0; color: #161e32; background: #fff; font-size: 13px; line-height: 18px;
+      }
+      .schedule-field input,
+      .schedule-field select { height: 34px; padding: 0 10px; }
+      .schedule-field textarea { height: 92px; padding: 10px; resize: vertical; }
+      .schedule-field input:focus,
+      .schedule-field select:focus,
+      .schedule-field textarea:focus { border-color: #cbc2ff; box-shadow: 0 0 0 2px rgba(73, 65, 230, .08); }
+      .schedule-push-row { display: flex; align-items: center; gap: 12px; }
+      .schedule-switch { display: inline-flex; align-items: center; gap: 8px; color: #4d5565; font-size: 13px; line-height: 18px; font-weight: 500; }
+      .schedule-switch input { width: 16px; height: 16px; accent-color: #4941e6; }
+      .schedule-empty { display: grid; min-height: 180px; place-items: center; color: #9295a4; border: 1px dashed #ebecf4; border-radius: 8px; font-size: 13px; line-height: 18px; }
+
       /* 万卷 B 端规范收敛：字号 16/14/13/12，圆角 6/8，间距以 8px 为节奏。 */
       body { color: #161e32; font-size: 14px; line-height: 20px; background: #f7f8fa; }
       .app { grid-template-columns: 224px 1fr; }
@@ -805,6 +852,31 @@
             <div class="history-list" id="historyList"></div>
           </section>
 
+          <section class="page schedule-page" data-view="schedule">
+            <div class="schedule-shell">
+              <div class="schedule-head">
+                <div class="schedule-title">
+                  <h1>定时任务</h1>
+                  <p>配置周期性任务，查看执行历史与结果摘要。</p>
+                </div>
+                <div class="schedule-actions">
+                  <button class="ghost-btn" type="button" id="quickScheduleBtn">一句话创建</button>
+                  <button class="primary-btn" type="button" id="openScheduleDialogBtn">创建</button>
+                </div>
+              </div>
+              <div class="schedule-tabs">
+                <button class="schedule-tab active" type="button" data-schedule-tab="tasks">已配置任务</button>
+                <button class="schedule-tab" type="button" data-schedule-tab="history">执行历史</button>
+              </div>
+              <div class="schedule-panel" id="scheduleTasksPanel">
+                <div class="schedule-grid" id="scheduleTaskGrid"></div>
+              </div>
+              <div class="schedule-panel" id="scheduleHistoryPanel" hidden>
+                <div class="schedule-result-list" id="scheduleResultList"></div>
+              </div>
+            </div>
+          </section>
+
           <section class="page im-page" data-view="im">
             <div class="im-shell">
               <p class="im-intro">通过 IM 渠道将工作区能力接入外部协作场景，当前支持飞书机器人配置。</p>
@@ -846,6 +918,55 @@
         <div class="modal-actions">
           <button class="ghost-btn" type="button" id="cancelImDialogBtn">取消</button>
           <button class="primary-btn" type="button" id="submitImDialogBtn">注册</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-overlay" id="scheduleDialog" hidden>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="scheduleDialogTitle">
+        <h2 class="modal-title" id="scheduleDialogTitle">创建定时任务</h2>
+        <p class="modal-desc">配置任务名称、提示词、执行频率和推送方式。保存后会出现在已配置任务列表。</p>
+        <div class="schedule-form">
+          <label class="schedule-field">
+            <span>任务名称</span>
+            <input id="scheduleNameInput" type="text" placeholder="例如：每日合同风险巡检" />
+          </label>
+          <label class="schedule-field">
+            <span>执行频率</span>
+            <select id="scheduleFrequencyInput">
+              <option value="每天 09:00">每天 09:00</option>
+              <option value="每周一 09:00">每周一 09:00</option>
+              <option value="每月 1 日 09:00">每月 1 日 09:00</option>
+              <option value="工作日 18:00">工作日 18:00</option>
+            </select>
+          </label>
+          <label class="schedule-field full">
+            <span>任务提示词</span>
+            <textarea id="schedulePromptInput" placeholder="描述需要定时执行的任务目标、输入来源、输出格式和质量要求"></textarea>
+          </label>
+          <label class="schedule-field">
+            <span>生效开始</span>
+            <input id="scheduleStartInput" type="date" />
+          </label>
+          <label class="schedule-field">
+            <span>生效结束</span>
+            <input id="scheduleEndInput" type="date" />
+          </label>
+          <div class="schedule-field full">
+            <span>结果推送</span>
+            <div class="schedule-push-row">
+              <label class="schedule-switch"><input id="schedulePushInput" type="checkbox" />推送到 IM</label>
+              <select id="scheduleChannelInput" disabled>
+                <option value="飞书群机器人">飞书群机器人</option>
+                <option value="企业微信机器人">企业微信机器人</option>
+                <option value="钉钉机器人">钉钉机器人</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-error full" id="scheduleFormError"></div>
+        </div>
+        <div class="modal-actions">
+          <button class="ghost-btn" type="button" id="cancelScheduleDialogBtn">取消</button>
+          <button class="primary-btn" type="button" id="submitScheduleDialogBtn">创建</button>
         </div>
       </div>
     </div>
@@ -917,6 +1038,17 @@
         ["Q2 运营指标趋势分析","数据洞察助手 · 环比与同比数据解读","昨天 15:20"],
         ["整理客户访谈会议纪要","会议纪要助手 · 输出行动项 6 条","05 月 30 日"]
       ];
+      const scheduleTasks = [
+        { name: "每日合同风险巡检", prompt: "每天汇总新增合同，识别高风险条款并输出修改建议。", frequency: "每天 09:00", range: "2026-06-01 至 2026-12-31", push: "飞书群机器人", status: "running" },
+        { name: "部门业务周报生成", prompt: "每周汇总项目进展、风险事项和下周计划，生成周报草稿。", frequency: "每周一 09:00", range: "2026-06-01 至 2026-09-30", push: "不推送", status: "running" },
+        { name: "市场热点线索扫描", prompt: "检索政策、招采与行业热点，输出可跟进线索清单。", frequency: "工作日 18:00", range: "2026-06-01 至 2026-08-31", push: "企业微信机器人", status: "paused" }
+      ];
+      const scheduleResults = [
+        { title: "每日合同风险巡检", desc: "完成 12 份合同扫描，识别高风险 3 条、中风险 9 条，已生成风险汇总。", time: "今天 09:02", status: "已完成" },
+        { title: "市场热点线索扫描", desc: "新增招商政策 5 条、招采线索 8 条，已按地区和紧急程度分类。", time: "昨天 18:05", status: "已完成" },
+        { title: "部门业务周报生成", desc: "周报草稿已生成，包含项目进度、阻塞事项和下周重点。", time: "06-01 09:04", status: "已完成" }
+      ];
+      let activeScheduleTab = "tasks";
       const marketState = { square: "办公", employee: "全部" };
       function renderMarketTabs(containerId, scope, tabs) {
         const container = document.getElementById(containerId);
@@ -977,6 +1109,98 @@
         `).join("") || `<div class="skill-empty">没有找到匹配的技能</div>`;
       }
       renderSkillCenter();
+      function renderSchedulePage() {
+        const grid = document.getElementById("scheduleTaskGrid");
+        const resultList = document.getElementById("scheduleResultList");
+        const tasksPanel = document.getElementById("scheduleTasksPanel");
+        const historyPanel = document.getElementById("scheduleHistoryPanel");
+        if (!grid || !resultList || !tasksPanel || !historyPanel) return;
+        document.querySelectorAll("[data-schedule-tab]").forEach(tab => tab.classList.toggle("active", tab.dataset.scheduleTab === activeScheduleTab));
+        tasksPanel.hidden = activeScheduleTab !== "tasks";
+        historyPanel.hidden = activeScheduleTab !== "history";
+        grid.innerHTML = scheduleTasks.map(task => `
+          <article class="schedule-card">
+            <div class="schedule-card-head">
+              <div class="schedule-card-title">${escapeHtml(task.name)}</div>
+              <span class="schedule-badge ${task.status === "running" ? "running" : "paused"}">${task.status === "running" ? "运行中" : "已暂停"}</span>
+            </div>
+            <p class="schedule-card-desc">${escapeHtml(task.prompt)}</p>
+            <div class="schedule-meta">
+              <span><strong>执行频率：</strong>${escapeHtml(task.frequency)}</span>
+              <span><strong>生效区间：</strong>${escapeHtml(task.range)}</span>
+              <span><strong>结果推送：</strong>${escapeHtml(task.push)}</span>
+            </div>
+          </article>
+        `).join("") || `<div class="schedule-empty">暂无已配置定时任务</div>`;
+        resultList.innerHTML = scheduleResults.map(result => `
+          <article class="schedule-result-row">
+            <div>
+              <div class="schedule-result-title">${escapeHtml(result.title)}</div>
+              <div class="schedule-result-desc">${escapeHtml(result.desc)}</div>
+            </div>
+            <div class="schedule-result-time">${escapeHtml(result.time)}</div>
+            <span class="schedule-badge running schedule-result-status">${escapeHtml(result.status)}</span>
+          </article>
+        `).join("") || `<div class="schedule-empty">暂无执行历史</div>`;
+      }
+      function resetScheduleForm() {
+        document.getElementById("scheduleNameInput").value = "";
+        document.getElementById("schedulePromptInput").value = "";
+        document.getElementById("scheduleFrequencyInput").value = "每天 09:00";
+        document.getElementById("scheduleStartInput").value = "2026-06-06";
+        document.getElementById("scheduleEndInput").value = "";
+        document.getElementById("schedulePushInput").checked = false;
+        document.getElementById("scheduleChannelInput").value = "飞书群机器人";
+        document.getElementById("scheduleChannelInput").disabled = true;
+        document.getElementById("scheduleFormError").textContent = "";
+      }
+      function openScheduleDialog() {
+        resetScheduleForm();
+        document.getElementById("scheduleDialog").hidden = false;
+      }
+      function closeScheduleDialog() {
+        document.getElementById("scheduleDialog").hidden = true;
+      }
+      function quickCreateSchedule() {
+        openPage("chat");
+        setChatMode("agent");
+        chatInput.value = "/定时任务创建 请帮我创建一个定时任务：\n任务目标：\n执行频率：\n生效时间：\n是否推送 IM：\n输出格式：";
+        chatInput.focus();
+        chatInput.setSelectionRange(chatInput.value.length, chatInput.value.length);
+      }
+      function submitScheduleForm() {
+        const name = document.getElementById("scheduleNameInput").value.trim();
+        const prompt = document.getElementById("schedulePromptInput").value.trim();
+        const frequency = document.getElementById("scheduleFrequencyInput").value;
+        const start = document.getElementById("scheduleStartInput").value;
+        const end = document.getElementById("scheduleEndInput").value;
+        const pushEnabled = document.getElementById("schedulePushInput").checked;
+        const channel = document.getElementById("scheduleChannelInput").value;
+        const error = document.getElementById("scheduleFormError");
+        error.textContent = "";
+        if (!name || !prompt || !start) {
+          error.textContent = "请填写任务名称、任务提示词和生效开始时间。";
+          return;
+        }
+        scheduleTasks.unshift({
+          name,
+          prompt,
+          frequency,
+          range: `${start} 至 ${end || "长期"}`,
+          push: pushEnabled ? channel : "不推送",
+          status: "running"
+        });
+        scheduleResults.unshift({
+          title: name,
+          desc: "任务已创建，等待首次调度执行。",
+          time: "刚刚",
+          status: "待执行"
+        });
+        activeScheduleTab = "tasks";
+        renderSchedulePage();
+        closeScheduleDialog();
+      }
+      renderSchedulePage();
       function renderEmployeeContacts() {
         const list = document.getElementById("employeeContactList");
         if (!list) return;
@@ -1205,7 +1429,7 @@
           window.location.href = "./万卷系统.html";
           return;
         }
-        const native = ["chat","skills","square","employee","history","im"].includes(key), view = native ? key : "placeholder";
+        const native = ["chat","skills","square","employee","history","schedule","im"].includes(key), view = native ? key : "placeholder";
         document.querySelector(".app").classList.toggle("employee-mode", key === "employee");
         document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.dataset.view === view));
         document.querySelectorAll(".nav-item").forEach(p => p.classList.toggle("active", p.dataset.page === key));
@@ -1248,6 +1472,12 @@
             skill.installed = !skill.installed;
             renderSkillCenter();
           }
+          return;
+        }
+        const scheduleTab = e.target.closest("[data-schedule-tab]");
+        if (scheduleTab) {
+          activeScheduleTab = scheduleTab.dataset.scheduleTab;
+          renderSchedulePage();
         }
       });
       document.getElementById("employeeContactSearch").addEventListener("input", e => {
@@ -1283,6 +1513,13 @@
         chatInput.setSelectionRange(chatInput.value.length, chatInput.value.length);
       }));
       setChatMode("chat");
+      quickScheduleBtn.addEventListener("click", quickCreateSchedule);
+      openScheduleDialogBtn.addEventListener("click", openScheduleDialog);
+      cancelScheduleDialogBtn.addEventListener("click", closeScheduleDialog);
+      submitScheduleDialogBtn.addEventListener("click", submitScheduleForm);
+      schedulePushInput.addEventListener("change", () => {
+        scheduleChannelInput.disabled = !schedulePushInput.checked;
+      });
       openImDialogBtn.addEventListener("click", openImDialog);
       cancelImDialogBtn.addEventListener("click", closeImDialog);
       submitImDialogBtn.addEventListener("click", () => {
@@ -1306,11 +1543,13 @@
       trigger.addEventListener("click", e => { e.stopPropagation(); popover.hidden = !popover.hidden; trigger.setAttribute("aria-expanded", String(!popover.hidden)); });
       document.addEventListener("click", e => { if (!popover.hidden && !popover.contains(e.target)) { popover.hidden = true; trigger.setAttribute("aria-expanded", "false"); } });
       imDialog.addEventListener("click", e => { if (e.target === imDialog) closeImDialog(); });
+      scheduleDialog.addEventListener("click", e => { if (e.target === scheduleDialog) closeScheduleDialog(); });
       document.addEventListener("keydown", e => {
         if (e.key !== "Escape") return;
         popover.hidden = true;
         trigger.setAttribute("aria-expanded", "false");
         if (!imDialog.hidden) closeImDialog();
+        if (!scheduleDialog.hidden) closeScheduleDialog();
       });
       syncImCard();
     </script>
