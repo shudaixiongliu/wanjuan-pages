@@ -185,6 +185,7 @@
       .message-bubble { max-width: min(680px, 78%); padding: 10px 12px; color: #32384c; background: #fff; border: 1px solid var(--line); border-radius: 8px; font-size: 14px; line-height: 20px; box-shadow: 0 6px 18px rgba(31,37,64,.05); }
       .message.user .message-bubble { color: #fff; background: var(--primary); border-color: var(--primary); box-shadow: none; }
       .message-meta { margin-top: 6px; color: var(--text-3); font-size: 12px; line-height: 16px; }
+      .message.located .message-bubble { border-color: #8f84ff; background: #f7f5ff; box-shadow: 0 0 0 3px rgba(73, 65, 230, .12), 0 8px 22px rgba(31,37,64,.08); transition: .2s ease; }
       .chat-composer { position: relative; overflow: visible; max-width: 1080px; margin: 0 auto; border: 1px solid #dde0ee; border-radius: 12px; background: rgba(255,255,255,.92); box-shadow: 0 10px 32px rgba(32, 39, 77, .08); }
       .chat-composer:focus-within { border-color: var(--primary-line); box-shadow: 0 8px 26px rgba(73, 65, 230, .1); }
       .agent-tip { display: flex; align-items: center; gap: 10px; height: 38px; padding: 0 14px; color: #545b6d; border-bottom: 1px solid var(--line); font-size: 12px; }
@@ -365,6 +366,34 @@
       .history-title { font-size: 13px; font-weight: 500; }
       .history-sub { margin-top: 5px; color: var(--text-3); font-size: 12px; }
       .history-time { margin-left: auto; color: var(--text-3); font-size: 12px; }
+      .files-page { padding: 16px; background: #f7f8fa; }
+      .files-shell { min-height: calc(100vh - 32px); padding: 16px; border: 1px solid #ebecf4; border-radius: 8px; background: #fff; }
+      .files-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+      .files-title h1 { margin: 0; color: #161e32; font-size: 16px; line-height: 22px; font-weight: 600; }
+      .files-title p { margin: 6px 0 0; color: #6a6e80; font-size: 13px; line-height: 18px; }
+      .file-filters { display: flex; gap: 8px; }
+      .file-filter { height: 32px; padding: 0 12px; color: #6a6e80; border: 1px solid #ebecf4; border-radius: 6px; background: #fff; font-size: 13px; line-height: 18px; }
+      .file-filter:hover { color: #4941e6; border-color: #d8d2ff; background: #faf9ff; }
+      .file-filter.active { color: #4941e6; border-color: #d8d2ff; background: #f3f0ff; font-weight: 600; }
+      .file-toast { min-height: 18px; margin: -4px 0 12px; color: #6a6e80; font-size: 12px; line-height: 16px; }
+      .conversation-file-list { display: grid; gap: 14px; }
+      .file-conversation-card { overflow: hidden; border: 1px solid #ebecf4; border-radius: 8px; background: #fff; }
+      .file-conversation-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 16px; background: #fafbfc; border-bottom: 1px solid #ebecf4; }
+      .file-conversation-title { color: #32384c; font-size: 14px; line-height: 20px; font-weight: 600; }
+      .file-conversation-meta { margin-top: 4px; color: #6a6e80; font-size: 12px; line-height: 16px; }
+      .file-expand-btn { height: 28px; padding: 0 10px; color: #6a6e80; border: 1px solid #ebecf4; border-radius: 6px; background: #fff; font-size: 12px; line-height: 16px; white-space: nowrap; }
+      .file-expand-btn:hover { color: #4941e6; border-color: #d8d2ff; background: #f7f5ff; }
+      .generated-file-list { display: grid; }
+      .generated-file-item { display: grid; grid-template-columns: 36px minmax(0, 1fr) 124px 132px; gap: 12px; align-items: center; min-height: 64px; padding: 12px 16px; border-bottom: 1px solid #f0f1f6; }
+      .generated-file-item:last-child { border-bottom: 0; }
+      .file-icon { display: grid; place-items: center; width: 36px; height: 36px; color: #4941e6; border-radius: 8px; background: #f3f0ff; font-size: 12px; line-height: 16px; font-weight: 700; }
+      .file-name { overflow: hidden; color: #32384c; font-size: 14px; line-height: 20px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+      .file-meta { margin-top: 4px; color: #6a6e80; font-size: 12px; line-height: 16px; }
+      .file-time { color: #6a6e80; font-size: 12px; line-height: 16px; }
+      .file-actions { display: flex; justify-content: flex-end; gap: 8px; }
+      .file-action-btn { height: 30px; padding: 0 10px; color: #4d5565; border: 1px solid #ebecf4; border-radius: 6px; background: #fff; font-size: 13px; line-height: 18px; }
+      .file-action-btn:hover { color: #4941e6; border-color: #d8d2ff; background: #faf9ff; }
+      .files-empty { display: grid; min-height: 260px; place-items: center; color: #9295a4; border: 1px dashed #ebecf4; border-radius: 8px; font-size: 13px; line-height: 18px; }
       .im-page { padding: 36px; }
       .im-shell { max-width: 1040px; margin: 0 auto; }
       .im-intro { margin: 0 0 20px; color: var(--text-2); font-size: 14px; }
@@ -804,6 +833,24 @@
             </div>
           </section>
 
+          <section class="page files-page" data-view="files">
+            <div class="files-shell">
+              <div class="files-head">
+                <div class="files-title">
+                  <h1>文件</h1>
+                  <p>展示各次对话生成的文件，可下载、可回到对应对话查看上下文</p>
+                </div>
+                <div class="file-filters" aria-label="文件筛选">
+                  <button class="file-filter active" type="button" data-file-filter="all">全部</button>
+                  <button class="file-filter" type="button" data-file-filter="recent">仅最近 7 天</button>
+                  <button class="file-filter" type="button" data-file-filter="withFiles">仅有文件的对话</button>
+                </div>
+              </div>
+              <div class="file-toast" id="fileToast" aria-live="polite"></div>
+              <div class="conversation-file-list" id="conversationFileList"></div>
+            </div>
+          </section>
+
           <section class="page employee-workbench" data-view="employee">
             <div class="employee-shell">
               <aside class="employee-contacts">
@@ -1038,6 +1085,64 @@
         ["Q2 运营指标趋势分析","数据洞察助手 · 环比与同比数据解读","昨天 15:20"],
         ["整理客户访谈会议纪要","会议纪要助手 · 输出行动项 6 条","05 月 30 日"]
       ];
+      const fileConversations = [
+        {
+          conversationId: "conv-contract-risk",
+          title: "合同审核风险点分析",
+          time: "今天 14:32",
+          isRecent: true,
+          messages: [
+            { id: "msg-contract-user", role: "user", text: "请审核这份合同，输出风险点和修订建议。", meta: "Agent 模式" },
+            { id: "msg-contract-result", role: "assistant", text: "合同审核已完成，识别高风险 2 条、中风险 6 条，并生成审核结果与风险汇总表。", meta: "生成文件 2 个" }
+          ],
+          files: [
+            { id: "file-contract-docx", messageId: "msg-contract-result", name: "合同审核结果.docx", type: "DOCX", size: "245 KB", generatedAt: "今天 14:34", content: "合同审核结果\\n高风险条款与修改建议..." },
+            { id: "file-contract-xlsx", messageId: "msg-contract-result", name: "风险条款汇总.xlsx", type: "XLSX", size: "118 KB", generatedAt: "今天 14:34", content: "条款,风险等级,修改建议\\n第5条,高,明确验收标准" }
+          ]
+        },
+        {
+          conversationId: "conv-prd-draft",
+          title: "生成产品需求文档初稿",
+          time: "昨天 18:46",
+          isRecent: true,
+          messages: [
+            { id: "msg-prd-user", role: "user", text: "根据智能体管理后台需求，生成一版 PRD 初稿。", meta: "Agent 模式" },
+            { id: "msg-prd-result", role: "assistant", text: "PRD 初稿已生成，包含目标、范围、核心流程、页面结构和验收标准。", meta: "生成文件 1 个" }
+          ],
+          files: [
+            { id: "file-prd-md", messageId: "msg-prd-result", name: "PRD 初稿.md", type: "MD", size: "56 KB", generatedAt: "昨天 18:49", content: "# PRD 初稿\\n\\n## 需求目标\\n..." }
+          ]
+        },
+        {
+          conversationId: "conv-weekly-report",
+          title: "帮我整理本周项目进度",
+          time: "今天 10:18",
+          isRecent: true,
+          messages: [
+            { id: "msg-weekly-user", role: "user", text: "整理本周项目进度，按模块输出周报。", meta: "Chat 模式" },
+            { id: "msg-weekly-result", role: "assistant", text: "已整理本周项目进度，本次对话仅输出文本总结，没有生成文件。", meta: "无生成文件" }
+          ],
+          files: []
+        },
+        {
+          conversationId: "conv-market-report",
+          title: "Q2 运营指标趋势分析",
+          time: "昨天 15:20",
+          isRecent: true,
+          messages: [
+            { id: "msg-market-user", role: "user", text: "分析 Q2 运营指标趋势，输出可汇报材料。", meta: "Agent 模式" },
+            { id: "msg-market-result", role: "assistant", text: "趋势分析已完成，已生成指标分析报告、图表数据和汇报大纲。", meta: "生成文件 4 个" }
+          ],
+          files: [
+            { id: "file-market-report", messageId: "msg-market-result", name: "Q2 运营指标分析报告.pdf", type: "PDF", size: "1.2 MB", generatedAt: "昨天 15:26", content: "Q2 运营指标分析报告" },
+            { id: "file-market-chart", messageId: "msg-market-result", name: "运营趋势图表.xlsx", type: "XLSX", size: "326 KB", generatedAt: "昨天 15:26", content: "月份,转化率,留存率" },
+            { id: "file-market-outline", messageId: "msg-market-result", name: "汇报大纲.md", type: "MD", size: "24 KB", generatedAt: "昨天 15:27", content: "# 汇报大纲" },
+            { id: "file-market-invalid", messageId: "msg-market-result", name: "历史明细导出.csv", type: "CSV", size: "680 KB", generatedAt: "昨天 15:28", downloadable: false, content: "" }
+          ]
+        }
+      ];
+      let activeFileFilter = "all";
+      const expandedFileGroups = { "conv-market-report": false };
       const scheduleTasks = [
         { name: "每日合同风险巡检", prompt: "每天汇总新增合同，识别高风险条款并输出修改建议。", frequency: "每天 09:00", range: "2026-06-01 至 2026-12-31", push: "飞书群机器人", status: "running" },
         { name: "部门业务周报生成", prompt: "每周汇总项目进展、风险事项和下周计划，生成周报草稿。", frequency: "每周一 09:00", range: "2026-06-01 至 2026-09-30", push: "不推送", status: "running" },
@@ -1201,6 +1306,109 @@
         closeScheduleDialog();
       }
       renderSchedulePage();
+      function fileCountText(count) {
+        return count ? `共 ${count} 个文件` : "暂无生成文件";
+      }
+      function findGeneratedFile(fileId) {
+        for (const conversation of fileConversations) {
+          const file = conversation.files.find(item => item.id === fileId);
+          if (file) return { conversation, file };
+        }
+        return null;
+      }
+      function setFileToast(text, isError = false) {
+        const toast = document.getElementById("fileToast");
+        if (!toast) return;
+        toast.textContent = text;
+        toast.style.color = isError ? "#d93747" : "#6a6e80";
+        if (text) setTimeout(() => {
+          if (toast.textContent === text) toast.textContent = "";
+        }, 2400);
+      }
+      function renderFilesPage() {
+        const list = document.getElementById("conversationFileList");
+        if (!list) return;
+        document.querySelectorAll("[data-file-filter]").forEach(btn => btn.classList.toggle("active", btn.dataset.fileFilter === activeFileFilter));
+        const visibleConversations = fileConversations.filter(item => {
+          if (activeFileFilter === "recent") return item.isRecent && item.files.length;
+          if (activeFileFilter === "withFiles") return item.files.length;
+          return item.files.length;
+        });
+        list.innerHTML = visibleConversations.map(conversation => {
+          const expanded = expandedFileGroups[conversation.conversationId] !== false;
+          const hasMore = conversation.files.length > 3;
+          const files = hasMore && !expanded ? conversation.files.slice(0, 3) : conversation.files;
+          return `
+            <article class="file-conversation-card" data-file-conversation="${escapeHtml(conversation.conversationId)}">
+              <div class="file-conversation-head">
+                <div>
+                  <div class="file-conversation-title">${escapeHtml(conversation.title)}</div>
+                  <div class="file-conversation-meta">${escapeHtml(conversation.time)} · ${fileCountText(conversation.files.length)}</div>
+                </div>
+                ${hasMore ? `<button class="file-expand-btn" type="button" data-file-expand="${escapeHtml(conversation.conversationId)}">${expanded ? "收起" : `展开更多 ${conversation.files.length - 3}`}</button>` : ""}
+              </div>
+              ${files.length ? `<div class="generated-file-list">
+                ${files.map(file => `
+                  <div class="generated-file-item">
+                    <span class="file-icon">${escapeHtml(file.type)}</span>
+                    <div>
+                      <div class="file-name">${escapeHtml(file.name)}</div>
+                      <div class="file-meta">${escapeHtml(file.type)} · ${escapeHtml(file.size)}</div>
+                    </div>
+                    <div class="file-time">${escapeHtml(file.generatedAt)}</div>
+                    <div class="file-actions">
+                      <button class="file-action-btn" type="button" data-file-download="${escapeHtml(file.id)}">下载</button>
+                      <button class="file-action-btn" type="button" data-file-locate="${escapeHtml(file.id)}">定位</button>
+                    </div>
+                  </div>
+                `).join("")}
+              </div>` : `<div class="files-empty">暂无生成文件</div>`}
+            </article>
+          `;
+        }).join("") || `<div class="files-empty">还没有生成文件，去发起一次对话任务吧</div>`;
+      }
+      function downloadGeneratedFile(fileId) {
+        const found = findGeneratedFile(fileId);
+        if (!found || found.file.downloadable === false) {
+          setFileToast("下载失败，请稍后重试", true);
+          return;
+        }
+        const blob = new Blob([found.file.content || found.file.name], { type: "text/plain;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.href = url;
+        anchor.download = found.file.name;
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+        URL.revokeObjectURL(url);
+        setFileToast(`已开始下载：${found.file.name}`);
+      }
+      function renderConversationContext(conversation, targetMessageId) {
+        openPage("chat");
+        chatPage.classList.add("has-chat");
+        chatThread.innerHTML = "";
+        conversation.messages.forEach(message => appendMessage(message.role, message.text, message.meta, { messageId: message.id }));
+        const target = chatThread.querySelector(`[data-message-id="${targetMessageId}"]`);
+        if (!target) {
+          setFileToast("未找到原始生成位置", true);
+          chatThread.scrollTop = 0;
+          return;
+        }
+        target.scrollIntoView({ behavior: "smooth", block: "center" });
+        target.classList.add("located");
+        setTimeout(() => target.classList.remove("located"), 1800);
+      }
+      function locateGeneratedFile(fileId) {
+        const found = findGeneratedFile(fileId);
+        if (!found) {
+          openPage("chat");
+          setFileToast("未找到原始生成位置", true);
+          return;
+        }
+        renderConversationContext(found.conversation, found.file.messageId);
+      }
+      renderFilesPage();
       function renderEmployeeContacts() {
         const list = document.getElementById("employeeContactList");
         if (!list) return;
@@ -1364,11 +1572,12 @@
         return "我已收到你的问题，会按通用问答方式给出清晰、可执行的回答。";
       }
 
-      function appendMessage(role, text, meta = "") {
+      function appendMessage(role, text, meta = "", options = {}) {
         chatPage.classList.add("has-chat");
         const avatar = role === "user" ? "刘" : "AI";
         const node = document.createElement("div");
         node.className = `message ${role}`;
+        if (options.messageId) node.dataset.messageId = options.messageId;
         node.innerHTML = role === "user"
           ? `<div class="message-bubble">${escapeHtml(text)}${meta ? `<div class="message-meta">${escapeHtml(meta)}</div>` : ""}</div><span class="message-avatar">${avatar}</span>`
           : `<span class="message-avatar">${avatar}</span><div class="message-bubble">${escapeHtml(text)}${meta ? `<div class="message-meta">${escapeHtml(meta)}</div>` : ""}</div>`;
@@ -1429,7 +1638,7 @@
           window.location.href = "./万卷系统.html";
           return;
         }
-        const native = ["chat","skills","square","employee","history","schedule","im"].includes(key), view = native ? key : "placeholder";
+        const native = ["chat","skills","square","files","employee","history","schedule","im"].includes(key), view = native ? key : "placeholder";
         document.querySelector(".app").classList.toggle("employee-mode", key === "employee");
         document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.dataset.view === view));
         document.querySelectorAll(".nav-item").forEach(p => p.classList.toggle("active", p.dataset.page === key));
@@ -1478,6 +1687,29 @@
         if (scheduleTab) {
           activeScheduleTab = scheduleTab.dataset.scheduleTab;
           renderSchedulePage();
+          return;
+        }
+        const fileFilter = e.target.closest("[data-file-filter]");
+        if (fileFilter) {
+          activeFileFilter = fileFilter.dataset.fileFilter;
+          renderFilesPage();
+          return;
+        }
+        const fileExpand = e.target.closest("[data-file-expand]");
+        if (fileExpand) {
+          const id = fileExpand.dataset.fileExpand;
+          expandedFileGroups[id] = expandedFileGroups[id] === false;
+          renderFilesPage();
+          return;
+        }
+        const fileDownload = e.target.closest("[data-file-download]");
+        if (fileDownload) {
+          downloadGeneratedFile(fileDownload.dataset.fileDownload);
+          return;
+        }
+        const fileLocate = e.target.closest("[data-file-locate]");
+        if (fileLocate) {
+          locateGeneratedFile(fileLocate.dataset.fileLocate);
         }
       });
       document.getElementById("employeeContactSearch").addEventListener("input", e => {
