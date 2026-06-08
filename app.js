@@ -424,8 +424,13 @@ const SUPPORTED_DOC_FORMATS = [
 const pages = {
   "/front-app": {
     kind: "frontApp",
-    title: "前台应用",
+    title: "前台应用-旧",
     breadcrumb: ["前台应用"],
+  },
+  "/front-employee": {
+    kind: "frontEmployee",
+    title: "前台员工",
+    breadcrumb: ["前台员工"],
   },
   "/digital-employee-chat": {
     kind: "employeeChat",
@@ -1231,10 +1236,18 @@ function redirectToFrontApp() {
   window.location.href = "./front-app.html";
 }
 
+function redirectToFrontEmployee() {
+  window.location.href = "./front-app_0608.html";
+}
+
 function navigate(path) {
   const next = normalizePath(path);
   if (next === "/front-app") {
     redirectToFrontApp();
+    return;
+  }
+  if (next === "/front-employee") {
+    redirectToFrontEmployee();
     return;
   }
   if (!state.tabs.includes(next)) state.tabs.push(next);
@@ -1412,6 +1425,10 @@ function renderTopbar(page) {
         <button class="front-btn" data-handler="${registerHandler({ type: "nav", path: "/front-app" })}">
           ${icon("frontApp", "front-btn-icon")}
           <span>前台应用</span>
+        </button>
+        <button class="front-btn" data-handler="${registerHandler({ type: "nav", path: "/front-employee" })}">
+          ${icon("user", "front-btn-icon")}
+          <span>前台员工</span>
         </button>
         <button class="icon-btn fullscreen-btn" data-handler="${registerHandler({ type: "noop" })}">${icon("fullscreen")}</button>
         <span class="topbar-divider" aria-hidden="true"></span>

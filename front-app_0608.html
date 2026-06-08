@@ -1,0 +1,1896 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>万卷 - 智能工作台</title>
+    <script src="./reference/iconpark-41579.js"></script>
+    <style>
+      :root {
+        --primary: #4941e6;
+        --primary-hover: #766bf2;
+        --primary-soft: #f3f0ff;
+        --primary-line: #cbc2ff;
+        --text: #161e32;
+        --text-2: #6a6e80;
+        --text-3: #9295a4;
+        --line: #ebecf4;
+        --bg: #f7f8fa;
+        --white: #fff;
+        --green: #23bf6b;
+        --orange: #f18019;
+        --shadow: 0 12px 32px rgba(31, 37, 64, 0.1);
+      }
+      * { box-sizing: border-box; }
+      html, body { width: 100%; min-width: 1080px; height: 100%; margin: 0; }
+      body {
+        overflow: hidden; color: var(--text); background: var(--bg);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+        font-size: 14px;
+      }
+      button, input, textarea { font: inherit; }
+      button { cursor: pointer; }
+      .app { display: grid; grid-template-columns: 260px 1fr; height: 100vh; }
+      .app.employee-mode { grid-template-columns: 72px 1fr; }
+      .sidebar {
+        display: flex; flex-direction: column; position: relative; z-index: 5; padding: 24px 16px 14px;
+        background: #fff; border-right: 1px solid var(--line);
+      }
+      .brand { display: flex; align-items: center; gap: 10px; height: 42px; padding: 0 2px; margin-bottom: 28px; }
+      .brand-mark { display: none; }
+      .brand-name { color: #222; font-size: 24px; font-weight: 700; letter-spacing: 0; }
+      .brand-tag { display: none; }
+      .brand-actions { display: flex; align-items: center; gap: 22px; margin-left: auto; color: #333; }
+      .brand-actions button { display: grid; width: 28px; height: 28px; place-items: center; padding: 0; color: currentColor; border: 0; background: transparent; }
+      .brand-actions svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2; }
+      .brand-logo { display: inline-flex; align-items: center; width: 86px; height: 34px; color: var(--primary); flex: 0 0 auto; }
+      .brand-logo-full-icon { width: 86px; height: 34px; }
+      .brand-logo-compact { display: none; width: 34px; height: 34px; object-fit: contain; }
+      .employee-mode .sidebar { padding: 20px 12px 14px; }
+      .employee-mode .brand { justify-content: center; padding: 0; margin-bottom: 22px; }
+      .employee-mode .brand-name,
+      .employee-mode .brand-actions,
+      .employee-mode .menu-label,
+      .employee-mode .recent-title,
+      .employee-mode .recent-item,
+      .employee-mode .settings-trigger span:nth-child(2),
+      .employee-mode .settings-trigger .icon:last-child { display: none; }
+      .employee-mode .nav { align-items: center; padding: 18px 10px; }
+      .employee-mode .nav-item,
+      .employee-mode .settings-trigger { justify-content: center; gap: 0; width: 48px; height: 48px; padding: 0; border-radius: 12px; font-size: 0; }
+      .employee-mode .nav-item .icon,
+      .employee-mode .settings-trigger .avatar { font-size: 14px; }
+      .employee-mode .nav-divider { width: 32px; margin: 14px auto; }
+      .employee-mode .sidebar-footer { display: flex; justify-content: center; padding: 10px 0 16px; }
+      .employee-mode .settings-trigger .avatar { margin: 0; }
+      .employee-mode .settings-popover { left: 64px; right: auto; bottom: 12px; width: 210px; }
+      .nav { display: flex; flex: 1; flex-direction: column; gap: 8px; padding: 0; }
+      .nav-item, .settings-trigger {
+        display: flex; align-items: center; gap: 16px; width: 100%; height: 56px; padding: 0 18px;
+        color: #2f3035; border: 0; border-radius: 16px; background: transparent; text-align: left;
+        transition: .16s ease;
+      }
+      .nav-item:hover, .settings-trigger:hover { color: #222; background: rgba(0,0,0,.04); }
+      .nav-item.active { color: #222; background: rgba(0,0,0,.06); font-weight: 600; }
+      .icon { display: inline-grid; place-items: center; width: 28px; height: 28px; flex: 0 0 auto; }
+      .icon svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .icon img { display: block; width: 100%; height: 100%; object-fit: contain; }
+      .menu-label { font-size: 20px; line-height: 1; }
+      .nav-divider { height: 1px; margin: 8px 10px 4px; background: var(--line); }
+      .nav-group-divider { height: 1px; margin: 8px 12px; background: var(--line); }
+      .nav-section-head { display: flex; align-items: center; justify-content: space-between; margin: 22px 8px 6px; padding: 0 4px; }
+      .nav-section-title { color: #9295a4; font-size: 18px; line-height: 24px; font-weight: 700; }
+      .nav-section-add {
+        display: grid; width: 28px; height: 28px; place-items: center; color: #8a8a8a;
+        border: 0; border-radius: 6px; background: transparent; font-size: 28px; line-height: 1;
+      }
+      .nav-section-add:hover { color: var(--primary); background: #f7f8fa; }
+      .nav-employee-avatar {
+        display: grid; width: 28px; height: 28px; place-items: center; flex: 0 0 auto;
+        color: #fff; border-radius: 8px; font-size: 13px; line-height: 18px; font-weight: 700;
+      }
+      .recent-title { padding: 4px 12px 6px; color: var(--text-3); font-size: 12px; }
+      .recent-item {
+        overflow: hidden; width: 100%; padding: 7px 12px; color: var(--text-2); border: 0;
+        background: transparent; font-size: 12px; text-align: left; text-overflow: ellipsis; white-space: nowrap;
+      }
+      .recent-item:hover { color: var(--primary); }
+      .sidebar-footer { position: relative; padding: 10px 0 0; border-top: 1px solid var(--line); }
+      .settings-trigger .avatar { width: 26px; height: 26px; margin-left: -4px; }
+      .settings-trigger span:nth-child(2) { flex: 1; }
+      .avatar {
+        display: grid; place-items: center; flex: 0 0 auto; color: #fff; background: linear-gradient(135deg, #8e85fa, #4941e6);
+        border-radius: 50%; font-size: 12px; font-weight: 600;
+      }
+      .settings-popover {
+        position: absolute; right: 12px; bottom: 66px; left: 12px; padding: 8px;
+        background: #fff; border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow);
+      }
+      .settings-popover[hidden] { display: none; }
+      .popover-user { display: flex; align-items: center; gap: 10px; padding: 8px 8px 10px; }
+      .popover-user .avatar { width: 34px; height: 34px; }
+      .user-name { font-weight: 600; }
+      .user-email { margin-top: 2px; color: var(--text-3); font-size: 11px; }
+      .popover-divider { height: 1px; margin: 5px 0; background: var(--line); }
+      .popover-label { padding: 5px 9px 3px; color: var(--text-3); font-size: 11px; }
+      .popover-item {
+        display: flex; align-items: center; gap: 10px; width: 100%; height: 36px; padding: 0 9px;
+        color: #596174; border: 0; border-radius: 6px; background: transparent; font-size: 13px; text-align: left;
+      }
+      .popover-item:hover { color: var(--primary); background: #f7f8fc; }
+      .popover-item svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .main { display: flex; min-width: 0; flex-direction: column; }
+      .topbar { display: none; }
+      .page-title { color: #32384c; font-weight: 600; }
+      .top-spacer { flex: 1; }
+      .top-actions { display: flex; align-items: center; gap: 8px; }
+      .icon-btn {
+        display: grid; place-items: center; width: 34px; height: 34px; color: var(--text-2);
+        border: 0; border-radius: 6px; background: transparent;
+      }
+      .icon-btn:hover { color: var(--primary); background: #f7f8fc; }
+      .icon-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .content { flex: 1; min-height: 0; overflow: auto; }
+      .page { display: none; min-height: 100%; }
+      .page:not(.active) { display: none !important; }
+      .page.active { display: block; }
+      .chat-page {
+        position: relative;
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 100%;
+        padding: 40px 36px 72px;
+        background:
+          radial-gradient(circle at 50% 18%, rgba(118, 107, 242, .10), transparent 26%),
+          radial-gradient(circle at 28% 52%, rgba(73, 65, 230, .06), transparent 24%),
+          #fff;
+      }
+      .chat-page.active { display: flex; }
+      .hero {
+        width: 100%;
+        max-width: 1120px;
+        margin: 0 auto;
+        transform: translateY(-2vh);
+      }
+      .hello { margin: 0 0 32px; color: #272c42; font-size: 42px; font-weight: 700; line-height: 1.3; text-align: center; }
+      .hello em { color: transparent; background: linear-gradient(90deg, #4941e6, #a66bff); -webkit-background-clip: text; background-clip: text; font-style: normal; }
+      .intro { margin: 8px 0 30px; color: var(--text-2); font-size: 14px; }
+      .section-head { display: flex; align-items: center; justify-content: space-between; margin: 0 0 12px; }
+      .section-title { color: #32384c; font-size: 15px; font-weight: 600; }
+      .link-btn { color: var(--primary); border: 0; background: transparent; font-size: 13px; }
+      .quick-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 34px; }
+      .quick-card {
+        min-height: 116px; padding: 15px; color: var(--text); border: 1px solid var(--line); border-radius: 8px;
+        background: #fff; text-align: left; transition: .16s ease;
+      }
+      .quick-card:hover { border-color: var(--primary-line); box-shadow: 0 8px 20px rgba(45, 48, 82, .07); transform: translateY(-2px); }
+      .quick-icon {
+        display: grid; place-items: center; width: 32px; height: 32px; margin-bottom: 11px;
+        color: var(--primary); background: var(--primary-soft); border-radius: 7px;
+      }
+      .quick-icon svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .quick-name { font-size: 13px; font-weight: 600; }
+      .quick-desc { margin-top: 4px; color: var(--text-3); font-size: 12px; line-height: 1.5; }
+      .agents { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+      .agent-card { display: flex; gap: 11px; padding: 14px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+      .agent-logo {
+        display: grid; place-items: center; width: 36px; height: 36px; flex: 0 0 auto; color: #fff;
+        border-radius: 10px; font-size: 13px; font-weight: 600;
+      }
+      .agent-card:nth-child(1) .agent-logo { background: #766bf2; }
+      .agent-card:nth-child(2) .agent-logo { background: #3f7df6; }
+      .agent-card:nth-child(3) .agent-logo { background: #23bf9b; }
+      .agent-name { font-size: 13px; font-weight: 600; }
+      .agent-desc { overflow: hidden; margin-top: 4px; color: var(--text-3); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+      .chat-composer-wrap { position: static; padding: 0; background: transparent; }
+      .chat-thread { display: none; max-width: 920px; max-height: 34vh; margin: 0 auto 16px; padding-right: 6px; overflow: auto; }
+      .chat-page.has-chat .chat-thread { display: flex; flex-direction: column; gap: 12px; }
+      .chat-page.has-chat .hello,
+      .chat-page.has-chat .chat-recommend-grid { display: none; }
+      .chat-page.has-chat .hero { transform: none; }
+      .message { display: flex; gap: 10px; align-items: flex-start; }
+      .message.user { justify-content: flex-end; }
+      .message-avatar { display: grid; place-items: center; width: 28px; height: 28px; flex: 0 0 auto; color: #fff; background: var(--primary); border-radius: 50%; font-size: 12px; font-weight: 600; }
+      .message.assistant .message-avatar { color: var(--primary); background: var(--primary-soft); }
+      .message-bubble { max-width: min(680px, 78%); padding: 10px 12px; color: #32384c; background: #fff; border: 1px solid var(--line); border-radius: 8px; font-size: 14px; line-height: 20px; box-shadow: 0 6px 18px rgba(31,37,64,.05); }
+      .message.user .message-bubble { color: #fff; background: var(--primary); border-color: var(--primary); box-shadow: none; }
+      .message-meta { margin-top: 6px; color: var(--text-3); font-size: 12px; line-height: 16px; }
+      .message.located .message-bubble { border-color: #8f84ff; background: #f7f5ff; box-shadow: 0 0 0 3px rgba(73, 65, 230, .12), 0 8px 22px rgba(31,37,64,.08); transition: .2s ease; }
+      .chat-composer { position: relative; overflow: visible; max-width: 1080px; margin: 0 auto; border: 1px solid #dde0ee; border-radius: 12px; background: rgba(255,255,255,.92); box-shadow: 0 10px 32px rgba(32, 39, 77, .08); }
+      .chat-composer:focus-within { border-color: var(--primary-line); box-shadow: 0 8px 26px rgba(73, 65, 230, .1); }
+      .agent-tip { display: flex; align-items: center; gap: 10px; height: 38px; padding: 0 14px; color: #545b6d; border-bottom: 1px solid var(--line); font-size: 12px; }
+      .agent-tip[hidden], .chat-only[hidden] { display: none; }
+      .beta { padding: 2px 7px; color: #596174; background: #eef0f7; border-radius: 4px; font-size: 11px; }
+      textarea { display: block; width: 100%; height: 132px; padding: 20px 18px 0; resize: none; color: var(--text); border: 0; outline: 0; }
+      textarea::placeholder { color: #a9aebe; }
+      .mention-menu {
+        position: absolute; left: 14px; bottom: 48px; z-index: 8; display: grid; width: 260px; padding: 8px;
+        border: 1px solid var(--line); border-radius: 8px; background: #fff; box-shadow: 0 12px 30px rgba(16, 24, 40, .12);
+      }
+      .mention-menu[hidden] { display: none; }
+      .mention-title { padding: 2px 4px 8px; color: var(--text-3); font-size: 12px; line-height: 16px; }
+      .mention-item { display: grid; grid-template-columns: 28px 1fr; gap: 8px; align-items: center; width: 100%; padding: 7px 8px; border: 0; border-radius: 6px; background: transparent; text-align: left; }
+      .mention-item:hover, .mention-item.active { background: var(--primary-soft); }
+      .mention-icon { display: grid; place-items: center; width: 28px; height: 28px; color: #fff; background: var(--primary); border-radius: 7px; font-size: 12px; font-weight: 600; }
+      .mention-name { color: #32384c; font-size: 13px; line-height: 18px; font-weight: 600; }
+      .mention-desc { overflow: hidden; color: var(--text-3); font-size: 12px; line-height: 16px; text-overflow: ellipsis; white-space: nowrap; }
+      .composer-actions { display: flex; align-items: center; gap: 8px; padding: 7px 10px 10px; }
+      .tool-btn, .model-btn {
+        display: flex; align-items: center; gap: 5px; height: 30px; padding: 0 8px; color: #4f576a;
+        border: 1px solid var(--line); border-radius: 6px; background: #fff; font-size: 12px;
+      }
+      .tool-btn.icon-only { width: 32px; padding: 0; justify-content: center; }
+      .tool-btn:hover, .model-btn:hover { color: var(--primary); border-color: var(--primary-line); background: #fafaff; }
+      .model-tag { padding: 2px 5px; color: #596174; background: #f4f5f8; border-radius: 3px; font-size: 11px; }
+      .composer-spacer { flex: 1; }
+      .action-divider { width: 1px; height: 20px; margin: 0 2px; background: var(--line); }
+      .send-btn {
+        display: grid; place-items: center; width: 30px; height: 30px; color: #fff;
+        border: 0; border-radius: 7px; background: var(--primary);
+      }
+      .send-btn:hover { background: var(--primary-hover); }
+      .send-btn svg, .tool-btn svg, .model-btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.9; }
+      .composer-note { margin-top: 8px; color: var(--text-3); font-size: 11px; text-align: center; }
+      .chat-recommend-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(260px, 1fr));
+        gap: 34px;
+        max-width: 760px;
+        margin: 54px auto 0;
+      }
+      .chat-recommend-card {
+        position: relative;
+        overflow: hidden;
+        min-height: 98px;
+        padding: 24px 160px 22px 32px;
+        color: #32384c;
+        border: 1px solid rgba(255,255,255,.9);
+        border-radius: 18px;
+        background: linear-gradient(120deg, rgba(246,244,255,.92), rgba(255,255,255,.72));
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 10px 28px rgba(45,48,82,.08);
+        text-align: left;
+      }
+      .chat-recommend-card:nth-child(2) { background: linear-gradient(120deg, rgba(255,248,242,.96), rgba(255,255,255,.76)); }
+      .chat-recommend-card strong { display: block; font-size: 20px; font-weight: 700; }
+      .chat-recommend-card span { display: block; margin-top: 9px; color: #6a7283; font-size: 15px; font-weight: 500; }
+      .recommend-art {
+        position: absolute;
+        right: 34px;
+        top: 19px;
+        display: grid;
+        width: 70px;
+        height: 70px;
+        place-items: center;
+        color: #fff;
+        border-radius: 18px;
+        font-size: 32px;
+        font-weight: 800;
+        box-shadow: 0 12px 22px rgba(73,65,230,.24);
+      }
+      .recommend-art.write { background: linear-gradient(135deg, #8f84ff, #4941e6); }
+      .recommend-art.ppt { background: linear-gradient(135deg, #ffb05c, #f05a4f); }
+      .recommend-art.knowledge { background: linear-gradient(135deg, #38c9a3, #2f7df6); }
+      .list-page { padding: 24px 28px; }
+      .list-header { display: flex; align-items: flex-end; margin-bottom: 22px; }
+      .list-header h1 { margin: 0; font-size: 20px; font-weight: 600; }
+      .list-header p { margin: 6px 0 0; color: var(--text-2); font-size: 13px; }
+      .search { width: 240px; height: 34px; margin-left: auto; padding: 0 12px; border: 1px solid var(--line); border-radius: 6px; background: #fff; outline: 0; }
+      .search:focus { border-color: var(--primary-line); }
+      .market-page { padding: 16px 14px 18px; background: #f6f7fb; }
+      .market-shell {
+        min-height: calc(100vh - 96px);
+        padding: 12px 12px 8px;
+        border: 1px solid #e8ebf4;
+        border-radius: 16px;
+        background: #fff;
+      }
+      .market-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+      .market-title { color: #32384c; font-size: 14px; font-weight: 700; }
+      .market-close {
+        display: inline-grid; place-items: center; width: 28px; height: 28px; color: #949bad;
+        border: 1px solid #eceef5; border-radius: 6px; background: #fafbfc;
+      }
+      .market-close:hover { color: var(--primary); background: #f6f5ff; border-color: #ddd7ff; }
+      .market-close svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .market-toolbar { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+      .market-select-wrap[hidden], .market-tabs[hidden] { display: none; }
+      .market-search-wrap,
+      .market-select-wrap {
+        position: relative;
+        flex: 0 0 auto;
+      }
+      .market-search,
+      .market-select {
+        height: 24px;
+        color: #6b7283;
+        border: 1px solid #e7e9f1;
+        border-radius: 7px;
+        background: #fafbfc;
+        outline: none;
+        font-size: 11px;
+      }
+      .market-search {
+        width: 138px;
+        padding: 0 10px 0 28px;
+      }
+      .market-select {
+        width: 136px;
+        padding: 0 28px 0 10px;
+        appearance: none;
+      }
+      .market-search-icon,
+      .market-select-icon {
+        position: absolute;
+        top: 50%;
+        display: inline-flex;
+        color: #adb3c3;
+        pointer-events: none;
+        transform: translateY(-50%);
+      }
+      .market-search-icon { left: 9px; }
+      .market-select-icon { right: 9px; }
+      .market-search-icon svg,
+      .market-select-icon svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .market-tabs { display: flex; gap: 8px; margin-bottom: 14px; padding-left: 8px; }
+      .market-tab {
+        height: 28px; padding: 0 12px; color: #7c8394; border: 1px solid transparent;
+        border-radius: 7px; background: transparent; font-size: 12px;
+      }
+      .market-tab:hover { color: #4d5565; background: #f6f7fb; }
+      .market-tab.active {
+        color: var(--primary);
+        border-color: #d9d4ff;
+        background: #f3f0ff;
+        font-weight: 600;
+      }
+      .market-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+      .market-card {
+        min-height: 106px;
+        padding: 14px 14px 12px;
+        border: 1px solid #e7e9f1;
+        border-radius: 10px;
+        background: #fff;
+        transition: .16s ease;
+      }
+      .market-card:hover { border-color: #d7d0ff; box-shadow: 0 8px 20px rgba(45, 48, 82, .06); transform: translateY(-1px); }
+      .market-card-head { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+      .market-card-icon {
+        display: grid; place-items: center; width: 28px; height: 28px; flex: 0 0 auto;
+        color: #fff; border-radius: 8px; font-size: 12px; font-weight: 700;
+      }
+      .market-card-copy { min-width: 0; flex: 1; }
+      .market-card-title-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+      .market-card-title { overflow: hidden; color: #373d51; font-size: 13px; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+      .market-card-badge { color: #6a5cff; font-size: 10px; white-space: nowrap; }
+      .market-card-desc {
+        display: -webkit-box; overflow: hidden; min-height: 34px; margin: 8px 0 0; color: #7a8194;
+        font-size: 11px; line-height: 1.55; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+      }
+      .market-card-foot { margin-top: 10px; color: #8d94a6; font-size: 11px; }
+      .history-list { overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+      .history-row { display: flex; align-items: center; gap: 14px; min-height: 62px; padding: 0 16px; border-bottom: 1px solid var(--line); }
+      .history-row:last-child { border-bottom: 0; }
+      .history-row:hover { background: #fafbff; }
+      .history-icon { display: grid; place-items: center; width: 30px; height: 30px; color: var(--primary); background: var(--primary-soft); border-radius: 7px; }
+      .history-title { font-size: 13px; font-weight: 500; }
+      .history-sub { margin-top: 5px; color: var(--text-3); font-size: 12px; }
+      .history-time { margin-left: auto; color: var(--text-3); font-size: 12px; }
+      .files-page { padding: 16px; background: #f7f8fa; }
+      .files-shell { min-height: calc(100vh - 32px); padding: 16px; border: 1px solid #ebecf4; border-radius: 8px; background: #fff; }
+      .files-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+      .files-title h1 { margin: 0; color: #161e32; font-size: 16px; line-height: 22px; font-weight: 600; }
+      .files-title p { margin: 6px 0 0; color: #6a6e80; font-size: 13px; line-height: 18px; }
+      .file-filters { display: flex; gap: 8px; }
+      .file-filter { height: 32px; padding: 0 12px; color: #6a6e80; border: 1px solid #ebecf4; border-radius: 6px; background: #fff; font-size: 13px; line-height: 18px; }
+      .file-filter:hover { color: #4941e6; border-color: #d8d2ff; background: #faf9ff; }
+      .file-filter.active { color: #4941e6; border-color: #d8d2ff; background: #f3f0ff; font-weight: 600; }
+      .file-toast { min-height: 18px; margin: -4px 0 12px; color: #6a6e80; font-size: 12px; line-height: 16px; }
+      .conversation-file-list { display: grid; gap: 14px; }
+      .file-conversation-card { overflow: hidden; border: 1px solid #ebecf4; border-radius: 8px; background: #fff; }
+      .file-conversation-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 16px; background: #fafbfc; border-bottom: 1px solid #ebecf4; }
+      .file-conversation-title { color: #32384c; font-size: 14px; line-height: 20px; font-weight: 600; }
+      .file-conversation-meta { margin-top: 4px; color: #6a6e80; font-size: 12px; line-height: 16px; }
+      .file-expand-btn { height: 28px; padding: 0 10px; color: #6a6e80; border: 1px solid #ebecf4; border-radius: 6px; background: #fff; font-size: 12px; line-height: 16px; white-space: nowrap; }
+      .file-expand-btn:hover { color: #4941e6; border-color: #d8d2ff; background: #f7f5ff; }
+      .generated-file-list { display: grid; }
+      .generated-file-item { display: grid; grid-template-columns: 36px minmax(0, 1fr) 124px 132px; gap: 12px; align-items: center; min-height: 64px; padding: 12px 16px; border-bottom: 1px solid #f0f1f6; }
+      .generated-file-item:last-child { border-bottom: 0; }
+      .file-icon { display: grid; place-items: center; width: 36px; height: 36px; color: #4941e6; border-radius: 8px; background: #f3f0ff; font-size: 12px; line-height: 16px; font-weight: 700; }
+      .file-name { overflow: hidden; color: #32384c; font-size: 14px; line-height: 20px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+      .file-meta { margin-top: 4px; color: #6a6e80; font-size: 12px; line-height: 16px; }
+      .file-time { color: #6a6e80; font-size: 12px; line-height: 16px; }
+      .file-actions { display: flex; justify-content: flex-end; gap: 8px; }
+      .file-action-btn { height: 30px; padding: 0 10px; color: #4d5565; border: 1px solid #ebecf4; border-radius: 6px; background: #fff; font-size: 13px; line-height: 18px; }
+      .file-action-btn:hover { color: #4941e6; border-color: #d8d2ff; background: #faf9ff; }
+      .files-empty { display: grid; min-height: 260px; place-items: center; color: #9295a4; border: 1px dashed #ebecf4; border-radius: 8px; font-size: 13px; line-height: 18px; }
+      .im-page { padding: 36px; }
+      .im-shell { max-width: 1040px; margin: 0 auto; }
+      .im-intro { margin: 0 0 20px; color: var(--text-2); font-size: 14px; }
+      .im-card {
+        display: flex; align-items: center; justify-content: space-between; gap: 24px;
+        padding: 34px 40px; border: 1px solid #efeff5; border-radius: 28px;
+        background: linear-gradient(90deg, #fafafa 0%, #f7f7f8 48%, #f2f2f3 100%);
+        box-shadow: 0 10px 24px rgba(23, 29, 53, 0.04);
+      }
+      .im-card-main { min-width: 0; }
+      .im-card-title { display: flex; align-items: center; gap: 10px; margin: 0; color: #393d4a; font-size: 24px; font-weight: 700; }
+      .im-status {
+        display: inline-flex; align-items: center; height: 24px; padding: 0 10px; color: #18a36d;
+        border-radius: 999px; background: rgba(35, 191, 107, 0.12); font-size: 12px; font-weight: 600;
+      }
+      .im-card-desc { max-width: 680px; margin: 14px 0 18px; color: #6a6e80; font-size: 15px; line-height: 1.8; }
+      .guide-link {
+        display: inline-flex; align-items: center; gap: 6px; padding: 0; color: #1677d9;
+        border: 0; background: transparent; font-size: 14px; font-weight: 600;
+      }
+      .guide-link:hover { color: #0e5fc0; }
+      .im-config-btn {
+        flex: 0 0 auto; min-width: 96px; height: 58px; padding: 0 24px; color: #404040;
+        border: 0; border-radius: 12px; background: rgba(255, 255, 255, 0.72); font-size: 18px; font-weight: 600;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      }
+      .im-config-btn:hover { background: rgba(255, 255, 255, 0.92); }
+      .employee-workbench { height: 100vh; min-height: 100%; background: #f7f8fb; }
+      .employee-shell { display: grid; grid-template-columns: 1fr; height: 100%; }
+      .employee-contacts { display: none; min-width: 0; padding: 26px 14px 18px 22px; background: #fff; border-right: 1px solid #e7e9f1; }
+      .contacts-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+      .contacts-head strong { color: #32384c; font-size: 18px; font-weight: 700; }
+      .contacts-head button,
+      .employee-chat-actions button { display: grid; width: 32px; height: 32px; place-items: center; color: #4d5565; border: 0; border-radius: 8px; background: transparent; }
+      .contacts-head button:hover,
+      .employee-chat-actions button:hover { background: #f2f3f7; }
+      .contacts-search { display: flex; align-items: center; height: 42px; margin-bottom: 16px; padding: 0 12px; border: 1px solid #e7e9f1; border-radius: 10px; background: #fff; }
+      .contacts-search input { flex: 1; min-width: 0; border: 0; outline: 0; color: #32384c; }
+      .contacts-search input::placeholder { color: #b9beca; }
+      .contacts-search svg,
+      .contacts-head svg,
+      .employee-chat-actions svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .contacts-list { display: flex; flex-direction: column; gap: 4px; height: calc(100vh - 122px); overflow: auto; padding-right: 6px; }
+      .contact-item { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 12px; align-items: center; width: 100%; min-height: 66px; padding: 8px 10px; color: #32384c; border: 0; border-radius: 12px; background: transparent; text-align: left; }
+      .contact-item.active { background: #f5f5f7; box-shadow: 0 10px 20px rgba(31,37,64,.04); }
+      .contact-avatar { position: relative; display: grid; width: 44px; height: 44px; place-items: center; color: #fff; border-radius: 10px; font-weight: 700; }
+      .contact-avatar::after { content: ""; position: absolute; right: -1px; bottom: -1px; width: 10px; height: 10px; border: 2px solid #fff; border-radius: 50%; background: #23bf6b; }
+      .contact-name { overflow: hidden; font-size: 14px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+      .contact-desc { overflow: hidden; margin-top: 5px; color: #8b92a3; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+      .contact-date { align-self: start; padding-top: 4px; color: #8b92a3; font-size: 12px; white-space: nowrap; }
+      .employee-chat { position: relative; display: flex; min-width: 0; flex-direction: column; background: #fff; }
+      .employee-chat-head { display: flex; align-items: center; min-height: 72px; padding: 0 28px; border-bottom: 1px solid #e7e9f1; background: rgba(255,255,255,.96); }
+      .employee-chat-head .contact-avatar { width: 44px; height: 44px; margin-right: 14px; }
+      .employee-chat-title { min-width: 0; }
+      .employee-chat-title strong { display: block; color: #32384c; font-size: 16px; font-weight: 700; }
+      .employee-chat-title span { display: block; overflow: hidden; max-width: 560px; margin-top: 4px; color: #8b92a3; font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
+      .employee-chat-actions { display: flex; gap: 8px; margin-left: auto; }
+      .task-scroll { flex: 1; overflow: auto; padding: 34px 92px 210px; }
+      .task-report { max-width: 760px; margin: 0 auto; color: #32384c; font-size: 15px; line-height: 1.85; }
+      .task-report h3 { margin: 22px 0 8px; color: #2f3344; font-size: 18px; }
+      .task-report p { margin: 0 0 12px; }
+      .task-report ul { margin: 8px 0 16px; padding-left: 22px; }
+      .task-report hr { height: 1px; margin: 24px 0; border: 0; background: #dfe3ec; }
+      .risk-title { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 700; }
+      .risk-dot { width: 18px; height: 18px; border-radius: 50%; background: linear-gradient(180deg, #36e253, #04a920); box-shadow: 0 2px 6px rgba(4,169,32,.28); }
+      .report-link { color: #1677ff; text-decoration: none; }
+      .employee-composer-panel { position: absolute; right: 92px; bottom: 22px; left: 92px; max-width: 820px; margin: 0 auto; }
+      .new-chat-btn { height: 32px; margin-bottom: 10px; padding: 0 12px; color: #6a6e80; border: 1px solid #e3e6ef; border-radius: 8px; background: #fff; }
+      .employee-input { min-height: 118px; padding: 14px; border: 1px solid #dfe3ee; border-radius: 10px; background: #fff; }
+      .employee-input textarea { width: 100%; height: 58px; padding: 0; resize: none; border: 0; outline: 0; }
+      .employee-input textarea::placeholder { color: #c0c4cf; }
+      .employee-input-foot { display: flex; align-items: center; }
+      .employee-input-foot button { display: grid; width: 30px; height: 30px; place-items: center; border: 0; border-radius: 7px; background: #f5f6fb; color: #6a6e80; }
+      .employee-input-foot .employee-send { margin-left: auto; color: #fff; background: #d8dbe8; }
+      .employee-input svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .employee-chat-note { margin-top: 8px; color: #c0c4cf; font-size: 11px; text-align: center; }
+      .modal-overlay {
+        position: fixed; inset: 0; z-index: 30; display: grid; place-items: center;
+        padding: 24px; background: rgba(15, 23, 42, 0.22); backdrop-filter: blur(6px);
+      }
+      .modal-overlay[hidden] { display: none; }
+      .modal-card {
+        width: min(760px, calc(100vw - 48px)); padding: 32px; border-radius: 34px;
+        background: linear-gradient(90deg, #fafafa 0%, #f7f7f8 48%, #f2f2f3 100%);
+        box-shadow: 0 18px 48px rgba(31, 37, 64, 0.18);
+      }
+      .modal-title { margin: 0; color: #393d4a; font-size: 28px; font-weight: 700; }
+      .modal-desc { margin: 14px 0 18px; color: #6a6e80; font-size: 15px; line-height: 1.8; }
+      .connection-row { display: flex; align-items: center; gap: 14px; margin: 28px 0 24px; color: #393d4a; font-size: 16px; }
+      .radio-pill {
+        position: relative; display: inline-flex; width: 28px; height: 28px; border: 4px solid #27b490;
+        border-radius: 50%; background: rgba(39, 180, 144, 0.08);
+      }
+      .radio-pill::after {
+        content: ""; position: absolute; inset: 6px; border-radius: 50%; background: #27b490;
+      }
+      .channel-token {
+        display: inline-flex; align-items: center; height: 30px; padding: 0 14px; color: #7f8595;
+        border-radius: 8px; background: rgba(0, 0, 0, 0.05); font-size: 12px; letter-spacing: 1px;
+      }
+      .im-form { display: grid; gap: 20px; }
+      .im-input {
+        width: 100%; height: 68px; padding: 0 22px; color: #393d4a;
+        border: 1px solid #d7d9e0; border-radius: 12px; background: rgba(255, 255, 255, 0.48);
+        outline: none; font-size: 15px;
+      }
+      .im-input:focus { border-color: var(--primary-line); background: rgba(255, 255, 255, 0.92); }
+      .im-input.input-error { border-color: #eb4453; background: rgba(255, 241, 240, 0.85); }
+      .form-error { min-height: 20px; color: #d93747; font-size: 13px; }
+      .modal-actions { display: flex; justify-content: flex-end; gap: 16px; margin-top: 18px; }
+      .ghost-btn, .primary-btn {
+        min-width: 136px; height: 64px; border: 0; border-radius: 14px; font-size: 18px; font-weight: 600;
+      }
+      .ghost-btn { color: #565b67; background: rgba(0, 0, 0, 0.08); }
+      .ghost-btn:hover { background: rgba(0, 0, 0, 0.12); }
+      .primary-btn {
+        color: #fff; background: linear-gradient(90deg, #6f5cff 0%, #5b46f4 100%);
+        box-shadow: 0 12px 24px rgba(91, 70, 244, 0.26);
+      }
+      .primary-btn:hover { background: linear-gradient(90deg, #7b6aff 0%, #694ff7 100%); }
+      .placeholder { display: grid; min-height: calc(100vh - 64px); place-items: center; color: var(--text-3); text-align: center; }
+      .placeholder h2 { margin: 12px 0 6px; color: #32384c; font-size: 18px; }
+      .placeholder p { margin: 0; font-size: 13px; }
+
+      .schedule-page { padding: 16px; background: #f7f8fa; }
+      .schedule-shell { min-height: calc(100vh - 32px); padding: 16px; border: 1px solid #ebecf4; border-radius: 8px; background: #fff; }
+      .schedule-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+      .schedule-title h1 { margin: 0; color: #161e32; font-size: 16px; line-height: 22px; font-weight: 600; }
+      .schedule-title p { margin: 6px 0 0; color: #6a6e80; font-size: 13px; line-height: 18px; }
+      .schedule-actions { display: flex; gap: 8px; }
+      .schedule-tabs { display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 1px solid #ebecf4; }
+      .schedule-tab { position: relative; height: 40px; padding: 0 4px; color: #6a6e80; border: 0; background: transparent; font-size: 14px; line-height: 20px; font-weight: 600; }
+      .schedule-tab.active { color: #161e32; }
+      .schedule-tab.active::after { content: ""; position: absolute; right: 0; bottom: -1px; left: 0; height: 2px; border-radius: 2px; background: #4941e6; }
+      .schedule-panel[hidden] { display: none; }
+      .schedule-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+      .schedule-card { min-height: 170px; padding: 16px; border: 1px solid #ebecf4; border-radius: 8px; background: #fff; }
+      .schedule-card-head { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+      .schedule-card-title { color: #32384c; font-size: 15px; line-height: 20px; font-weight: 600; }
+      .schedule-badge { display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; font-size: 12px; line-height: 16px; white-space: nowrap; }
+      .schedule-badge.running { color: #18a36d; background: rgba(35, 191, 107, .12); }
+      .schedule-badge.paused { color: #8b92a3; background: #f1f2f6; }
+      .schedule-card-desc { display: -webkit-box; overflow: hidden; min-height: 40px; margin: 0 0 14px; color: #6a6e80; font-size: 13px; line-height: 20px; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+      .schedule-meta { display: grid; gap: 6px; color: #6a6e80; font-size: 12px; line-height: 16px; }
+      .schedule-meta strong { color: #32384c; font-weight: 500; }
+      .schedule-result-list { overflow: hidden; border: 1px solid #ebecf4; border-radius: 8px; background: #fff; }
+      .schedule-result-row { display: grid; grid-template-columns: minmax(0, 1fr) 130px 92px; gap: 16px; align-items: center; min-height: 72px; padding: 14px 16px; border-bottom: 1px solid #ebecf4; }
+      .schedule-result-row:last-child { border-bottom: 0; }
+      .schedule-result-title { color: #32384c; font-size: 14px; line-height: 20px; font-weight: 600; }
+      .schedule-result-desc { overflow: hidden; margin-top: 4px; color: #6a6e80; font-size: 13px; line-height: 18px; text-overflow: ellipsis; white-space: nowrap; }
+      .schedule-result-time { color: #6a6e80; font-size: 12px; line-height: 16px; }
+      .schedule-result-status { justify-self: end; }
+      .schedule-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 16px; }
+      .schedule-field { display: grid; gap: 6px; color: #32384c; font-size: 13px; line-height: 18px; font-weight: 500; }
+      .schedule-field.full { grid-column: 1 / -1; }
+      .schedule-field input,
+      .schedule-field select,
+      .schedule-field textarea {
+        width: 100%; border: 1px solid #dfe3ee; border-radius: 6px; outline: 0; color: #161e32; background: #fff; font-size: 13px; line-height: 18px;
+      }
+      .schedule-field input,
+      .schedule-field select { height: 34px; padding: 0 10px; }
+      .schedule-field textarea { height: 92px; padding: 10px; resize: vertical; }
+      .schedule-field input:focus,
+      .schedule-field select:focus,
+      .schedule-field textarea:focus { border-color: #cbc2ff; box-shadow: 0 0 0 2px rgba(73, 65, 230, .08); }
+      .schedule-push-row { display: flex; align-items: center; gap: 12px; }
+      .schedule-switch { display: inline-flex; align-items: center; gap: 8px; color: #4d5565; font-size: 13px; line-height: 18px; font-weight: 500; }
+      .schedule-switch input { width: 16px; height: 16px; accent-color: #4941e6; }
+      .schedule-empty { display: grid; min-height: 180px; place-items: center; color: #9295a4; border: 1px dashed #ebecf4; border-radius: 8px; font-size: 13px; line-height: 18px; }
+
+      /* 万卷 B 端规范收敛：字号 16/14/13/12，圆角 6/8，间距以 8px 为节奏。 */
+      body { color: #161e32; font-size: 14px; line-height: 20px; background: #f7f8fa; }
+      .app { grid-template-columns: 224px 1fr; }
+      .sidebar { padding: 16px 8px 12px; border-right-color: #ebecf4; }
+      .brand { height: 40px; margin-bottom: 12px; padding: 0 12px; }
+      .brand-logo { width: 86px; height: 34px; color: #4941e6; }
+      .brand-logo-full-icon { width: 86px; height: 34px; }
+      .brand-logo-compact { width: 34px; height: 34px; }
+      .brand-name { color: #161e32; font-size: 16px; line-height: 22px; font-weight: 600; }
+      .brand-actions { gap: 8px; color: #6a6e80; }
+      .brand-actions button { width: 32px; height: 32px; border-radius: 6px; }
+      .brand-actions button:hover { color: #4941e6; background: #f7f8fa; }
+      .brand-actions svg { width: 18px; height: 18px; stroke-width: 1.8; }
+      .nav { gap: 2px; }
+      .nav-item, .settings-trigger { height: 38px; gap: 8px; padding: 0 12px; border-radius: 6px; color: #4d5565; }
+      .nav-item.active { color: #4941e6; background: #f3f0ff; font-weight: 600; }
+      .nav-item:hover, .settings-trigger:hover { color: #161e32; background: #f7f8fa; }
+      .icon { width: 18px; height: 18px; }
+      .icon svg { width: 18px; height: 18px; stroke-width: 1.8; }
+      .icon img { width: 18px; height: 18px; }
+      .menu-label { font-size: 14px; line-height: 20px; }
+      .nav-divider { margin: 8px 8px 4px; }
+      .nav-group-divider { height: 1px; margin: 8px 12px; background: #ebecf4; }
+      .nav-section-head { margin: 20px 8px 6px; padding: 0 4px; }
+      .nav-section-title { color: #9295a4; font-size: 14px; line-height: 20px; font-weight: 600; }
+      .nav-section-add { width: 24px; height: 24px; border-radius: 6px; font-size: 22px; }
+      .nav-employee-avatar { width: 24px; height: 24px; border-radius: 6px; font-size: 12px; line-height: 16px; }
+      .employee-entry { margin-top: 0; }
+      .recent-title, .recent-item { font-size: 12px; line-height: 16px; }
+      .sidebar-footer { padding-top: 8px; }
+      .settings-trigger .avatar { width: 24px; height: 24px; }
+      .settings-popover { border-color: #ebecf4; border-radius: 8px; box-shadow: 0 10px 28px rgba(16, 24, 40, .10); }
+      .popover-item { height: 32px; border-radius: 6px; font-size: 13px; line-height: 18px; }
+
+      .employee-mode .sidebar { padding: 16px 8px 12px; }
+      .employee-mode .brand { height: 40px; margin-bottom: 12px; justify-content: center; padding: 0; }
+      .employee-mode .brand-logo { justify-content: center; width: 40px; height: 40px; visibility: visible; }
+      .employee-mode .brand-logo-full-icon { display: none; }
+      .employee-mode .brand-logo-compact { display: block; }
+      .employee-mode .nav { padding: 0; }
+      .employee-mode .nav-item { width: 40px; height: 38px; border-radius: 8px; }
+      .employee-mode .settings-trigger { width: 40px; height: 40px; border-radius: 8px; }
+      .employee-mode .nav-divider { width: 32px; margin: 8px auto; }
+      .employee-mode .nav-group-divider { width: 32px; margin: 8px auto; }
+
+      .hello { margin-bottom: 24px; font-size: 36px; line-height: 56px; font-weight: 600; }
+      .chat-page { padding: 32px 32px 48px; }
+      .hero { max-width: 960px; }
+      .chat-composer { max-width: 920px; border-color: #ebecf4; border-radius: 8px; box-shadow: 0 8px 20px rgba(31, 37, 64, .06); }
+      .chat-thread { max-width: 920px; }
+      .message-bubble { border-color: #ebecf4; border-radius: 8px; }
+      textarea { height: 112px; padding: 16px 16px 0; font-size: 14px; line-height: 20px; }
+      textarea::placeholder { color: #9295a4; }
+      .composer-actions { gap: 8px; padding: 8px 10px 10px; }
+      .tool-btn, .model-btn { height: 32px; padding: 0 12px; border-color: #ebecf4; border-radius: 6px; color: #6a6e80; font-size: 13px; line-height: 18px; }
+      .tool-btn.icon-only { width: 32px; padding: 0; }
+      .send-btn { width: 32px; height: 32px; border-radius: 6px; }
+      .composer-note { color: #9295a4; font-size: 12px; line-height: 16px; }
+      .chat-recommend-grid { max-width: 920px; gap: 16px; margin-top: 32px; grid-template-columns: repeat(3, minmax(220px, 1fr)); }
+      .chat-recommend-card { min-height: 88px; padding: 20px 112px 18px 24px; border-color: #ebecf4; border-radius: 8px; box-shadow: 0 8px 20px rgba(31, 37, 64, .05); }
+      .chat-recommend-card strong { font-size: 16px; line-height: 22px; font-weight: 600; }
+      .chat-recommend-card span { margin-top: 6px; color: #6a6e80; font-size: 13px; line-height: 18px; }
+      .recommend-art { right: 24px; top: 18px; width: 52px; height: 52px; border-radius: 8px; font-size: 16px; font-weight: 600; }
+
+      .market-page, .im-page { padding: 16px; }
+      .market-shell { min-height: calc(100vh - 32px); padding: 16px; border-color: #ebecf4; border-radius: 8px; }
+      .market-head { margin-bottom: 16px; }
+      .market-title { font-size: 16px; line-height: 22px; font-weight: 600; }
+      .market-close { width: 32px; height: 32px; border-radius: 6px; }
+      .market-toolbar { gap: 12px; margin-bottom: 16px; }
+      .market-search, .market-select { height: 32px; border-color: #ebecf4; border-radius: 6px; background: #fff; font-size: 13px; line-height: 18px; }
+      .market-search { width: 190px; }
+      .market-select { width: 160px; }
+      .market-tabs { gap: 8px; margin-bottom: 16px; padding-left: 0; }
+      .market-tab { height: 32px; padding: 0 12px; border-radius: 6px; font-size: 13px; line-height: 18px; }
+      .market-grid { gap: 16px; }
+      .market-card { min-height: 112px; padding: 16px; border-color: #ebecf4; border-radius: 8px; }
+      .market-card-title { color: #32384c; font-size: 14px; line-height: 20px; font-weight: 600; }
+      .market-card-desc { color: #6a6e80; font-size: 13px; line-height: 18px; }
+      .market-card-foot, .market-card-badge { font-size: 12px; line-height: 16px; }
+
+      .skills-page { padding: 16px; background: #fff; }
+      .skills-shell { min-height: calc(100vh - 32px); border: 1px solid #ebecf4; border-radius: 8px; background: #fff; overflow: hidden; }
+      .skills-head { display: flex; align-items: center; gap: 28px; height: 54px; padding: 0 16px; border-bottom: 1px solid #ebecf4; }
+      .skills-tab { position: relative; height: 54px; padding: 0; color: #6a6e80; border: 0; background: transparent; font-size: 16px; line-height: 22px; font-weight: 600; }
+      .skills-tab.active { color: #161e32; }
+      .skills-tab.active::after { content: ""; position: absolute; right: 0; bottom: 0; left: 0; height: 3px; background: #161e32; border-radius: 3px 3px 0 0; }
+      .skills-count { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; margin-left: 6px; padding: 0 7px; color: #6a6e80; background: #f1f2f6; border-radius: 999px; font-size: 13px; line-height: 18px; }
+      .skills-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px; }
+      .skills-cats { display: flex; gap: 24px; min-width: 0; }
+      .skill-cat { height: 32px; padding: 0; color: #6a6e80; border: 0; background: transparent; font-size: 14px; line-height: 20px; font-weight: 600; white-space: nowrap; }
+      .skill-cat.active { color: #4941e6; }
+      .skills-search-wrap { position: relative; flex: 0 0 240px; }
+      .skills-search { width: 100%; height: 32px; padding: 0 34px 0 12px; border: 1px solid #ebecf4; border-radius: 6px; outline: 0; color: #161e32; background: #fff; font-size: 13px; line-height: 18px; }
+      .skills-search:focus { border-color: #cbc2ff; box-shadow: 0 0 0 2px rgba(73, 65, 230, .08); }
+      .skills-search-icon { position: absolute; top: 50%; right: 10px; display: grid; width: 16px; height: 16px; color: #9295a4; transform: translateY(-50%); pointer-events: none; }
+      .skills-search-icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .skills-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding: 0 16px 16px; }
+      .skill-card { display: grid; grid-template-columns: 52px minmax(0, 1fr) 40px; gap: 16px; align-items: center; min-height: 112px; padding: 16px; border: 1px solid #ebecf4; border-radius: 8px; background: #fff; text-align: left; transition: .16s ease; }
+      .skill-card:hover { border-color: #cbc2ff; box-shadow: 0 8px 20px rgba(31, 37, 64, .06); }
+      .skill-logo { display: grid; place-items: center; width: 52px; height: 52px; overflow: hidden; color: #fff; border-radius: 10px; font-size: 16px; line-height: 22px; font-weight: 600; }
+      .skill-logo img { width: 100%; height: 100%; object-fit: cover; }
+      .skill-title { overflow: hidden; color: #32384c; font-size: 16px; line-height: 22px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+      .skill-desc { display: -webkit-box; overflow: hidden; margin-top: 6px; color: #6a6e80; font-size: 14px; line-height: 20px; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+      .skill-action { display: grid; place-items: center; width: 36px; height: 36px; border: 0; border-radius: 8px; color: #161e32; background: #f7f8fa; font-size: 24px; line-height: 1; transition: .16s ease; }
+      .skill-action:hover { color: #4941e6; background: #f3f0ff; }
+      .skill-action.installed { color: #23bf6b; background: #f0fff4; font-size: 12px; font-weight: 600; }
+      .skill-action.installed::before { content: "已装"; }
+      .skill-action.installed:hover { color: #eb4453; background: #fff1f0; }
+      .skill-action.installed:hover::before { content: "取消"; }
+      .skill-empty { grid-column: 1 / -1; display: grid; min-height: 180px; place-items: center; color: #9295a4; border: 1px dashed #ebecf4; border-radius: 8px; font-size: 13px; line-height: 18px; }
+
+      .employee-shell { grid-template-columns: 1fr; }
+      .employee-contacts { padding: 16px; border-right-color: #ebecf4; }
+      .contacts-head { margin-bottom: 16px; }
+      .contacts-head strong { font-size: 16px; line-height: 22px; font-weight: 600; }
+      .contacts-search { height: 32px; margin-bottom: 12px; border-color: #ebecf4; border-radius: 6px; }
+      .contacts-search input { font-size: 13px; line-height: 18px; }
+      .contacts-list { gap: 4px; height: calc(100vh - 92px); padding-right: 4px; }
+      .contact-item { min-height: 56px; grid-template-columns: 40px minmax(0,1fr) auto; gap: 8px; padding: 8px; border-radius: 8px; }
+      .contact-avatar { width: 40px; height: 40px; border-radius: 8px; font-size: 14px; }
+      .contact-name { font-size: 14px; line-height: 20px; font-weight: 600; }
+      .contact-desc, .contact-date { color: #6a6e80; font-size: 12px; line-height: 16px; }
+      .employee-chat-head { min-height: 64px; padding: 0 16px; border-bottom-color: #ebecf4; }
+      .employee-chat-title strong { font-size: 16px; line-height: 22px; font-weight: 600; }
+      .employee-chat-title span { color: #6a6e80; font-size: 13px; line-height: 18px; }
+      .task-scroll { padding: 24px 64px 184px; }
+      .task-report { font-size: 14px; line-height: 20px; }
+      .task-report h3, .risk-title { font-size: 16px; line-height: 22px; font-weight: 600; }
+      .task-report ul { margin: 8px 0 12px; }
+      .employee-composer-panel { right: 64px; bottom: 16px; left: 64px; }
+      .new-chat-btn { height: 32px; border-radius: 6px; font-size: 13px; line-height: 18px; }
+      .employee-input { min-height: 104px; padding: 12px; border-color: #ebecf4; border-radius: 8px; }
+      .employee-input textarea { height: 52px; font-size: 14px; line-height: 20px; }
+
+      .im-shell { max-width: 960px; }
+      .im-card { padding: 24px; border-color: #ebecf4; border-radius: 8px; background: #fff; box-shadow: none; }
+      .im-card-title { font-size: 16px; line-height: 22px; font-weight: 600; }
+      .im-card-desc { color: #6a6e80; font-size: 14px; line-height: 20px; }
+      .im-config-btn { min-width: 88px; height: 32px; padding: 0 12px; border-radius: 6px; background: #4941e6; color: #fff; font-size: 14px; line-height: 20px; font-weight: 500; }
+      .modal-card { padding: 16px; border-radius: 8px; }
+      .modal-title { font-size: 16px; line-height: 22px; font-weight: 600; }
+      .modal-desc, .connection-row { font-size: 14px; line-height: 20px; }
+      .im-input { height: 32px; padding: 0 12px; border-radius: 6px; font-size: 14px; }
+      .ghost-btn, .primary-btn { min-width: 72px; height: 32px; border-radius: 6px; font-size: 14px; font-weight: 500; }
+      .placeholder h2 { font-size: 16px; line-height: 22px; font-weight: 600; }
+      .placeholder p { color: #6a6e80; font-size: 13px; line-height: 18px; }
+      @media (max-width: 1220px) {
+        .market-grid { grid-template-columns: repeat(3, 1fr); }
+        .quick-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-logo"><iconpark-icon name="logonewtext" class="brand-logo-full-icon" color="currentColor" width="86px" height="34px"></iconpark-icon><img class="brand-logo-compact" src="./assets/logo_onyimg.svg" alt="万卷" /></span>
+          <span class="brand-actions">
+            <button type="button" title="搜索"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.2-4.2"/></svg></button>
+            <button type="button" title="布局"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M12 4v16"/></svg></button>
+          </span>
+        </div>
+        <nav class="nav" aria-label="主导航">
+          <button class="nav-item active" data-page="chat"><span class="icon"><svg viewBox="0 0 24 24"><path d="M5 19h14"/><path d="M6 18.5 18.4 6.1a2 2 0 0 0-2.8-2.8L3.2 15.7 3 20z"/></svg></span><span class="menu-label">新建任务</span></button>
+          <button class="nav-item" data-page="square"><span class="icon"><svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M4.8 6.8l2.1 2.1M17.1 17.1l2.1 2.1M3 12h3M18 12h3M4.8 17.2l2.1-2.1M17.1 6.9l2.1-2.1"/><circle cx="12" cy="12" r="3"/></svg></span><span class="menu-label">Agent</span></button>
+          <button class="nav-item" data-page="skills"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="2.2"/><circle cx="17" cy="7" r="2.2"/><circle cx="7" cy="17" r="2.2"/><circle cx="17" cy="17" r="2.2"/></svg></span><span class="menu-label">插件</span></button>
+          <button class="nav-item" data-page="schedule"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="menu-label">定时任务</span></button>
+          <button class="nav-item" data-page="files"><span class="icon"><svg viewBox="0 0 24 24"><path d="M6 4h4l3 16H9z"/><path d="M12 4h4l3 16h-4z"/><path d="M5 20h15"/></svg></span><span class="menu-label">库</span></button>
+          <div class="nav-section-head">
+            <span class="nav-section-title">数字员工</span>
+            <button class="nav-section-add" type="button" data-employee-square title="新增数字员工">+</button>
+          </div>
+          <div id="employeeNavList"></div>
+          <div class="nav-divider"></div>
+          <div class="recent-title">最近对话</div>
+          <button class="recent-item">帮我整理本周项目进度</button>
+          <button class="recent-item">合同审核风险点分析</button>
+          <button class="recent-item">生成产品需求文档初稿</button>
+        </nav>
+        <div class="sidebar-footer">
+          <button class="settings-trigger" id="settingsTrigger" aria-expanded="false">
+            <span class="avatar">刘</span><span>刘静</span><span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.5-2-3.4-2.4 1a7 7 0 0 0-1.8-1L14.4 4h-4.8l-.3 2.3a7 7 0 0 0-1.8 1L5.1 6.1l-2 3.4L5 11a7 7 0 0 0 0 2l-1.9 1.5 2 3.4 2.4-1a7 7 0 0 0 1.8 1l.3 2.3h4.8l.3-2.3a7 7 0 0 0 1.8-1l2.4 1 2-3.4L19 13a7 7 0 0 0 .1-1Z"/></svg></span>
+          </button>
+          <div class="settings-popover" id="settingsPopover" hidden>
+            <div class="popover-user"><span class="avatar">刘</span><div><div class="user-name">刘静</div><div class="user-email">liujing@example.com</div></div></div>
+            <div class="popover-divider"></div>
+            <button class="popover-item" data-page="profile"><svg viewBox="0 0 24 24"><path d="M4 19.5c2.5-1 5-1.5 8-1.5s5.5.5 8 1.5"/><circle cx="12" cy="9" r="4"/></svg>个人中心</button>
+            <button class="popover-item" data-page="memory"><svg viewBox="0 0 24 24"><path d="M7 4h8l3 3v13H7z"/><path d="M10 10h5M10 14h5"/></svg>记忆中心</button>
+            <button class="popover-item" data-page="schedule"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16M8 14h3"/></svg>定时任务</button>
+            <button class="popover-item" data-page="im"><svg viewBox="0 0 24 24"><path d="M5 6.5h14a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H11l-4.5 3v-3H5a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Z"/><path d="M8 11h8M8 14h5"/></svg>IM 集成</button>
+            <div class="popover-divider"></div>
+            <div class="popover-label">管理入口</div>
+            <button class="popover-item" data-page="admin"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5M8 17h7"/></svg>智能体管理后台</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <div class="content">
+          <section class="page active chat-page" data-view="chat">
+            <div class="hero">
+              <h1 class="hello">您好，<em>刘静</em></h1>
+              <div class="chat-thread" id="chatThread" aria-live="polite"></div>
+              <div class="chat-composer-wrap">
+                <div class="chat-composer">
+                  <div class="agent-tip" id="agentTip" hidden><span class="beta">Beta</span><span>Agent 模式：输入 / 调用技能，输入 @ 使用智能体协作完成任务</span></div>
+                  <textarea id="chatInput" placeholder="有什么我可以帮助您的？"></textarea>
+                  <div class="mention-menu" id="mentionMenu" hidden></div>
+                  <div class="composer-actions">
+                    <button class="tool-btn icon-only" title="添加附件"><svg viewBox="0 0 24 24"><path d="m9 12 5.5-5.5a3 3 0 0 1 4.2 4.2l-7.1 7.1a5 5 0 0 1-7.1-7.1l7.1-7.1"/><path d="m8 14 6.5-6.5"/></svg></button>
+                    <button class="tool-btn icon-only chat-only" title="联网搜索"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4a12 12 0 0 1 0 16M12 4a12 12 0 0 0 0 16"/></svg></button>
+                    <button class="tool-btn chat-only" title="知识库"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 11h6"/></svg><span class="model-tag">99</span></button>
+                    <button class="model-btn"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M4.2 7.5l3.5 2M16.3 14l3.5 2M4.2 16.5l3.5-2M16.3 10l3.5-2"/><circle cx="12" cy="12" r="5"/></svg>GLAC-110 <span class="model-tag">通用</span><span>⌄</span></button>
+                    <span class="composer-spacer"></span>
+                    <button class="send-btn" id="chatSendBtn" title="发送"><svg viewBox="0 0 24 24"><path d="m5 12 14-7-5 14-2-6z"/></svg></button>
+                  </div>
+                </div>
+                <div class="composer-note">内容由 AI 生成，请仔细甄别重要信息</div>
+              </div>
+              <div class="chat-recommend-grid">
+                <button class="chat-recommend-card" type="button" data-chat-app="knowledge"><strong>知识问答</strong><span>通用问答与知识库检索</span><i class="recommend-art knowledge">问</i></button>
+                <button class="chat-recommend-card" type="button"><strong>深度写作</strong><span>专注专业内容创作</span><i class="recommend-art write">✓</i></button>
+                <button class="chat-recommend-card" type="button"><strong>PPT创作</strong><span>一键生成专业演示</span><i class="recommend-art ppt">P</i></button>
+              </div>
+            </div>
+          </section>
+
+          <section class="page market-page" data-view="square">
+            <div class="market-shell">
+              <div class="market-head">
+                <div class="market-title">智能体广场</div>
+                <button class="market-close" type="button" data-page="chat" aria-label="关闭">
+                  <svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg>
+                </button>
+              </div>
+              <div class="market-toolbar">
+                <label class="market-search-wrap">
+                  <span class="market-search-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.2-4.2"/></svg></span>
+                  <input class="market-search" id="marketSearchInput" placeholder="搜索智能体" />
+                </label>
+                <label class="market-select-wrap" id="marketTypeWrap">
+                  <select class="market-select">
+                    <option>智能体类型</option>
+                  </select>
+                  <span class="market-select-icon"><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span>
+                </label>
+              </div>
+              <div class="market-tabs" id="squareTabs"></div>
+              <div class="market-grid" id="squareGrid"></div>
+            </div>
+          </section>
+
+          <section class="page skills-page" data-view="skills">
+            <div class="skills-shell">
+              <div class="skills-head">
+                <button class="skills-tab active" type="button" data-skill-tab="market">技能市场</button>
+                <button class="skills-tab" type="button" data-skill-tab="installed">已安装 <span class="skills-count" id="installedSkillCount">0</span></button>
+              </div>
+              <div class="skills-toolbar">
+                <div class="skills-cats" id="skillCats"></div>
+                <label class="skills-search-wrap">
+                  <input class="skills-search" id="skillSearch" placeholder="搜索技能名称或能力" />
+                  <span class="skills-search-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.2-4.2"/></svg></span>
+                </label>
+              </div>
+              <div class="skills-grid" id="skillsGrid"></div>
+            </div>
+          </section>
+
+          <section class="page files-page" data-view="files">
+            <div class="files-shell">
+              <div class="files-head">
+                <div class="files-title">
+                  <h1>文件</h1>
+                  <p>展示各次对话生成的文件，可下载、可回到对应对话查看上下文</p>
+                </div>
+                <div class="file-filters" aria-label="文件筛选">
+                  <button class="file-filter active" type="button" data-file-filter="all">全部</button>
+                  <button class="file-filter" type="button" data-file-filter="recent">仅最近 7 天</button>
+                  <button class="file-filter" type="button" data-file-filter="withFiles">仅有文件的对话</button>
+                </div>
+              </div>
+              <div class="file-toast" id="fileToast" aria-live="polite"></div>
+              <div class="conversation-file-list" id="conversationFileList"></div>
+            </div>
+          </section>
+
+          <section class="page employee-workbench" data-view="employee">
+            <div class="employee-shell">
+              <aside class="employee-contacts">
+                <div class="contacts-head">
+                  <strong>通讯录</strong>
+                  <button type="button" title="折叠通讯录"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M10 4v16"/></svg></button>
+                </div>
+                <label class="contacts-search">
+                  <input id="employeeContactSearch" placeholder="搜索员工名称" />
+                  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.2-4.2"/></svg>
+                </label>
+                <div class="contacts-list" id="employeeContactList"></div>
+              </aside>
+              <section class="employee-chat">
+                <header class="employee-chat-head">
+                  <span class="contact-avatar" id="activeEmployeeAvatar"></span>
+                  <div class="employee-chat-title">
+                    <strong id="activeEmployeeName"></strong>
+                    <span id="activeEmployeeDesc"></span>
+                  </div>
+                  <div class="employee-chat-actions">
+                    <button type="button" title="搜索任务"><svg viewBox="0 0 24 24"><path d="M4 7h8M4 12h5M4 17h8"/><circle cx="17" cy="12" r="3"/><path d="m20 15-2-2"/></svg></button>
+                    <button type="button" title="任务面板"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M14 4v16"/></svg></button>
+                  </div>
+                </header>
+                <main class="task-scroll">
+                  <article class="task-report" id="employeeTaskReport"></article>
+                </main>
+                <div class="employee-composer-panel">
+                  <button class="new-chat-btn" type="button">＋ 新对话</button>
+                  <div class="employee-input">
+                    <textarea placeholder="有什么我可以帮助您的吗？"></textarea>
+                    <div class="employee-input-foot">
+                      <button type="button" title="附件"><svg viewBox="0 0 24 24"><path d="m9 12 5.5-5.5a3 3 0 0 1 4.2 4.2l-7.1 7.1a5 5 0 0 1-7.1-7.1l7.1-7.1"/><path d="m8 14 6.5-6.5"/></svg></button>
+                      <button class="employee-send" type="button" title="发送"><svg viewBox="0 0 24 24"><path d="m5 12 14-7-5 14-2-6z"/></svg></button>
+                    </div>
+                  </div>
+                  <div class="employee-chat-note">以上内容为AI生成，不代表开发者观点</div>
+                </div>
+              </section>
+            </div>
+          </section>
+
+          <section class="page list-page" data-view="history">
+            <div class="list-header"><div><h1>历史对话</h1><p>查找过去的对话，继续已有工作。</p></div><input class="search" placeholder="搜索对话内容" /></div>
+            <div class="history-list" id="historyList"></div>
+          </section>
+
+          <section class="page schedule-page" data-view="schedule">
+            <div class="schedule-shell">
+              <div class="schedule-head">
+                <div class="schedule-title">
+                  <h1>定时任务</h1>
+                  <p>配置周期性任务，查看执行历史与结果摘要。</p>
+                </div>
+                <div class="schedule-actions">
+                  <button class="ghost-btn" type="button" id="quickScheduleBtn">一句话创建</button>
+                  <button class="primary-btn" type="button" id="openScheduleDialogBtn">创建</button>
+                </div>
+              </div>
+              <div class="schedule-tabs">
+                <button class="schedule-tab active" type="button" data-schedule-tab="tasks">已配置任务</button>
+                <button class="schedule-tab" type="button" data-schedule-tab="history">执行历史</button>
+              </div>
+              <div class="schedule-panel" id="scheduleTasksPanel">
+                <div class="schedule-grid" id="scheduleTaskGrid"></div>
+              </div>
+              <div class="schedule-panel" id="scheduleHistoryPanel" hidden>
+                <div class="schedule-result-list" id="scheduleResultList"></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="page im-page" data-view="im">
+            <div class="im-shell">
+              <p class="im-intro">通过 IM 渠道将工作区能力接入外部协作场景，当前支持飞书机器人配置。</p>
+              <div class="im-card">
+                <div class="im-card-main">
+                  <div class="im-card-title">
+                    <span>飞书集成</span>
+                    <span class="im-status" id="imStatus" hidden>已配置</span>
+                  </div>
+                  <p class="im-card-desc" id="imSummary">注册飞书应用以通过飞书，发送任务消息，并立即获得结果。</p>
+                  <button class="guide-link" type="button" id="imGuideBtn">配置指南</button>
+                </div>
+                <button class="im-config-btn" type="button" id="openImDialogBtn">配置</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="page" data-view="placeholder">
+            <div class="placeholder"><div><span class="brand-mark" style="margin:auto">卷</span><h2 id="placeholderTitle"></h2><p id="placeholderDesc"></p></div></div>
+          </section>
+        </div>
+      </main>
+    </div>
+    <div class="modal-overlay" id="imDialog" hidden>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="imDialogTitle">
+        <h2 class="modal-title" id="imDialogTitle">注册飞书通道</h2>
+        <p class="modal-desc">输入飞书应用凭据以将此工作区绑定到飞书机器人。App ID 和 App Secret 为必填项。</p>
+        <button class="guide-link" type="button" id="imGuideBtnDialog">配置指南</button>
+        <div class="connection-row">
+          <span class="radio-pill" aria-hidden="true"></span>
+          <span>WebSocket 长连接</span>
+          <span class="channel-token">飞书机器人通道</span>
+        </div>
+        <div class="im-form">
+          <input class="im-input" id="appIdInput" type="text" placeholder="飞书 App ID（如 cli_a92360a836b89bb4）" />
+          <input class="im-input" id="appSecretInput" type="password" placeholder="飞书 App Secret" />
+          <div class="form-error" id="imFormError"></div>
+        </div>
+        <div class="modal-actions">
+          <button class="ghost-btn" type="button" id="cancelImDialogBtn">取消</button>
+          <button class="primary-btn" type="button" id="submitImDialogBtn">注册</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-overlay" id="scheduleDialog" hidden>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="scheduleDialogTitle">
+        <h2 class="modal-title" id="scheduleDialogTitle">创建定时任务</h2>
+        <p class="modal-desc">配置任务名称、提示词、执行频率和推送方式。保存后会出现在已配置任务列表。</p>
+        <div class="schedule-form">
+          <label class="schedule-field">
+            <span>任务名称</span>
+            <input id="scheduleNameInput" type="text" placeholder="例如：每日合同风险巡检" />
+          </label>
+          <label class="schedule-field">
+            <span>执行频率</span>
+            <select id="scheduleFrequencyInput">
+              <option value="每天 09:00">每天 09:00</option>
+              <option value="每周一 09:00">每周一 09:00</option>
+              <option value="每月 1 日 09:00">每月 1 日 09:00</option>
+              <option value="工作日 18:00">工作日 18:00</option>
+            </select>
+          </label>
+          <label class="schedule-field full">
+            <span>任务提示词</span>
+            <textarea id="schedulePromptInput" placeholder="描述需要定时执行的任务目标、输入来源、输出格式和质量要求"></textarea>
+          </label>
+          <label class="schedule-field">
+            <span>生效开始</span>
+            <input id="scheduleStartInput" type="date" />
+          </label>
+          <label class="schedule-field">
+            <span>生效结束</span>
+            <input id="scheduleEndInput" type="date" />
+          </label>
+          <div class="schedule-field full">
+            <span>结果推送</span>
+            <div class="schedule-push-row">
+              <label class="schedule-switch"><input id="schedulePushInput" type="checkbox" />推送到 IM</label>
+              <select id="scheduleChannelInput" disabled>
+                <option value="飞书群机器人">飞书群机器人</option>
+                <option value="企业微信机器人">企业微信机器人</option>
+                <option value="钉钉机器人">钉钉机器人</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-error full" id="scheduleFormError"></div>
+        </div>
+        <div class="modal-actions">
+          <button class="ghost-btn" type="button" id="cancelScheduleDialogBtn">取消</button>
+          <button class="primary-btn" type="button" id="submitScheduleDialogBtn">创建</button>
+        </div>
+      </div>
+    </div>
+    <script>
+      const pages = {
+        chat: ["新建对话", ""], skills: ["技能中心", "沉淀可复用技能、工具链与任务模板。"], square: ["智能体广场", ""], files: ["文件", "管理上传文件、知识材料与任务附件。"], employee: ["数字员工", ""], history: ["历史对话", ""],
+        account: ["账号信息", "管理登录账号、安全设置与绑定信息。"], profile: ["个人中心", "查看个人资料、偏好设置与使用信息。"],
+        memory: ["记忆中心", "管理 AI 可复用的个人记忆与团队知识。"], schedule: ["定时任务", "查看定时任务、运行状态与执行记录。"],
+        im: ["IM 集成", "配置飞书机器人等外部 IM 渠道。"],
+        admin: ["智能体管理后台", "此入口面向管理员，用于配置、发布和管理智能体。"]
+      };
+      const squareTabs = ["全部", "开发", "创作", "办公", "生活"];
+      const squareCards = [
+        { icon: "合", color: "#5b7cff", title: "合同信息抽取", badge: "置顶", category: "办公", desc: "精准提取并结构化输出，大幅提升合同审核、归档效率。", source: "自主规划" },
+        { icon: "默", color: "#7f72ff", title: "默认智能体", category: "办公", desc: "默认智能体，适配通用任务，快速进入处理流程。", source: "自主规划" },
+        { icon: "数", color: "#f1ab3c", title: "数据分析", category: "办公", desc: "面向行业数据分析与报告生成，支持多个 Excel 表格文件。", source: "自主规划" },
+        { icon: "跨", color: "#5c8dff", title: "跨时区会议时间换算", category: "生活", desc: "帮助快速推算不同时区之间的会议时间，明确各国对应时刻。", source: "自主规划" },
+        { icon: "营", color: "#6d8dff", title: "营销助手", category: "创作", desc: "专注于高效产出营销内容，降低创作与格式转化成本。", source: "自主规划" },
+        { icon: "印", color: "#ff7e73", title: "pdf水印添加助手", category: "办公", desc: "支持默认和自定义英文水印，适配 PDF 批量加印场景。", source: "自主规划" },
+        { icon: "P", color: "#2f6de1", title: "PDF文档处理", category: "办公", desc: "支持表格提取、合并拆分、OCR 识别转换等常用能力。", source: "自主规划" },
+        { icon: "AI", color: "#78a6ff", title: "AI 文本检测与自然化助手", category: "创作", desc: "识别 AI 写作特征并提供自然化处理建议，增强文本可读性。", source: "自主规划" },
+        { icon: "智", color: "#4b9dff", title: "智改文档", category: "开发", desc: "支持上传文档智能解析、内容修改与结构调整，输出规范版本。", source: "自主规划" },
+        { icon: "汛", color: "#95a8c9", title: "流域防汛形势分析智能体", category: "开发", desc: "基于降雨、水位、入库流量等数据生成防汛分析报告。", source: "自主规划" },
+        { icon: "司", color: "#87a5ff", title: "公司深度研报助手", category: "办公", desc: "根据公司名称完成基础信息、业务深度分析与风险研究输出。", source: "自主规划" },
+        { icon: "译", color: "#8a90ff", title: "翻译助手", category: "生活", desc: "支持中英日等多语种互译，适配商务与生活场景。", source: "自主规划" }
+      ];
+      const employeeContacts = [
+        { icon: "合", color: "#7f72ff", title: "合同审核助手（B版）", desc: "合同审核数字员工，自动解析合同风险...", date: "2026/3" },
+        { icon: "合", color: "#95a8c9", title: "合同审核助手（正式）", desc: "合同审核数字员工，通过AI自动完成合同上传解析...", date: "2026/2", active: true },
+        { icon: "招", color: "#4ba1ff", title: "招商政策制定辅助员", desc: "辅助制定招商政策，提供专业建议...", date: "2026/2" },
+        { icon: "产", color: "#23bf80", title: "产品经理_test", desc: "协助梳理产品需求、制定方案...", date: "2026/2" },
+        { icon: "需", color: "#23bf80", title: "需求分析师", desc: "梳理需求背景、业务规则与验收标准...", date: "2026/2" },
+        { icon: "部", color: "#23bf80", title: "部门业务周报助手", desc: "自动汇总日常工作内容，生成周报...", date: "2026/2" },
+        { icon: "方", color: "#23bf80", title: "方案助理", desc: "帮助解决方案专家进行方案编写...", date: "2026/1" },
+        { icon: "标", color: "#ff9f47", title: "招标助手", desc: "为您自动检测招标文件风险...", date: "2026/1" },
+        { icon: "内", color: "#23bf80", title: "内容运营员工", desc: "可以获取各大网站热点话题...", date: "2026/1" },
+        { icon: "新", color: "#ff9f47", title: "新能源助手-测试", desc: "为您解答新能源测试问题...", date: "2025/26" },
+        { icon: "南", color: "#23bf80", title: "流域防汛分析助手", desc: "智谱天河流域防汛形势分析...", date: "2025/25" }
+      ];
+      const skillShortcuts = [
+        { name: "合同审核", desc: "识别风险条款并输出修改建议", icon: "审" },
+        { name: "深度写作", desc: "生成结构化长文、报告和方案", icon: "写" },
+        { name: "PPT创作", desc: "根据主题生成演示大纲和页面内容", icon: "P" },
+        { name: "数据分析", desc: "解读表格数据并生成洞察结论", icon: "数" },
+        { name: "会议纪要", desc: "整理讨论重点、结论和行动项", icon: "纪" }
+      ];
+      const skillCategories = ["效率工具", "办公协同", "商业运营", "数据分析", "知识与学习"];
+      const skillCards = [
+        { id: "tencent-doc", icon: "T", color: "linear-gradient(135deg,#2f6de1,#4bd3ff)", title: "腾讯文档", category: "办公协同", desc: "腾讯文档在线云文档平台，创建、编辑、管理多种类型文档", installed: true },
+        { id: "tencent-meeting", icon: "M", color: "linear-gradient(135deg,#1686ff,#2458e6)", title: "腾讯会议", category: "办公协同", desc: "腾讯会议管理助手，支持预约/创建/修改/取消会议、查询录制与参会信息", installed: true },
+        { id: "wechat-work", icon: "企", color: "linear-gradient(135deg,#f2fbff,#dbefff)", title: "企业微信套件", category: "办公协同", desc: "企业微信 CLI 套件，覆盖文档/消息/日程/会议/待办/通讯录等业务", installed: true },
+        { id: "tencent-ima", icon: "ima", color: "linear-gradient(135deg,#f9fff0,#dff9af)", title: "腾讯ima", category: "知识与学习", desc: "ima笔记与知识库管理（读取、写入、检索）", installed: false },
+        { id: "neodata-finance", icon: "N", color: "linear-gradient(135deg,#4b7bff,#3158d8)", title: "NeoData金融搜索服务", category: "数据分析", desc: "自然语言查询股票、基金、宏观、外汇、大宗商品等金融数据", installed: false },
+        { id: "cnb-cool", icon: "c", color: "linear-gradient(135deg,#ff8b2f,#ff5c00)", title: "cnb.cool", category: "效率工具", desc: "CNB 平台全功能操作（仓库、Issue、PR、流水线、制品库）", installed: false },
+        { id: "aihot", icon: "火", color: "linear-gradient(135deg,#ffb02e,#eb4453)", title: "AIHOT", category: "商业运营", desc: "一句话查到 aihot.virxact.com 上每天精选的 AI 模型 / 产品 / 行业信息", installed: false },
+        { id: "brand-style", icon: "品", color: "linear-gradient(135deg,#e7f3f1,#c9dfdc)", title: "品牌设计风格专家", category: "商业运营", desc: "54 个知名网站设计系统模板，一键复用品牌级 UI 风格", installed: false },
+        { id: "bookwriter", icon: "F", color: "linear-gradient(135deg,#3fb4ff,#2f6de1)", title: "fbs-bookwriter", category: "知识与学习", desc: "帮助手出品高质量长文档手稿工具链：书籍、手册、白皮书、行业报告", installed: false }
+      ];
+      let activeEmployeeIndex = 1;
+      let employeeContactKeyword = "";
+      let employeeSquareMode = false;
+      let employeeSquareKeyword = "";
+      let navEmployeeIndexes = [1, 4];
+      let currentChatMode = "agent";
+      let activeMentionType = "";
+      let activeSkillTab = "market";
+      let activeSkillCategory = "效率工具";
+      let skillKeyword = "";
+      const history = [
+        ["合同审核风险点分析","合同审核助手 · 已完成 8 条风险识别","今天 14:32"],
+        ["帮我整理本周项目进度","通用问答 · 汇总研发与设计交付情况","今天 10:18"],
+        ["生成产品需求文档初稿","公文写作助手 · 智能体管理后台需求","昨天 18:46"],
+        ["Q2 运营指标趋势分析","数据洞察助手 · 环比与同比数据解读","昨天 15:20"],
+        ["整理客户访谈会议纪要","会议纪要助手 · 输出行动项 6 条","05 月 30 日"]
+      ];
+      const fileConversations = [
+        {
+          conversationId: "conv-contract-risk",
+          title: "合同审核风险点分析",
+          time: "今天 14:32",
+          isRecent: true,
+          messages: [
+            { id: "msg-contract-user", role: "user", text: "请审核这份合同，输出风险点和修订建议。", meta: "Agent 模式" },
+            { id: "msg-contract-result", role: "assistant", text: "合同审核已完成，识别高风险 2 条、中风险 6 条，并生成审核结果与风险汇总表。", meta: "生成文件 2 个" }
+          ],
+          files: [
+            { id: "file-contract-docx", messageId: "msg-contract-result", name: "合同审核结果.docx", type: "DOCX", size: "245 KB", generatedAt: "今天 14:34", content: "合同审核结果\\n高风险条款与修改建议..." },
+            { id: "file-contract-xlsx", messageId: "msg-contract-result", name: "风险条款汇总.xlsx", type: "XLSX", size: "118 KB", generatedAt: "今天 14:34", content: "条款,风险等级,修改建议\\n第5条,高,明确验收标准" }
+          ]
+        },
+        {
+          conversationId: "conv-prd-draft",
+          title: "生成产品需求文档初稿",
+          time: "昨天 18:46",
+          isRecent: true,
+          messages: [
+            { id: "msg-prd-user", role: "user", text: "根据智能体管理后台需求，生成一版 PRD 初稿。", meta: "Agent 模式" },
+            { id: "msg-prd-result", role: "assistant", text: "PRD 初稿已生成，包含目标、范围、核心流程、页面结构和验收标准。", meta: "生成文件 1 个" }
+          ],
+          files: [
+            { id: "file-prd-md", messageId: "msg-prd-result", name: "PRD 初稿.md", type: "MD", size: "56 KB", generatedAt: "昨天 18:49", content: "# PRD 初稿\\n\\n## 需求目标\\n..." }
+          ]
+        },
+        {
+          conversationId: "conv-weekly-report",
+          title: "帮我整理本周项目进度",
+          time: "今天 10:18",
+          isRecent: true,
+          messages: [
+            { id: "msg-weekly-user", role: "user", text: "整理本周项目进度，按模块输出周报。", meta: "Chat 模式" },
+            { id: "msg-weekly-result", role: "assistant", text: "已整理本周项目进度，本次对话仅输出文本总结，没有生成文件。", meta: "无生成文件" }
+          ],
+          files: []
+        },
+        {
+          conversationId: "conv-market-report",
+          title: "Q2 运营指标趋势分析",
+          time: "昨天 15:20",
+          isRecent: true,
+          messages: [
+            { id: "msg-market-user", role: "user", text: "分析 Q2 运营指标趋势，输出可汇报材料。", meta: "Agent 模式" },
+            { id: "msg-market-result", role: "assistant", text: "趋势分析已完成，已生成指标分析报告、图表数据和汇报大纲。", meta: "生成文件 4 个" }
+          ],
+          files: [
+            { id: "file-market-report", messageId: "msg-market-result", name: "Q2 运营指标分析报告.pdf", type: "PDF", size: "1.2 MB", generatedAt: "昨天 15:26", content: "Q2 运营指标分析报告" },
+            { id: "file-market-chart", messageId: "msg-market-result", name: "运营趋势图表.xlsx", type: "XLSX", size: "326 KB", generatedAt: "昨天 15:26", content: "月份,转化率,留存率" },
+            { id: "file-market-outline", messageId: "msg-market-result", name: "汇报大纲.md", type: "MD", size: "24 KB", generatedAt: "昨天 15:27", content: "# 汇报大纲" },
+            { id: "file-market-invalid", messageId: "msg-market-result", name: "历史明细导出.csv", type: "CSV", size: "680 KB", generatedAt: "昨天 15:28", downloadable: false, content: "" }
+          ]
+        }
+      ];
+      let activeFileFilter = "all";
+      const expandedFileGroups = { "conv-market-report": false };
+      const scheduleTasks = [
+        { name: "每日合同风险巡检", prompt: "每天汇总新增合同，识别高风险条款并输出修改建议。", frequency: "每天 09:00", range: "2026-06-01 至 2026-12-31", push: "飞书群机器人", status: "running" },
+        { name: "部门业务周报生成", prompt: "每周汇总项目进展、风险事项和下周计划，生成周报草稿。", frequency: "每周一 09:00", range: "2026-06-01 至 2026-09-30", push: "不推送", status: "running" },
+        { name: "市场热点线索扫描", prompt: "检索政策、招采与行业热点，输出可跟进线索清单。", frequency: "工作日 18:00", range: "2026-06-01 至 2026-08-31", push: "企业微信机器人", status: "paused" }
+      ];
+      const scheduleResults = [
+        { title: "每日合同风险巡检", desc: "完成 12 份合同扫描，识别高风险 3 条、中风险 9 条，已生成风险汇总。", time: "今天 09:02", status: "已完成" },
+        { title: "市场热点线索扫描", desc: "新增招商政策 5 条、招采线索 8 条，已按地区和紧急程度分类。", time: "昨天 18:05", status: "已完成" },
+        { title: "部门业务周报生成", desc: "周报草稿已生成，包含项目进度、阻塞事项和下周重点。", time: "06-01 09:04", status: "已完成" }
+      ];
+      let activeScheduleTab = "tasks";
+      const marketState = { square: "办公", employee: "全部" };
+      function renderMarketTabs(containerId, scope, tabs) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = tabs.map(tab => `<button class="market-tab ${marketState[scope] === tab ? "active" : ""}" data-market-scope="${scope}" data-market-tab="${tab}">${tab}</button>`).join("");
+      }
+      function employeeToMarketCard(item, index) {
+        return {
+          employeeIndex: index,
+          icon: item.icon,
+          color: item.color,
+          title: item.title,
+          category: "办公",
+          desc: item.desc,
+          source: navEmployeeIndexes.includes(index) ? "已在左侧" : "点击添加到左侧"
+        };
+      }
+      function renderMarketGrid(containerId, scope, cards) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        const activeTab = marketState[scope];
+        const visibleCards = activeTab === "全部" ? cards : cards.filter(card => card.category === activeTab);
+        container.innerHTML = visibleCards.map(card => `
+          <article class="market-card" ${card.employeeIndex !== undefined ? `data-add-employee="${card.employeeIndex}"` : ""}>
+            <div class="market-card-head">
+              <span class="market-card-icon" style="background:${card.color}">${card.icon}</span>
+              <div class="market-card-copy">
+                <div class="market-card-title-row">
+                  <div class="market-card-title">${card.title}</div>
+                  ${card.badge ? `<span class="market-card-badge">${card.badge}</span>` : ""}
+                </div>
+                <p class="market-card-desc">${card.desc}</p>
+              </div>
+            </div>
+            <div class="market-card-foot">${card.source}</div>
+          </article>
+        `).join("");
+      }
+      function renderMarkets() {
+        const title = document.querySelector(".market-title");
+        if (title) title.textContent = employeeSquareMode ? "数字员工广场" : "智能体广场";
+        const searchInput = document.getElementById("marketSearchInput");
+        const typeWrap = document.getElementById("marketTypeWrap");
+        const tabs = document.getElementById("squareTabs");
+        if (searchInput) searchInput.placeholder = employeeSquareMode ? "搜索数字员工" : "搜索智能体";
+        if (typeWrap) typeWrap.hidden = employeeSquareMode;
+        if (tabs) tabs.hidden = employeeSquareMode;
+        if (!employeeSquareMode) renderMarketTabs("squareTabs", "square", squareTabs);
+        const keyword = employeeSquareKeyword.trim().toLowerCase();
+        const employeeCards = employeeContacts
+          .map(employeeToMarketCard)
+          .filter(card => !keyword || `${card.title} ${card.desc}`.toLowerCase().includes(keyword));
+        const cards = employeeSquareMode ? employeeCards : squareCards;
+        renderMarketGrid("squareGrid", "square", cards);
+      }
+      renderMarkets();
+      function renderSkillCenter() {
+        const cats = document.getElementById("skillCats");
+        const grid = document.getElementById("skillsGrid");
+        const installedCount = document.getElementById("installedSkillCount");
+        if (!cats || !grid || !installedCount) return;
+        const installedTotal = skillCards.filter(item => item.installed).length;
+        installedCount.textContent = installedTotal;
+        document.querySelectorAll("[data-skill-tab]").forEach(tab => tab.classList.toggle("active", tab.dataset.skillTab === activeSkillTab));
+        cats.innerHTML = skillCategories.map(cat => `<button class="skill-cat ${activeSkillCategory === cat ? "active" : ""}" type="button" data-skill-cat="${cat}">${cat}</button>`).join("");
+        const keyword = skillKeyword.toLowerCase();
+        const visibleCards = skillCards.filter(item => {
+          const inTab = activeSkillTab === "installed" ? item.installed : true;
+          const inCat = activeSkillTab === "installed" ? true : item.category === activeSkillCategory;
+          const inSearch = !keyword || `${item.title} ${item.desc} ${item.category}`.toLowerCase().includes(keyword);
+          return inTab && inCat && inSearch;
+        });
+        grid.innerHTML = visibleCards.map(item => `
+          <article class="skill-card">
+            <span class="skill-logo" style="background:${item.color}">${escapeHtml(item.icon)}</span>
+            <span>
+              <span class="skill-title">${escapeHtml(item.title)}</span>
+              <span class="skill-desc">${escapeHtml(item.desc)}</span>
+            </span>
+            <button class="skill-action ${item.installed ? "installed" : ""}" type="button" data-skill-toggle="${item.id}" title="${item.installed ? "鼠标移上可取消安装" : "安装技能"}">${item.installed ? "" : "+"}</button>
+          </article>
+        `).join("") || `<div class="skill-empty">没有找到匹配的技能</div>`;
+      }
+      renderSkillCenter();
+      function renderSchedulePage() {
+        const grid = document.getElementById("scheduleTaskGrid");
+        const resultList = document.getElementById("scheduleResultList");
+        const tasksPanel = document.getElementById("scheduleTasksPanel");
+        const historyPanel = document.getElementById("scheduleHistoryPanel");
+        if (!grid || !resultList || !tasksPanel || !historyPanel) return;
+        document.querySelectorAll("[data-schedule-tab]").forEach(tab => tab.classList.toggle("active", tab.dataset.scheduleTab === activeScheduleTab));
+        tasksPanel.hidden = activeScheduleTab !== "tasks";
+        historyPanel.hidden = activeScheduleTab !== "history";
+        grid.innerHTML = scheduleTasks.map(task => `
+          <article class="schedule-card">
+            <div class="schedule-card-head">
+              <div class="schedule-card-title">${escapeHtml(task.name)}</div>
+              <span class="schedule-badge ${task.status === "running" ? "running" : "paused"}">${task.status === "running" ? "运行中" : "已暂停"}</span>
+            </div>
+            <p class="schedule-card-desc">${escapeHtml(task.prompt)}</p>
+            <div class="schedule-meta">
+              <span><strong>执行频率：</strong>${escapeHtml(task.frequency)}</span>
+              <span><strong>生效区间：</strong>${escapeHtml(task.range)}</span>
+              <span><strong>结果推送：</strong>${escapeHtml(task.push)}</span>
+            </div>
+          </article>
+        `).join("") || `<div class="schedule-empty">暂无已配置定时任务</div>`;
+        resultList.innerHTML = scheduleResults.map(result => `
+          <article class="schedule-result-row">
+            <div>
+              <div class="schedule-result-title">${escapeHtml(result.title)}</div>
+              <div class="schedule-result-desc">${escapeHtml(result.desc)}</div>
+            </div>
+            <div class="schedule-result-time">${escapeHtml(result.time)}</div>
+            <span class="schedule-badge running schedule-result-status">${escapeHtml(result.status)}</span>
+          </article>
+        `).join("") || `<div class="schedule-empty">暂无执行历史</div>`;
+      }
+      function resetScheduleForm() {
+        document.getElementById("scheduleNameInput").value = "";
+        document.getElementById("schedulePromptInput").value = "";
+        document.getElementById("scheduleFrequencyInput").value = "每天 09:00";
+        document.getElementById("scheduleStartInput").value = "2026-06-06";
+        document.getElementById("scheduleEndInput").value = "";
+        document.getElementById("schedulePushInput").checked = false;
+        document.getElementById("scheduleChannelInput").value = "飞书群机器人";
+        document.getElementById("scheduleChannelInput").disabled = true;
+        document.getElementById("scheduleFormError").textContent = "";
+      }
+      function openScheduleDialog() {
+        resetScheduleForm();
+        document.getElementById("scheduleDialog").hidden = false;
+      }
+      function closeScheduleDialog() {
+        document.getElementById("scheduleDialog").hidden = true;
+      }
+      function quickCreateSchedule() {
+        openPage("chat");
+        setChatMode("agent");
+        chatInput.value = "/定时任务创建 请帮我创建一个定时任务：\n任务目标：\n执行频率：\n生效时间：\n是否推送 IM：\n输出格式：";
+        chatInput.focus();
+        chatInput.setSelectionRange(chatInput.value.length, chatInput.value.length);
+      }
+      function submitScheduleForm() {
+        const name = document.getElementById("scheduleNameInput").value.trim();
+        const prompt = document.getElementById("schedulePromptInput").value.trim();
+        const frequency = document.getElementById("scheduleFrequencyInput").value;
+        const start = document.getElementById("scheduleStartInput").value;
+        const end = document.getElementById("scheduleEndInput").value;
+        const pushEnabled = document.getElementById("schedulePushInput").checked;
+        const channel = document.getElementById("scheduleChannelInput").value;
+        const error = document.getElementById("scheduleFormError");
+        error.textContent = "";
+        if (!name || !prompt || !start) {
+          error.textContent = "请填写任务名称、任务提示词和生效开始时间。";
+          return;
+        }
+        scheduleTasks.unshift({
+          name,
+          prompt,
+          frequency,
+          range: `${start} 至 ${end || "长期"}`,
+          push: pushEnabled ? channel : "不推送",
+          status: "running"
+        });
+        scheduleResults.unshift({
+          title: name,
+          desc: "任务已创建，等待首次调度执行。",
+          time: "刚刚",
+          status: "待执行"
+        });
+        activeScheduleTab = "tasks";
+        renderSchedulePage();
+        closeScheduleDialog();
+      }
+      renderSchedulePage();
+      function fileCountText(count) {
+        return count ? `共 ${count} 个文件` : "暂无生成文件";
+      }
+      function findGeneratedFile(fileId) {
+        for (const conversation of fileConversations) {
+          const file = conversation.files.find(item => item.id === fileId);
+          if (file) return { conversation, file };
+        }
+        return null;
+      }
+      function setFileToast(text, isError = false) {
+        const toast = document.getElementById("fileToast");
+        if (!toast) return;
+        toast.textContent = text;
+        toast.style.color = isError ? "#d93747" : "#6a6e80";
+        if (text) setTimeout(() => {
+          if (toast.textContent === text) toast.textContent = "";
+        }, 2400);
+      }
+      function renderFilesPage() {
+        const list = document.getElementById("conversationFileList");
+        if (!list) return;
+        document.querySelectorAll("[data-file-filter]").forEach(btn => btn.classList.toggle("active", btn.dataset.fileFilter === activeFileFilter));
+        const visibleConversations = fileConversations.filter(item => {
+          if (activeFileFilter === "recent") return item.isRecent && item.files.length;
+          if (activeFileFilter === "withFiles") return item.files.length;
+          return item.files.length;
+        });
+        list.innerHTML = visibleConversations.map(conversation => {
+          const expanded = expandedFileGroups[conversation.conversationId] !== false;
+          const hasMore = conversation.files.length > 3;
+          const files = hasMore && !expanded ? conversation.files.slice(0, 3) : conversation.files;
+          return `
+            <article class="file-conversation-card" data-file-conversation="${escapeHtml(conversation.conversationId)}">
+              <div class="file-conversation-head">
+                <div>
+                  <div class="file-conversation-title">${escapeHtml(conversation.title)}</div>
+                  <div class="file-conversation-meta">${escapeHtml(conversation.time)} · ${fileCountText(conversation.files.length)}</div>
+                </div>
+                ${hasMore ? `<button class="file-expand-btn" type="button" data-file-expand="${escapeHtml(conversation.conversationId)}">${expanded ? "收起" : `展开更多 ${conversation.files.length - 3}`}</button>` : ""}
+              </div>
+              ${files.length ? `<div class="generated-file-list">
+                ${files.map(file => `
+                  <div class="generated-file-item">
+                    <span class="file-icon">${escapeHtml(file.type)}</span>
+                    <div>
+                      <div class="file-name">${escapeHtml(file.name)}</div>
+                      <div class="file-meta">${escapeHtml(file.type)} · ${escapeHtml(file.size)}</div>
+                    </div>
+                    <div class="file-time">${escapeHtml(file.generatedAt)}</div>
+                    <div class="file-actions">
+                      <button class="file-action-btn" type="button" data-file-download="${escapeHtml(file.id)}">下载</button>
+                      <button class="file-action-btn" type="button" data-file-locate="${escapeHtml(file.id)}">定位</button>
+                    </div>
+                  </div>
+                `).join("")}
+              </div>` : `<div class="files-empty">暂无生成文件</div>`}
+            </article>
+          `;
+        }).join("") || `<div class="files-empty">还没有生成文件，去发起一次对话任务吧</div>`;
+      }
+      function downloadGeneratedFile(fileId) {
+        const found = findGeneratedFile(fileId);
+        if (!found || found.file.downloadable === false) {
+          setFileToast("下载失败，请稍后重试", true);
+          return;
+        }
+        const blob = new Blob([found.file.content || found.file.name], { type: "text/plain;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.href = url;
+        anchor.download = found.file.name;
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+        URL.revokeObjectURL(url);
+        setFileToast(`已开始下载：${found.file.name}`);
+      }
+      function renderConversationContext(conversation, targetMessageId) {
+        openPage("chat");
+        chatPage.classList.add("has-chat");
+        chatThread.innerHTML = "";
+        conversation.messages.forEach(message => appendMessage(message.role, message.text, message.meta, { messageId: message.id }));
+        const target = chatThread.querySelector(`[data-message-id="${targetMessageId}"]`);
+        if (!target) {
+          setFileToast("未找到原始生成位置", true);
+          chatThread.scrollTop = 0;
+          return;
+        }
+        target.scrollIntoView({ behavior: "smooth", block: "center" });
+        target.classList.add("located");
+        setTimeout(() => target.classList.remove("located"), 1800);
+      }
+      function locateGeneratedFile(fileId) {
+        const found = findGeneratedFile(fileId);
+        if (!found) {
+          openPage("chat");
+          setFileToast("未找到原始生成位置", true);
+          return;
+        }
+        renderConversationContext(found.conversation, found.file.messageId);
+      }
+      renderFilesPage();
+      function renderEmployeeNavList() {
+        const navList = document.getElementById("employeeNavList");
+        if (!navList) return;
+        navList.innerHTML = navEmployeeIndexes.map(index => {
+          const employee = employeeContacts[index];
+          if (!employee) return "";
+          return `
+            <button class="nav-item employee-entry ${index === activeEmployeeIndex ? "active" : ""}" data-page="employee" data-employee-nav="${index}">
+              <span class="nav-employee-avatar" style="background:${employee.color}">${escapeHtml(employee.icon)}</span>
+              <span class="menu-label">${escapeHtml(employee.title)}</span>
+            </button>
+          `;
+        }).join("");
+      }
+      function openEmployeeChat(index) {
+        activeEmployeeIndex = index;
+        openPage("employee");
+        renderEmployeeContacts();
+        renderEmployeeNavList();
+      }
+      function openEmployeeSquare() {
+        employeeSquareMode = true;
+        employeeSquareKeyword = "";
+        const searchInput = document.getElementById("marketSearchInput");
+        if (searchInput) searchInput.value = "";
+        marketState.square = "全部";
+        openPage("square", { employeeSquare: true });
+        renderMarkets();
+      }
+      function addEmployeeToNav(index) {
+        if (!navEmployeeIndexes.includes(index)) {
+          navEmployeeIndexes.unshift(index);
+          navEmployeeIndexes = navEmployeeIndexes.slice(0, 5);
+        }
+        openEmployeeChat(index);
+      }
+      function renderEmployeeContacts() {
+        const list = document.getElementById("employeeContactList");
+        if (!list) return;
+        const visibleContacts = employeeContacts
+          .map((item, index) => ({ ...item, index }))
+          .filter(item => !employeeContactKeyword || item.title.includes(employeeContactKeyword));
+        list.innerHTML = visibleContacts.map((item) => `
+          <button class="contact-item ${item.index === activeEmployeeIndex ? "active" : ""}" type="button" data-employee-contact="${item.index}">
+            <span class="contact-avatar" style="background:${item.color}">${item.icon}</span>
+            <span>
+              <span class="contact-name">${item.title}</span>
+              <span class="contact-desc">${item.desc}</span>
+            </span>
+            <span class="contact-date">${item.date}</span>
+          </button>
+        `).join("") || `<div class="contact-desc" style="padding: 18px 12px">没有匹配的员工</div>`;
+        const active = employeeContacts[activeEmployeeIndex];
+        document.getElementById("activeEmployeeAvatar").style.background = active.color;
+        document.getElementById("activeEmployeeAvatar").textContent = active.icon;
+        document.getElementById("activeEmployeeName").textContent = active.title;
+        document.getElementById("activeEmployeeDesc").textContent = active.desc;
+        document.getElementById("employeeTaskReport").innerHTML = `
+          <h3>3. 风险转移表述矛盾</h3>
+          <ul>
+            <li>条款序号：第五条</li>
+            <li>问题：“保管义务及风险等由甲方转移给乙方”表述含糊，可能被解读为甲方在转移前仍担责。</li>
+            <li>修改建议：改为“自设备交付乙方之日起，设备的保管义务及毁损、灭失风险由乙方承担”。</li>
+          </ul>
+          <h3>4. 争议解决未约定签署地</h3>
+          <ul>
+            <li>条款序号：第8.3条</li>
+            <li>问题：协议未明确签署地，可能产生管辖争议。</li>
+            <li>修改建议：明确签署地（如“北京市海淀区”）。</li>
+          </ul>
+          <p class="risk-title"><span class="risk-dot"></span>低风险/提示事项</p>
+          <p>1. 送达条款错别字：“邮害”→“邮寄”（第七条）</p>
+          <p>2. 保密条款错别字：“宇样”→“字样”、“内合”→“内容”（第8.1条）</p>
+          <hr />
+          <p>审核修复JSON已输出至：/mnt/user-data/outputs/审核修复结果.json</p>
+          <p>合同审核结果已保存，请点击 <a href="#" class="report-link">合同审核结果</a>。</p>
+        `;
+      }
+      renderEmployeeNavList();
+      renderEmployeeContacts();
+      document.getElementById("historyList").innerHTML = history.map(a => `<div class="history-row"><span class="history-icon">⌁</span><div><div class="history-title">${a[0]}</div><div class="history-sub">${a[1]}</div></div><span class="history-time">${a[2]}</span></div>`).join("");
+      const imConfig = { appId: "", appSecret: "" };
+      const trigger = document.getElementById("settingsTrigger"), popover = document.getElementById("settingsPopover");
+      const imDialog = document.getElementById("imDialog");
+      const appIdInput = document.getElementById("appIdInput");
+      const appSecretInput = document.getElementById("appSecretInput");
+      const imFormError = document.getElementById("imFormError");
+      const imStatus = document.getElementById("imStatus");
+      const imSummary = document.getElementById("imSummary");
+      const openImDialogBtn = document.getElementById("openImDialogBtn");
+      const cancelImDialogBtn = document.getElementById("cancelImDialogBtn");
+      const submitImDialogBtn = document.getElementById("submitImDialogBtn");
+      const guideButtons = [document.getElementById("imGuideBtn"), document.getElementById("imGuideBtnDialog")];
+      const chatPage = document.querySelector(".chat-page");
+      const chatThread = document.getElementById("chatThread");
+      const chatInput = document.getElementById("chatInput");
+      const chatSendBtn = document.getElementById("chatSendBtn");
+      const mentionMenu = document.getElementById("mentionMenu");
+      const agentTip = document.getElementById("agentTip");
+
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+      }
+
+      function activeTrigger() {
+        if (currentChatMode !== "agent") return null;
+        const cursor = chatInput.selectionStart || 0;
+        const before = chatInput.value.slice(0, cursor);
+        const slash = before.lastIndexOf("/");
+        const at = before.lastIndexOf("@");
+        const start = Math.max(slash, at);
+        if (start < 0) return null;
+        const marker = before[start];
+        const prev = before[start - 1];
+        const query = before.slice(start + 1);
+        if (prev && !/\s/.test(prev)) return null;
+        if (/\s/.test(query)) return null;
+        return { marker, start, end: cursor, query };
+      }
+
+      function mentionSource(marker) {
+        if (marker === "/") {
+          return {
+            type: "skill",
+            title: "调用技能",
+            prefix: "/",
+            items: skillShortcuts.map(item => ({ ...item, value: item.name, color: "#4941e6" }))
+          };
+        }
+        return {
+          type: "agent",
+          title: "使用智能体",
+          prefix: "@",
+          items: employeeContacts.map(item => ({ value: item.title, name: item.title, desc: item.desc, icon: item.icon, color: item.color }))
+        };
+      }
+
+      function closeMentionMenu() {
+        activeMentionType = "";
+        mentionMenu.hidden = true;
+        mentionMenu.innerHTML = "";
+      }
+
+      function renderMentionMenu() {
+        const triggerInfo = activeTrigger();
+        if (!triggerInfo) {
+          closeMentionMenu();
+          return;
+        }
+        const source = mentionSource(triggerInfo.marker);
+        const keyword = triggerInfo.query.trim().toLowerCase();
+        const visibleItems = source.items
+          .filter(item => !keyword || item.name.toLowerCase().includes(keyword) || item.desc.toLowerCase().includes(keyword))
+          .slice(0, 5);
+        if (!visibleItems.length) {
+          closeMentionMenu();
+          return;
+        }
+        activeMentionType = source.type;
+        mentionMenu.hidden = false;
+        mentionMenu.innerHTML = `
+          <div class="mention-title">${source.title}：输入 ${source.prefix} 后选择</div>
+          ${visibleItems.map((item, index) => `
+            <button class="mention-item ${index === 0 ? "active" : ""}" type="button" data-mention-value="${escapeHtml(item.value)}">
+              <span class="mention-icon" style="background:${item.color}">${escapeHtml(item.icon)}</span>
+              <span>
+                <span class="mention-name">${source.prefix}${escapeHtml(item.name)}</span>
+                <span class="mention-desc">${escapeHtml(item.desc)}</span>
+              </span>
+            </button>
+          `).join("")}
+        `;
+      }
+
+      function insertMention(value) {
+        const triggerInfo = activeTrigger();
+        if (!triggerInfo) return;
+        const prefix = triggerInfo.marker;
+        const before = chatInput.value.slice(0, triggerInfo.start);
+        const after = chatInput.value.slice(triggerInfo.end);
+        const insertText = `${prefix}${value} `;
+        chatInput.value = `${before}${insertText}${after}`;
+        chatInput.focus();
+        const cursor = before.length + insertText.length;
+        chatInput.setSelectionRange(cursor, cursor);
+        closeMentionMenu();
+      }
+
+      function messageSummary(text, mode = currentChatMode) {
+        const skills = [...text.matchAll(/\/([^\s/@]+)/g)].map(match => match[1]);
+        const agents = [...text.matchAll(/@([^\s/@]+)/g)].map(match => match[1]);
+        if (mode === "agent") {
+          const parts = [];
+          if (skills.length) parts.push(`已识别技能：${skills.join("、")}`);
+          if (agents.length) parts.push(`已选择智能体：${agents.join("、")}`);
+          return `${parts.join("；") || "已进入 Agent 任务编排"}。我会按任务目标拆解步骤、调用工具并汇总执行结果。`;
+        }
+        if (mode === "knowledge") return "我会按知识问答方式检索可用知识与上下文，给出清晰、可追溯的回答。";
+        return "我已收到你的问题，会按通用问答方式给出清晰、可执行的回答。";
+      }
+
+      function appendMessage(role, text, meta = "", options = {}) {
+        chatPage.classList.add("has-chat");
+        const avatar = role === "user" ? "刘" : "AI";
+        const node = document.createElement("div");
+        node.className = `message ${role}`;
+        if (options.messageId) node.dataset.messageId = options.messageId;
+        node.innerHTML = role === "user"
+          ? `<div class="message-bubble">${escapeHtml(text)}${meta ? `<div class="message-meta">${escapeHtml(meta)}</div>` : ""}</div><span class="message-avatar">${avatar}</span>`
+          : `<span class="message-avatar">${avatar}</span><div class="message-bubble">${escapeHtml(text)}${meta ? `<div class="message-meta">${escapeHtml(meta)}</div>` : ""}</div>`;
+        chatThread.appendChild(node);
+        chatThread.scrollTop = chatThread.scrollHeight;
+      }
+
+      function sendChatMessage() {
+        const text = chatInput.value.trim();
+        if (!text) {
+          chatInput.focus();
+          return;
+        }
+        const mode = currentChatMode;
+        const modeLabel = mode === "agent" ? "Agent 模式" : "知识问答";
+        appendMessage("user", text, modeLabel);
+        chatInput.value = "";
+        closeMentionMenu();
+        setTimeout(() => appendMessage("assistant", messageSummary(text, mode), "模拟交互"), 180);
+      }
+
+      function setChatMode(mode) {
+        currentChatMode = mode;
+        const isAgent = mode === "agent";
+        document.querySelectorAll(".chat-only").forEach(tool => tool.hidden = isAgent);
+        agentTip.hidden = !isAgent;
+        chatInput.placeholder = isAgent ? "描述任务目标，输入 / 调用技能，输入 @ 使用智能体" : "知识问答：请输入你的问题";
+        if (!isAgent) closeMentionMenu();
+      }
+
+      function activateChatApp(app) {
+        if (app === "knowledge") {
+          setChatMode("knowledge");
+          chatInput.value = "知识问答：";
+        } else {
+          setChatMode("agent");
+          chatInput.value = `/${app} `;
+        }
+        chatInput.focus();
+        chatInput.setSelectionRange(chatInput.value.length, chatInput.value.length);
+      }
+
+      function syncImCard() {
+        const configured = Boolean(imConfig.appId && imConfig.appSecret);
+        imStatus.hidden = !configured;
+        imSummary.textContent = configured ? `已绑定飞书机器人，App ID：${imConfig.appId}` : "注册飞书应用以通过飞书接收和回复消息。";
+        openImDialogBtn.textContent = configured ? "重新配置" : "配置";
+      }
+
+      function resetImError() {
+        imFormError.textContent = "";
+        appIdInput.classList.remove("input-error");
+        appSecretInput.classList.remove("input-error");
+      }
+
+      function openImDialog() {
+        appIdInput.value = imConfig.appId;
+        appSecretInput.value = imConfig.appSecret;
+        resetImError();
+        imDialog.hidden = false;
+      }
+
+      function closeImDialog() {
+        imDialog.hidden = true;
+      }
+
+      function openPage(key, options = {}) {
+        if (key === "admin") {
+          window.location.href = "./万卷系统.html";
+          return;
+        }
+        employeeSquareMode = key === "square" ? Boolean(options.employeeSquare) : false;
+        if (!employeeSquareMode) employeeSquareKeyword = "";
+        const native = ["chat","skills","square","files","employee","history","schedule","im"].includes(key), view = native ? key : "placeholder";
+        document.querySelector(".app").classList.remove("employee-mode");
+        document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.dataset.view === view));
+        document.querySelectorAll(".nav-item").forEach(p => p.classList.toggle("active", !p.dataset.employeeNav && p.dataset.page === key));
+        const pageTitle = document.getElementById("pageTitle");
+        if (pageTitle) pageTitle.textContent = pages[key][0];
+        if (!native) { document.getElementById("placeholderTitle").textContent = pages[key][0]; document.getElementById("placeholderDesc").textContent = pages[key][1]; }
+        if (key === "square") renderMarkets();
+        popover.hidden = true; trigger.setAttribute("aria-expanded", "false");
+      }
+      document.querySelectorAll("[data-page]").forEach(btn => btn.addEventListener("click", () => openPage(btn.dataset.page)));
+      document.addEventListener("click", e => {
+        const employeeSquare = e.target.closest("[data-employee-square]");
+        if (employeeSquare) {
+          openEmployeeSquare();
+          return;
+        }
+        const employeeNav = e.target.closest("[data-employee-nav]");
+        if (employeeNav) {
+          openEmployeeChat(Number(employeeNav.dataset.employeeNav));
+          return;
+        }
+        const addEmployee = e.target.closest("[data-add-employee]");
+        if (addEmployee) {
+          addEmployeeToNav(Number(addEmployee.dataset.addEmployee));
+          return;
+        }
+        const contact = e.target.closest("[data-employee-contact]");
+        if (contact) {
+          activeEmployeeIndex = Number(contact.dataset.employeeContact);
+          renderEmployeeContacts();
+          renderEmployeeNavList();
+          return;
+        }
+        const tab = e.target.closest("[data-market-tab]");
+        if (tab) {
+          marketState[tab.dataset.marketScope] = tab.dataset.marketTab;
+          renderMarkets();
+          return;
+        }
+        const skillTab = e.target.closest("[data-skill-tab]");
+        if (skillTab) {
+          activeSkillTab = skillTab.dataset.skillTab;
+          renderSkillCenter();
+          return;
+        }
+        const skillCat = e.target.closest("[data-skill-cat]");
+        if (skillCat) {
+          activeSkillCategory = skillCat.dataset.skillCat;
+          activeSkillTab = "market";
+          renderSkillCenter();
+          return;
+        }
+        const skillToggle = e.target.closest("[data-skill-toggle]");
+        if (skillToggle) {
+          const skill = skillCards.find(item => item.id === skillToggle.dataset.skillToggle);
+          if (skill) {
+            skill.installed = !skill.installed;
+            renderSkillCenter();
+          }
+          return;
+        }
+        const scheduleTab = e.target.closest("[data-schedule-tab]");
+        if (scheduleTab) {
+          activeScheduleTab = scheduleTab.dataset.scheduleTab;
+          renderSchedulePage();
+          return;
+        }
+        const fileFilter = e.target.closest("[data-file-filter]");
+        if (fileFilter) {
+          activeFileFilter = fileFilter.dataset.fileFilter;
+          renderFilesPage();
+          return;
+        }
+        const fileExpand = e.target.closest("[data-file-expand]");
+        if (fileExpand) {
+          const id = fileExpand.dataset.fileExpand;
+          expandedFileGroups[id] = expandedFileGroups[id] === false;
+          renderFilesPage();
+          return;
+        }
+        const fileDownload = e.target.closest("[data-file-download]");
+        if (fileDownload) {
+          downloadGeneratedFile(fileDownload.dataset.fileDownload);
+          return;
+        }
+        const fileLocate = e.target.closest("[data-file-locate]");
+        if (fileLocate) {
+          locateGeneratedFile(fileLocate.dataset.fileLocate);
+        }
+      });
+      document.getElementById("employeeContactSearch").addEventListener("input", e => {
+        employeeContactKeyword = e.target.value.trim();
+        renderEmployeeContacts();
+      });
+      document.getElementById("skillSearch").addEventListener("input", e => {
+        skillKeyword = e.target.value.trim();
+        renderSkillCenter();
+      });
+      document.getElementById("marketSearchInput").addEventListener("input", e => {
+        if (!employeeSquareMode) return;
+        employeeSquareKeyword = e.target.value.trim();
+        renderMarkets();
+      });
+      chatInput.addEventListener("input", renderMentionMenu);
+      chatInput.addEventListener("keydown", e => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          sendChatMessage();
+          return;
+        }
+        if (e.key === "Escape") closeMentionMenu();
+      });
+      chatSendBtn.addEventListener("click", sendChatMessage);
+      mentionMenu.addEventListener("click", e => {
+        const item = e.target.closest("[data-mention-value]");
+        if (item) insertMention(item.dataset.mentionValue);
+      });
+      document.querySelectorAll(".chat-recommend-card").forEach(card => card.addEventListener("click", () => {
+        const title = card.querySelector("strong").textContent.trim();
+        activateChatApp(card.dataset.chatApp || title);
+      }));
+      setChatMode("agent");
+      quickScheduleBtn.addEventListener("click", quickCreateSchedule);
+      openScheduleDialogBtn.addEventListener("click", openScheduleDialog);
+      cancelScheduleDialogBtn.addEventListener("click", closeScheduleDialog);
+      submitScheduleDialogBtn.addEventListener("click", submitScheduleForm);
+      schedulePushInput.addEventListener("change", () => {
+        scheduleChannelInput.disabled = !schedulePushInput.checked;
+      });
+      openImDialogBtn.addEventListener("click", openImDialog);
+      cancelImDialogBtn.addEventListener("click", closeImDialog);
+      submitImDialogBtn.addEventListener("click", () => {
+        const appId = appIdInput.value.trim();
+        const appSecret = appSecretInput.value.trim();
+        resetImError();
+        if (!appId || !appSecret) {
+          imFormError.textContent = "请完整填写飞书 App ID 和 App Secret。";
+          if (!appId) appIdInput.classList.add("input-error");
+          if (!appSecret) appSecretInput.classList.add("input-error");
+          return;
+        }
+        imConfig.appId = appId;
+        imConfig.appSecret = appSecret;
+        syncImCard();
+        closeImDialog();
+      });
+      guideButtons.forEach(btn => btn.addEventListener("click", () => {
+        window.open("https://open.feishu.cn/document/home/index", "_blank", "noopener");
+      }));
+      trigger.addEventListener("click", e => { e.stopPropagation(); popover.hidden = !popover.hidden; trigger.setAttribute("aria-expanded", String(!popover.hidden)); });
+      document.addEventListener("click", e => { if (!popover.hidden && !popover.contains(e.target)) { popover.hidden = true; trigger.setAttribute("aria-expanded", "false"); } });
+      imDialog.addEventListener("click", e => { if (e.target === imDialog) closeImDialog(); });
+      scheduleDialog.addEventListener("click", e => { if (e.target === scheduleDialog) closeScheduleDialog(); });
+      document.addEventListener("keydown", e => {
+        if (e.key !== "Escape") return;
+        popover.hidden = true;
+        trigger.setAttribute("aria-expanded", "false");
+        if (!imDialog.hidden) closeImDialog();
+        if (!scheduleDialog.hidden) closeScheduleDialog();
+      });
+      syncImCard();
+    </script>
+  </body>
+</html>

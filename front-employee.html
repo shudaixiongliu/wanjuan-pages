@@ -1,0 +1,1027 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>万卷 - 前台员工</title>
+    <script src="./reference/iconpark-41579.js"></script>
+    <style>
+      :root {
+        --primary: #4941e6;
+        --primary-hover: #766bf2;
+        --primary-soft: #f3f0ff;
+        --primary-line: #cbc2ff;
+        --text: #161e32;
+        --text-2: #6a6e80;
+        --text-3: #9295a4;
+        --line: #ebecf4;
+        --bg: #f7f8fa;
+        --white: #fff;
+        --green: #23bf6b;
+        --orange: #f18019;
+        --shadow: 0 12px 32px rgba(31, 37, 64, 0.1);
+      }
+
+      * { box-sizing: border-box; }
+      html, body { width: 100%; min-width: 1200px; height: 100%; margin: 0; }
+      body {
+        overflow: hidden;
+        color: var(--text);
+        background: var(--bg);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+        font-size: 14px;
+      }
+      button, input, textarea { font: inherit; }
+      button { cursor: pointer; }
+
+      .front-shell { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
+      .front-sidebar {
+        display: flex;
+        flex-direction: column;
+        padding: 20px 16px 14px;
+        background: #fff;
+        border-right: 1px solid var(--line);
+      }
+      .front-sidebar-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 18px;
+      }
+      .front-logo {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--primary);
+        font-size: 24px;
+        font-weight: 700;
+      }
+      .front-logo-mark {
+        display: inline-grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        color: #fff;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #766bf2, #4941e6);
+        font-size: 16px;
+        font-weight: 700;
+      }
+      .front-collapse {
+        display: grid;
+        width: 32px;
+        height: 32px;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+      .front-collapse:hover { border-color: var(--primary-line); background: #faf9ff; }
+      .front-collapse span {
+        display: block;
+        width: 14px;
+        height: 2px;
+        background: #71778a;
+        border-radius: 999px;
+      }
+      .front-collapse span + span { margin-top: 4px; }
+      .front-new-chat {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        height: 40px;
+        margin-bottom: 14px;
+        color: #fff;
+        border: 0;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #5f56f4, #4941e6);
+        box-shadow: 0 10px 22px rgba(73, 65, 230, 0.18);
+      }
+      .front-new-chat:hover { background: linear-gradient(135deg, #6d63f8, #5850ee); }
+      .front-new-icon {
+        display: grid;
+        width: 18px;
+        height: 18px;
+        place-items: center;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.18);
+      }
+      .front-work-nav { display: grid; gap: 8px; }
+      .front-section-label {
+        padding: 2px 4px;
+        color: var(--text-3);
+        font-size: 12px;
+      }
+      .front-nav-item,
+      .front-side-item,
+      .front-manage {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        min-height: 44px;
+        padding: 0 12px;
+        color: #4d5565;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        background: transparent;
+        text-align: left;
+        transition: 0.16s ease;
+      }
+      .front-nav-item:hover,
+      .front-side-item:hover,
+      .front-manage:hover {
+        color: #161e32;
+        background: #f7f8fa;
+      }
+      .front-nav-item.active,
+      .front-side-item.active {
+        color: var(--primary);
+        border-color: #ddd7ff;
+        background: var(--primary-soft);
+      }
+      .front-nav-mark,
+      .front-side-icon,
+      .front-manage-icon,
+      .front-tag-icon,
+      .front-template-icon {
+        display: inline-grid;
+        width: 28px;
+        height: 28px;
+        place-items: center;
+        color: var(--primary);
+        border-radius: 8px;
+        background: var(--primary-soft);
+        font-size: 12px;
+        font-weight: 700;
+        flex: 0 0 auto;
+      }
+      .front-nav-item strong,
+      .front-side-item span,
+      .front-manage span:last-child { display: block; font-size: 14px; font-weight: 600; }
+      .front-nav-item em,
+      .front-side-item small,
+      .front-sidebar-card span,
+      .front-employee-sub,
+      .front-template-desc,
+      .front-task-meta,
+      .front-note,
+      .front-disclaimer,
+      .front-timeline-desc,
+      .front-search-note,
+      .front-global-search small,
+      .front-employee-meta,
+      .front-employee-detail p,
+      .front-panel-head em {
+        color: var(--text-3);
+        font-size: 12px;
+        font-style: normal;
+        line-height: 1.6;
+      }
+      .front-side-item em,
+      .front-status,
+      .front-timeline-state {
+        margin-left: auto;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 11px;
+        white-space: nowrap;
+      }
+      .front-side-item em,
+      .front-status.running,
+      .front-timeline-state.done { color: var(--green); background: rgba(35, 191, 107, 0.12); }
+      .front-status.pending,
+      .front-timeline-state.pending { color: var(--orange); background: rgba(241, 128, 25, 0.12); }
+      .front-sidebar-card {
+        display: grid;
+        gap: 4px;
+        margin-top: 14px;
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fff;
+      }
+      .front-sidebar-card.warning { background: #fffaf6; border-color: #f6dec6; }
+      .front-sidebar-card-head { color: var(--text-3); font-size: 12px; }
+      .front-sidebar-card strong { font-size: 14px; }
+      .front-manage { margin-top: auto; border-color: var(--line); }
+
+      .front-main {
+        min-width: 0;
+        padding: 18px;
+        overflow: auto;
+      }
+      .front-global-top {
+        display: grid;
+        grid-template-columns: auto minmax(280px, 420px) auto;
+        gap: 16px;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+      .front-global-top span {
+        display: block;
+        color: var(--text-3);
+        font-size: 12px;
+      }
+      .front-global-top strong {
+        display: block;
+        margin-top: 4px;
+        font-size: 18px;
+      }
+      .front-global-search {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-width: 0;
+      }
+      .front-global-search input {
+        width: 100%;
+        height: 40px;
+        padding: 0 14px;
+        color: var(--text);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        outline: none;
+        background: #fff;
+      }
+      .front-global-search input:focus {
+        border-color: var(--primary-line);
+        box-shadow: 0 0 0 2px rgba(73, 65, 230, 0.08);
+      }
+      .front-global-actions { display: flex; gap: 8px; justify-self: end; }
+      .front-global-actions button,
+      .front-panel-head button,
+      .front-link-btn,
+      .front-filter-btn,
+      .front-ghost-btn {
+        height: 32px;
+        padding: 0 12px;
+        color: #4d5565;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+      .front-global-actions button:hover,
+      .front-panel-head button:hover,
+      .front-link-btn:hover,
+      .front-filter-btn:hover,
+      .front-ghost-btn:hover {
+        color: var(--primary);
+        border-color: var(--primary-line);
+        background: #faf9ff;
+      }
+
+      .front-workbench {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 320px;
+        gap: 16px;
+      }
+      .front-workspace-panel,
+      .front-context-card,
+      .front-hero-task,
+      .front-composer,
+      .front-panel-box,
+      .front-task-card,
+      .front-employee-card,
+      .front-template-card,
+      .front-timeline-row {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: #fff;
+        box-shadow: 0 8px 24px rgba(31, 37, 64, 0.04);
+      }
+      .front-workspace-panel { padding: 16px; }
+      .front-mode-switch {
+        display: inline-flex;
+        gap: 4px;
+        padding: 4px;
+        border-radius: 10px;
+        background: #f4f5f8;
+      }
+      .front-mode-switch button {
+        height: 32px;
+        padding: 0 14px;
+        color: #7f8596;
+        border: 0;
+        border-radius: 8px;
+        background: transparent;
+      }
+      .front-mode-switch button.active {
+        color: #161e32;
+        background: #fff;
+        box-shadow: 0 1px 4px rgba(31, 37, 64, 0.08);
+        font-weight: 600;
+      }
+      .front-hero-task {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+        margin-top: 14px;
+        padding: 22px;
+        background:
+          radial-gradient(circle at top right, rgba(118, 107, 242, 0.14), transparent 28%),
+          linear-gradient(180deg, #ffffff, #fbfbff);
+      }
+      .front-hero-task h1 {
+        margin: 0 0 10px;
+        font-size: 28px;
+        line-height: 1.35;
+      }
+      .front-hero-task p { margin: 0; color: var(--text-2); line-height: 1.8; }
+      .front-hero-task button,
+      .front-send,
+      .front-primary-btn {
+        border: 0;
+        border-radius: 10px;
+        color: #fff;
+        background: linear-gradient(135deg, #5f56f4, #4941e6);
+      }
+      .front-hero-task button,
+      .front-primary-btn {
+        height: 36px;
+        padding: 0 14px;
+        white-space: nowrap;
+      }
+      .front-composer {
+        position: relative;
+        overflow: visible;
+        margin-top: 14px;
+        padding: 14px;
+      }
+      .front-composer textarea {
+        display: block;
+        width: 100%;
+        height: 112px;
+        resize: none;
+        padding: 0;
+        color: var(--text);
+        border: 0;
+        outline: 0;
+      }
+      .front-composer textarea::placeholder { color: #a9aebe; }
+      .front-composer-tools {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .front-tool-left,
+      .front-tool-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .front-tool-right { margin-left: auto; }
+      .front-tool-left button,
+      .front-model-select,
+      .front-knowledge-btn,
+      .front-send {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 32px;
+      }
+      .front-tool-left button,
+      .front-model-select,
+      .front-knowledge-btn {
+        padding: 0 10px;
+        color: #4f576a;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+      .front-tool-left button:hover,
+      .front-model-select:hover,
+      .front-knowledge-btn:hover {
+        color: var(--primary);
+        border-color: var(--primary-line);
+        background: #fafaff;
+      }
+      .front-model-select em {
+        padding: 2px 6px;
+        border-radius: 999px;
+        background: #f1f2f7;
+        color: #6a6e80;
+        font-size: 11px;
+        font-style: normal;
+      }
+      .front-send {
+        width: 36px;
+        justify-content: center;
+        padding: 0;
+      }
+      .front-send::before {
+        content: "↑";
+        font-size: 14px;
+        line-height: 1;
+      }
+      .front-panel-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+      .front-panel-head span {
+        color: #32384c;
+        font-size: 15px;
+        font-weight: 600;
+      }
+      .front-task-grid,
+      .front-template-grid,
+      .front-output-grid { display: grid; gap: 12px; }
+      .front-task-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 14px; }
+      .front-task-card,
+      .front-template-card,
+      .front-output-card { padding: 14px; }
+      .front-task-card strong,
+      .front-template-card strong,
+      .front-output-card strong,
+      .front-employee-name { display: block; font-size: 14px; font-weight: 600; }
+      .front-task-card:hover,
+      .front-template-card:hover,
+      .front-employee-card:hover,
+      .front-timeline-row:hover {
+        border-color: var(--primary-line);
+        box-shadow: 0 10px 26px rgba(31, 37, 64, 0.08);
+      }
+      .front-task-card.active,
+      .front-template-card.active,
+      .front-employee-card.active {
+        border-color: var(--primary-line);
+        background: linear-gradient(180deg, #faf9ff, #fff);
+      }
+      .front-task-head,
+      .front-employee-row,
+      .front-template-head,
+      .front-timeline-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .front-task-head { justify-content: space-between; }
+      .front-task-copy { min-width: 0; }
+      .front-task-copy p,
+      .front-output-card span,
+      .front-task-copy span,
+      .front-template-card p,
+      .front-timeline-row p,
+      .front-employee-detail span { margin-top: 6px; color: var(--text-2); line-height: 1.7; }
+      .front-output-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 14px; }
+      .front-output-card { min-height: 94px; }
+      .front-panel-box { margin-top: 14px; padding: 14px; }
+      .front-template-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .front-template-card { text-align: left; }
+      .front-context-panel { display: grid; gap: 12px; }
+      .front-context-card { padding: 14px; }
+      .front-employee-list,
+      .front-timeline-list,
+      .front-tag-list { display: grid; gap: 10px; }
+      .front-employee-card,
+      .front-timeline-row {
+        padding: 12px;
+        text-align: left;
+      }
+      .front-employee-row { align-items: flex-start; }
+      .front-employee-avatar {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        place-items: center;
+        color: #fff;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 700;
+        flex: 0 0 auto;
+      }
+      .front-tag-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .front-tag-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fff;
+      }
+      .front-timeline-state { margin-left: auto; }
+      .front-disclaimer {
+        margin: 16px 0 0;
+        color: var(--text-3);
+        font-size: 12px;
+        text-align: center;
+      }
+      .hidden { display: none !important; }
+    </style>
+  </head>
+  <body>
+    <div class="front-shell">
+      <aside class="front-sidebar">
+        <div class="front-sidebar-head">
+          <div class="front-logo">
+            <span class="front-logo-mark">万</span>
+            <span>万卷</span>
+          </div>
+          <button class="front-collapse" type="button" data-nav="./index.html" aria-label="返回后台">
+            <span></span><span></span>
+          </button>
+        </div>
+
+        <button class="front-new-chat" type="button" id="newEmployeeTaskBtn">
+          <span class="front-new-icon">+</span>
+          <span>新建员工任务</span>
+        </button>
+
+        <nav class="front-work-nav">
+          <div class="front-section-label">前台工作台</div>
+          <button class="front-nav-item" type="button" data-nav="./front-app.html">
+            <span class="front-nav-mark">应</span>
+            <span>
+              <strong>前台应用</strong>
+              <em>Chat、Agent 与任务沉淀</em>
+            </span>
+          </button>
+          <button class="front-side-item active" type="button">
+            <span class="front-side-icon">员</span>
+            <span>前台员工</span>
+            <em>NEW</em>
+          </button>
+        </nav>
+
+        <section class="front-sidebar-card">
+          <div class="front-sidebar-card-head">当前工作空间</div>
+          <strong>业务协同前台</strong>
+          <span>岗位型员工统一入口</span>
+          <span>支持任务发起、审批和结果沉淀</span>
+        </section>
+
+        <section class="front-sidebar-card warning">
+          <div class="front-sidebar-card-head">待确认</div>
+          <strong>3 个任务待审批</strong>
+          <span>涉及对外发送、流程写入与合同修订</span>
+        </section>
+
+        <button class="front-manage" type="button" data-nav="./index.html">
+          <span class="front-manage-icon">管</span>
+          <span>后台管理</span>
+        </button>
+      </aside>
+
+      <main class="front-main">
+        <header class="front-global-top">
+          <div>
+            <span>Workspace</span>
+            <strong>前台员工工作台</strong>
+          </div>
+          <label class="front-global-search">
+            <input id="employeeSearch" placeholder="搜索员工、任务模板、执行记录" />
+            <small class="front-search-note">搜索结果会同步过滤右侧员工卡片</small>
+          </label>
+          <div class="front-global-actions">
+            <button type="button" data-nav="./front-app.html">返回前台应用</button>
+            <button type="button">刘静 · 业务执行者</button>
+          </div>
+        </header>
+
+        <section class="front-workbench">
+          <div class="front-workspace-panel">
+            <div class="front-mode-switch" id="modeSwitch">
+              <button class="active" type="button" data-mode="chat">Chat 即时问答</button>
+              <button type="button" data-mode="agent">Agent 任务执行</button>
+            </div>
+
+            <section class="front-hero-task">
+              <div>
+                <h1 id="heroTitle">把岗位型员工前置到业务一线</h1>
+                <p id="heroDesc">选择具体前台员工后，可以直接发起问题或任务，系统会保留执行链路、审批动作和结果沉淀。</p>
+              </div>
+              <button type="button" id="focusCurrentEmployeeBtn">查看当前员工</button>
+            </section>
+
+            <div class="front-composer">
+              <textarea id="taskInput" placeholder="描述你的问题或任务目标，支持 @员工、引用模板、补充业务背景..."></textarea>
+              <div class="front-composer-tools">
+                <div class="front-tool-left">
+                  <button type="button" id="insertEmployeeBtn">@当前员工</button>
+                  <button type="button" id="insertTemplateBtn">插入模板</button>
+                  <button class="front-knowledge-btn" type="button">
+                    <span>知</span>
+                    <b>业务知识库</b>
+                  </button>
+                </div>
+                <div class="front-tool-right">
+                  <button class="front-model-select" type="button" id="modeSummaryBtn">
+                    <span>模</span>
+                    <b id="modeSummaryText">Chat · 快速问答</b>
+                    <em id="modeSummaryTag">轻交互</em>
+                  </button>
+                  <button class="front-send" type="button" id="sendTaskBtn" aria-label="发送任务"></button>
+                </div>
+              </div>
+            </div>
+
+            <section class="front-panel-box">
+              <div class="front-panel-head">
+                <span>当前员工任务面板</span>
+                <button type="button" id="useTemplateBtn">使用推荐模板</button>
+              </div>
+              <div class="front-task-grid" id="taskGrid"></div>
+            </section>
+
+            <section class="front-panel-box">
+              <div class="front-panel-head">
+                <span>常用任务模板</span>
+                <em>点击模板后自动写入输入框并切换到 Agent 模式</em>
+              </div>
+              <div class="front-template-grid" id="templateGrid"></div>
+            </section>
+
+            <section class="front-panel-box">
+              <div class="front-panel-head">
+                <span>结果沉淀</span>
+                <button type="button">查看治理规则</button>
+              </div>
+              <div class="front-output-grid">
+                <div class="front-output-card">
+                  <strong>任务记录</strong>
+                  <span>保留输入、员工选择、执行模式和当前状态，方便回溯。</span>
+                </div>
+                <div class="front-output-card">
+                  <strong>审批动作</strong>
+                  <span>写入系统、对外发送、合同修订等动作可进入审批链路。</span>
+                </div>
+                <div class="front-output-card">
+                  <strong>知识沉淀</strong>
+                  <span>高频结论可回流到前台应用、记忆中心和业务知识库。</span>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <aside class="front-context-panel">
+            <section class="front-context-card">
+              <div class="front-panel-head">
+                <span>员工列表</span>
+                <button type="button" id="resetSearchBtn">清空搜索</button>
+              </div>
+              <div class="front-employee-list" id="employeeList"></div>
+            </section>
+
+            <section class="front-context-card">
+              <div class="front-panel-head">
+                <span>当前员工标签</span>
+                <button type="button" id="focusInputBtn">快速发起</button>
+              </div>
+              <div class="front-tag-list" id="tagList"></div>
+            </section>
+
+            <section class="front-context-card">
+              <div class="front-panel-head">
+                <span>执行时间线</span>
+                <button type="button">全部</button>
+              </div>
+              <div class="front-timeline-list" id="timelineList"></div>
+            </section>
+          </aside>
+        </section>
+
+        <p class="front-disclaimer">前台员工页已统一为与前台应用一致的视觉和交互风格，任务输入、员工选择与模式切换保持同一套行为逻辑。</p>
+      </main>
+    </div>
+
+    <script>
+      const employees = [
+        {
+          name: "数据分析师",
+          icon: "数",
+          color: "#766bf2",
+          role: "增长数据复盘与归因分析",
+          desc: "擅长指标波动分析、留存拆解、实验复盘和异常定位，适合运营与产品协同。",
+          hero: "把数据分析能力前置到日常业务协同",
+          heroDesc: "适合快速定位指标异动、解释数据变化，并把结论直接沉淀到任务记录或项目知识。",
+          tags: ["指标分析", "留存拆解", "实验复盘", "可输出报告"],
+          tasks: [
+            { title: "周活下降复盘", desc: "读取本周数据、发布时间线和渠道变化，输出原因拆解。", status: "running" },
+            { title: "活动效果对比", desc: "比较本次活动与上期活动转化率、留存率和渠道差异。", status: "pending" },
+            { title: "日报异常巡检", desc: "自动扫描异常指标并生成早会摘要。", status: "running" }
+          ],
+          templates: [
+            { title: "活跃用户下降分析", desc: "分析近 7 天 DAU/互动次数下降原因，并给出 3 条优化建议。" },
+            { title: "活动转化漏斗复盘", desc: "拆解曝光、点击、转化、留存各环节损耗，并定位关键问题。" },
+            { title: "版本发布影响评估", desc: "结合版本发布时间与行为数据，评估发布对核心指标的影响。" }
+          ]
+        },
+        {
+          name: "产品经理",
+          icon: "产",
+          color: "#3f7df6",
+          role: "需求拆解与方案整理",
+          desc: "擅长把模糊需求整理成结构化方案，输出 PRD、流程和评审材料。",
+          hero: "让需求拆解和方案整理更快进入执行",
+          heroDesc: "适合立项前需求梳理、方案对齐和评审准备，输出格式更偏结构化文档。",
+          tags: ["PRD", "流程设计", "评审材料", "需求澄清"],
+          tasks: [
+            { title: "需求池整理", desc: "归类需求优先级，形成版本排期建议。", status: "running" },
+            { title: "评审纪要生成", desc: "基于会议输入生成结论、争议点和行动项。", status: "pending" },
+            { title: "原型说明补全", desc: "结合页面草图补充交互说明和边界规则。", status: "running" }
+          ],
+          templates: [
+            { title: "PRD 初稿生成", desc: "根据目标、用户和场景输出一版结构化 PRD 初稿。" },
+            { title: "需求评审准备", desc: "梳理目标、范围、流程、风险和验收标准。" },
+            { title: "流程优化建议", desc: "识别当前流程卡点并输出可落地的优化方案。" }
+          ]
+        },
+        {
+          name: "合同审核员工",
+          icon: "合",
+          color: "#23bf80",
+          role: "合同条款风险识别与修改建议",
+          desc: "自动抽取关键条款、识别风险点并生成修订建议，适合法务与业务送审前自查。",
+          hero: "把合同审核入口前置到业务送审前",
+          heroDesc: "适合业务自查、法务预审和关键条款风险提示，高风险动作可进入审批。",
+          tags: ["条款识别", "风险预警", "修订建议", "需审批"],
+          tasks: [
+            { title: "采购合同预检", desc: "提取价款、履约、违约和交付条款，识别高风险项。", status: "pending" },
+            { title: "法务送审前自查", desc: "输出合同关键问题摘要和修订建议。", status: "running" },
+            { title: "历史模板比对", desc: "与标准模板做差异比对并提示缺失项。", status: "running" }
+          ],
+          templates: [
+            { title: "合同风险扫描", desc: "识别高风险条款并输出修改建议与风险等级。" },
+            { title: "模板差异审查", desc: "对比公司标准模板，标记缺失和偏离内容。" },
+            { title: "送审摘要生成", desc: "生成送审说明、关键风险和待确认问题。" }
+          ]
+        }
+      ];
+
+      const timelineItems = [
+        { title: "任务已提交", desc: "已记录输入内容与所选员工，等待执行。", state: "done" },
+        { title: "执行计划生成", desc: "系统正在根据模式生成计划拆解与处理策略。", state: "done" },
+        { title: "工具与知识调用", desc: "按员工能力调用知识库、文件和历史记忆。", state: "pending" },
+        { title: "结果沉淀与审批", desc: "产出报告、记录或审批动作，支持回溯和治理。", state: "pending" }
+      ];
+
+      let activeEmployeeIndex = 0;
+      let currentMode = "chat";
+      let employeeKeyword = "";
+
+      const employeeList = document.getElementById("employeeList");
+      const taskGrid = document.getElementById("taskGrid");
+      const templateGrid = document.getElementById("templateGrid");
+      const tagList = document.getElementById("tagList");
+      const timelineList = document.getElementById("timelineList");
+      const taskInput = document.getElementById("taskInput");
+      const employeeSearch = document.getElementById("employeeSearch");
+      const heroTitle = document.getElementById("heroTitle");
+      const heroDesc = document.getElementById("heroDesc");
+      const modeSummaryText = document.getElementById("modeSummaryText");
+      const modeSummaryTag = document.getElementById("modeSummaryTag");
+
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, function (char) {
+          return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char];
+        });
+      }
+
+      function currentEmployee() {
+        return employees[activeEmployeeIndex];
+      }
+
+      function renderEmployeeList() {
+        const visibleEmployees = employees
+          .map(function (item, index) { return { item: item, index: index }; })
+          .filter(function (entry) {
+            if (!employeeKeyword) return true;
+            const text = [entry.item.name, entry.item.role, entry.item.desc, entry.item.tags.join(" ")].join(" ");
+            return text.includes(employeeKeyword);
+          });
+
+        employeeList.innerHTML = visibleEmployees.map(function (entry) {
+          const item = entry.item;
+          const active = entry.index === activeEmployeeIndex ? "active" : "";
+          return `
+            <button class="front-employee-card ${active}" type="button" data-employee-index="${entry.index}">
+              <div class="front-employee-row">
+                <span class="front-employee-avatar" style="background:${item.color}">${escapeHtml(item.icon)}</span>
+                <span class="front-employee-detail">
+                  <strong class="front-employee-name">${escapeHtml(item.name)}</strong>
+                  <span class="front-employee-sub">${escapeHtml(item.role)}</span>
+                  <p>${escapeHtml(item.desc)}</p>
+                </span>
+              </div>
+            </button>
+          `;
+        }).join("") || '<div class="front-note">没有匹配的员工</div>';
+      }
+
+      function renderTaskGrid() {
+        const tasks = currentEmployee().tasks;
+        taskGrid.innerHTML = tasks.map(function (task, index) {
+          return `
+            <button class="front-task-card ${index === 0 ? "active" : ""}" type="button" data-task-title="${escapeHtml(task.title)}">
+              <div class="front-task-head">
+                <div class="front-task-copy">
+                  <strong>${escapeHtml(task.title)}</strong>
+                  <span>${escapeHtml(task.desc)}</span>
+                </div>
+                <span class="front-status ${task.status}">${task.status === "running" ? "执行中" : "待审批"}</span>
+              </div>
+            </button>
+          `;
+        }).join("");
+      }
+
+      function renderTemplateGrid() {
+        const templates = currentEmployee().templates;
+        templateGrid.innerHTML = templates.map(function (template, index) {
+          return `
+            <button class="front-template-card ${index === 0 ? "active" : ""}" type="button" data-template-index="${index}">
+              <div class="front-template-head">
+                <span class="front-template-icon">模</span>
+                <strong>${escapeHtml(template.title)}</strong>
+              </div>
+              <p class="front-template-desc">${escapeHtml(template.desc)}</p>
+            </button>
+          `;
+        }).join("");
+      }
+
+      function renderTags() {
+        tagList.innerHTML = currentEmployee().tags.map(function (tag) {
+          return `
+            <div class="front-tag-item">
+              <span class="front-tag-icon">签</span>
+              <span>${escapeHtml(tag)}</span>
+            </div>
+          `;
+        }).join("");
+      }
+
+      function renderTimeline() {
+        timelineList.innerHTML = timelineItems.map(function (item) {
+          return `
+            <div class="front-timeline-row">
+              <div class="front-timeline-head">
+                <strong>${escapeHtml(item.title)}</strong>
+                <span class="front-timeline-state ${item.state}">${item.state === "done" ? "已完成" : "进行中"}</span>
+              </div>
+              <p class="front-timeline-desc">${escapeHtml(item.desc)}</p>
+            </div>
+          `;
+        }).join("");
+      }
+
+      function setMode(mode) {
+        currentMode = mode;
+        document.querySelectorAll("[data-mode]").forEach(function (button) {
+          button.classList.toggle("active", button.dataset.mode === mode);
+        });
+        if (mode === "agent") {
+          modeSummaryText.textContent = "Agent · 可追溯执行";
+          modeSummaryTag.textContent = "需审批";
+          taskInput.placeholder = "描述任务目标、背景和期望产出，系统会按员工能力拆解执行...";
+        } else {
+          modeSummaryText.textContent = "Chat · 快速问答";
+          modeSummaryTag.textContent = "轻交互";
+          taskInput.placeholder = "输入你的问题，快速得到当前员工的回答与建议...";
+        }
+      }
+
+      function applyTemplate(index) {
+        const template = currentEmployee().templates[index] || currentEmployee().templates[0];
+        if (!template) return;
+        setMode("agent");
+        taskInput.value = "@" + currentEmployee().name + " " + template.desc;
+        taskInput.focus();
+        taskInput.setSelectionRange(taskInput.value.length, taskInput.value.length);
+      }
+
+      function fillTask(title) {
+        taskInput.value = "@" + currentEmployee().name + " 请处理：" + title;
+        taskInput.focus();
+        taskInput.setSelectionRange(taskInput.value.length, taskInput.value.length);
+      }
+
+      function renderEmployeeContext() {
+        const employee = currentEmployee();
+        heroTitle.textContent = employee.hero;
+        heroDesc.textContent = employee.heroDesc;
+        renderTaskGrid();
+        renderTemplateGrid();
+        renderTags();
+      }
+
+      function renderAll() {
+        renderEmployeeList();
+        renderEmployeeContext();
+        renderTimeline();
+      }
+
+      document.addEventListener("click", function (event) {
+        const navButton = event.target.closest("[data-nav]");
+        if (navButton) {
+          window.location.href = navButton.dataset.nav;
+          return;
+        }
+
+        const employeeButton = event.target.closest("[data-employee-index]");
+        if (employeeButton) {
+          activeEmployeeIndex = Number(employeeButton.dataset.employeeIndex);
+          renderAll();
+          return;
+        }
+
+        const templateButton = event.target.closest("[data-template-index]");
+        if (templateButton) {
+          applyTemplate(Number(templateButton.dataset.templateIndex));
+          return;
+        }
+
+        const taskButton = event.target.closest("[data-task-title]");
+        if (taskButton) {
+          fillTask(taskButton.dataset.taskTitle);
+          return;
+        }
+      });
+
+      document.getElementById("modeSwitch").addEventListener("click", function (event) {
+        const target = event.target.closest("[data-mode]");
+        if (!target) return;
+        setMode(target.dataset.mode);
+      });
+
+      employeeSearch.addEventListener("input", function (event) {
+        employeeKeyword = event.target.value.trim();
+        renderEmployeeList();
+      });
+
+      document.getElementById("resetSearchBtn").addEventListener("click", function () {
+        employeeSearch.value = "";
+        employeeKeyword = "";
+        renderEmployeeList();
+      });
+
+      document.getElementById("focusInputBtn").addEventListener("click", function () {
+        taskInput.focus();
+      });
+
+      document.getElementById("newEmployeeTaskBtn").addEventListener("click", function () {
+        taskInput.value = "@" + currentEmployee().name + " ";
+        taskInput.focus();
+        taskInput.setSelectionRange(taskInput.value.length, taskInput.value.length);
+      });
+
+      document.getElementById("insertEmployeeBtn").addEventListener("click", function () {
+        const prefix = taskInput.value && !taskInput.value.endsWith(" ") ? " " : "";
+        taskInput.value += prefix + "@" + currentEmployee().name + " ";
+        taskInput.focus();
+      });
+
+      document.getElementById("insertTemplateBtn").addEventListener("click", function () {
+        applyTemplate(0);
+      });
+
+      document.getElementById("useTemplateBtn").addEventListener("click", function () {
+        applyTemplate(0);
+      });
+
+      document.getElementById("focusCurrentEmployeeBtn").addEventListener("click", function () {
+        taskInput.value = "当前员工：" + currentEmployee().name + "\n职责：" + currentEmployee().role + "\n请根据以上身份处理我的需求：";
+        taskInput.focus();
+        taskInput.setSelectionRange(taskInput.value.length, taskInput.value.length);
+      });
+
+      document.getElementById("sendTaskBtn").addEventListener("click", function () {
+        const content = taskInput.value.trim();
+        if (!content) {
+          taskInput.focus();
+          return;
+        }
+        const modeLabel = currentMode === "agent" ? "Agent 任务已创建" : "Chat 问答已发送";
+        timelineItems[2] = {
+          title: modeLabel,
+          desc: "已将任务分发给“" + currentEmployee().name + "”，输入内容：" + content.slice(0, 36) + (content.length > 36 ? "..." : ""),
+          state: "done"
+        };
+        timelineItems[3] = {
+          title: "结果沉淀与审批",
+          desc: currentMode === "agent" ? "任务已进入执行队列，后续会沉淀执行记录并根据动作触发审批。" : "问答结果将保留在当前工作台，必要时可一键转任务。",
+          state: "pending"
+        };
+        renderTimeline();
+      });
+
+      taskInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
+          event.preventDefault();
+          document.getElementById("sendTaskBtn").click();
+        }
+      });
+
+      setMode("chat");
+      renderAll();
+    </script>
+  </body>
+</html>

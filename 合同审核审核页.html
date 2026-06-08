@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 合同审核协作</title>
+    <script src="./reference/iconpark-41579.js"></script>
+    <style>
+        :root {
+            --primary: #4e50f0;
+            --primary-soft: rgba(78, 80, 240, 0.08);
+            --primary-line: rgba(78, 80, 240, 0.18);
+            --violet: #4e50f0;
+            --text-1: #101828;
+            --text-2: #344054;
+            --text-3: #98a2b3;
+            --line: #e4e7ec;
+            --line-soft: #eef2f6;
+            --bg-page: #f5f7fb;
+            --shadow-sm: 0 4px 12px rgba(15, 23, 42, 0.05);
+            --shadow-md: 0 12px 30px rgba(15, 23, 42, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            min-height: 100%;
+            font-family: "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: var(--bg-page);
+            color: var(--text-1);
+        }
+
+        body {
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        iconpark-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            flex: 0 0 auto;
+        }
+
+        .page {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .topbar {
+            height: 64px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .back-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--line);
+            background: #fff;
+            color: var(--text-2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .back-btn:hover,
+        .export-btn:hover,
+        .action-btn:hover,
+        .apply-btn:hover,
+        .ai-btn:hover,
+        .close-btn:hover,
+        .send-btn:hover,
+        .ai-apply-btn:hover {
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.10);
+        }
+
+        .top-title {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
+        }
+
+        .top-title strong {
+            font-size: 16px;
+            line-height: 1.25;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .top-title span {
+            font-size: 12px;
+            color: var(--text-3);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-pill {
+            height: 32px;
+            padding: 0 12px;
+            border-radius: 6px;
+            border: none;
+            background: #fff;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-2);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .export-btn {
+            height: 32px;
+            padding: 0 14px;
+            border: none;
+            border-radius: 6px;
+            background: var(--primary);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .workspace {
+            flex: 1;
+            min-height: 0;
+            height: calc(100vh - 64px);
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 8px var(--audit-width, 432px) 8px var(--ai-width, 320px);
+            overflow: hidden;
+            align-items: stretch;
+        }
+
+        .workspace.ai-collapsed {
+            grid-template-columns: minmax(0, 1fr) 8px var(--audit-width, 432px) 0 0;
+        }
+
+        .editor-panel {
+            min-width: 0;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .editor-shell {
+            flex: 1;
+            min-height: 0;
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            background: #fff;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .toolbar {
+            height: 40px;
+            padding: 0 12px;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: #fff;
+            font-size: 12px;
+            color: var(--text-2);
+        }
+
+        .toolbar .active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .formatbar {
+            min-height: 48px;
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            background: #fff;
+        }
+
+        .format-dd {
+            height: 28px;
+            padding: 0 10px;
+            border-radius: 6px;
+            border: 1px solid var(--line);
+            background: #fff;
+            font-size: 12px;
+            color: var(--text-2);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .format-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            border: none;
+            background: transparent;
+            color: var(--text-2);
+            cursor: pointer;
+        }
+
+        .format-btn.active,
+        .format-btn:hover {
+            background: var(--primary-soft);
+            color: var(--primary);
+        }
+
+        .format-sep {
+            width: 1px;
+            height: 18px;
+            background: var(--line);
+        }
+
+        .canvas {
+            flex: 1;
+            min-height: 0;
+            overflow: auto;
+            background: #f7f8fa;
+            padding: 16px;
+        }
+
+        .paper {
+            width: 100%;
+            max-width: 860px;
+            min-height: 980px;
+            margin: 0 auto;
+            padding: 56px 68px 72px;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            background: #fff;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .paper h2 {
+            margin: 0 0 28px;
+            text-align: center;
+            font-size: 28px;
+            line-height: 1.3;
+        }
+
+        .doc-meta {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 10px;
+            color: var(--text-2);
+        }
+
+        .doc-text {
+            font-size: 16px;
+            line-height: 2;
+            margin: 18px 0;
+            transition: 0.2s ease;
+        }
+
+        .doc-text.highlight {
+            padding-left: 10px;
+            border-left: 3px solid var(--primary);
+            background: rgba(78, 80, 240, 0.06);
+        }
+
+        .doc-text.focused {
+            border-left-color: var(--primary);
+            background: rgba(78, 80, 240, 0.08);
+            box-shadow: inset 0 0 0 1px rgba(78, 80, 240, 0.12);
+        }
+
+        .doc-text.locating {
+            box-shadow: inset 0 0 0 1px rgba(78, 80, 240, 0.14), 0 0 0 6px rgba(78, 80, 240, 0.10);
+        }
+
+        .doc-placeholder {
+            color: var(--text-3);
+            font-style: italic;
+        }
+
+        .rev-del {
+            margin: 0 4px;
+            color: #98a2b3;
+            text-decoration: line-through;
+        }
+
+        .rev-add {
+            margin: 0 4px;
+            color: #ef4444;
+            text-decoration: underline;
+            font-weight: 600;
+        }
+
+        .resize-handle {
+            width: 8px;
+            cursor: col-resize;
+            position: relative;
+            background: transparent;
+        }
+
+        .resize-handle::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 3px;
+            width: 2px;
+            background: transparent;
+            transition: background 0.2s ease;
+        }
+
+        .resize-handle:hover::before,
+        .resize-handle.is-dragging::before {
+            background: rgba(78, 80, 240, 0.35);
+        }
+
+        .audit-panel,
+        .ai-panel {
+            min-width: 0;
+            background: #fff;
+            border-left: 1px solid var(--line);
+            display: grid;
+            min-height: 0;
+            height: 100%;
+            overflow: hidden;
+            align-self: stretch;
+        }
+
+        .audit-panel {
+            min-width: 404px;
+            grid-template-rows: auto minmax(0, 1fr);
+        }
+
+        .ai-panel {
+            min-width: 300px;
+            grid-template-rows: auto minmax(0, 1fr) auto;
+        }
+
+        .workspace.ai-collapsed .ai-panel,
+        .workspace.ai-collapsed #aiResize {
+            display: none;
+        }
+
+        .panel-head {
+            padding: 16px 16px 0;
+            flex: 0 0 auto;
+        }
+
+        .audit-view-tabs {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .audit-view-tab {
+            appearance: none;
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            height: 28px;
+            padding: 0;
+            border: none;
+            background: transparent;
+            color: var(--text-3);
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 16px;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .audit-view-tab::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            bottom: -1px;
+            left: 0;
+            height: 4px;
+            background: transparent;
+            transition: background 0.2s ease;
+        }
+
+        .audit-view-tab.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .audit-view-tab.active::after {
+            background: var(--primary);
+        }
+
+        .audit-body {
+            min-height: 0;
+            overflow: hidden;
+            display: grid;
+        }
+
+        .audit-view-panel {
+            min-height: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .audit-view-panel.is-hidden {
+            display: none;
+        }
+
+        .risk-overview-panel {
+            padding: 16px 16px 16px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .risk-overview-copy {
+            color: var(--text-2);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .risk-overview-copy p {
+            margin: 0 0 14px;
+        }
+
+        .risk-overview-copy p:last-child {
+            margin-bottom: 0;
+        }
+
+        .risk-overview-copy strong {
+            color: var(--text-1);
+            font-weight: 700;
+        }
+
+        .risk-overview-empty {
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            background: #fff;
+            padding: 16px;
+            color: var(--text-3);
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .risk-summary {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+            padding: 16px 16px 0;
+        }
+
+        .risk-summary-item {
+            min-width: 0;
+            display: grid;
+            grid-template-columns: 24px minmax(0, 1fr);
+            align-items: center;
+            column-gap: 8px;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--line-soft);
+            background: #fff;
+            text-align: right;
+            cursor: pointer;
+            font: inherit;
+            transition: 0.2s ease;
+        }
+
+        .risk-summary-item.high {
+            background: linear-gradient(180deg, rgba(235, 68, 83, 0.02) 0%, rgba(235, 68, 83, 0.02) 2%, rgba(255, 255, 255, 0) 100%);
+        }
+
+        .risk-summary-item.mid {
+            background: linear-gradient(180deg, rgba(235, 149, 68, 0.02) 0%, rgba(235, 149, 68, 0.02) 2%, rgba(255, 255, 255, 0) 100%);
+        }
+
+        .risk-summary-item.low {
+            background: linear-gradient(180deg, rgba(26, 219, 132, 0.03) 0%, rgba(26, 219, 132, 0.03) 3%, rgba(255, 255, 255, 0) 100%);
+        }
+
+        .risk-summary-item:hover {
+            border-color: var(--line-soft);
+        }
+
+        .risk-summary-item.active {
+            border-color: #766BF2;
+        }
+
+        .risk-summary-label {
+            display: block;
+            min-width: 0;
+            color: var(--text-3);
+            font-size: 11px;
+            line-height: 1.3;
+            white-space: nowrap;
+        }
+
+        .risk-summary-icon {
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+        }
+
+        .risk-summary-item.high .risk-summary-label {
+            color: #d92d20;
+        }
+
+        .risk-summary-item.mid .risk-summary-label {
+            color: #b54708;
+        }
+
+        .risk-summary-item.low .risk-summary-label {
+            color: #16a36a;
+        }
+
+        .risk-summary-count {
+            display: block;
+            margin-top: 3px;
+            color: var(--text-1);
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1.1;
+            text-align: right;
+        }
+
+        .risk-summary-content {
+            min-width: 0;
+            text-align: right;
+        }
+
+        .tabs {
+            margin-top: 12px;
+            margin-right: 16px;
+            margin-left: 16px;
+            display: flex;
+            gap: 4px;
+            flex-wrap: nowrap;
+            padding: 4px;
+            border-radius: 10px;
+            background: #F7F8FA;
+            border: 1px solid #EBECF4;
+        }
+
+        .tab {
+            height: 28px;
+            padding: 0 12px;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--text-2);
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: 0.2s ease;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-color: rgba(78, 80, 240, 0.12);
+            background: #fff;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(78, 80, 240, 0.10);
+        }
+
+        .tab:hover {
+            color: var(--primary);
+        }
+
+        .risk-list {
+            flex: 1;
+            min-height: 0;
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 12px 16px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overscroll-behavior: contain;
+            scrollbar-gutter: stable;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .risk-card {
+            position: relative;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            background: linear-gradient(180deg, #ffffff, #fcfbff);
+            padding: 14px;
+            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .risk-card:hover {
+            border-color: rgba(78, 80, 240, 0.16);
+            box-shadow: 0 12px 24px rgba(78, 80, 240, 0.08);
+        }
+
+        .risk-card.selected {
+            border-color: var(--primary-line);
+            background: linear-gradient(180deg, rgba(78, 80, 240, 0.08), rgba(255, 255, 255, 0.98));
+            box-shadow: 0 16px 28px rgba(78, 80, 240, 0.12);
+        }
+
+        .risk-card.selected::before {
+            content: "";
+            position: absolute;
+            left: -1px;
+            top: 14px;
+            bottom: 14px;
+            width: 3px;
+            border-radius: 0 6px 6px 0;
+            background: var(--primary);
+        }
+
+        .risk-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .risk-head-main {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .risk-title-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .risk-index {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            background: var(--primary-soft);
+            color: var(--primary);
+            font-size: 11px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+            margin-top: 1px;
+        }
+
+        .risk-level-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 22px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .risk-tag,
+        .state-tag {
+            height: 22px;
+            padding: 0 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            display: inline-flex;
+            align-items: center;
+            white-space: nowrap;
+            border: 1px solid transparent;
+        }
+
+        .risk-tag.high {
+            color: #d92d20;
+            background: #fff1f3;
+            border-color: #fecdd3;
+        }
+
+        .risk-tag.mid {
+            color: #b54708;
+            background: #fff7e7;
+            border-color: #fedf89;
+        }
+
+        .risk-tag.low {
+            color: #027a48;
+            background: #ecfdf3;
+            border-color: #abefc6;
+        }
+
+        .state-tag.pending {
+            color: #b54708;
+            background: #fff7e7;
+            border-color: #fedf89;
+        }
+
+        .state-tag.done {
+            color: #027a48;
+            background: #ecfdf3;
+            border-color: #abefc6;
+        }
+
+        .state-tag.ignored {
+            color: #667085;
+            background: #f8fafc;
+            border-color: #d0d5dd;
+        }
+
+        .risk-title {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .risk-desc {
+            font-size: 12px;
+            line-height: 1.7;
+            color: var(--text-2);
+            margin-bottom: 10px;
+        }
+
+        .suggest-box {
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px dashed #b6e4c7;
+            background: #f6fffb;
+            font-size: 12px;
+            line-height: 1.75;
+            color: var(--text-2);
+            margin-bottom: 10px;
+        }
+
+        .suggest-box strong {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--text-1);
+        }
+
+        .card-actions-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: nowrap;
+        }
+
+        .card-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: nowrap;
+            white-space: nowrap;
+            min-width: 0;
+            overflow: visible;
+        }
+
+        .action-btn,
+        .apply-btn,
+        .ai-btn {
+            height: 30px;
+            padding: 0 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: box-shadow 0.2s ease;
+            flex: 0 0 auto;
+        }
+
+        .action-btn {
+            border: 1px solid var(--line);
+            background: #fff;
+            color: var(--text-2);
+        }
+
+        .action-btn:hover {
+            color: var(--primary);
+            border-color: rgba(78, 80, 240, 0.18);
+            background: rgba(78, 80, 240, 0.06);
+        }
+
+        .apply-btn {
+            border: none;
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .action-btn.danger {
+            border-color: #fda29b;
+            color: #d92d20;
+            background: #fff5f4;
+        }
+
+        .ai-btn {
+            border: 1px solid rgba(78, 80, 240, 0.18);
+            background: rgba(78, 80, 240, 0.06);
+            color: var(--violet);
+        }
+
+        .ai-head {
+            padding: 14px 12px;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            flex: 0 0 auto;
+        }
+
+        .ai-title {
+            min-width: 0;
+        }
+
+        .ai-title strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .ai-title span {
+            font-size: 12px;
+            color: var(--text-3);
+            line-height: 1.6;
+            display: block;
+        }
+
+        .close-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            border: 1px solid var(--line);
+            background: #fff;
+            color: var(--text-2);
+            cursor: pointer;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .ai-body {
+            min-height: 0;
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overscroll-behavior: contain;
+            scrollbar-gutter: stable;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .ai-msg {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+        }
+
+        .ai-msg.user {
+            justify-content: flex-end;
+        }
+
+        .ai-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            background: rgba(78, 80, 240, 0.10);
+            color: var(--violet);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            flex: 0 0 auto;
+        }
+
+        .ai-bubble {
+            max-width: 100%;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            background: #fff;
+            padding: 10px;
+            font-size: 12px;
+            line-height: 1.75;
+            color: var(--text-2);
+        }
+
+        .ai-msg.user .ai-bubble {
+            background: var(--primary-soft);
+            border-color: var(--primary-line);
+        }
+
+        .ai-revision {
+            margin-top: 8px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--primary-line);
+            background: rgba(78, 80, 240, 0.06);
+            color: var(--text-1);
+            line-height: 1.8;
+        }
+
+        .ai-apply-row {
+            margin-top: 8px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .ai-apply-btn {
+            height: 28px;
+            padding: 0 10px;
+            border: none;
+            border-radius: 6px;
+            background: var(--primary);
+            color: #fff;
+            font-size: 12px;
+            cursor: pointer;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .ai-footer {
+            padding: 12px;
+            border-top: 1px solid var(--line);
+            background: #fff;
+            flex: 0 0 auto;
+            position: relative;
+            z-index: 1;
+            display: block;
+        }
+
+        .ai-input-box {
+            height: 36px;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 8px 0 10px;
+        }
+
+        .ai-input-box input {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 12px;
+            color: var(--text-1);
+        }
+
+        .send-btn {
+            width: 24px;
+            height: 24px;
+            border: none;
+            border-radius: 6px;
+            background: var(--primary-soft);
+            color: var(--primary);
+            cursor: pointer;
+            transition: box-shadow 0.2s ease;
+        }
+
+        @media (max-width: 1500px) {
+            .workspace {
+                grid-template-columns: minmax(0, 1fr) 8px var(--audit-width, 416px) 8px var(--ai-width, 300px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header class="topbar">
+            <div class="topbar-left">
+                <a class="back-btn" href="./contract_review.html" aria-label="返回合同审核任务创建">
+                    <iconpark-icon name="zuo" size="16" color="currentColor"></iconpark-icon>
+                </a>
+                <div class="top-title">
+                    <strong id="docTitle">合同审核协作</strong>
+                    <span id="docSubtitle">我方立场、系统重点核验点将在正文与审核建议中同步呈现。</span>
+                </div>
+            </div>
+            <div class="topbar-right">
+                <button id="exportBtn" class="export-btn" type="button"><iconpark-icon name="export" size="14" color="currentColor"></iconpark-icon> 导出修订版（.docx）</button>
+            </div>
+        </header>
+
+        <div class="workspace ai-collapsed">
+            <section class="editor-panel">
+                <div class="editor-shell">
+                    <div class="toolbar">
+                        <span class="active">开始</span>
+                        <span>插入</span>
+                        <span>页面</span>
+                        <span>审阅</span>
+                        <span>视图</span>
+                        <span>效率</span>
+                    </div>
+
+                    <div class="formatbar">
+                        <div class="format-dd">FangSong <iconpark-icon name="drop-down" size="12" color="currentColor"></iconpark-icon></div>
+                        <div class="format-dd">二号 <iconpark-icon name="drop-down" size="12" color="currentColor"></iconpark-icon></div>
+                        <div class="format-sep"></div>
+                        <button class="format-btn"><iconpark-icon name="text" size="14" color="currentColor"></iconpark-icon></button>
+                        <button class="format-btn"><iconpark-icon name="edit" size="14" color="currentColor"></iconpark-icon></button>
+                        <button class="format-btn"><iconpark-icon name="write" size="14" color="currentColor"></iconpark-icon></button>
+                        <button class="format-btn"><iconpark-icon name="relog" size="14" color="currentColor"></iconpark-icon></button>
+                        <div class="format-sep"></div>
+                        <button class="format-btn"><iconpark-icon name="word" size="14" color="currentColor"></iconpark-icon></button>
+                        <button class="format-btn"><iconpark-icon name="peizhi" size="14" color="currentColor"></iconpark-icon></button>
+                        <div class="format-sep"></div>
+                        <button class="format-btn active"><iconpark-icon name="paragraph" size="14" color="currentColor"></iconpark-icon></button>
+                        <button class="format-btn"><iconpark-icon name="center" size="14" color="currentColor"></iconpark-icon></button>
+                        <button class="format-btn"><iconpark-icon name="text" size="14" color="currentColor"></iconpark-icon></button>
+                        <button class="format-btn"><iconpark-icon name="layout" size="14" color="currentColor"></iconpark-icon></button>
+                        <div class="format-sep"></div>
+                        <button class="format-btn"><iconpark-icon name="list" size="14" color="currentColor"></iconpark-icon></button>
+                        <button class="format-btn"><iconpark-icon name="number" size="14" color="currentColor"></iconpark-icon></button>
+                    </div>
+
+                    <div class="canvas">
+                        <article id="paper" class="paper"></article>
+                    </div>
+                </div>
+            </section>
+
+            <div id="auditResize" class="resize-handle" aria-hidden="true"></div>
+
+            <aside class="audit-panel">
+                <div class="panel-head">
+                    <div class="audit-view-tabs" role="tablist" aria-label="审核视图切换">
+                        <button class="audit-view-tab active" type="button" role="tab" aria-selected="true" data-audit-view="overview">风险总览</button>
+                        <button class="audit-view-tab" type="button" role="tab" aria-selected="false" data-audit-view="all">全部风险</button>
+                    </div>
+                </div>
+                <div class="audit-body">
+                    <section id="riskOverview" class="audit-view-panel risk-overview-panel" role="tabpanel"></section>
+                    <section id="riskAllView" class="audit-view-panel is-hidden" role="tabpanel">
+                        <div id="riskSummary" class="risk-summary" aria-label="风险等级汇总">
+                            <button class="risk-summary-item high" type="button" data-level-filter="high" aria-pressed="false">
+                                <iconpark-icon class="risk-summary-icon" name="maximum" size="24" color="currentColor"></iconpark-icon>
+                                <span class="risk-summary-content">
+                                    <span class="risk-summary-label">高风险</span>
+                                    <strong class="risk-summary-count" data-level-count="high">0</strong>
+                                </span>
+                            </button>
+                            <button class="risk-summary-item mid" type="button" data-level-filter="mid" aria-pressed="false">
+                                <iconpark-icon class="risk-summary-icon" name="average" size="24" color="currentColor"></iconpark-icon>
+                                <span class="risk-summary-content">
+                                    <span class="risk-summary-label">中风险</span>
+                                    <strong class="risk-summary-count" data-level-count="mid">0</strong>
+                                </span>
+                            </button>
+                            <button class="risk-summary-item low" type="button" data-level-filter="low" aria-pressed="false">
+                                <iconpark-icon class="risk-summary-icon" name="minimum1" size="24" color="currentColor"></iconpark-icon>
+                                <span class="risk-summary-content">
+                                    <span class="risk-summary-label">低风险</span>
+                                    <strong class="risk-summary-count" data-level-count="low">0</strong>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="tabs">
+                            <span class="tab active" data-filter="all">全部 3</span>
+                            <span class="tab" data-filter="pending">待处理 1</span>
+                            <span class="tab" data-filter="done">已处理 1</span>
+                            <span class="tab" data-filter="ignored">已忽略 1</span>
+                        </div>
+                        <div id="riskList" class="risk-list"></div>
+                    </section>
+                </div>
+            </aside>
+
+            <div id="aiResize" class="resize-handle" aria-hidden="true"></div>
+
+            <aside class="ai-panel">
+                <div class="ai-head">
+                    <div class="ai-title">
+                        <strong>AI 修订优化</strong>
+                        <span id="aiTitle">对当前条款的修改建议进行进一步润色与增强</span>
+                    </div>
+                    <button id="aiClose" class="close-btn" type="button"><iconpark-icon name="clouse" size="14" color="currentColor"></iconpark-icon></button>
+                </div>
+
+                <div id="aiBody" class="ai-body">
+                    <div class="ai-msg">
+                        <div class="ai-avatar"><iconpark-icon name="agent" size="14" color="currentColor"></iconpark-icon></div>
+                        <div class="ai-bubble">我可以进一步优化当前条款建议，让它更符合正式合同表达，也可以强化责任边界、时限和前置条件。</div>
+                    </div>
+                </div>
+
+                <div class="ai-footer">
+                    <div class="ai-input-box">
+                        <input id="aiInput" type="text" placeholder="例如：请保持正式、可执行，并补足关键节点">
+                        <button id="aiSend" class="send-btn" type="button"><iconpark-icon name="send" size="14" color="currentColor"></iconpark-icon></button>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <script>
+        const ip = (name, size = 14) => `<iconpark-icon name="${name}" size="${size}" color="currentColor"></iconpark-icon>`;
+        const cardIp = (name) => ip(name, 12);
+
+        const CONTRACT_DATA = {
+            rental: {
+                match: ['租房', '租赁'],
+                pageTitle: '项目广州租房合同',
+                subtitle: '我方为承租方，系统重点核验标的信息、租金支付、押金和争议解决条款。',
+                docTitle: '房屋租赁合同',
+                parties: [
+                    '甲方（出租方）：张三',
+                    '乙方（承租方）：李四'
+                ],
+                clauses: [
+                    { id: 'target-clause', cls: 'doc-text highlight', html: '第一条 房屋基本情况：该房屋建筑面积为 <span class="rev-del">待补充</span><span class="rev-add">120.5</span> 平方米，用途为 <span class="rev-add">居住</span>，结构为 <span class="rev-add">钢筋混凝土</span>。' },
+                    { id: 'lease-clause', cls: 'doc-text', html: '第二条 租赁期限：租赁期自 2026年5月1日起至 2027年4月30日止。' },
+                    { id: 'rent-clause', cls: 'doc-text', html: '第三条 租金及支付方式：每月租金为人民币 5000 元。' },
+                    { id: 'deposit-clause', cls: 'doc-text', html: '第四条 押金说明：<span class="rev-del">双方协商确定</span><span class="rev-add">押金为壹万圆整（¥10,000.00）</span>，租赁期满后退还。' },
+                    { id: 'dispute-clause', cls: 'doc-text', html: '争议解决：<span class="rev-del">提交有管辖权的人民法院处理</span><span class="rev-add">提交甲方住所地有管辖权的人民法院诉讼解决</span>。' },
+                    { id: 'placeholder', cls: 'doc-text doc-placeholder', html: '[以下内容略...]' }
+                ],
+                risks: [
+                    {
+                        index: '1',
+                        level: 'high',
+                        title: '合同标的信息不明确',
+                        status: 'pending',
+                        anchor: 'target-clause',
+                        desc: '风险分析：房屋地址、面积、用途等关键要素缺失，可能导致合同无法实际履行。',
+                        suggestion: '第一条 房屋基本情况：该房屋建筑面积为 <span class="rev-del">待补充</span><span class="rev-add">120.5</span> 平方米，用途为 <span class="rev-add">居住</span>，结构为 <span class="rev-add">钢筋混凝土</span>。',
+                        ai: '第一条 房屋基本情况：该房屋位于 <span class="rev-add">广州市天河区____号</span>，建筑面积为 <span class="rev-add">120.5</span> 平方米，用途为 <span class="rev-add">居住</span>，结构为 <span class="rev-add">钢筋混凝土</span>，房屋权属证明编号为 <span class="rev-add">________</span>。'
+                    },
+                    {
+                        index: '2',
+                        level: 'mid',
+                        title: '押金条款模糊',
+                        status: 'done',
+                        anchor: 'deposit-clause',
+                        desc: '风险分析：未明确具体押金金额和返还时限，容易产生结算纠纷。',
+                        suggestion: '第四条 押金说明：<span class="rev-del">双方协商确定</span><span class="rev-add">押金为壹万圆整（¥10,000.00）</span>，乙方应于签署本合同之日一次性支付，租赁期满且无违约情形的，甲方应在 <span class="rev-add">7</span> 个工作日内无息退还押金余额。',
+                        ai: '第四条 押金说明：<span class="rev-del">双方协商确定</span><span class="rev-add">押金为壹万圆整（¥10,000.00）</span>，乙方应于签署本合同之日一次性支付；租赁期满且无违约情形的，甲方应在 <span class="rev-add">7</span> 个工作日内无息退还押金余额。'
+                    },
+                    {
+                        index: '3',
+                        level: 'low',
+                        title: '争议解决条款表述不规范',
+                        status: 'ignored',
+                        anchor: 'dispute-clause',
+                        desc: '风险分析：争议解决条款表述不完整，但对本次交易影响较小，建议根据业务情况补充完善。',
+                        suggestion: '争议解决：因本合同履行产生的争议，双方应先友好协商；协商不成的，<span class="rev-del">提交有管辖权的人民法院处理</span><span class="rev-add">提交甲方住所地有管辖权的人民法院诉讼解决</span>。本合同的订立、效力、解释、履行及争议解决均适用 <span class="rev-add">中华人民共和国法律</span>。',
+                        ai: '争议解决：因本合同履行产生的争议，双方应先友好协商；协商不成的，提交 <span class="rev-add">甲方住所地有管辖权的人民法院</span> 诉讼解决。本合同适用 <span class="rev-add">中华人民共和国法律</span>。'
+                    }
+                ]
+            },
+            procurement: {
+                match: ['采购框架', '供应商'],
+                pageTitle: '采购框架协议（供应商）',
+                subtitle: '我方为采购方，系统重点核验交付验收、价格结算、违约责任和争议解决条款。',
+                docTitle: '采购框架协议',
+                parties: [
+                    '甲方（采购方）：万卷科技有限公司',
+                    '乙方（供应商）：华新智造有限公司'
+                ],
+                clauses: [
+                    { id: 'scope-clause', cls: 'doc-text highlight', html: '第一条 采购标的与技术要求：乙方应按照甲方订单要求提供相应产品，但双方 <span class="rev-del">未明确产品型号、技术标准和交付清单</span><span class="rev-add">应在每份采购订单中明确产品型号、规格、技术参数、数量、附件清单及对应验收依据</span>。' },
+                    { id: 'acceptance-clause', cls: 'doc-text', html: '第五条 验收：甲方在收到货物后进行验收，<span class="rev-del">如无异议则视为验收通过</span><span class="rev-add">验收标准、验收资料和异议期应按订单约定执行</span>。' },
+                    { id: 'payment-clause', cls: 'doc-text', html: '第六条 付款安排：甲方在收到发票后安排付款，<span class="rev-del">具体账期双方另行协商</span><span class="rev-add">建议明确对账周期、发票类型、付款节点及付款前置条件</span>。' },
+                    { id: 'liability-clause', cls: 'doc-text', html: '第十条 违约责任：<span class="rev-del">任何一方违约的，应承担相应责任</span><span class="rev-add">应进一步明确逾期交付、质量不合格、信息安全事故等违约场景及赔偿方式</span>。' },
+                    { id: 'dispute-clause', cls: 'doc-text', html: '第十三条 争议解决：双方协商不成时，<span class="rev-del">提交有管辖权的人民法院解决</span><span class="rev-add">提交甲方所在地有管辖权的人民法院诉讼解决</span>。' },
+                    { id: 'placeholder', cls: 'doc-text doc-placeholder', html: '[以下内容略...]' }
+                ],
+                risks: [
+                    {
+                        index: '1',
+                        level: 'high',
+                        title: '付款节点与对账口径不明确',
+                        status: 'pending',
+                        anchor: 'payment-clause',
+                        desc: '风险分析：付款账期、对账周期、发票类型和付款前置条件未明确，可能造成应付争议和回款滞后。',
+                        suggestion: '第六条 付款安排：甲方在收到 <span class="rev-add">合法有效的增值税专用发票</span>、对账单和验收资料后，于 <span class="rev-add">30个自然日</span> 内完成付款；若乙方资料不完整，付款时间相应顺延。',
+                        ai: '第六条 付款安排：甲方在收到乙方提交的 <span class="rev-add">合法有效的增值税专用发票、双方确认的对账单及对应验收合格资料</span> 后，于 <span class="rev-add">30个自然日</span> 内完成付款；如乙方资料不完整，甲方有权暂缓付款，且不视为违约。'
+                    },
+                    {
+                        index: '2',
+                        level: 'mid',
+                        title: '验收标准缺失',
+                        status: 'done',
+                        anchor: 'acceptance-clause',
+                        desc: '风险分析：未明确验收标准和异议期限，可能导致质量争议和责任不清。',
+                        suggestion: '第五条 验收：甲方应依据采购订单、技术规格书及交付清单进行验收；乙方应配合提供检验报告、合格证明等资料，甲方在 <span class="rev-add">7个工作日</span> 内提出书面异议，逾期未提出不当然视为放弃质量索赔权。',
+                        ai: '第五条 验收：甲方应依据采购订单、技术规格书、样品标准及交付清单进行验收。乙方应同步提交检验报告、合格证明、质保文件等资料；甲方在 <span class="rev-add">7个工作日</span> 内提出书面异议。'
+                    },
+                    {
+                        index: '3',
+                        level: 'low',
+                        title: '争议解决约定偏弱',
+                        status: 'ignored',
+                        anchor: 'dispute-clause',
+                        desc: '风险分析：争议解决法院未明确偏向我方所在地，对供应商协议仍建议补强，但优先级低于付款和验收条款。',
+                        suggestion: '第十三条 争议解决：双方协商不成时，<span class="rev-del">提交有管辖权的人民法院解决</span><span class="rev-add">提交甲方所在地有管辖权的人民法院诉讼解决</span>，本协议适用中华人民共和国法律。',
+                        ai: '第十三条 争议解决：双方协商不成时，提交 <span class="rev-add">甲方所在地有管辖权的人民法院</span> 诉讼解决，本协议适用 <span class="rev-add">中华人民共和国法律</span>。'
+                    }
+                ]
+            }
+        };
+
+        function pickContractData(name) {
+            const value = String(name || '').trim();
+            if (!value) return CONTRACT_DATA.procurement;
+            return Object.values(CONTRACT_DATA).find((item) => item.match.some((keyword) => value.includes(keyword))) || CONTRACT_DATA.procurement;
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        const requestedContract = params.get('contract') || '';
+        const data = pickContractData(requestedContract);
+        const root = document.documentElement;
+        const paper = document.getElementById('paper');
+        const riskList = document.getElementById('riskList');
+        const riskSummary = document.getElementById('riskSummary');
+        const riskOverview = document.getElementById('riskOverview');
+        const docTitle = document.getElementById('docTitle');
+        const docSubtitle = document.getElementById('docSubtitle');
+        const exportBtn = document.getElementById('exportBtn');
+        const auditViewTabs = Array.from(document.querySelectorAll('.audit-view-tab'));
+        const auditViewPanels = {
+            overview: document.getElementById('riskOverview'),
+            all: document.getElementById('riskAllView')
+        };
+        const tabs = Array.from(document.querySelectorAll('.tab'));
+        const aiBody = document.getElementById('aiBody');
+        const aiInput = document.getElementById('aiInput');
+        const aiSend = document.getElementById('aiSend');
+        const aiClose = document.getElementById('aiClose');
+        const aiTitle = document.getElementById('aiTitle');
+        const auditResize = document.getElementById('auditResize');
+        const aiResize = document.getElementById('aiResize');
+
+        let riskCards = [];
+        let currentFilter = 'all';
+        let currentLevelFilter = '';
+        let currentAiCard = null;
+        let dragState = null;
+
+        function renderPaper() {
+            const realTitle = requestedContract || data.pageTitle;
+            docTitle.textContent = `${realTitle} - AI 审核协作`;
+            docSubtitle.textContent = data.subtitle;
+            document.title = `${realTitle} - AI 审核协作`;
+
+            const parts = [`<h2>${data.docTitle}</h2>`];
+            data.parties.forEach((item) => {
+                parts.push(`<p class="doc-meta">${item}</p>`);
+            });
+            data.clauses.forEach((item) => {
+                parts.push(`<p id="${item.id}" class="${item.cls}">${item.html}</p>`);
+            });
+            paper.innerHTML = parts.join('');
+        }
+
+        function toPlainText(html) {
+            const template = document.createElement('template');
+            template.innerHTML = html || '';
+            return (template.content.textContent || '').replace(/\s+/g, ' ').trim();
+        }
+
+        function escapeHtml(text) {
+            return String(text || '').replace(/[&<>"']/g, (char) => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            })[char]);
+        }
+
+        function renderRiskOverview() {
+            const highRisks = data.risks.filter((risk) => risk.level === 'high');
+            if (!riskOverview) return;
+            if (!highRisks.length) {
+                riskOverview.innerHTML = '<div class="risk-overview-empty">当前未发现高风险问题。</div>';
+                return;
+            }
+            const riskParagraphs = highRisks.map((risk) => {
+                const overview = String(risk.desc || '').replace(/^风险分析：/, '');
+                const suggestion = toPlainText(risk.suggestion);
+                return `
+                    <p><strong>${escapeHtml(risk.title)}风险：</strong>${escapeHtml(overview)}${suggestion ? ` 必须立即关注并修改：${escapeHtml(suggestion)}` : ''}</p>
+                `;
+            }).join('');
+            riskOverview.innerHTML = `
+                <div class="risk-overview-copy">
+                    <p>经审查，本合同存在以下重大风险，需优先关注并进行修改：</p>
+                    ${riskParagraphs}
+                    <p>以上风险，请核实并关注。</p>
+                </div>
+            `;
+        }
+
+        function renderRiskCards() {
+            riskList.innerHTML = '';
+            data.risks.forEach((risk) => {
+                const card = document.createElement('div');
+                card.className = 'risk-card';
+                card.dataset.status = risk.status;
+                card.dataset.level = risk.level;
+                card.dataset.anchor = risk.anchor;
+                card.dataset.suggestion = risk.suggestion;
+                card.dataset.ai = risk.ai;
+                card.innerHTML = `
+                    <div class="risk-top">
+                        <div class="risk-head-main">
+                            <div class="risk-title-row">
+                                <span class="risk-index">${risk.index}</span>
+                                <div class="risk-title">${risk.title}</div>
+                            </div>
+                        </div>
+                        <div class="risk-level-row">
+                            <span class="risk-tag ${risk.level}">${risk.level === 'high' ? '高风险' : risk.level === 'mid' ? '中风险' : '低风险'}</span>
+                            <span class="state-tag ${risk.status}">${risk.status === 'pending' ? '待处理' : risk.status === 'done' ? '已处理' : '已忽略'}</span>
+                        </div>
+                    </div>
+                    <div class="risk-desc">${risk.desc}</div>
+                    <div class="suggest-box"><strong>建议修订内容：</strong>${risk.suggestion}</div>
+                    <div class="card-actions-row">
+                        <div class="card-actions"></div>
+                        <button class="ai-btn" type="button" data-ai="1">${cardIp('ai')} AI优化</button>
+                    </div>
+                `;
+                riskList.appendChild(card);
+            });
+
+            riskCards = Array.from(riskList.querySelectorAll('.risk-card'));
+            riskCards.forEach((card) => renderCardActions(card, card.dataset.status || 'pending'));
+        }
+
+        function updateRiskSummaryCounts() {
+            const counts = { high: 0, mid: 0, low: 0 };
+            riskCards.forEach((card) => {
+                const level = card.dataset.level || '';
+                if (Object.prototype.hasOwnProperty.call(counts, level)) {
+                    counts[level] += 1;
+                }
+            });
+            riskSummary?.querySelectorAll('[data-level-count]').forEach((item) => {
+                const level = item.dataset.levelCount || '';
+                item.textContent = String(counts[level] || 0);
+            });
+        }
+
+        function updateLevelFilterState() {
+            riskSummary?.querySelectorAll('[data-level-filter]').forEach((item) => {
+                const active = item.dataset.levelFilter === currentLevelFilter;
+                item.classList.toggle('active', active);
+                item.setAttribute('aria-pressed', active ? 'true' : 'false');
+            });
+        }
+
+        function renderCardActions(card, status) {
+            const actions = card.querySelector('.card-actions');
+            if (!actions) return;
+            if (status === 'done') {
+                actions.innerHTML = `
+                    <button class="action-btn" type="button" data-action="locate">${cardIp('search')} 定位</button>
+                    <button class="action-btn danger" type="button" data-action="revert">${cardIp('relog')} 撤回修改</button>
+                    <button class="action-btn" type="button" data-action="comment">${cardIp('edit')} 批注</button>
+                `;
+                return;
+            }
+            if (status === 'ignored') {
+                actions.innerHTML = `
+                    <button class="action-btn" type="button" data-action="locate">${cardIp('search')} 定位</button>
+                    <button class="apply-btn" type="button" data-action="apply">${cardIp('yes')} 同意修改</button>
+                    <button class="action-btn" type="button" data-action="comment">${cardIp('edit')} 批注</button>
+                    <button class="action-btn" type="button" data-action="unignore">${cardIp('eyes')} 取消忽略</button>
+                `;
+                return;
+            }
+            actions.innerHTML = `
+                <button class="action-btn" type="button" data-action="locate">${cardIp('search')} 定位</button>
+                <button class="apply-btn" type="button" data-action="apply">${cardIp('yes')} 同意修改</button>
+                <button class="action-btn" type="button" data-action="comment">${cardIp('edit')} 批注</button>
+                <button class="action-btn" type="button" data-action="ignore">${cardIp('eyes1')} 忽略</button>
+            `;
+        }
+
+        function focusClause(anchorId) {
+            document.querySelectorAll('.doc-text.focused').forEach((el) => el.classList.remove('focused'));
+            const target = anchorId ? document.getElementById(anchorId) : null;
+            if (target) target.classList.add('focused');
+        }
+
+        function selectCard(card) {
+            riskCards.forEach((item) => item.classList.remove('selected'));
+            if (!card) return;
+            card.classList.add('selected');
+            focusClause(card.dataset.anchor || '');
+        }
+
+        function locateCard(card) {
+            const anchorId = card.dataset.anchor || '';
+            const target = anchorId ? document.getElementById(anchorId) : null;
+            if (!target) {
+                alert('未找到对应条款位置');
+                return;
+            }
+            selectCard(card);
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            target.classList.add('locating');
+            window.setTimeout(() => target.classList.remove('locating'), 900);
+        }
+
+        function applyRevision(card, html) {
+            const anchorId = card.dataset.anchor || '';
+            const target = anchorId ? document.getElementById(anchorId) : null;
+            if (!target) {
+                alert('未找到对应条款位置');
+                return false;
+            }
+            if (!card.dataset.beforeHtml) card.dataset.beforeHtml = target.innerHTML;
+            target.innerHTML = html;
+            return true;
+        }
+
+        function revertRevision(card) {
+            const anchorId = card.dataset.anchor || '';
+            const target = anchorId ? document.getElementById(anchorId) : null;
+            if (!target || !card.dataset.beforeHtml) {
+                alert('没有可撤回的修改记录');
+                return false;
+            }
+            target.innerHTML = card.dataset.beforeHtml;
+            delete card.dataset.beforeHtml;
+            return true;
+        }
+
+        function updateTabCounts() {
+            const total = riskCards.length;
+            const pending = riskCards.filter((card) => card.dataset.status === 'pending').length;
+            const done = riskCards.filter((card) => card.dataset.status === 'done').length;
+            const ignored = riskCards.filter((card) => card.dataset.status === 'ignored').length;
+            tabs.forEach((tab) => {
+                const filter = tab.dataset.filter || 'all';
+                const label = filter === 'all' ? '全部' : filter === 'pending' ? '待处理' : filter === 'done' ? '已处理' : '已忽略';
+                const count = filter === 'all' ? total : filter === 'pending' ? pending : filter === 'done' ? done : ignored;
+                tab.textContent = `${label} ${count}`;
+            });
+        }
+
+        function applyFilter(filter) {
+            currentFilter = filter;
+            tabs.forEach((tab) => tab.classList.toggle('active', (tab.dataset.filter || 'all') === filter));
+            riskCards.forEach((card) => {
+                const matchesStatus = filter === 'all' ? true : card.dataset.status === filter;
+                const matchesLevel = currentLevelFilter ? card.dataset.level === currentLevelFilter : true;
+                const visible = matchesStatus && matchesLevel;
+                card.style.display = visible ? '' : 'none';
+            });
+            updateLevelFilterState();
+            const firstVisible = riskCards.find((card) => card.style.display !== 'none');
+            if (firstVisible) {
+                selectCard(firstVisible);
+            } else {
+                riskCards.forEach((item) => item.classList.remove('selected'));
+                document.querySelectorAll('.doc-text.focused').forEach((el) => el.classList.remove('focused'));
+            }
+        }
+
+        function setAuditView(view) {
+            const next = view === 'all' ? 'all' : 'overview';
+            auditViewTabs.forEach((tab) => {
+                const active = tab.dataset.auditView === next;
+                tab.classList.toggle('active', active);
+                tab.setAttribute('aria-selected', active ? 'true' : 'false');
+            });
+            Object.entries(auditViewPanels).forEach(([key, panel]) => {
+                panel?.classList.toggle('is-hidden', key !== next);
+            });
+        }
+
+        function pushAiMessage(text, isUser) {
+            const wrap = document.createElement('div');
+            wrap.className = `ai-msg${isUser ? ' user' : ''}`;
+            if (isUser) {
+                wrap.innerHTML = `<div class="ai-bubble">${text}</div>`;
+            } else {
+                wrap.innerHTML = `<div class="ai-avatar">${ip('agent')}</div><div class="ai-bubble">${text}</div>`;
+            }
+            aiBody.appendChild(wrap);
+            aiBody.scrollTop = aiBody.scrollHeight;
+        }
+
+        function pushAiRevision(html) {
+            const wrap = document.createElement('div');
+            wrap.className = 'ai-msg';
+            wrap.innerHTML = `
+                <div class="ai-avatar">${ip('agent')}</div>
+                <div class="ai-bubble">
+                    我已生成可直接替换的修订版本：
+                    <div class="ai-revision">${html}</div>
+                    <div class="ai-apply-row"><button class="ai-apply-btn" type="button">同意修改</button></div>
+                </div>
+            `;
+            aiBody.appendChild(wrap);
+            aiBody.scrollTop = aiBody.scrollHeight;
+        }
+
+        function openAi(card) {
+            currentAiCard = card;
+            aiTitle.textContent = `当前优化：${card.querySelector('.risk-title')?.textContent || ''}`;
+            document.querySelector('.workspace')?.classList.remove('ai-collapsed');
+            selectCard(card);
+        }
+
+        tabs.forEach((tab) => {
+            tab.addEventListener('click', () => applyFilter(tab.dataset.filter || 'all'));
+        });
+
+        auditViewTabs.forEach((tab) => {
+            tab.addEventListener('click', () => setAuditView(tab.dataset.auditView || 'overview'));
+        });
+
+        riskSummary?.addEventListener('click', (e) => {
+            const target = e.target;
+            if (!(target instanceof HTMLElement)) return;
+            const item = target.closest('[data-level-filter]');
+            if (!item) return;
+            const level = item.dataset.levelFilter || '';
+            currentLevelFilter = currentLevelFilter === level ? '' : level;
+            applyFilter(currentFilter);
+        });
+
+        riskList.addEventListener('click', (e) => {
+            const target = e.target;
+            if (!(target instanceof HTMLElement)) return;
+
+            const aiBtn = target.closest('.ai-btn');
+            if (aiBtn) {
+                const card = aiBtn.closest('.risk-card');
+                if (card) openAi(card);
+                return;
+            }
+
+            const actionBtn = target.closest('[data-action]');
+            if (actionBtn) {
+                const card = actionBtn.closest('.risk-card');
+                if (!card) return;
+                const action = actionBtn.dataset.action || '';
+                if (action === 'locate') {
+                    locateCard(card);
+                    return;
+                }
+                if (action === 'apply') {
+                    const ok = applyRevision(card, card.dataset.suggestion || '');
+                    if (!ok) return;
+                    card.dataset.status = 'done';
+                    renderCardActions(card, 'done');
+                    updateTabCounts();
+                    applyFilter(currentFilter);
+                    return;
+                }
+                if (action === 'revert') {
+                    const ok = revertRevision(card);
+                    if (!ok) return;
+                    card.dataset.status = 'pending';
+                    renderCardActions(card, 'pending');
+                    updateTabCounts();
+                    applyFilter(currentFilter);
+                    return;
+                }
+                if (action === 'ignore') {
+                    card.dataset.status = 'ignored';
+                    renderCardActions(card, 'ignored');
+                    updateTabCounts();
+                    applyFilter(currentFilter);
+                    return;
+                }
+                if (action === 'unignore') {
+                    card.dataset.status = 'pending';
+                    renderCardActions(card, 'pending');
+                    updateTabCounts();
+                    applyFilter(currentFilter);
+                    return;
+                }
+                if (action === 'comment') {
+                    const value = window.prompt('输入批注内容：');
+                    if (!value) return;
+                    alert('批注已添加');
+                    return;
+                }
+            }
+
+            const card = target.closest('.risk-card');
+            if (card) selectCard(card);
+        });
+
+        aiBody.addEventListener('click', (e) => {
+            const target = e.target;
+            if (!(target instanceof HTMLElement)) return;
+            const applyBtn = target.closest('.ai-apply-btn');
+            if (!applyBtn || !currentAiCard) return;
+            const html = currentAiCard.dataset.ai || '';
+            const ok = applyRevision(currentAiCard, html);
+            if (!ok) return;
+            currentAiCard.dataset.suggestion = html;
+            const suggest = currentAiCard.querySelector('.suggest-box');
+            if (suggest) suggest.innerHTML = `<strong>建议修订内容：</strong>${html}`;
+            currentAiCard.dataset.status = 'done';
+            renderCardActions(currentAiCard, 'done');
+            updateTabCounts();
+            applyFilter(currentFilter);
+            applyBtn.disabled = true;
+            applyBtn.textContent = '已采纳';
+        });
+
+        aiSend.addEventListener('click', () => {
+            const text = (aiInput.value || '').trim();
+            if (!text || !currentAiCard) return;
+            pushAiMessage(text, true);
+            aiInput.value = '';
+            window.setTimeout(() => {
+                pushAiRevision(currentAiCard.dataset.ai || '');
+            }, 200);
+        });
+
+        aiInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                aiSend.click();
+            }
+        });
+
+        aiClose.addEventListener('click', () => {
+            document.querySelector('.workspace')?.classList.add('ai-collapsed');
+            aiTitle.textContent = '对当前条款的修改建议进行进一步润色与增强';
+        });
+
+        exportBtn.addEventListener('click', () => {
+            alert('修订版文档已生成，原型中以提示代替实际下载。');
+        });
+
+        document.querySelectorAll('.format-btn').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                btn.classList.toggle('active');
+            });
+        });
+
+        document.querySelectorAll('.toolbar span').forEach((item) => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.toolbar span').forEach((node) => node.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+
+        function beginResize(type, handle) {
+            dragState = { type, handle };
+            handle.classList.add('is-dragging');
+        }
+
+        auditResize.addEventListener('mousedown', (e) => {
+            beginResize('audit', auditResize);
+            e.preventDefault();
+        });
+
+        aiResize.addEventListener('mousedown', (e) => {
+            beginResize('ai', aiResize);
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!dragState) return;
+            if (dragState.type === 'audit') {
+                const aiWidth = document.querySelector('.workspace')?.classList.contains('ai-collapsed') ? 0 : parseInt(getComputedStyle(root).getPropertyValue('--ai-width') || '320', 10);
+                const width = Math.min(492, Math.max(404, window.innerWidth - e.clientX - aiWidth - 8));
+                root.style.setProperty('--audit-width', `${width}px`);
+            }
+            if (dragState.type === 'ai') {
+                const width = Math.min(396, Math.max(300, window.innerWidth - e.clientX));
+                root.style.setProperty('--ai-width', `${width}px`);
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (!dragState) return;
+            dragState.handle.classList.remove('is-dragging');
+            dragState = null;
+        });
+
+        renderPaper();
+        renderRiskOverview();
+        renderRiskCards();
+        updateRiskSummaryCounts();
+        updateTabCounts();
+        applyFilter('all');
+        setAuditView('overview');
+        if (riskCards[0]) {
+            selectCard(riskCards[0]);
+        }
+    </script>
+</body>
+</html>
