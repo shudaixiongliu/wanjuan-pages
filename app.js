@@ -84,15 +84,10 @@ const SYSTEM_TREE = [
 const menuItems = [
   { label: "首页", path: "/analytics", icon: "home" },
   {
-    label: "数字员工",
-    icon: "user",
-    children: [{ label: "数字员工管理", path: "/dashboard/digitalEmployeeList" }],
-  },
-  {
-    label: "智能体",
+    label: "专家",
     icon: "robot",
     children: [
-      { label: "智能体管理", path: "/dashboard/robotList" },
+      { label: "专家管理", path: "/dashboard/robotList" },
       { label: "数据中心", path: "/dashboard/data-center" },
     ],
   },
@@ -167,7 +162,7 @@ const state = {
   handlerSeed: 0,
   resetMainScroll: false,
   pageViews: {
-    "/dashboard/robotList": "智能体中心",
+    "/dashboard/robotList": "专家中心",
     "/dashboard/digitalEmployeeList": "数字员工中心",
     "/extension/workflow_list": "工具中心",
     "/extension/skills": "技能中心",
@@ -424,13 +419,8 @@ const SUPPORTED_DOC_FORMATS = [
 const pages = {
   "/front-app": {
     kind: "frontApp",
-    title: "前台应用-旧",
+    title: "前台应用",
     breadcrumb: ["前台应用"],
-  },
-  "/front-employee": {
-    kind: "frontEmployee",
-    title: "前台员工",
-    breadcrumb: ["前台员工"],
   },
   "/digital-employee-chat": {
     kind: "employeeChat",
@@ -441,16 +431,16 @@ const pages = {
     kind: "home",
     title: "首页",
     breadcrumb: ["首页"],
-    orbit: ["参数设置", "工作流", "模型管理", "评测", "图谱管理", "用户管理", "智能体管理", "知识库"],
+    orbit: ["参数设置", "工作流", "模型管理", "评测", "图谱管理", "用户管理", "专家管理", "知识库"],
   },
   "/dashboard/robotList": {
     kind: "table",
-    title: "智能体管理",
-    breadcrumb: ["智能体", "智能体管理"],
-    pills: ["智能体中心", "我的智能体"],
+    title: "专家管理",
+    breadcrumb: ["专家", "专家管理"],
+    pills: ["专家中心", "我的专家"],
     views: {
-      "智能体中心": {
-        filters: [field("请输入智能体名称"), selectField("请选择智能体类型"), dateField("创建开始日期", "创建结束日期"), button("重 置", "reset")],
+      "专家中心": {
+        filters: [field("请输入专家名称"), selectField("请选择专家类型"), dateField("创建开始日期", "创建结束日期"), button("重 置", "reset")],
         columns: [
           ["序号", "56px"],
           ["名称", "178px"],
@@ -468,16 +458,16 @@ const pages = {
           ["4", "分享测试", tag("自主规划", "primary"), "分享测试", "孙嘉琦", "研发部门", "2026-04-16 20:34:45", actions(["查看", "复用"])],
           ["5", "通用rag测评-默认", tag("RAG", "warning"), "通用rag测评-默认", "王一雄", "研发部门", "2026-04-16 18:07:34", actions(["查看", "复用"])],
           ["6", "通用rag测评", tag("RAG", "warning"), "通用rag测评", "王一雄", "研发部门", "2026-04-16 15:35:31", actions(["查看", "复用"])],
-          ["7", "新能源电动车智能体", tag("RAG", "warning"), "聚焦新能源电动车行业的智能问答助手，支持行业知识检索、政策趋势分析与场景化问答。", "信通院", "客户试用部门", "2026-04-14 15:10:05", actions(["查看", "复用"])],
+          ["7", "新能源电动车专家", tag("RAG", "warning"), "聚焦新能源电动车行业的智能问答助手，支持行业知识检索、政策趋势分析与场景化问答。", "信通院", "客户试用部门", "2026-04-14 15:10:05", actions(["查看", "复用"])],
           ["8", "提示词设计助手演示", tag("RAG", "warning"), "输入你想写的提示词主题，我会帮你生成优质的提示词", "刘颖", "研发部门", "2026-04-14 12:06:13", actions(["查看", "复用"])],
           ["9", "基础法律问答", tag("RAG", "warning"), "围绕合同、劳动、人身损害等基础法律问题提供标准化应答。", "杨文逸", "研发管理部", "2026-04-14 10:42:51", actions(["查看", "复用"])],
           ["10", "商品市场趋势预测", tag("自主规划", "primary"), "面向消费品市场的趋势预测与情报分析助手。", "杨文逸", "研发管理部", "2026-04-14 10:31:22", actions(["查看", "复用"])],
         ],
         pagination: pager("43", "10条/页", [1, 2, 3, 4, 5]),
       },
-      "我的智能体": {
-        filters: [field("请输入智能体名称"), selectField("请选择智能体类型"), dateField("创建开始日期", "创建结束日期"), button("重 置", "reset")],
-        actionButtons: [button("新增智能体", "open", "primary", { hoverPreview: "robotCreate" })],
+      "我的专家": {
+        filters: [field("请输入专家名称"), selectField("请选择专家类型"), dateField("创建开始日期", "创建结束日期"), button("重 置", "reset")],
+        actionButtons: [button("新增专家", "open", "primary", { hoverPreview: "robotCreate" })],
         columns: [
           ["序号", "56px"],
           ["名称", "176px"],
@@ -496,7 +486,7 @@ const pages = {
           ["4", "网页链接文章转写", tag("自主规划", "primary"), "欢迎使用网页文章转写助手，我将为您高效解析网页并重写内容！", "杨文逸", "研发管理部", "2026-04-10 18:35:17", chips([{ text: "商店" }, { text: "未发布H5" }, { text: "共享" }, { text: "API" }, { text: "MCP" }]), actions(["编辑", { label: "发布", dropdown: true }, "删除"])],
           ["5", "汽车专家", tag("自主规划", "primary"), "专业汽车咨询助手，可解答车型对比、购车建议、配置解析、用车保养、故障判断、新能源与燃油车选择等问题，帮你理性选车、用车。", "杨文逸", "研发管理部", "2026-04-10 18:25:20", chips([{ text: "商店" }, { text: "未发布H5" }, { text: "共享" }, { text: "API" }, { text: "MCP" }]), actions(["编辑", { label: "发布", dropdown: true }, "删除"])],
           ["6", "金融市场策略分析", tag("自主规划", "primary"), "深耕股票、黄金等市场，依托专业模型解析行情走势与市场逻辑，输出针对性交易策略，涵盖仓位配置、买卖信号及风险把控，为多元资产投资提供理性分析与决策参考。", "杨文逸", "研发管理部", "2026-04-10 18:16:41", chips([{ text: "商店" }, { text: "未发布H5" }, { text: "共享" }, { text: "API" }, { text: "MCP" }]), actions(["编辑", { label: "发布", dropdown: true }, "删除"])],
-          ["7", "12306票务查询", tag("自主规划", "primary"), "12306 票务查询智能体，可快速查询列车时刻、余票、票价，提供购票、候补、改签、退票等实用指引，解答铁路出行票务相关问题，帮你便捷规划铁路行程。", "杨文逸", "研发管理部", "2026-04-10 16:30:35", chips([{ text: "商店" }, { text: "未发布H5" }, { text: "共享" }, { text: "API" }, { text: "MCP" }]), actions(["编辑", { label: "发布", dropdown: true }, "删除"])],
+          ["7", "12306票务查询", tag("自主规划", "primary"), "12306 票务查询专家，可快速查询列车时刻、余票、票价，提供购票、候补、改签、退票等实用指引，解答铁路出行票务相关问题，帮你便捷规划铁路行程。", "杨文逸", "研发管理部", "2026-04-10 16:30:35", chips([{ text: "商店" }, { text: "未发布H5" }, { text: "共享" }, { text: "API" }, { text: "MCP" }]), actions(["编辑", { label: "发布", dropdown: true }, "删除"])],
           ["8", "情感大师", tag("自主规划", "primary"), "我是情感大师", "杨文逸", "研发管理部", "2026-03-09 20:32:21", chips([{ text: "商店" }, { text: "未发布H5" }, { text: "共享" }, { text: "API" }, { text: "MCP" }]), actions(["编辑", { label: "发布", dropdown: true }, "删除"])],
           ["9", "论文帮手", tag("自主规划", "primary"), "提供方向与关键词，我能为你推荐相关论文、提供论文的框架模板，并根据推荐的论文撰写综述。", "杨文逸", "研发管理部", "2026-03-06 12:42:19", chips([{ text: "商店" }, { text: "未发布H5" }, { text: "共享" }, { text: "API" }, { text: "MCP" }]), actions(["编辑", { label: "发布", dropdown: true }, "删除"])],
           ["10", "设备", tag("自主规划", "primary"), "设备识别", "杨文逸", "研发管理部", "2026-03-04 14:55:38", chips([{ text: "商店" }, { text: "未发布H5" }, { text: "共享" }, { text: "API" }, { text: "MCP" }]), actions(["编辑", { label: "发布", dropdown: true }, "删除"])],
@@ -560,11 +550,11 @@ const pages = {
   "/dashboard/data-center": {
     kind: "table",
     title: "数据中心",
-    breadcrumb: ["智能体", "数据中心"],
+    breadcrumb: ["专家", "数据中心"],
     pills: ["对话记录", "用户反馈", "点赞点踩"],
     views: {
       对话记录: {
-        filters: [field("请输入问题名称"), selectField("请选择智能体"), dateField("创建开始日期", "创建结束日期"), button("重 置", "reset"), button("删 除", "disabled"), button("导 出", "open")],
+        filters: [field("请输入问题名称"), selectField("请选择专家"), dateField("创建开始日期", "创建结束日期"), button("重 置", "reset"), button("删 除", "disabled"), button("导 出", "open")],
         columns: [
           [checkbox(), "40px"],
           ["序号", "56px"],
@@ -572,7 +562,7 @@ const pages = {
           ["答案", "1fr"],
           ["图片", "64px"],
           ["创建时间", "156px"],
-          ["所属智能体", "116px"],
+          ["所属专家", "116px"],
           ["来源", "72px"],
           ["请求Token量", "100px"],
           ["返回Token量", "100px"],
@@ -594,14 +584,14 @@ const pages = {
         pagination: pager("271", "10条/页", [1, 2, 3, 4, 5]),
       },
       用户反馈: {
-        filters: [field("请输入反馈内容"), selectField("请选择智能体"), dateField("创建开始日期", "创建结束日期"), button("重 置", "reset"), button("删 除", "disabled"), button("导 出", "open")],
-        columns: [[checkbox(), "40px"], ["序号", "56px"], ["问题", "120px"], ["反馈内容", "1fr"], ["创建时间", "156px"], ["所属智能体", "116px"], ["反馈类型", "88px"], ["操作", "72px"]],
+        filters: [field("请输入反馈内容"), selectField("请选择专家"), dateField("创建开始日期", "创建结束日期"), button("重 置", "reset"), button("删 除", "disabled"), button("导 出", "open")],
+        columns: [[checkbox(), "40px"], ["序号", "56px"], ["问题", "120px"], ["反馈内容", "1fr"], ["创建时间", "156px"], ["所属专家", "116px"], ["反馈类型", "88px"], ["操作", "72px"]],
         rows: [],
         pagination: pager("0", "10条/页", [1]),
       },
       点赞点踩: {
-        filters: [field("请输入问题名称"), selectField("请选择智能体"), dateField("创建开始日期", "创建结束日期"), button("重 置", "reset"), button("删 除", "disabled"), button("导 出", "open")],
-        columns: [[checkbox(), "40px"], ["序号", "56px"], ["问题", "120px"], ["答案", "1fr"], ["评价", "80px"], ["创建时间", "156px"], ["所属智能体", "116px"], ["操作", "72px"]],
+        filters: [field("请输入问题名称"), selectField("请选择专家"), dateField("创建开始日期", "创建结束日期"), button("重 置", "reset"), button("删 除", "disabled"), button("导 出", "open")],
+        columns: [[checkbox(), "40px"], ["序号", "56px"], ["问题", "120px"], ["答案", "1fr"], ["评价", "80px"], ["创建时间", "156px"], ["所属专家", "116px"], ["操作", "72px"]],
         rows: [],
         pagination: pager("0", "10条/页", [1]),
       },
@@ -712,7 +702,7 @@ const pages = {
     filters: [field("请输入名称"), field("请输入创建者"), button("重 置", "reset"), button("查 询", "open", "primary")],
     columns: 4,
     cards: [
-      card("图片识别智能体", "基础设施部", "可以支持图片上传，针对图片内容进行识别获取", "超级管理员 创建于2026-04-18 12:58:54"),
+      card("图片识别专家", "基础设施部", "可以支持图片上传，针对图片内容进行识别获取", "超级管理员 创建于2026-04-18 12:58:54"),
       card("演示-副本", "研发部门", "演示", "欢迎进入万卷 创建于2026-04-15 16:27:04"),
       card("qyw-workflow-2", "研发部门", "qyw-workflow-2", "乔艺伟 创建于2026-04-10 10:36:13"),
       card("后端开发测试-0401-2013", "研发部门", "后端开发测试版本发布:2013", "张仕宗 创建于2026-04-01 20:10:22"),
@@ -727,16 +717,16 @@ const pages = {
     filters: [field("请输入名称搜索"), button("重 置", "reset")],
     columns: 5,
     cards: [
-      skillCard("text-to-docs", "4 个智能体关联", "Pandoc Markdown 转文档生成技能，支持多格式导出。", "欢迎进入万卷 创建于 2026-03-17 19:42", ["文档生成", "Pandoc"]),
-      skillCard("power-outage-managem...", "1 个智能体关联", "面向预安排停电管理场景，支持停电事件识别、分析、通知。", "张博 创建于 2026-04-23 17:08", ["停电监控", "预安排停电", "+1"]),
-      skillCard("smart-data-query", "0 个智能体关联", "面向业务查询与分析的智能问数技能。", "zhangsongqing 创建于 2026-04-23 13:42", ["数据查询", "智能问数", "+1"]),
-      skillCard("power-outage-analysi...", "0 个智能体关联", "停电分析辅助技能。", "张博 创建于 2026-04-23 11:25", ["停电分析"]),
-      skillCard("power-outage-custome...", "0 个智能体关联", "面向客户通知与响应的停电处理技能。", "张博 创建于 2026-04-23 10:56", ["客户通知"]),
-      skillCard("power-outage-delay-c...", "0 个智能体关联", "延迟复电场景的辅助判断技能。", "张博 创建于 2026-04-23 10:42", ["延迟复电"]),
-      skillCard("power-outage-restore...", "0 个智能体关联", "停电恢复流程辅助。", "张博 创建于 2026-04-23 10:31", ["恢复"]),
-      skillCard("power-outage-site-re...", "0 个智能体关联", "现场上报信息整合技能。", "张博 创建于 2026-04-23 10:12", ["现场上报"]),
-      skillCard("power-outage-event-c...", "0 个智能体关联", "停电事件归类与处置建议。", "张博 创建于 2026-04-23 09:56", ["事件归类"]),
-      skillCard("power-outage-execute", "0 个智能体关联", "停电执行单与流程推进辅助。", "张博 创建于 2026-04-23 09:42", ["执行单"]),
+      skillCard("text-to-docs", "4 个专家关联", "Pandoc Markdown 转文档生成技能，支持多格式导出。", "欢迎进入万卷 创建于 2026-03-17 19:42", ["文档生成", "Pandoc"]),
+      skillCard("power-outage-managem...", "1 个专家关联", "面向预安排停电管理场景，支持停电事件识别、分析、通知。", "张博 创建于 2026-04-23 17:08", ["停电监控", "预安排停电", "+1"]),
+      skillCard("smart-data-query", "0 个专家关联", "面向业务查询与分析的智能问数技能。", "zhangsongqing 创建于 2026-04-23 13:42", ["数据查询", "智能问数", "+1"]),
+      skillCard("power-outage-analysi...", "0 个专家关联", "停电分析辅助技能。", "张博 创建于 2026-04-23 11:25", ["停电分析"]),
+      skillCard("power-outage-custome...", "0 个专家关联", "面向客户通知与响应的停电处理技能。", "张博 创建于 2026-04-23 10:56", ["客户通知"]),
+      skillCard("power-outage-delay-c...", "0 个专家关联", "延迟复电场景的辅助判断技能。", "张博 创建于 2026-04-23 10:42", ["延迟复电"]),
+      skillCard("power-outage-restore...", "0 个专家关联", "停电恢复流程辅助。", "张博 创建于 2026-04-23 10:31", ["恢复"]),
+      skillCard("power-outage-site-re...", "0 个专家关联", "现场上报信息整合技能。", "张博 创建于 2026-04-23 10:12", ["现场上报"]),
+      skillCard("power-outage-event-c...", "0 个专家关联", "停电事件归类与处置建议。", "张博 创建于 2026-04-23 09:56", ["事件归类"]),
+      skillCard("power-outage-execute", "0 个专家关联", "停电执行单与流程推进辅助。", "张博 创建于 2026-04-23 09:42", ["执行单"]),
     ],
     pagination: pager("32", "10条/页", [1, 2, 3, 4]),
   },
@@ -854,14 +844,14 @@ const pages = {
       ["操作", "110px"],
     ],
     rows: [
-      ["qq", "智能体", "qq", "个税测试", tag("待执行", "warning"), chips(["个税1: --", "计算器: --"]), "", "wangchao", "", "", actions(["执行", "编辑"])],
-      ["测试", "智能体", "测试", "个税测试", tag("待执行", "warning"), chips(["个税2: --"]), "", "孙嘉琦", "", "", actions(["执行", "编辑"])],
-      ["个税4", "智能体", "个税计算专家", "个税测试", tag("进行中", "primary"), chips(["个税2: --"]), "测试", "欢迎进入万卷", "2026-04-15 13:49:38", "", actions(["终止", "编辑"])],
-      ["个税3", "智能体", "个税计算专家", "个税测试", tag("进行中", "primary"), chips(["个税2: --"]), "测试", "欢迎进入万卷", "2026-04-14 16:53:47", "", actions(["终止", "编辑"])],
-      ["新能源电动车智能体测试", "智能体", "新能源电动车智能体", "优化分析报告", tag("成功", "success"), chips(["优化分析报告: 0"]), "验证", "信通院", "2026-04-14 15:12:13", "2026-04-14 15:13:52", actions(["执行", "编辑"], [true, false])],
-      ["石油化工小助手评测", "智能体", "石油化工小助手", "问答测试-ceval-100条", tag("进行中", "primary"), chips(["优化分析报告: --"]), "", "杨文逸", "2026-04-13 17:21:00", "", actions(["终止", "编辑"])],
-      ["132131231323", "系统内置官方智能体", "132131231323", "问答测试-管网测试集评测集", tag("成功", "success"), chips(["安全评估器: 0.8"]), "对方是否", "徐超", "2026-01-29 18:31:20", "2026-01-29 18:35:42", actions(["执行", "编辑"], [true, false])],
-      ["报告生成智能体1", "智能体", "报告生成智能体1", "问答测试-ceval-100条", tag("成功", "success"), chips(["RAG测试-正确性评估: 1"]), "", "兰宇", "2026-01-28 21:05:11", "2026-01-28 21:15:06", actions(["执行", "编辑"], [true, false])],
+      ["qq", "专家", "qq", "个税测试", tag("待执行", "warning"), chips(["个税1: --", "计算器: --"]), "", "wangchao", "", "", actions(["执行", "编辑"])],
+      ["测试", "专家", "测试", "个税测试", tag("待执行", "warning"), chips(["个税2: --"]), "", "孙嘉琦", "", "", actions(["执行", "编辑"])],
+      ["个税4", "专家", "个税计算专家", "个税测试", tag("进行中", "primary"), chips(["个税2: --"]), "测试", "欢迎进入万卷", "2026-04-15 13:49:38", "", actions(["终止", "编辑"])],
+      ["个税3", "专家", "个税计算专家", "个税测试", tag("进行中", "primary"), chips(["个税2: --"]), "测试", "欢迎进入万卷", "2026-04-14 16:53:47", "", actions(["终止", "编辑"])],
+      ["新能源电动车专家测试", "专家", "新能源电动车专家", "优化分析报告", tag("成功", "success"), chips(["优化分析报告: 0"]), "验证", "信通院", "2026-04-14 15:12:13", "2026-04-14 15:13:52", actions(["执行", "编辑"], [true, false])],
+      ["石油化工小助手评测", "专家", "石油化工小助手", "问答测试-ceval-100条", tag("进行中", "primary"), chips(["优化分析报告: --"]), "", "杨文逸", "2026-04-13 17:21:00", "", actions(["终止", "编辑"])],
+      ["132131231323", "系统内置官方专家", "132131231323", "问答测试-管网测试集评测集", tag("成功", "success"), chips(["安全评估器: 0.8"]), "对方是否", "徐超", "2026-01-29 18:31:20", "2026-01-29 18:35:42", actions(["执行", "编辑"], [true, false])],
+      ["报告生成专家1", "专家", "报告生成专家1", "问答测试-ceval-100条", tag("成功", "success"), chips(["RAG测试-正确性评估: 1"]), "", "兰宇", "2026-01-28 21:05:11", "2026-01-28 21:15:06", actions(["执行", "编辑"], [true, false])],
     ],
     pagination: pager("18", "20条/页", [1]),
   },
@@ -930,7 +920,7 @@ const pages = {
   ], [field("请输入角色名称"), field("请输入权限字符"), button("重 置", "reset"), button("新增角色", "open", "primary")], "178"),
   "/system/menu": genericSystemPage("菜单管理", ["菜单名称", "权限标识", "路由地址", "组件路径", "状态", "创建时间", "操作"], [
     ["首页", "analytics:view", "/analytics", "views/homepage/index.vue", switcher(), "2026-01-21 21:49:54", actions(["编辑", "新增", "删除"])],
-    ["智能体管理", "robot:list", "/dashboard/robotList", "views/dashboard/robot-list.vue", switcher(), "2026-01-22 09:16:31", actions(["编辑", "新增", "删除"])],
+    ["专家管理", "robot:list", "/dashboard/robotList", "views/dashboard/robot-list.vue", switcher(), "2026-01-22 09:16:31", actions(["编辑", "新增", "删除"])],
     ["文档管理", "manage:document", "/manage/management", "views/manage/management.vue", switcher(), "2026-01-22 09:17:48", actions(["编辑", "新增", "删除"])],
   ], [field("请输入菜单名称"), button("重 置", "reset"), button("新增菜单", "open", "primary")], "56"),
   "/system/dept": genericSystemPage("部门管理", ["序号", "部门名称", "负责人", "联系电话", "状态", "创建时间", "操作"], [
@@ -1042,13 +1032,13 @@ function createFilterId(prefix, text) {
 }
 
 function selectOptions(label) {
-  if (label.includes("智能体类型")) return ["全部", "RAG", "自主规划", "多应用协同"];
+  if (label.includes("专家类型")) return ["全部", "RAG", "自主规划", "多应用协同"];
   if (label.includes("文档格式")) return ["全部", "PDF", "Word", "Excel", "TXT", "Markdown"];
   if (label.includes("审核状态")) return ["全部", "待审核", "已通过", "已驳回"];
   if (label.includes("状态")) return ["全部", "排队中", "文件解析中", "文件增强中", "处理完成", "处理失败", "已发布", "未发布"];
   if (label.includes("模型类型")) return ["全部", "Embedding", "LLM", "Rerank", "Vision"];
   if (label.includes("类型")) return ["全部", "自主规划", "RAG", "工作流", "Code", "MCP"];
-  if (label.includes("智能体")) return ["全部", "石油化工小助手", "商品市场趋势预测", "合同信息抽取", "网页链接文章转写"];
+  if (label.includes("专家")) return ["全部", "石油化工小助手", "商品市场趋势预测", "合同信息抽取", "网页链接文章转写"];
   return ["全部", "选项一", "选项二", "选项三"];
 }
 
@@ -1233,11 +1223,7 @@ function registerHandler(meta) {
 }
 
 function redirectToFrontApp() {
-  window.location.href = "./front-app.html";
-}
-
-function redirectToFrontEmployee() {
-  window.location.href = "./front-app_0608.html";
+  window.location.href = "./front-work.html";
 }
 
 function navigate(path) {
@@ -1246,13 +1232,9 @@ function navigate(path) {
     redirectToFrontApp();
     return;
   }
-  if (next === "/front-employee") {
-    redirectToFrontEmployee();
-    return;
-  }
   if (!state.tabs.includes(next)) state.tabs.push(next);
   if (next === "/dashboard/robotList") {
-    state.pageViews[next] = "智能体中心";
+    state.pageViews[next] = "专家中心";
   }
   if (next === "/dashboard/digitalEmployeeList") {
     state.pageViews[next] = "数字员工中心";
@@ -1426,10 +1408,6 @@ function renderTopbar(page) {
           ${icon("frontApp", "front-btn-icon")}
           <span>前台应用</span>
         </button>
-        <button class="front-btn" data-handler="${registerHandler({ type: "nav", path: "/front-employee" })}">
-          ${icon("user", "front-btn-icon")}
-          <span>前台员工</span>
-        </button>
         <button class="icon-btn fullscreen-btn" data-handler="${registerHandler({ type: "noop" })}">${icon("fullscreen")}</button>
         <span class="topbar-divider" aria-hidden="true"></span>
         <button class="user-pill" data-handler="${registerHandler({ type: "drawer", title: "账号信息", fields: userFields() })}" aria-label="账号信息">
@@ -1480,7 +1458,7 @@ function renderPage(page) {
 function renderFrontApp() {
   const navItems = [
     ["通用问答", "Chat / Agent", "active", "◐"],
-    ["智能体广场", "能力与边界", "", "▦"],
+    ["专家广场", "能力与边界", "", "▦"],
     ["历史对话", "复跑 / 导出", "", "◷"],
     ["记忆中心", "个人 / 团队", "", "◇"],
     ["定时任务", "试运行 / 告警", "", "◎"],
@@ -1549,7 +1527,7 @@ function renderFrontApp() {
             <strong>增长分析项目</strong>
           </div>
           <label class="front-global-search">
-            <input placeholder="搜索智能体、历史、记忆、任务" />
+            <input placeholder="搜索专家、历史、记忆、任务" />
           </label>
           <div class="front-global-actions">
             <button data-handler="${registerHandler({ type: "noop" })}">通知 3</button>
@@ -1570,7 +1548,7 @@ function renderFrontApp() {
               <button data-handler="${registerHandler({ type: "noop" })}">查看边界说明</button>
             </section>
             <div class="front-composer front-work-composer">
-              <textarea placeholder="输入问题或任务目标，支持 @智能体、引用记忆、上传文件、选择知识库..."></textarea>
+              <textarea placeholder="输入问题或任务目标，支持 @专家、引用记忆、上传文件、选择知识库..."></textarea>
               <div class="front-composer-tools">
                 <div class="front-tool-left">
                   <button data-handler="${registerHandler({ type: "noop" })}" aria-label="上传附件" title="上传附件">⌘</button>
@@ -1629,13 +1607,13 @@ function renderFrontApp() {
           <aside class="front-context-panel">
             <section class="front-context-card">
               <div class="front-panel-head">
-                <span>智能体广场</span>
+                <span>专家广场</span>
                 <button data-handler="${registerHandler({ type: "noop" })}">全部</button>
               </div>
               <div class="front-agent-list">
                 <button data-handler="${registerHandler({ type: "noop" })}">
                   <strong>深度写作</strong>
-                  <span>专业内容创作 · 普通智能体</span>
+                  <span>专业内容创作 · 普通专家</span>
                 </button>
                 <button data-handler="${registerHandler({ type: "nav", path: "/digital-employee-chat" })}">
                   <strong>数据分析师</strong>
@@ -1889,7 +1867,7 @@ function renderHoverPanel(item) {
         <div class="hover-preview-card">
           <div class="hover-preview-thumb thumb-rag"></div>
           <div class="hover-preview-body">
-            <div class="hover-preview-title">数字员工智能体</div>
+            <div class="hover-preview-title">数字员工专家</div>
             <div class="hover-preview-desc">结合 Harness 框架的稳定调度能力，打造具备特定岗位技能的数字员工，可自主承接标准业务流程，实现企业人力资产的数字化。</div>
             <div class="hover-preview-tags">
               <span class="hover-preview-tag">Harness架构</span>
@@ -1901,8 +1879,8 @@ function renderHoverPanel(item) {
         <div class="hover-preview-card">
           <div class="hover-preview-thumb thumb-rag"></div>
           <div class="hover-preview-body">
-            <div class="hover-preview-title">RAG智能体</div>
-            <div class="hover-preview-desc">基于 RAG 配置智能体，可自主进行私域知识库精准检索 + 大模型生成，企业知识问答优选。</div>
+            <div class="hover-preview-title">RAG专家</div>
+            <div class="hover-preview-desc">基于 RAG 配置专家，可自主进行私域知识库精准检索 + 大模型生成，企业知识问答优选。</div>
             <div class="hover-preview-tags">
               <span class="hover-preview-tag">知识库</span>
               <span class="hover-preview-tag">自主规划</span>
@@ -1913,7 +1891,7 @@ function renderHoverPanel(item) {
         <div class="hover-preview-card">
           <div class="hover-preview-thumb thumb-plan"></div>
           <div class="hover-preview-body">
-            <div class="hover-preview-title">自主规划智能体</div>
+            <div class="hover-preview-title">自主规划专家</div>
             <div class="hover-preview-desc">具备自主规划、知识库调用、工具调用、Skills调用 + 大模型生成，适合独立完成的任务场景。</div>
             <div class="hover-preview-tags">
               <span class="hover-preview-tag">Skills</span>
@@ -1925,10 +1903,10 @@ function renderHoverPanel(item) {
         <div class="hover-preview-card">
           <div class="hover-preview-thumb thumb-collab"></div>
           <div class="hover-preview-body">
-            <div class="hover-preview-title">多应用协同智能体</div>
-            <div class="hover-preview-desc">多个智能体协同工作，通过调度智能体分配任务，适合复杂的多领域协作场景。</div>
+            <div class="hover-preview-title">专家团队</div>
+            <div class="hover-preview-desc">多个专家协同工作，通过调度专家分配任务，适合复杂的多领域协作场景。</div>
             <div class="hover-preview-tags">
-              <span class="hover-preview-tag">多智能体</span>
+              <span class="hover-preview-tag">多专家</span>
               <span class="hover-preview-tag">任务协同</span>
               <span class="hover-preview-tag">分工合作</span>
             </div>
@@ -4173,7 +4151,7 @@ function renderCard(cardData) {
           <span class="tag primary">${cardData.tagName}</span>
           ${cardData.extra ? `<span class="tag">${cardData.extra}</span>` : ""}
         </div>
-        <div class="card-desc">${cardData.desc || "模型已接入系统，可用于智能体、知识库与评测配置。"}</div>
+        <div class="card-desc">${cardData.desc || "模型已接入系统，可用于专家、知识库与评测配置。"}</div>
         <div class="card-foot"><span>${cardData.date}</span><button class="link-btn" data-handler="${registerHandler({ type: "drawer", title: cardData.title, fields: modelFields(cardData) })}">查看</button></div>
       </article>
     `;
@@ -4261,24 +4239,24 @@ function renderDataCenterPage(page) {
   const tabs = ["会话记录", "点赞记录", "用户反馈"];
   const tableMap = {
     会话记录: {
-      columns: [["会话标题", "220px"], ["智能体", "120px"], ["用户", "120px"], ["提问次数", "90px"], ["最后互动时间", "160px"], ["操作", "90px"]],
+      columns: [["会话标题", "220px"], ["专家", "120px"], ["用户", "120px"], ["提问次数", "90px"], ["最后互动时间", "160px"], ["操作", "90px"]],
       rows: [
-        ["新能源电动车问答", "新能源电动车智能体", "杨文逸", "12", "2026-04-28 10:12:21", actions(["查看"])],
+        ["新能源电动车问答", "新能源电动车专家", "杨文逸", "12", "2026-04-28 10:12:21", actions(["查看"])],
         ["法律基础问答", "基础法律问答", "王一雄", "9", "2026-04-28 09:54:08", actions(["查看"])],
         ["Prompt 设计咨询", "提示词设计助手演示", "刘颖", "7", "2026-04-28 09:43:10", actions(["查看"])],
       ],
     },
     点赞记录: {
-      columns: [["会话标题", "220px"], ["智能体", "120px"], ["点赞用户", "120px"], ["点赞内容", "1fr"], ["点赞时间", "160px"]],
+      columns: [["会话标题", "220px"], ["专家", "120px"], ["点赞用户", "120px"], ["点赞内容", "1fr"], ["点赞时间", "160px"]],
       rows: [
-        ["新能源电动车问答", "新能源电动车智能体", "杨文逸", "总结清晰，给出的行业政策引用比较完整。", "2026-04-28 10:16:25"],
+        ["新能源电动车问答", "新能源电动车专家", "杨文逸", "总结清晰，给出的行业政策引用比较完整。", "2026-04-28 10:16:25"],
         ["Prompt 设计咨询", "提示词设计助手演示", "刘颖", "生成的提示词结构可直接用于工作流。", "2026-04-28 09:47:32"],
       ],
     },
     用户反馈: {
-      columns: [["反馈标题", "220px"], ["智能体", "120px"], ["反馈人", "110px"], ["反馈内容", "1fr"], ["状态", "90px"], ["时间", "150px"]],
+      columns: [["反馈标题", "220px"], ["专家", "120px"], ["反馈人", "110px"], ["反馈内容", "1fr"], ["状态", "90px"], ["时间", "150px"]],
       rows: [
-        ["新能源问答回答偏长", "新能源电动车智能体", "信通院", "希望默认回答更简洁一些，保留结论与来源。", tag("待处理", "warning"), "2026-04-28 09:30:14"],
+        ["新能源问答回答偏长", "新能源电动车专家", "信通院", "希望默认回答更简洁一些，保留结论与来源。", tag("待处理", "warning"), "2026-04-28 09:30:14"],
         ["FAQ 答案来源标记不清晰", "基础法律问答", "杨文逸", "建议明确区分“手动录入”与“上传知识”。", tag("已处理", "success"), "2026-04-27 17:41:06"],
       ],
     },

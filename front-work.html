@@ -197,67 +197,87 @@
       .message.user .message-bubble { color: #fff; background: var(--primary); border-color: var(--primary); box-shadow: none; }
       .message-meta { margin-top: 6px; color: var(--text-3); font-size: 12px; line-height: 16px; }
       .message.located .message-bubble { border-color: #8f84ff; background: #f7f5ff; box-shadow: 0 0 0 3px rgba(73, 65, 230, .12), 0 8px 22px rgba(31,37,64,.08); transition: .2s ease; }
-      .chat-composer { position: relative; overflow: visible; max-width: 1080px; margin: 0 auto; border: 1px solid #dde0ee; border-radius: 12px; background: rgba(255,255,255,.92); box-shadow: 0 10px 32px rgba(32, 39, 77, .08); }
-      .chat-composer:focus-within { border-color: var(--primary-line); box-shadow: 0 8px 26px rgba(73, 65, 230, .1); }
-      .chat-agent-bar {
+      .chat-composer {
+        position: relative;
+        overflow: visible;
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 10px 12px 12px;
+        border: 1px solid #e2e3e8;
+        border-radius: 24px;
+        background: linear-gradient(180deg, #fafafa, #f4f4f5);
+        box-shadow: 0 12px 30px rgba(32, 39, 77, .08);
+      }
+      .chat-composer:focus-within { border-color: #d4d8e6; box-shadow: 0 14px 34px rgba(73, 65, 230, .10); }
+      .chat-selection-row {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        gap: 4px;
+        min-width: 0;
+        flex: 1 1 auto;
+        overflow: hidden;
+      }
+      .chat-only[hidden],
+      .chat-selection-row > [hidden] { display: none !important; }
+      .chat-selection-group {
         display: flex;
         align-items: center;
-        gap: 10px;
-        padding: 10px 14px 0;
+        gap: 6px;
+        min-width: 0;
+        flex: 0 1 136px;
+        overflow: hidden;
       }
-      .chat-agent-bar[hidden], .chat-only[hidden] { display: none; }
       .chat-agent-remove {
         display: grid;
         place-items: center;
         width: 28px;
         height: 28px;
         padding: 0;
-        color: #6a6e80;
-        border: 1px solid #d8d2ff;
+        color: #7b7e8f;
+        border: 0;
         border-radius: 50%;
-        background: #f5f3ff;
-        font-size: 14px;
+        background: transparent;
+        font-size: 15px;
         line-height: 1;
       }
       .chat-agent-remove[hidden] { display: none; }
-      .chat-agent-remove:hover { color: #4941e6; background: #eeebff; }
-      .chat-app-bar {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 14px 0;
-      }
-      .chat-app-bar[hidden] { display: none; }
-      .chat-agent-label {
-        color: #545b6d;
-        font-size: 12px;
-        line-height: 16px;
-        white-space: nowrap;
-      }
-      .chat-agent-select {
-        min-width: 180px;
-        height: 30px;
-        padding: 0 10px;
-        color: #4941e6;
-        border: 1px solid #d8d2ff;
+      .chat-agent-remove:hover { color: #4941e6; background: rgba(73, 65, 230, .08); }
+      .chat-primary-select,
+      .chat-option-select {
+        height: 32px;
+        padding: 0 30px 0 8px;
+        color: #3b3f50;
+        border: 0;
         border-radius: 999px;
-        background: #f5f3ff;
-        font-size: 12px;
+        background-color: transparent;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5 6 7.5 9 4.5' stroke='%23666A7A' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-position: calc(100% - 8px) 50%;
+        background-size: 12px 12px;
+        background-repeat: no-repeat;
+        font-size: 14px;
+        line-height: 18px;
         outline: 0;
+        appearance: none;
       }
-      .chat-app-select {
-        min-width: 180px;
-        height: 30px;
-        padding: 0 10px;
-        color: #2563eb;
-        border: 1px solid #bfdbfe;
-        border-radius: 999px;
-        background: #eff6ff;
-        font-size: 12px;
+      .chat-primary-select { min-width: 0; width: 100%; font-weight: 600; }
+      .chat-option-select { min-width: 0; width: auto; flex: 0 0 auto; }
+      .chat-primary-select:focus,
+      .chat-option-select:focus { color: #2f3344; background-color: rgba(255,255,255,.78); box-shadow: 0 0 0 3px rgba(73, 65, 230, .08); }
+      textarea {
+        display: block;
+        width: 100%;
+        height: 118px;
+        padding: 18px 20px;
+        resize: none;
+        color: var(--text);
+        border: 1px solid #d8dadd;
+        border-radius: 18px;
+        background: linear-gradient(180deg, #ededee, #f1f1f2);
         outline: 0;
+        box-shadow: inset 0 1px 2px rgba(255,255,255,.75);
       }
-      textarea { display: block; width: 100%; height: 132px; padding: 20px 18px 0; resize: none; color: var(--text); border: 0; outline: 0; }
-      textarea::placeholder { color: #a9aebe; }
+      textarea::placeholder { color: #8d909b; }
       .mention-menu {
         position: absolute; left: 14px; bottom: 48px; z-index: 8; display: grid; width: 260px; padding: 8px;
         border: 1px solid var(--line); border-radius: 8px; background: #fff; box-shadow: 0 12px 30px rgba(16, 24, 40, .12);
@@ -269,31 +289,39 @@
       .mention-icon { display: grid; place-items: center; width: 28px; height: 28px; color: #fff; background: var(--primary); border-radius: 7px; font-size: 12px; font-weight: 600; }
       .mention-name { color: #32384c; font-size: 13px; line-height: 18px; font-weight: 600; }
       .mention-desc { overflow: hidden; color: var(--text-3); font-size: 12px; line-height: 16px; text-overflow: ellipsis; white-space: nowrap; }
-      .composer-actions { display: flex; align-items: center; gap: 8px; padding: 7px 10px 10px; }
-      .tool-btn, .model-btn {
-        display: flex; align-items: center; gap: 5px; height: 30px; padding: 0 8px; color: #4f576a;
-        border: 1px solid var(--line); border-radius: 6px; background: #fff; font-size: 12px;
+      .composer-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 4px 2px;
+        background: transparent;
+        min-width: 0;
+        flex-wrap: nowrap;
       }
-      .tool-btn.icon-only { width: 32px; padding: 0; justify-content: center; }
-      .tool-btn:hover, .model-btn:hover { color: var(--primary); border-color: var(--primary-line); background: #fafaff; }
+      .tool-btn, .model-btn {
+        display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 10px; color: #555968;
+        border: 0; border-radius: 10px; background: transparent; font-size: 13px;
+      }
+      .tool-btn.icon-only { width: 32px; padding: 0; justify-content: center; border-radius: 8px; }
+      .tool-btn:hover, .model-btn:hover { color: var(--primary); background: rgba(73, 65, 230, .08); }
       .model-tag { padding: 2px 5px; color: #596174; background: #f4f5f8; border-radius: 3px; font-size: 11px; }
-      .composer-spacer { flex: 1; }
+      .composer-spacer { flex: 1 1 auto; min-width: 8px; }
       .action-divider { width: 1px; height: 20px; margin: 0 2px; background: var(--line); }
       .context-progress-btn {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        height: 30px;
+        height: 32px;
         padding: 0 10px;
-        color: #4f576a;
-        border: 1px solid #e4e7f1;
+        color: #555968;
+        border: 0;
         border-radius: 999px;
-        background: #fff;
+        background: transparent;
         font-size: 12px;
         line-height: 16px;
       }
       .chat-page:not(.has-chat) .context-progress-btn { display: none !important; }
-      .context-progress-btn:hover { color: #4941e6; border-color: #d8d2ff; background: #faf9ff; }
+      .context-progress-btn:hover { color: #4941e6; background: rgba(73, 65, 230, .08); }
       .context-progress-ring {
         position: relative;
         width: 16px;
@@ -385,10 +413,11 @@
         line-height: 18px;
       }
       .send-btn {
-        display: grid; place-items: center; width: 30px; height: 30px; color: #fff;
-        border: 0; border-radius: 7px; background: var(--primary);
+        display: grid; place-items: center; width: 40px; height: 40px; color: #fff;
+        border: 0; border-radius: 50%; background: linear-gradient(135deg, #4a4d57, #272932);
+        box-shadow: 0 6px 18px rgba(39, 41, 50, .22);
       }
-      .send-btn:hover { background: var(--primary-hover); }
+      .send-btn:hover { background: linear-gradient(135deg, #5b5f6c, #2d303a); box-shadow: 0 10px 22px rgba(39, 41, 50, .28); }
       .send-btn svg, .tool-btn svg, .model-btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.9; }
       .composer-note { margin-top: 8px; color: var(--text-3); font-size: 11px; text-align: center; }
       .ppt-template-grid {
@@ -490,6 +519,7 @@
         background: #fff;
       }
       .market-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+      .market-head-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
       .market-title { color: #32384c; font-size: 14px; font-weight: 700; }
       .market-close {
         display: inline-grid; place-items: center; width: 28px; height: 28px; color: #949bad;
@@ -498,14 +528,12 @@
       .market-close:hover { color: var(--primary); background: #f6f5ff; border-color: #ddd7ff; }
       .market-close svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
       .market-toolbar { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
-      .market-select-wrap[hidden], .market-tabs[hidden] { display: none; }
-      .market-search-wrap,
-      .market-select-wrap {
+      .market-tabs[hidden] { display: none; }
+      .market-search-wrap {
         position: relative;
         flex: 0 0 auto;
       }
-      .market-search,
-      .market-select {
+      .market-search {
         height: 24px;
         color: #6b7283;
         border: 1px solid #e7e9f1;
@@ -518,13 +546,7 @@
         width: 138px;
         padding: 0 10px 0 28px;
       }
-      .market-select {
-        width: 136px;
-        padding: 0 28px 0 10px;
-        appearance: none;
-      }
-      .market-search-icon,
-      .market-select-icon {
+      .market-search-icon {
         position: absolute;
         top: 50%;
         display: inline-flex;
@@ -533,9 +555,7 @@
         transform: translateY(-50%);
       }
       .market-search-icon { left: 9px; }
-      .market-select-icon { right: 9px; }
-      .market-search-icon svg,
-      .market-select-icon svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .market-search-icon svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
       .market-tabs { display: flex; gap: 8px; margin-bottom: 14px; padding-left: 8px; }
       .market-tab {
         height: 28px; padding: 0 12px; color: #7c8394; border: 1px solid transparent;
@@ -826,16 +846,21 @@
 
       .hello { margin-bottom: 24px; font-size: 36px; line-height: 56px; font-weight: 600; }
       .chat-page { padding: 32px 32px 48px; }
-      .hero { max-width: 960px; }
-      .chat-composer { max-width: 920px; border-color: #ebecf4; border-radius: 8px; box-shadow: 0 8px 20px rgba(31, 37, 64, .06); }
-      .chat-thread { max-width: 920px; }
+      .hero { max-width: 1080px; }
+      .chat-composer { max-width: 1020px; padding: 10px; border-color: #e2e3e8; border-radius: 22px; box-shadow: 0 10px 24px rgba(31, 37, 64, .06); }
+      .chat-thread { max-width: 1020px; }
       .message-bubble { border-color: #ebecf4; border-radius: 8px; }
-      textarea { height: 112px; padding: 16px 16px 0; font-size: 14px; line-height: 20px; }
+      textarea { height: 108px; padding: 16px 16px; border-radius: 16px; font-size: 14px; line-height: 20px; }
       textarea::placeholder { color: #9295a4; }
-      .composer-actions { gap: 8px; padding: 8px 10px 10px; }
-      .tool-btn, .model-btn { height: 32px; padding: 0 12px; border-color: #ebecf4; border-radius: 6px; color: #6a6e80; font-size: 13px; line-height: 18px; }
+      .composer-actions { gap: 4px; padding: 8px 2px 2px; }
+      .chat-selection-row { gap: 2px; }
+      .chat-primary-select, .chat-option-select { height: 30px; font-size: 13px; }
+      .chat-selection-group { flex-basis: 138px; }
+      .chat-primary-select { min-width: 0; }
+      .chat-option-select { min-width: 0; width: auto; flex-basis: auto; }
+      .tool-btn, .model-btn { height: 30px; padding: 0 10px; border-radius: 8px; color: #6a6e80; font-size: 13px; line-height: 18px; }
       .tool-btn.icon-only { width: 32px; padding: 0; }
-      .send-btn { width: 32px; height: 32px; border-radius: 6px; }
+      .send-btn { width: 38px; height: 38px; border-radius: 50%; }
       .composer-note { color: #9295a4; font-size: 12px; line-height: 16px; }
       .chat-recommend-grid { max-width: 920px; gap: 16px; margin-top: 32px; grid-template-columns: repeat(3, minmax(220px, 1fr)); }
       .chat-recommend-card { min-height: 88px; padding: 20px 112px 18px 24px; border-color: #ebecf4; border-radius: 8px; box-shadow: 0 8px 20px rgba(31, 37, 64, .05); }
@@ -889,7 +914,74 @@
       .skill-action.installed::before { content: "已装"; }
       .skill-action.installed:hover { color: #eb4453; background: #fff1f0; }
       .skill-action.installed:hover::before { content: "取消"; }
+      .skill-action.action-text { width: 48px; font-size: 12px; font-weight: 600; }
       .skill-empty { grid-column: 1 / -1; display: grid; min-height: 180px; place-items: center; color: #9295a4; border: 1px dashed #ebecf4; border-radius: 8px; font-size: 13px; line-height: 18px; }
+
+      .project-shell { min-height: calc(100vh - 32px); padding: 16px; border: 1px solid #ebecf4; border-radius: 8px; background: #fff; }
+      .project-list-view[hidden], .project-detail-view[hidden] { display: none; }
+      .project-hero { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 16px; align-items: stretch; margin-bottom: 24px; }
+      .project-hero-copy h1 { margin: 0; color: #161e32; font-size: 36px; line-height: 44px; font-weight: 600; }
+      .project-hero-copy p { margin: 10px 0 20px; color: #6a6e80; font-size: 14px; line-height: 20px; }
+      .project-hero-art { position: relative; min-height: 132px; overflow: hidden; border: 1px solid #ebecf4; border-radius: 16px; background: linear-gradient(180deg, #fbfcff 0%, #f4f6fb 100%); }
+      .project-art-card { position: absolute; width: 96px; height: 56px; border: 1px dashed #cfd5e6; border-radius: 12px; background: rgba(255,255,255,.72); }
+      .project-art-card:nth-child(1) { top: 18px; left: 22px; }
+      .project-art-card:nth-child(2) { top: 34px; left: 132px; }
+      .project-art-card:nth-child(3) { top: 18px; right: 26px; }
+      .project-art-avatar { position: absolute; bottom: 18px; display: grid; place-items: center; width: 46px; height: 46px; color: #4d5565; border: 1px solid #d9deeb; border-radius: 14px; background: #fff; font-size: 14px; font-weight: 600; }
+      .project-art-avatar:nth-child(4) { left: 34px; }
+      .project-art-avatar:nth-child(5) { left: 104px; }
+      .project-art-avatar:nth-child(6) { left: 174px; }
+      .project-art-avatar:nth-child(7) { left: 244px; }
+      .project-list-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+      .project-list-head h2 { margin: 0; color: #161e32; font-size: 18px; line-height: 24px; font-weight: 600; }
+      .project-list-head p { margin: 6px 0 0; color: #9295a4; font-size: 13px; line-height: 18px; }
+      .project-search-wrap { position: relative; flex: 0 0 220px; }
+      .project-search { width: 100%; height: 38px; padding: 0 36px 0 12px; border: 1px solid #ebecf4; border-radius: 8px; outline: 0; color: #161e32; background: #fff; font-size: 13px; line-height: 18px; }
+      .project-search:focus { border-color: #cbc2ff; box-shadow: 0 0 0 2px rgba(73, 65, 230, .08); }
+      .project-search-icon { position: absolute; top: 50%; right: 12px; display: grid; width: 16px; height: 16px; color: #9295a4; transform: translateY(-50%); pointer-events: none; }
+      .project-search-icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .project-list-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+      .project-list-empty { grid-column: 1 / -1; display: grid; min-height: 180px; place-items: center; color: #9295a4; border: 1px dashed #ebecf4; border-radius: 8px; font-size: 13px; }
+      .project-card { display: grid; grid-template-columns: 44px minmax(0, 1fr) 24px; gap: 14px; align-items: center; min-height: 88px; padding: 18px 16px; border: 1px solid #ebecf4; border-radius: 12px; background: #fff; text-align: left; transition: .16s ease; }
+      .project-card:hover { border-color: #cbc2ff; box-shadow: 0 8px 20px rgba(31, 37, 64, .06); }
+      .project-card-icon { display: grid; place-items: center; width: 44px; height: 44px; color: #4d5565; border-radius: 12px; background: #f3f4f8; }
+      .project-card-icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .project-card-title { color: #32384c; font-size: 16px; line-height: 22px; font-weight: 600; }
+      .project-card-meta { margin-top: 4px; color: #9295a4; font-size: 12px; line-height: 16px; }
+      .project-card-more { color: #a5acbb; font-size: 18px; }
+      .project-detail-head { display: grid; gap: 14px; margin-bottom: 16px; }
+      .project-back-btn { width: fit-content; }
+      .project-detail-title { display: flex; align-items: center; gap: 14px; }
+      .project-detail-icon { display: grid; place-items: center; width: 42px; height: 42px; color: #4d5565; border-radius: 12px; background: #f3f4f8; }
+      .project-detail-icon svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .project-detail-title h1 { margin: 0; color: #161e32; font-size: 24px; line-height: 30px; font-weight: 600; }
+      .project-detail-title p { margin: 4px 0 0; color: #9295a4; font-size: 13px; line-height: 18px; }
+      .project-detail-body { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 16px; }
+      .project-task-composer { padding: 16px; border: 1px solid #ebecf4; border-radius: 16px; background: #fff; }
+      .project-task-composer textarea { width: 100%; height: 92px; padding: 0; border: 0; outline: 0; resize: none; }
+      .project-task-compose-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; }
+      .project-task-compose-tools { display: flex; gap: 8px; }
+      .project-task-list-wrap { margin-top: 22px; }
+      .project-task-list-head h2 { margin: 0; color: #161e32; font-size: 18px; line-height: 24px; font-weight: 600; }
+      .project-task-list-head p { margin: 6px 0 0; color: #9295a4; font-size: 13px; line-height: 18px; }
+      .project-task-list { margin-top: 16px; overflow: hidden; border: 1px solid #ebecf4; border-radius: 12px; background: #fff; }
+      .project-task-empty { display: grid; min-height: 160px; place-items: center; color: #9295a4; font-size: 13px; }
+      .project-task-item { display: grid; grid-template-columns: 24px minmax(0, 1fr) 96px; gap: 12px; align-items: center; min-height: 64px; padding: 0 16px; border-bottom: 1px solid #ebecf4; }
+      .project-task-item:last-child { border-bottom: 0; }
+      .project-task-item strong { display: block; color: #32384c; font-size: 14px; line-height: 20px; font-weight: 600; }
+      .project-task-item span { color: #9295a4; font-size: 12px; line-height: 16px; }
+      .project-task-dot { display: grid; place-items: center; width: 20px; height: 20px; color: #6a6e80; border-radius: 6px; background: #f3f4f8; font-size: 12px; }
+      .project-task-time { justify-self: end; color: #9295a4; font-size: 12px; line-height: 16px; }
+      .project-detail-side { display: grid; gap: 12px; }
+      .project-side-card { padding: 16px; border: 1px solid #ebecf4; border-radius: 12px; background: #fff; }
+      .project-side-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; color: #32384c; font-size: 16px; line-height: 22px; font-weight: 600; }
+      .project-side-card p { margin: 0 0 12px; color: #6a6e80; font-size: 13px; line-height: 18px; }
+      .project-side-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+      .project-side-tag { display: inline-flex; align-items: center; height: 28px; padding: 0 10px; color: #4d5565; border-radius: 999px; background: #f3f4f8; font-size: 12px; line-height: 16px; }
+      .project-option-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+      .project-option-chip { display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 12px; color: #4d5565; border: 1px solid #dfe3ee; border-radius: 999px; background: #fff; font-size: 13px; line-height: 18px; cursor: pointer; }
+      .project-option-chip input { display: none; }
+      .project-option-chip.active { color: #4941e6; border-color: #cbc2ff; background: #f3f0ff; }
 
       .employee-shell { grid-template-columns: 1fr; }
       .employee-contacts { padding: 16px; border-right-color: #ebecf4; }
@@ -944,15 +1036,10 @@
         </div>
         <nav class="nav" aria-label="主导航">
           <button class="nav-item active" data-page="chat"><span class="icon"><svg viewBox="0 0 24 24"><path d="M5 19h14"/><path d="M6 18.5 18.4 6.1a2 2 0 0 0-2.8-2.8L3.2 15.7 3 20z"/></svg></span><span class="menu-label">新建任务</span></button>
-          <button class="nav-item" data-page="square"><span class="icon"><svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M4.8 6.8l2.1 2.1M17.1 17.1l2.1 2.1M3 12h3M18 12h3M4.8 17.2l2.1-2.1M17.1 6.9l2.1-2.1"/><circle cx="12" cy="12" r="3"/></svg></span><span class="menu-label">Agent</span></button>
-          <button class="nav-item" data-page="skills"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="2.2"/><circle cx="17" cy="7" r="2.2"/><circle cx="7" cy="17" r="2.2"/><circle cx="17" cy="17" r="2.2"/></svg></span><span class="menu-label">技能</span></button>
-          <button class="nav-item" data-page="schedule"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="menu-label">定时任务</span></button>
-          <button class="nav-item" data-page="files"><span class="icon"><svg viewBox="0 0 24 24"><path d="M6 4h4l3 16H9z"/><path d="M12 4h4l3 16h-4z"/><path d="M5 20h15"/></svg></span><span class="menu-label">文件</span></button>
-          <div class="nav-section-head">
-            <span class="nav-section-title">数字员工</span>
-            <button class="nav-section-add" type="button" data-employee-square title="新增数字员工">+</button>
-          </div>
-          <div id="employeeNavList"></div>
+          <button class="nav-item" data-page="square"><span class="icon"><svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M4.8 6.8l2.1 2.1M17.1 17.1l2.1 2.1M3 12h3M18 12h3M4.8 17.2l2.1-2.1M17.1 6.9l2.1-2.1"/><circle cx="12" cy="12" r="3"/></svg></span><span class="menu-label">专家</span></button>
+          <button class="nav-item" data-page="skills"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="2.2"/><circle cx="17" cy="7" r="2.2"/><circle cx="7" cy="17" r="2.2"/><circle cx="17" cy="17" r="2.2"/></svg></span><span class="menu-label">项目</span></button>
+          <button class="nav-item" data-page="schedule"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="menu-label">自动化</span></button>
+          <button class="nav-item" data-page="files"><span class="icon"><svg viewBox="0 0 24 24"><path d="M6 4h4l3 16H9z"/><path d="M12 4h4l3 16h-4z"/><path d="M5 20h15"/></svg></span><span class="menu-label">文件库</span></button>
           <div class="nav-divider"></div>
           <div class="recent-title">最近对话</div>
           <button class="recent-item">帮我整理本周项目进度</button>
@@ -968,11 +1055,10 @@
             <div class="popover-divider"></div>
             <button class="popover-item" data-page="profile"><svg viewBox="0 0 24 24"><path d="M4 19.5c2.5-1 5-1.5 8-1.5s5.5.5 8 1.5"/><circle cx="12" cy="9" r="4"/></svg>个人中心</button>
             <button class="popover-item" data-page="memory"><svg viewBox="0 0 24 24"><path d="M7 4h8l3 3v13H7z"/><path d="M10 10h5M10 14h5"/></svg>记忆中心</button>
-            <button class="popover-item" data-page="schedule"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16M8 14h3"/></svg>定时任务</button>
             <button class="popover-item" data-page="im"><svg viewBox="0 0 24 24"><path d="M5 6.5h14a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H11l-4.5 3v-3H5a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Z"/><path d="M8 11h8M8 14h5"/></svg>IM 集成</button>
             <div class="popover-divider"></div>
             <div class="popover-label">管理入口</div>
-            <button class="popover-item" data-page="admin"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5M8 17h7"/></svg>智能体管理后台</button>
+            <button class="popover-item" data-page="admin"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5M8 17h7"/></svg>管理后台</button>
           </div>
         </div>
       </aside>
@@ -985,19 +1071,6 @@
               <div class="chat-thread" id="chatThread" aria-live="polite"></div>
               <div class="chat-composer-wrap">
                 <div class="chat-composer">
-                  <div class="chat-agent-bar" id="chatAgentBar" hidden>
-                    <select class="chat-agent-select" id="chatAgentSelect">
-                      <option value="">未选择</option>
-                    </select>
-                    <button class="chat-agent-remove" id="chatAgentRemoveBtn" type="button" aria-label="删除当前智能体" hidden>×</button>
-                  </div>
-                  <div class="chat-app-bar" id="chatAppBar" hidden>
-                    <select class="chat-app-select" id="chatAppSelect">
-                      <option value="knowledge">知识问答</option>
-                      <option value="writing">深度写作</option>
-                      <option value="ppt">PPT创作</option>
-                    </select>
-                  </div>
                   <textarea id="chatInput" placeholder="有什么我可以帮助您的？"></textarea>
                   <div class="mention-menu" id="mentionMenu" hidden></div>
                   <div class="context-popover" id="contextPopover" hidden>
@@ -1021,11 +1094,25 @@
                     </div>
                   </div>
                   <div class="composer-actions">
-                    <button class="tool-btn icon-only" id="chatAttachmentBtn" title="添加附件"><svg viewBox="0 0 24 24"><path d="m9 12 5.5-5.5a3 3 0 0 1 4.2 4.2l-7.1 7.1a5 5 0 0 1-7.1-7.1l7.1-7.1"/><path d="m8 14 6.5-6.5"/></svg></button>
-                    <button class="tool-btn icon-only chat-only" title="联网搜索"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4a12 12 0 0 1 0 16M12 4a12 12 0 0 0 0 16"/></svg></button>
-                    <button class="tool-btn chat-only" title="知识库"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 11h6"/></svg><span class="model-tag">99</span></button>
-                    <button class="model-btn"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M4.2 7.5l3.5 2M16.3 14l3.5 2M4.2 16.5l3.5-2M16.3 10l3.5-2"/><circle cx="12" cy="12" r="5"/></svg>GLAC-110 <span class="model-tag">通用</span><span>⌄</span></button>
+                    <div class="chat-selection-row" id="chatSelectionRow">
+                      <div class="chat-selection-group" id="chatPrimaryGroup" hidden>
+                        <select class="chat-primary-select" id="chatPrimarySelect"></select>
+                        <button class="chat-agent-remove" id="chatAgentRemoveBtn" type="button" aria-label="清除当前选择" hidden>×</button>
+                      </div>
+                      <select class="chat-option-select" id="chatModelSelect" aria-label="模型选择">
+                        <option value="glm-5.1">GLM-5.1</option>
+                        <option value="doubao-1.5-pro">豆包 1.5 Pro</option>
+                        <option value="deepseek-v3">DeepSeek V3</option>
+                      </select>
+                      <select class="chat-option-select" id="chatSkillSelect" aria-label="技能选择">
+                        <option value="">技能选择</option>
+                      </select>
+                      <button class="tool-btn icon-only chat-only" title="联网搜索"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4a12 12 0 0 1 0 16M12 4a12 12 0 0 0 0 16"/></svg></button>
+                      <button class="tool-btn icon-only chat-only" title="知识库" aria-label="知识库"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 11h6"/></svg></button>
+                    </div>
                     <span class="composer-spacer"></span>
+                    <button class="tool-btn icon-only" id="chatAttachmentBtn" type="button" title="添加附件" aria-label="添加附件"><svg viewBox="0 0 24 24"><path d="m9 12 5.5-5.5a3 3 0 0 1 4.2 4.2l-7.1 7.1a5 5 0 0 1-7.1-7.1l7.1-7.1"/><path d="m8 14 6.5-6.5"/></svg></button>
+                    <button class="tool-btn icon-only" id="chatPromptEnhanceBtn" type="button" title="Prompt增强" aria-label="Prompt增强"><svg viewBox="0 0 24 24"><path d="M12 3l1.6 4.6L18 9.2l-4.4 1.6L12 15.4l-1.6-4.6L6 9.2l4.4-1.6z"/><path d="M19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8z"/><path d="M6 15l.9 2.1L9 18l-2.1.9L6 21l-.9-2.1L3 18l2.1-.9z"/></svg></button>
                     <button class="context-progress-btn" id="contextProgressBtn" type="button" title="查看上下文使用情况" hidden>
                       <span class="context-progress-ring" aria-hidden="true"></span>
                       <span id="contextProgressText">25.1%</span>
@@ -1041,52 +1128,116 @@
                 <button class="chat-recommend-card" type="button" data-chat-app="writing"><strong>深度写作</strong><span>专注专业内容创作</span><i class="recommend-art write">✓</i></button>
                 <button class="chat-recommend-card" type="button" data-chat-app="ppt"><strong>PPT创作</strong><span>一键生成专业演示</span><i class="recommend-art ppt">P</i></button>
               </div>
-              <div class="chat-footer-extension">
-                <span class="chat-footer-extension-text">您也可以在飞书里 @我 来执行任务，</span>
-                <button class="chat-footer-extension-btn" id="connectFeishuBtn" type="button">点击连接飞书</button>
-              </div>
+              
             </div>
           </section>
 
           <section class="page market-page" data-view="square">
             <div class="market-shell">
               <div class="market-head">
-                <div class="market-title">智能体广场</div>
-                <button class="market-close" type="button" data-page="chat" aria-label="关闭">
-                  <svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg>
-                </button>
-              </div>
-              <div class="market-toolbar">
+                <div class="market-head-left">
+                  <div class="market-tabs" style="margin-bottom:0;padding-left:0">
+                    <button class="market-tab active" type="button" data-market-root="专家">专家</button>
+                    <button class="market-tab" type="button" data-market-root="技能">技能</button>
+                  </div>
+                  
+                </div>
                 <label class="market-search-wrap">
                   <span class="market-search-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.2-4.2"/></svg></span>
-                  <input class="market-search" id="marketSearchInput" placeholder="搜索智能体" />
-                </label>
-                <label class="market-select-wrap" id="marketTypeWrap">
-                  <select class="market-select">
-                    <option>智能体类型</option>
-                  </select>
-                  <span class="market-select-icon"><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span>
+                  <input class="market-search" id="marketSearchInput" placeholder="搜索专家" />
                 </label>
               </div>
+              <div class="market-tabs" id="squareModeTabs"></div>
               <div class="market-tabs" id="squareTabs"></div>
               <div class="market-grid" id="squareGrid"></div>
             </div>
           </section>
 
           <section class="page skills-page" data-view="skills">
-            <div class="skills-shell">
-              <div class="skills-head">
-                <button class="skills-tab active" type="button" data-skill-tab="market">技能市场</button>
-                <button class="skills-tab" type="button" data-skill-tab="installed">已安装 <span class="skills-count" id="installedSkillCount">0</span></button>
+            <div class="project-shell">
+              <div class="project-list-view" id="projectListView">
+                <div class="project-hero">
+                  <div class="project-hero-copy">
+                    <h1>项目</h1>
+                    <p>多人协同，打造超级团队</p>
+                    <button class="primary-btn" type="button" id="openProjectDialogBtn">+ 新建项目</button>
+                  </div>
+                </div>
+                <div class="project-list-head">
+                  <div>
+                    <h2>我的项目</h2>
+                    <p>管理项目配置、任务与协同资源</p>
+                  </div>
+                  <label class="project-search-wrap">
+                    <input class="project-search" id="projectSearchInput" placeholder="搜索项目" />
+                    <span class="project-search-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.2-4.2"/></svg></span>
+                  </label>
+                </div>
+                <div class="project-list-grid" id="projectListGrid"></div>
               </div>
-              <div class="skills-toolbar">
-                <div class="skills-cats" id="skillCats"></div>
-                <label class="skills-search-wrap">
-                  <input class="skills-search" id="skillSearch" placeholder="搜索技能名称或能力" />
-                  <span class="skills-search-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.2-4.2"/></svg></span>
-                </label>
+              <div class="project-detail-view" id="projectDetailView" hidden>
+                <div class="project-detail-head">
+                  <button class="ghost-btn project-back-btn" type="button" id="projectBackBtn">返回项目</button>
+                  <div class="project-detail-title">
+                    <div class="project-detail-icon"><svg viewBox="0 0 24 24"><path d="M4 7h5l2 2h9v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M4 7V6a2 2 0 0 1 2-2h4l2 2h4"/></svg></div>
+                    <div>
+                      <h1 id="projectDetailName"></h1>
+                      <p id="projectDetailMeta"></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="project-detail-body">
+                  <div class="project-detail-main">
+                    <div class="project-task-composer">
+                      <textarea id="projectTaskInput" placeholder="在此项目中启动任务"></textarea>
+                      <div class="project-task-compose-foot">
+                        <div class="project-task-compose-tools">
+                          <button class="tool-btn icon-only" type="button" title="新建附件"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+                          <button class="tool-btn" type="button" title="专家">专家</button>
+                          <button class="tool-btn" type="button" title="技能">技能</button>
+                        </div>
+                        <button class="send-btn" id="projectTaskCreateBtn" type="button" title="创建任务"><svg viewBox="0 0 24 24"><path d="m5 12 14-7-5 14-2-6z"/></svg></button>
+                      </div>
+                    </div>
+                    <div class="project-task-list-wrap">
+                      <div class="project-task-list-head">
+                        <div>
+                          <h2>任务</h2>
+                          <p>您的任务是私密的，除非您共享它们</p>
+                        </div>
+                      </div>
+                      <div class="project-task-list" id="projectTaskList"></div>
+                    </div>
+                  </div>
+                  <aside class="project-detail-side">
+                    <article class="project-side-card">
+                      <div class="project-side-card-head"><strong>指令</strong><span>›</span></div>
+                      <p id="projectInstructionSummary"></p>
+                      <button class="ghost-btn" type="button" id="projectEditInstructionBtn">+ 添加</button>
+                    </article>
+                    <article class="project-side-card">
+                      <div class="project-side-card-head"><strong>文件</strong><span>›</span></div>
+                      <p>为每个任务引用常用文件。</p>
+                      <div class="project-side-tags" id="projectFileTags"></div>
+                    </article>
+                    <article class="project-side-card">
+                      <div class="project-side-card-head"><strong>技能</strong><span>›</span></div>
+                      <p>在相关情况下跨任务复用重复的工作流。</p>
+                      <div class="project-side-tags" id="projectSkillTags"></div>
+                    </article>
+                    <article class="project-side-card">
+                      <div class="project-side-card-head"><strong>专家</strong><span>›</span></div>
+                      <p>为项目配置长期协作的专家角色。</p>
+                      <div class="project-side-tags" id="projectExpertTags"></div>
+                    </article>
+                    <article class="project-side-card">
+                      <div class="project-side-card-head"><strong>定时任务</strong><span>›</span></div>
+                      <p>在此项目中按设定时间运行任务。</p>
+                      <div class="project-side-tags" id="projectAutomationTags"></div>
+                    </article>
+                  </aside>
+                </div>
               </div>
-              <div class="skills-grid" id="skillsGrid"></div>
             </div>
           </section>
 
@@ -1094,8 +1245,8 @@
             <div class="files-shell">
               <div class="files-head">
                 <div class="files-title">
-                  <h1>文件</h1>
-                  <p>展示各次对话生成的文件，可下载、可回到对应对话查看上下文</p>
+                  <h1>文件库</h1>
+                  <p>集中管理我的文件与对话生成产物，可下载并定位到对应上下文</p>
                 </div>
                 <div class="file-filters" aria-label="文件筛选">
                   <button class="file-filter active" type="button" data-file-filter="all">全部</button>
@@ -1112,11 +1263,11 @@
             <div class="employee-shell">
               <aside class="employee-contacts">
                 <div class="contacts-head">
-                  <strong>通讯录</strong>
-                  <button type="button" title="折叠通讯录"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M10 4v16"/></svg></button>
+                  <strong>专家列表</strong>
+                  <button type="button" title="折叠专家列表"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M10 4v16"/></svg></button>
                 </div>
                 <label class="contacts-search">
-                  <input id="employeeContactSearch" placeholder="搜索员工名称" />
+                  <input id="employeeContactSearch" placeholder="搜索专家名称" />
                   <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.2-4.2"/></svg>
                 </label>
                 <div class="contacts-list" id="employeeContactList"></div>
@@ -1160,16 +1311,16 @@
             <div class="schedule-shell">
               <div class="schedule-head">
                 <div class="schedule-title">
-                  <h1>定时任务</h1>
-                  <p>配置周期性任务，查看执行历史与结果摘要。</p>
+                  <h1>自动化</h1>
+                  <p>配置周期性自动化任务，查看执行历史与结果摘要。</p>
                 </div>
                 <div class="schedule-actions">
                   <button class="ghost-btn" type="button" id="quickScheduleBtn">一句话创建</button>
-                  <button class="primary-btn" type="button" id="openScheduleDialogBtn">创建</button>
+                  <button class="primary-btn" type="button" id="openScheduleDialogBtn">新建自动化</button>
                 </div>
               </div>
               <div class="schedule-tabs">
-                <button class="schedule-tab active" type="button" data-schedule-tab="tasks">已配置任务</button>
+                <button class="schedule-tab active" type="button" data-schedule-tab="tasks">自动化列表</button>
                 <button class="schedule-tab" type="button" data-schedule-tab="history">执行历史</button>
               </div>
               <div class="schedule-panel" id="scheduleTasksPanel">
@@ -1227,8 +1378,8 @@
     </div>
     <div class="modal-overlay" id="scheduleDialog" hidden>
       <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="scheduleDialogTitle">
-        <h2 class="modal-title" id="scheduleDialogTitle">创建定时任务</h2>
-        <p class="modal-desc">配置任务名称、提示词、执行频率和推送方式。保存后会出现在已配置任务列表。</p>
+        <h2 class="modal-title" id="scheduleDialogTitle">创建自动化</h2>
+        <p class="modal-desc">配置任务名称、提示词、执行频率和推送方式。保存后会出现在自动化列表。</p>
         <div class="schedule-form">
           <label class="schedule-field">
             <span>任务名称</span>
@@ -1245,7 +1396,7 @@
           </label>
           <label class="schedule-field full">
             <span>任务提示词</span>
-            <textarea id="schedulePromptInput" placeholder="描述需要定时执行的任务目标、输入来源、输出格式和质量要求"></textarea>
+            <textarea id="schedulePromptInput" placeholder="描述需要自动执行的任务目标、输入来源、输出格式和质量要求"></textarea>
           </label>
           <label class="schedule-field">
             <span>生效开始</span>
@@ -1274,41 +1425,72 @@
         </div>
       </div>
     </div>
+    <div class="modal-overlay" id="projectDialog" hidden>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="projectDialogTitle">
+        <h2 class="modal-title" id="projectDialogTitle">创建项目</h2>
+        <p class="modal-desc">配置项目名称、指令、专家和技能。除项目名称外，其他字段均为非必填。</p>
+        <div class="schedule-form">
+          <label class="schedule-field full">
+            <span>项目名称</span>
+            <input id="projectNameInput" type="text" placeholder="例如：需求分析师" />
+          </label>
+          <label class="schedule-field full">
+            <span>指令</span>
+            <textarea id="projectInstructionInput" placeholder="描述项目默认执行方式、上下文约束或协作规则（选填）"></textarea>
+          </label>
+          <div class="schedule-field full">
+            <span>专家</span>
+            <div class="project-option-grid" id="projectExpertOptions"></div>
+          </div>
+          <div class="schedule-field full">
+            <span>技能</span>
+            <div class="project-option-grid" id="projectSkillOptions"></div>
+          </div>
+          <div class="form-error full" id="projectFormError"></div>
+        </div>
+        <div class="modal-actions">
+          <button class="ghost-btn" type="button" id="cancelProjectDialogBtn">取消</button>
+          <button class="primary-btn" type="button" id="submitProjectDialogBtn">创建项目</button>
+        </div>
+      </div>
+    </div>
     <script>
       const pages = {
-        chat: ["新建对话", ""], skills: ["技能中心", "沉淀可复用技能、工具链与任务模板。"], square: ["智能体广场", ""], files: ["文件", "管理上传文件、知识材料与任务附件。"], employee: ["数字员工", ""], history: ["历史对话", ""],
+        chat: ["新建任务", ""], skills: ["项目", "管理项目进展，并单独维护多智能体专家团。"], square: ["专家", "统一查看和使用各类专家能力。"], files: ["文件库", "管理我的文件、知识材料与任务附件。"], employee: ["专家工作台", "查看专家并发起任务。"], history: ["历史对话", ""],
         account: ["账号信息", "管理登录账号、安全设置与绑定信息。"], profile: ["个人中心", "查看个人资料、偏好设置与使用信息。"],
-        memory: ["记忆中心", "管理 AI 可复用的个人记忆与团队知识。"], schedule: ["定时任务", "查看定时任务、运行状态与执行记录。"],
+        memory: ["记忆中心", "管理 AI 可复用的个人记忆与团队知识。"], schedule: ["自动化", "查看自动化任务、运行状态与执行记录。"],
         im: ["IM 集成", "配置飞书机器人等外部 IM 渠道。"],
         admin: ["智能体管理后台", "此入口面向管理员，用于配置、发布和管理智能体。"]
       };
-      const squareTabs = ["全部", "开发", "创作", "办公", "生活"];
-      const squareCards = [
-        { icon: "合", color: "#5b7cff", title: "合同信息抽取", badge: "置顶", category: "办公", desc: "精准提取并结构化输出，大幅提升合同审核、归档效率。", source: "自主规划", prompt: "请帮我提取这份合同中的甲乙方、合同金额、履约期限、付款方式和关键风险点，并整理成结构化结果。" },
-        { icon: "默", color: "#7f72ff", title: "默认智能体", category: "办公", desc: "默认智能体，适配通用任务，快速进入处理流程。", source: "自主规划", prompt: "请根据我的任务目标，先拆解执行步骤，再给出清晰的处理结果和下一步建议。" },
-        { icon: "数", color: "#f1ab3c", title: "数据分析", category: "办公", desc: "面向行业数据分析与报告生成，支持多个 Excel 表格文件。", source: "自主规划", prompt: "请对上传的表格数据做趋势分析，输出关键指标变化、异常点和可汇报结论。" },
-        { icon: "跨", color: "#5c8dff", title: "跨时区会议时间换算", category: "生活", desc: "帮助快速推算不同时区之间的会议时间，明确各国对应时刻。", source: "自主规划", prompt: "请帮我把北京时间下周三 15:00 的会议换算成纽约、伦敦、东京和新加坡时间，并提示是否在工作时间内。" },
-        { icon: "营", color: "#6d8dff", title: "营销助手", category: "创作", desc: "专注于高效产出营销内容，降低创作与格式转化成本。", source: "自主规划", prompt: "请围绕新产品发布活动，生成一版朋友圈文案、公众号标题和 3 条短视频脚本方向。" },
-        { icon: "印", color: "#ff7e73", title: "pdf水印添加助手", category: "办公", desc: "支持默认和自定义英文水印，适配 PDF 批量加印场景。", source: "自主规划", prompt: "请帮我给这批 PDF 添加英文水印 CONFIDENTIAL，并说明适合的水印位置、透明度和批量处理方式。" },
-        { icon: "P", color: "#2f6de1", title: "PDF文档处理", category: "办公", desc: "支持表格提取、合并拆分、OCR 识别转换等常用能力。", source: "自主规划", prompt: "请帮我识别这份 PDF 的文字内容，并提取其中的表格与关键字段，输出为可编辑结果。" },
-        { icon: "AI", color: "#78a6ff", title: "AI 文本检测与自然化助手", category: "创作", desc: "识别 AI 写作特征并提供自然化处理建议，增强文本可读性。", source: "自主规划", prompt: "请检测这段文本中的 AI 写作痕迹，并给出更自然、更像人工表达的改写版本。" },
-        { icon: "智", color: "#4b9dff", title: "智改文档", category: "开发", desc: "支持上传文档智能解析、内容修改与结构调整，输出规范版本。", source: "自主规划", prompt: "请帮我优化这份文档的结构和措辞，按正式汇报材料的风格输出修订版。" },
-        { icon: "汛", color: "#95a8c9", title: "流域防汛形势分析智能体", category: "开发", desc: "基于降雨、水位、入库流量等数据生成防汛分析报告。", source: "自主规划", prompt: "请结合当前降雨、水位和入库流量数据，生成一版流域防汛形势分析报告，并给出处置建议。" },
-        { icon: "司", color: "#87a5ff", title: "公司深度研报助手", category: "办公", desc: "根据公司名称完成基础信息、业务深度分析与风险研究输出。", source: "自主规划", prompt: "请针对这家公司生成一版深度研报，包含主营业务、竞争格局、财务表现、核心风险和投资看点。" },
-        { icon: "译", color: "#8a90ff", title: "翻译助手", category: "生活", desc: "支持中英日等多语种互译，适配商务与生活场景。", source: "自主规划", prompt: "请将下面内容翻译成英文，并保留商务邮件语气，同时给出一个更自然的英文标题。" }
-      ];
+      const squareRootTabs = ["专家", "技能"];
+      const squareModeTabs = ["专家", "专家团"];
+      const squareTabs = {
+        "专家": ["全部", "法务", "项目", "分析", "运营"],
+        "专家团": ["全部", "交付协同", "经营分析", "研发支持"]
+      };
+      const marketSkillCategories = ["全部", "办公协同", "效率工具", "数据分析", "知识与学习", "商业运营"];
+      const squareCards = [];
       const employeeContacts = [
-        { icon: "合", color: "#7f72ff", title: "合同审核助手（B版）", desc: "合同审核数字员工，自动解析合同风险...", date: "2026/3" },
-        { icon: "合", color: "#95a8c9", title: "合同审核助手（正式）", desc: "合同审核数字员工，通过AI自动完成合同上传解析...", date: "2026/2", active: true },
-        { icon: "招", color: "#4ba1ff", title: "招商政策制定辅助员", desc: "辅助制定招商政策，提供专业建议...", date: "2026/2" },
-        { icon: "产", color: "#23bf80", title: "产品经理_test", desc: "协助梳理产品需求、制定方案...", date: "2026/2" },
-        { icon: "需", color: "#23bf80", title: "需求分析师", desc: "梳理需求背景、业务规则与验收标准...", date: "2026/2" },
-        { icon: "部", color: "#23bf80", title: "部门业务周报助手", desc: "自动汇总日常工作内容，生成周报...", date: "2026/2" },
-        { icon: "方", color: "#23bf80", title: "方案助理", desc: "帮助解决方案专家进行方案编写...", date: "2026/1" },
-        { icon: "标", color: "#ff9f47", title: "招标助手", desc: "为您自动检测招标文件风险...", date: "2026/1" },
-        { icon: "内", color: "#23bf80", title: "内容运营员工", desc: "可以获取各大网站热点话题...", date: "2026/1" },
-        { icon: "新", color: "#ff9f47", title: "新能源助手-测试", desc: "为您解答新能源测试问题...", date: "2025/26" },
-        { icon: "南", color: "#23bf80", title: "流域防汛分析助手", desc: "智谱天河流域防汛形势分析...", date: "2025/25" }
+        { icon: "改", color: "#6b7dff", title: "智改文档", category: "项目", desc: "支持上传文档智能解析、内容修改、润色创作与结构调整，一键导出 Word 文档。", prompt: "请帮我优化这份文档的结构和措辞，按正式汇报材料的风格输出修订版。", date: "2026/06" },
+        { icon: "汛", color: "#5b7cff", title: "流域防汛形势分析智能体", category: "分析", desc: "基于降雨预报、水位、入库流量等数据，生成流域防汛形势分析报告。", prompt: "请结合当前降雨、水位和入库流量数据，生成一版流域防汛形势分析报告，并给出处置建议。", date: "2026/06" },
+        { icon: "研", color: "#7b8cff", title: "公司深度研报助手", category: "分析", desc: "根据公司公开信息，输出公司基础信息、业务深度分析、风险提示等内容。", prompt: "请针对这家公司生成一版深度研报，包含主营业务、竞争格局、财务表现、核心风险和投资看点。", date: "2026/06" },
+        { icon: "译", color: "#8a90ff", title: "翻译助手", category: "项目", desc: "支持中英、英语、韩语、法语、德语、西班牙语、俄语、阿拉伯语等互译。", prompt: "请将下面内容翻译成英文，并保留商务邮件语气，同时给出一个更自然的英文标题。", date: "2026/06" },
+        { icon: "转", color: "#59a8ff", title: "PDF转WORD", category: "项目", desc: "将 PDF 文件转换为 Word 文件，便于二次编辑与内容复用。", prompt: "请帮我把这份 PDF 转换为可编辑的 Word 文档，并保留原有结构。", date: "2026/05" },
+        { icon: "流", color: "#6aa5ff", title: "流程图生成", category: "项目", desc: "根据输入内容快速生成流程图，适合梳理方案流程与业务步骤。", prompt: "请根据以下业务描述生成一版流程图结构，并给出关键节点说明。", date: "2026/05" },
+        { icon: "秘", color: "#8f7cff", title: "数字助理“小秘”", category: "运营", desc: "数字助理“小秘”，协助日程整理、通知提醒和办公事务处理。", prompt: "请作为数字助理，帮我整理今天的待办、会议和提醒事项。", date: "2026/05" },
+        { icon: "办", color: "#6f8dff", title: "数字助理“小秘”Pro", category: "运营", desc: "基于专属知识库和技能，提供更智能的办公协同与任务跟进能力。", prompt: "请基于办公助手场景，帮我整理待办事项并生成一版今日执行清单。", date: "2026/05" },
+        { icon: "比", color: "#8ab4ff", title: "文件差异对比", category: "分析", desc: "输入两个文件进行对比差异，输出差异分析结果和重点改动说明。", prompt: "请对比这两个文件的差异，并按新增、删除、修改三类整理结果。", date: "2026/04" },
+        { icon: "纪", color: "#6c9cff", title: "会议纪要生成助手", category: "项目", desc: "输入文本内容自动生成规范会议纪要，提炼结论、行动项与责任人。", prompt: "请根据会议记录生成会议纪要，包含讨论要点、结论和行动项。", date: "2026/04" },
+        { icon: "电", color: "#4fc17b", title: "电力知识助手", category: "分析", desc: "面向电力领域知识问答，覆盖用电、设备、业务与用户相关知识。", prompt: "请解答以下电力业务问题，并结合行业知识给出说明。", date: "2026/04" },
+        { icon: "法", color: "#7c89ff", title: "基础法律问答", category: "法务", desc: "法律常识问答，覆盖消费者权益、财产与继承、婚姻与继承等基础场景。", prompt: "请基于基础法律知识回答以下问题，并提示适用边界。", date: "2026/04" }
+      ];
+      const marketSkillCards = [
+        { id: "tencent-doc", icon: "T", color: "linear-gradient(135deg,#2f6de1,#4bd3ff)", title: "腾讯文档", category: "办公协同", desc: "创建、编辑和管理在线文档、表格与协作文档。", source: "技能市场", prompt: "请介绍腾讯文档技能可支持的常见办公协同场景。" },
+        { id: "tencent-meeting", icon: "M", color: "linear-gradient(135deg,#1686ff,#2458e6)", title: "腾讯会议", category: "办公协同", desc: "支持会议预约、修改、取消与会议信息查询。", source: "技能市场", prompt: "请说明腾讯会议技能可以完成哪些会议管理操作。" },
+        { id: "neodata-finance", icon: "N", color: "linear-gradient(135deg,#4b7bff,#3158d8)", title: "NeoData金融搜索服务", category: "数据分析", desc: "自然语言查询股票、基金、宏观和商品等金融数据。", source: "技能市场", prompt: "请介绍 NeoData 金融搜索服务的核心能力和适用场景。" },
+        { id: "cnb-cool", icon: "c", color: "linear-gradient(135deg,#ff8b2f,#ff5c00)", title: "cnb.cool", category: "效率工具", desc: "覆盖仓库、Issue、PR、流水线、制品库等研发操作。", source: "技能市场", prompt: "请介绍 cnb.cool 技能适合哪些研发协作场景。" },
+        { id: "tencent-ima", icon: "ima", color: "linear-gradient(135deg,#f9fff0,#dff9af)", title: "腾讯ima", category: "知识与学习", desc: "支持笔记与知识库的读取、写入和检索。", source: "技能市场", prompt: "请说明腾讯 ima 技能如何支持知识沉淀与检索。" },
+        { id: "aihot", icon: "火", color: "linear-gradient(135deg,#ffb02e,#eb4453)", title: "AIHOT", category: "商业运营", desc: "一句话检索每日精选 AI 模型、产品与行业信息。", source: "技能市场", prompt: "请说明 AIHOT 技能在商业运营信息收集中的应用方式。" }
       ];
       const skillShortcuts = [
         { name: "合同审核", desc: "识别风险条款并输出修改建议", icon: "审" },
@@ -1317,30 +1499,80 @@
         { name: "数据分析", desc: "解读表格数据并生成洞察结论", icon: "数" },
         { name: "会议纪要", desc: "整理讨论重点、结论和行动项", icon: "纪" }
       ];
-      const skillCategories = ["效率工具", "办公协同", "商业运营", "数据分析", "知识与学习"];
-      const skillCards = [
-        { id: "tencent-doc", icon: "T", color: "linear-gradient(135deg,#2f6de1,#4bd3ff)", title: "腾讯文档", category: "办公协同", desc: "腾讯文档在线云文档平台，创建、编辑、管理多种类型文档", installed: true },
-        { id: "tencent-meeting", icon: "M", color: "linear-gradient(135deg,#1686ff,#2458e6)", title: "腾讯会议", category: "办公协同", desc: "腾讯会议管理助手，支持预约/创建/修改/取消会议、查询录制与参会信息", installed: true },
-        { id: "wechat-work", icon: "企", color: "linear-gradient(135deg,#f2fbff,#dbefff)", title: "企业微信套件", category: "办公协同", desc: "企业微信 CLI 套件，覆盖文档/消息/日程/会议/待办/通讯录等业务", installed: true },
-        { id: "tencent-ima", icon: "ima", color: "linear-gradient(135deg,#f9fff0,#dff9af)", title: "腾讯ima", category: "知识与学习", desc: "ima笔记与知识库管理（读取、写入、检索）", installed: false },
-        { id: "neodata-finance", icon: "N", color: "linear-gradient(135deg,#4b7bff,#3158d8)", title: "NeoData金融搜索服务", category: "数据分析", desc: "自然语言查询股票、基金、宏观、外汇、大宗商品等金融数据", installed: false },
-        { id: "cnb-cool", icon: "c", color: "linear-gradient(135deg,#ff8b2f,#ff5c00)", title: "cnb.cool", category: "效率工具", desc: "CNB 平台全功能操作（仓库、Issue、PR、流水线、制品库）", installed: false },
-        { id: "aihot", icon: "火", color: "linear-gradient(135deg,#ffb02e,#eb4453)", title: "AIHOT", category: "商业运营", desc: "一句话查到 aihot.virxact.com 上每天精选的 AI 模型 / 产品 / 行业信息", installed: false },
-        { id: "brand-style", icon: "品", color: "linear-gradient(135deg,#e7f3f1,#c9dfdc)", title: "品牌设计风格专家", category: "商业运营", desc: "54 个知名网站设计系统模板，一键复用品牌级 UI 风格", installed: false },
-        { id: "bookwriter", icon: "F", color: "linear-gradient(135deg,#3fb4ff,#2f6de1)", title: "fbs-bookwriter", category: "知识与学习", desc: "帮助手出品高质量长文档手稿工具链：书籍、手册、白皮书、行业报告", installed: false }
+      const skillCategoryMap = {
+        projects: ["全部", "进行中", "规划中", "已归档"],
+        teams: ["全部", "交付协同", "经营分析", "研发支持"]
+      };
+      const projectCards = [
+        { id: "water", icon: "汛", color: "linear-gradient(135deg,#5b7cff,#8fb5ff)", title: "流域防汛分析平台", category: "进行中", desc: "围绕监测数据接入、风险分析和报告生成推进建设。", actionText: "进入", prompt: "请汇总流域防汛分析平台本周进展、风险和下阶段计划。" },
+        { id: "contract", icon: "合", color: "linear-gradient(135deg,#7f72ff,#b4a7ff)", title: "合同审核能力升级", category: "进行中", desc: "优化合同解析、风险识别与修订建议输出链路。", actionText: "进入", prompt: "请整理合同审核能力升级项目的目标、当前状态和待办事项。" },
+        { id: "assistant", icon: "项", color: "linear-gradient(135deg,#23bf80,#79ddad)", title: "项目助手工作台", category: "规划中", desc: "规划项目全生命周期视图与多角色协同工作流。", actionText: "查看", prompt: "请生成项目助手工作台的建设方案和关键里程碑。" },
+        { id: "report", icon: "报", color: "linear-gradient(135deg,#ff9f47,#ffc36f)", title: "经营周报自动化", category: "已归档", desc: "已完成自动化周报生成流程搭建，并进入稳定运行阶段。", actionText: "复盘", prompt: "请复盘经营周报自动化项目的收益、问题和经验总结。" }
       ];
-      let activeEmployeeIndex = 1;
+      const skillCards = [
+        { id: "team-delivery", icon: "团", color: "linear-gradient(135deg,#2f6de1,#4bd3ff)", title: "交付专家团", category: "交付协同", desc: "由需求分析、方案编写、周报生成等专家组成，面向项目交付场景。", actionText: "管理" },
+        { id: "team-ops", icon: "营", color: "linear-gradient(135deg,#ff8b2f,#ff5c00)", title: "经营分析专家团", category: "经营分析", desc: "由数据分析、研报分析、营销内容专家组成，服务经营决策。", actionText: "管理" },
+        { id: "team-rd", icon: "研", color: "linear-gradient(135deg,#4b7bff,#3158d8)", title: "研发支持专家团", category: "研发支持", desc: "由产品规划、文档优化和默认专家组成，支撑研发协同与方案沉淀。", actionText: "管理" }
+      ];
+      const projectRecords = [
+        {
+          id: "proj-needs",
+          name: "需求分析师",
+          createdBy: "刘静",
+          updatedLabel: "6月10日 更新",
+          addedAgo: "添加于 2 小时前",
+          instruction: "指导 Manus 如何在此项目的所有任务中响应。",
+          experts: ["需求分析专家", "方案编写专家"],
+          skills: ["腾讯文档", "流程图生成"],
+          files: ["需求访谈纪要.docx"],
+          automations: ["每周一 09:00 周报同步"],
+          tasks: [{ title: "制定2026年春节购物清单", time: "4 个月前" }]
+        },
+        {
+          id: "proj-001",
+          name: "project001",
+          createdBy: "刘静",
+          updatedLabel: "6月10日 更新",
+          addedAgo: "添加于 2 小时前",
+          instruction: "聚焦项目节点推进，统一沉淀目标、排期和交付结论。",
+          experts: ["默认专家"],
+          skills: ["腾讯会议"],
+          files: ["项目排期表.xlsx"],
+          automations: [],
+          tasks: [{ title: "整理项目启动会纪要", time: "今天" }]
+        },
+        {
+          id: "proj-test",
+          name: "project-test",
+          createdBy: "刘静",
+          updatedLabel: "6月8日 更新",
+          addedAgo: "添加于 2 天前",
+          instruction: "",
+          experts: [],
+          skills: ["NeoData金融搜索服务"],
+          files: [],
+          automations: [],
+          tasks: []
+        }
+      ];
+      let activeEmployeeIndex = 0;
       let employeeContactKeyword = "";
-      let employeeSquareMode = false;
-      let employeeSquareKeyword = "";
-      let navEmployeeIndexes = [1, 4];
+      let marketKeyword = "";
       let currentChatMode = "agent";
       let activeMentionType = "";
-      let activeSkillTab = "market";
-      let activeSkillCategory = "效率工具";
+      let activeSkillTab = "projects";
+      let activeSkillCategory = "全部";
       let skillKeyword = "";
+      let projectKeyword = "";
+      let projectViewMode = "list";
+      let activeProjectId = "proj-needs";
+      let editingProjectId = "";
+      let projectExpertDraft = [];
+      let projectSkillDraft = [];
       let selectedChatAgent = "";
       let selectedChatApp = "";
+      let selectedChatModel = "glm-5.1";
+      let selectedChatSkill = "";
       let selectedPptTemplate = "";
       const chatApps = {
         knowledge: { title: "知识问答", placeholder: "请输入你要查询的问题或知识点", prompt: "请基于已知资料回答这个问题，并给出清晰结论。" },
@@ -1369,7 +1601,7 @@
           time: "今天 14:32",
           isRecent: true,
           messages: [
-            { id: "msg-contract-user", role: "user", text: "请审核这份合同，输出风险点和修订建议。", meta: "Agent 模式" },
+            { id: "msg-contract-user", role: "user", text: "请审核这份合同，输出风险点和修订建议。", meta: "专家模式" },
             { id: "msg-contract-result", role: "assistant", text: "合同审核已完成，识别高风险 2 条、中风险 6 条，并生成审核结果与风险汇总表。", meta: "生成文件 2 个" }
           ],
           files: [
@@ -1383,7 +1615,7 @@
           time: "昨天 18:46",
           isRecent: true,
           messages: [
-            { id: "msg-prd-user", role: "user", text: "根据智能体管理后台需求，生成一版 PRD 初稿。", meta: "Agent 模式" },
+            { id: "msg-prd-user", role: "user", text: "根据智能体管理后台需求，生成一版 PRD 初稿。", meta: "专家模式" },
             { id: "msg-prd-result", role: "assistant", text: "PRD 初稿已生成，包含目标、范围、核心流程、页面结构和验收标准。", meta: "生成文件 1 个" }
           ],
           files: [
@@ -1407,7 +1639,7 @@
           time: "昨天 15:20",
           isRecent: true,
           messages: [
-            { id: "msg-market-user", role: "user", text: "分析 Q2 运营指标趋势，输出可汇报材料。", meta: "Agent 模式" },
+            { id: "msg-market-user", role: "user", text: "分析 Q2 运营指标趋势，输出可汇报材料。", meta: "专家模式" },
             { id: "msg-market-result", role: "assistant", text: "趋势分析已完成，已生成指标分析报告、图表数据和汇报大纲。", meta: "生成文件 4 个" }
           ],
           files: [
@@ -1431,7 +1663,7 @@
         { title: "部门业务周报生成", desc: "周报草稿已生成，包含项目进度、阻塞事项和下周重点。", time: "06-01 09:04", status: "已完成" }
       ];
       let activeScheduleTab = "tasks";
-      const marketState = { square: "办公", employee: "全部" };
+      const marketState = { squareRoot: "专家", squareMode: "专家", squareCategory: "全部", employee: "全部" };
       function renderMarketTabs(containerId, scope, tabs) {
         const container = document.getElementById(containerId);
         if (!container) return;
@@ -1440,12 +1672,14 @@
       function employeeToMarketCard(item, index) {
         return {
           employeeIndex: index,
+          taskType: "expert",
           icon: item.icon,
           color: item.color,
           title: item.title,
-          category: "办公",
+          category: item.category || "项目",
           desc: item.desc,
-          source: navEmployeeIndexes.includes(index) ? "已在左侧" : "点击添加到左侧"
+          source: "点击进入专家",
+          prompt: item.prompt || "请根据当前任务目标给出处理方案和执行结果。"
         };
       }
       function renderMarketGrid(containerId, scope, cards) {
@@ -1454,7 +1688,7 @@
         const activeTab = marketState[scope];
         const visibleCards = activeTab === "全部" ? cards : cards.filter(card => card.category === activeTab);
         container.innerHTML = visibleCards.map(card => `
-          <article class="market-card" ${card.employeeIndex !== undefined ? `data-add-employee="${card.employeeIndex}"` : `data-square-title="${escapeHtml(card.title)}" data-square-prompt="${escapeHtml(card.prompt || "")}"`}>
+          <article class="market-card" ${card.employeeIndex !== undefined ? `data-open-employee="${card.employeeIndex}"` : `data-square-title="${escapeHtml(card.title)}" data-square-prompt="${escapeHtml(card.prompt || "")}" data-square-task-type="${escapeHtml(card.taskType || "expert")}"`}>
             <div class="market-card-head">
               <span class="market-card-icon" style="background:${card.color}">${card.icon}</span>
               <div class="market-card-copy">
@@ -1470,51 +1704,216 @@
         `).join("");
       }
       function renderMarkets() {
-        const title = document.querySelector(".market-title");
-        if (title) title.textContent = employeeSquareMode ? "数字员工广场" : "智能体广场";
+        const squareRoot = marketState.squareRoot;
+        const squareMode = marketState.squareMode;
         const searchInput = document.getElementById("marketSearchInput");
-        const typeWrap = document.getElementById("marketTypeWrap");
+        const rootTabs = document.querySelectorAll("[data-market-root]");
+        const modeTabs = document.getElementById("squareModeTabs");
         const tabs = document.getElementById("squareTabs");
-        if (searchInput) searchInput.placeholder = employeeSquareMode ? "搜索数字员工" : "搜索智能体";
-        if (typeWrap) typeWrap.hidden = employeeSquareMode;
-        if (tabs) tabs.hidden = employeeSquareMode;
-        if (!employeeSquareMode) renderMarketTabs("squareTabs", "square", squareTabs);
-        const keyword = employeeSquareKeyword.trim().toLowerCase();
-        const employeeCards = employeeContacts
-          .map(employeeToMarketCard)
-          .filter(card => !keyword || `${card.title} ${card.desc}`.toLowerCase().includes(keyword));
-        const cards = employeeSquareMode ? employeeCards : squareCards;
-        renderMarketGrid("squareGrid", "square", cards);
+        rootTabs.forEach(tab => tab.classList.toggle("active", tab.dataset.marketRoot === squareRoot));
+        if (modeTabs) modeTabs.hidden = squareRoot !== "专家";
+        if (squareRoot === "专家") renderMarketTabs("squareModeTabs", "squareMode", squareModeTabs);
+        if (searchInput) searchInput.placeholder = squareRoot === "技能" ? "搜索技能" : (squareMode === "专家团" ? "搜索专家团" : "搜索专家");
+        if (tabs) tabs.hidden = false;
+        const categories = squareRoot === "技能" ? marketSkillCategories : (squareTabs[squareMode] || ["全部"]);
+        if (!categories.includes(marketState.squareCategory)) marketState.squareCategory = "全部";
+        renderMarketTabs("squareTabs", "squareCategory", categories);
+        const keyword = marketKeyword.trim().toLowerCase();
+        const cards = squareRoot === "技能"
+          ? marketSkillCards.map(item => ({ ...item, taskType: "skill" }))
+          : squareMode === "专家团"
+          ? skillCards.map(item => ({
+              taskType: "team",
+              icon: item.icon,
+              color: item.color,
+              title: item.title,
+              category: item.category,
+              desc: item.desc,
+              source: "多智能体协同",
+              prompt: `请介绍${item.title}的组成分工、适用场景和协作方式。`
+            }))
+          : employeeContacts.map(employeeToMarketCard);
+        const visibleCards = cards.filter(card => !keyword || `${card.title} ${card.desc}`.toLowerCase().includes(keyword));
+        renderMarketGrid("squareGrid", "squareCategory", visibleCards);
       }
       renderMarkets();
-      function renderSkillCenter() {
-        const cats = document.getElementById("skillCats");
-        const grid = document.getElementById("skillsGrid");
-        const installedCount = document.getElementById("installedSkillCount");
-        if (!cats || !grid || !installedCount) return;
-        const installedTotal = skillCards.filter(item => item.installed).length;
-        installedCount.textContent = installedTotal;
-        document.querySelectorAll("[data-skill-tab]").forEach(tab => tab.classList.toggle("active", tab.dataset.skillTab === activeSkillTab));
-        cats.innerHTML = skillCategories.map(cat => `<button class="skill-cat ${activeSkillCategory === cat ? "active" : ""}" type="button" data-skill-cat="${cat}">${cat}</button>`).join("");
-        const keyword = skillKeyword.toLowerCase();
-        const visibleCards = skillCards.filter(item => {
-          const inTab = activeSkillTab === "installed" ? item.installed : true;
-          const inCat = activeSkillTab === "installed" ? true : item.category === activeSkillCategory;
-          const inSearch = !keyword || `${item.title} ${item.desc} ${item.category}`.toLowerCase().includes(keyword);
-          return inTab && inCat && inSearch;
-        });
-        grid.innerHTML = visibleCards.map(item => `
-          <article class="skill-card">
-            <span class="skill-logo" style="background:${item.color}">${escapeHtml(item.icon)}</span>
-            <span>
-              <span class="skill-title">${escapeHtml(item.title)}</span>
-              <span class="skill-desc">${escapeHtml(item.desc)}</span>
-            </span>
-            <button class="skill-action ${item.installed ? "installed" : ""}" type="button" data-skill-toggle="${item.id}" title="${item.installed ? "鼠标移上可取消安装" : "安装技能"}">${item.installed ? "" : "+"}</button>
-          </article>
-        `).join("") || `<div class="skill-empty">没有找到匹配的技能</div>`;
+      function projectExpertChoices() {
+        return employeeContacts.map(item => item.title);
       }
-      renderSkillCenter();
+      function projectSkillChoices() {
+        return marketSkillCards.map(item => item.title);
+      }
+      function currentProject() {
+        return projectRecords.find(item => item.id === activeProjectId) || projectRecords[0] || null;
+      }
+      function renderProjectOptionList(containerId, values, selectedValues, type) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = values.map(value => `
+          <label class="project-option-chip ${selectedValues.includes(value) ? "active" : ""}" data-project-option-type="${type}" data-project-option-value="${escapeHtml(value)}">
+            <input type="checkbox" ${selectedValues.includes(value) ? "checked" : ""} />
+            <span>${escapeHtml(value)}</span>
+          </label>
+        `).join("");
+      }
+      function renderProjectDialogOptions() {
+        renderProjectOptionList("projectExpertOptions", projectExpertChoices(), projectExpertDraft, "expert");
+        renderProjectOptionList("projectSkillOptions", projectSkillChoices(), projectSkillDraft, "skill");
+      }
+      function resetProjectForm(project = null) {
+        editingProjectId = project?.id || "";
+        projectExpertDraft = [...(project?.experts || [])];
+        projectSkillDraft = [...(project?.skills || [])];
+        document.getElementById("projectDialogTitle").textContent = project ? "编辑项目" : "创建项目";
+        document.getElementById("submitProjectDialogBtn").textContent = project ? "保存" : "创建项目";
+        document.getElementById("projectNameInput").value = project?.name || "";
+        document.getElementById("projectInstructionInput").value = project?.instruction || "";
+        document.getElementById("projectFormError").textContent = "";
+        renderProjectDialogOptions();
+      }
+      function openProjectDialog(project = null) {
+        resetProjectForm(project);
+        document.getElementById("projectDialog").hidden = false;
+      }
+      function closeProjectDialog() {
+        document.getElementById("projectDialog").hidden = true;
+      }
+      function renderProjectList() {
+        const grid = document.getElementById("projectListGrid");
+        if (!grid) return;
+        const keyword = projectKeyword.trim().toLowerCase();
+        const visibleProjects = projectRecords.filter(item => !keyword || `${item.name} ${item.instruction} ${(item.experts || []).join(" ")} ${(item.skills || []).join(" ")}`.toLowerCase().includes(keyword));
+        grid.innerHTML = visibleProjects.map(item => `
+          <button class="project-card" type="button" data-project-open="${escapeHtml(item.id)}">
+            <span class="project-card-icon"><svg viewBox="0 0 24 24"><circle cx="8" cy="12" r="2"/><circle cx="16" cy="7" r="2"/><circle cx="16" cy="17" r="2"/><path d="m10 11 4-3M10 13l4 3"/></svg></span>
+            <span>
+              <span class="project-card-title">${escapeHtml(item.name)}</span>
+              <span class="project-card-meta">${escapeHtml(item.addedAgo || item.updatedLabel || "")}</span>
+            </span>
+            <span class="project-card-more">⋮</span>
+          </button>
+        `).join("") || `<div class="project-list-empty">暂无匹配项目，试试新建一个项目</div>`;
+      }
+      function renderProjectTags(containerId, values, emptyText) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = (values && values.length)
+          ? values.map(value => `<span class="project-side-tag">${escapeHtml(value)}</span>`).join("")
+          : `<span class="project-side-tag">${escapeHtml(emptyText)}</span>`;
+      }
+      function renderProjectDetail() {
+        const project = currentProject();
+        if (!project) {
+          projectViewMode = "list";
+          renderProjectWorkspace();
+          return;
+        }
+        document.getElementById("projectDetailName").textContent = project.name;
+        document.getElementById("projectDetailMeta").textContent = `由${project.createdBy}创建 · ${project.updatedLabel}`;
+        document.getElementById("projectInstructionSummary").textContent = project.instruction || "为当前项目配置默认指令，帮助任务在统一规则下执行。";
+        document.getElementById("projectEditInstructionBtn").textContent = project.instruction ? "编辑项目" : "+ 添加";
+        renderProjectTags("projectFileTags", project.files, "暂无文件");
+        renderProjectTags("projectSkillTags", project.skills, "暂无技能");
+        renderProjectTags("projectExpertTags", project.experts, "暂无专家");
+        renderProjectTags("projectAutomationTags", project.automations, "暂无定时任务");
+        const list = document.getElementById("projectTaskList");
+        if (list) {
+          list.innerHTML = (project.tasks && project.tasks.length)
+            ? project.tasks.map(task => `
+                <article class="project-task-item">
+                  <span class="project-task-dot">✓</span>
+                  <span>
+                    <strong>${escapeHtml(task.title)}</strong>
+                    <span>${escapeHtml(project.name)}</span>
+                  </span>
+                  <span class="project-task-time">${escapeHtml(task.time)}</span>
+                </article>
+              `).join("")
+            : `<div class="project-task-empty">还没有任务，输入内容后即可在当前项目中启动任务</div>`;
+        }
+      }
+      function renderProjectWorkspace() {
+        const listView = document.getElementById("projectListView");
+        const detailView = document.getElementById("projectDetailView");
+        if (!listView || !detailView) return;
+        listView.hidden = projectViewMode !== "list";
+        detailView.hidden = projectViewMode !== "detail";
+        renderProjectList();
+        if (projectViewMode === "detail") renderProjectDetail();
+      }
+      function openProjectDetail(projectId) {
+        activeProjectId = projectId;
+        projectViewMode = "detail";
+        renderProjectWorkspace();
+      }
+      function backToProjectList() {
+        projectViewMode = "list";
+        renderProjectWorkspace();
+      }
+      function submitProjectForm() {
+        const name = document.getElementById("projectNameInput").value.trim();
+        const instruction = document.getElementById("projectInstructionInput").value.trim();
+        const error = document.getElementById("projectFormError");
+        error.textContent = "";
+        if (!name) {
+          error.textContent = "请填写项目名称。";
+          return;
+        }
+        if (editingProjectId) {
+          const project = projectRecords.find(item => item.id === editingProjectId);
+          if (!project) return;
+          project.name = name;
+          project.instruction = instruction;
+          project.experts = [...projectExpertDraft];
+          project.skills = [...projectSkillDraft];
+          project.updatedLabel = "刚刚 更新";
+          project.addedAgo = "刚刚更新";
+          activeProjectId = project.id;
+        } else {
+          const nextProject = {
+            id: `proj-${Date.now()}`,
+            name,
+            createdBy: "刘静",
+            updatedLabel: "刚刚 更新",
+            addedAgo: "添加于 刚刚",
+            instruction,
+            experts: [...projectExpertDraft],
+            skills: [...projectSkillDraft],
+            files: [],
+            automations: [],
+            tasks: []
+          };
+          projectRecords.unshift(nextProject);
+          activeProjectId = nextProject.id;
+        }
+        closeProjectDialog();
+        projectViewMode = "detail";
+        renderProjectWorkspace();
+      }
+      function toggleProjectOption(type, value) {
+        const draft = type === "expert" ? projectExpertDraft : projectSkillDraft;
+        const index = draft.indexOf(value);
+        if (index >= 0) draft.splice(index, 1);
+        else draft.push(value);
+        renderProjectDialogOptions();
+      }
+      function submitProjectTask() {
+        const input = document.getElementById("projectTaskInput");
+        const project = currentProject();
+        if (!input || !project) return;
+        const title = input.value.trim();
+        if (!title) {
+          input.focus();
+          return;
+        }
+        project.tasks = project.tasks || [];
+        project.tasks.unshift({ title, time: "刚刚" });
+        project.updatedLabel = "刚刚 更新";
+        project.addedAgo = "刚刚有任务更新";
+        input.value = "";
+        renderProjectWorkspace();
+      }
+      renderProjectWorkspace();
       function renderSchedulePage() {
         const grid = document.getElementById("scheduleTaskGrid");
         const resultList = document.getElementById("scheduleResultList");
@@ -1537,7 +1936,7 @@
               <span><strong>结果推送：</strong>${escapeHtml(task.push)}</span>
             </div>
           </article>
-        `).join("") || `<div class="schedule-empty">暂无已配置定时任务</div>`;
+        `).join("") || `<div class="schedule-empty">暂无已配置自动化任务</div>`;
         resultList.innerHTML = scheduleResults.map(result => `
           <article class="schedule-result-row">
             <div>
@@ -1570,7 +1969,7 @@
       function quickCreateSchedule() {
         openPage("chat");
         setChatMode("agent");
-        chatInput.value = "/定时任务创建 请帮我创建一个定时任务：\n任务目标：\n执行频率：\n生效时间：\n是否推送 IM：\n输出格式：";
+        chatInput.value = "/自动化创建 请帮我创建一个自动化任务：\n任务目标：\n执行频率：\n生效时间：\n是否推送 IM：\n输出格式：";
         chatInput.focus();
         chatInput.setSelectionRange(chatInput.value.length, chatInput.value.length);
       }
@@ -1710,41 +2109,11 @@
         renderConversationContext(found.conversation, found.file.messageId);
       }
       renderFilesPage();
-      function renderEmployeeNavList() {
-        const navList = document.getElementById("employeeNavList");
-        if (!navList) return;
-        navList.innerHTML = navEmployeeIndexes.map(index => {
-          const employee = employeeContacts[index];
-          if (!employee) return "";
-          return `
-            <button class="nav-item employee-entry ${index === activeEmployeeIndex ? "active" : ""}" data-page="employee" data-employee-nav="${index}">
-              <span class="nav-employee-avatar" style="background:${employee.color}">${escapeHtml(employee.icon)}</span>
-              <span class="menu-label">${escapeHtml(employee.title)}</span>
-            </button>
-          `;
-        }).join("");
-      }
       function openEmployeeChat(index) {
+        if (!employeeContacts[index]) return;
         activeEmployeeIndex = index;
         openPage("employee");
         renderEmployeeContacts();
-        renderEmployeeNavList();
-      }
-      function openEmployeeSquare() {
-        employeeSquareMode = true;
-        employeeSquareKeyword = "";
-        const searchInput = document.getElementById("marketSearchInput");
-        if (searchInput) searchInput.value = "";
-        marketState.square = "全部";
-        openPage("square", { employeeSquare: true });
-        renderMarkets();
-      }
-      function addEmployeeToNav(index) {
-        if (!navEmployeeIndexes.includes(index)) {
-          navEmployeeIndexes.unshift(index);
-          navEmployeeIndexes = navEmployeeIndexes.slice(0, 5);
-        }
-        openEmployeeChat(index);
       }
       function renderEmployeeContacts() {
         const list = document.getElementById("employeeContactList");
@@ -1761,8 +2130,16 @@
             </span>
             <span class="contact-date">${item.date}</span>
           </button>
-        `).join("") || `<div class="contact-desc" style="padding: 18px 12px">没有匹配的员工</div>`;
+        `).join("") || `<div class="contact-desc" style="padding: 18px 12px">没有匹配的专家</div>`;
         const active = employeeContacts[activeEmployeeIndex];
+        if (!active) {
+          document.getElementById("activeEmployeeAvatar").style.background = "#e9ebf3";
+          document.getElementById("activeEmployeeAvatar").textContent = "";
+          document.getElementById("activeEmployeeName").textContent = "暂无专家";
+          document.getElementById("activeEmployeeDesc").textContent = "当前未配置专家数据";
+          document.getElementById("employeeTaskReport").innerHTML = `<p class="contact-desc">暂无可展示的专家内容</p>`;
+          return;
+        }
         document.getElementById("activeEmployeeAvatar").style.background = active.color;
         document.getElementById("activeEmployeeAvatar").textContent = active.icon;
         document.getElementById("activeEmployeeName").textContent = active.title;
@@ -1788,7 +2165,6 @@
           <p>合同审核结果已保存，请点击 <a href="#" class="report-link">合同审核结果</a>。</p>
         `;
       }
-      renderEmployeeNavList();
       renderEmployeeContacts();
       document.getElementById("historyList").innerHTML = history.map(a => `<div class="history-row"><span class="history-icon">⌁</span><div><div class="history-title">${a[0]}</div><div class="history-sub">${a[1]}</div></div><span class="history-time">${a[2]}</span></div>`).join("");
       const imConfig = { appId: "", appSecret: "" };
@@ -1803,6 +2179,13 @@
       const cancelImDialogBtn = document.getElementById("cancelImDialogBtn");
       const submitImDialogBtn = document.getElementById("submitImDialogBtn");
       const connectFeishuBtn = document.getElementById("connectFeishuBtn");
+      const scheduleDialog = document.getElementById("scheduleDialog");
+      const quickScheduleBtn = document.getElementById("quickScheduleBtn");
+      const openScheduleDialogBtn = document.getElementById("openScheduleDialogBtn");
+      const cancelScheduleDialogBtn = document.getElementById("cancelScheduleDialogBtn");
+      const submitScheduleDialogBtn = document.getElementById("submitScheduleDialogBtn");
+      const schedulePushInput = document.getElementById("schedulePushInput");
+      const scheduleChannelInput = document.getElementById("scheduleChannelInput");
       const guideButtons = [document.getElementById("imGuideBtn"), document.getElementById("imGuideBtnDialog")];
       const chatPage = document.querySelector(".chat-page");
       const chatThread = document.getElementById("chatThread");
@@ -1818,11 +2201,13 @@
       const contextLatest = document.getElementById("contextLatest");
       const contextCompressBadge = document.getElementById("contextCompressBadge");
       const contextCompressDesc = document.getElementById("contextCompressDesc");
-      const chatAgentBar = document.getElementById("chatAgentBar");
-      const chatAgentSelect = document.getElementById("chatAgentSelect");
+      const chatSelectionRow = document.getElementById("chatSelectionRow");
+      const chatPrimaryGroup = document.getElementById("chatPrimaryGroup");
+      const chatPrimarySelect = document.getElementById("chatPrimarySelect");
       const chatAgentRemoveBtn = document.getElementById("chatAgentRemoveBtn");
-      const chatAppBar = document.getElementById("chatAppBar");
-      const chatAppSelect = document.getElementById("chatAppSelect");
+      const chatModelSelect = document.getElementById("chatModelSelect");
+      const chatSkillSelect = document.getElementById("chatSkillSelect");
+      const chatPromptEnhanceBtn = document.getElementById("chatPromptEnhanceBtn");
       const pptTemplateGrid = document.getElementById("pptTemplateGrid");
 
       function escapeHtml(value) {
@@ -1855,8 +2240,8 @@
           };
         }
         return {
-          type: "agent",
-          title: "使用智能体",
+            type: "agent",
+            title: "使用专家",
           prefix: "@",
           items: employeeContacts.map(item => ({ value: item.title, name: item.title, desc: item.desc, icon: item.icon, color: item.color }))
         };
@@ -1914,15 +2299,75 @@
         closeMentionMenu();
       }
 
-      function renderChatAgentSelect() {
-        const currentValue = selectedChatAgent;
-        chatAgentSelect.innerHTML = `
-          <option value="">未选择</option>
-          ${squareCards.map(card => `<option value="${escapeHtml(card.title)}">${escapeHtml(card.title)}</option>`).join("")}
+      function currentChatPrimaryValue() {
+        if (selectedChatAgent) return `expert:${selectedChatAgent}`;
+        if (chatApps[selectedChatApp]) return `app:${selectedChatApp}`;
+        return "";
+      }
+
+      function selectTextWidth(select) {
+        if (!select) return 0;
+        const option = select.options[select.selectedIndex];
+        const text = option ? option.textContent.trim() : "";
+        const style = window.getComputedStyle(select);
+        const canvas = selectTextWidth.canvas || (selectTextWidth.canvas = document.createElement("canvas"));
+        const context = canvas.getContext("2d");
+        context.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+        return Math.ceil(context.measureText(text).width);
+      }
+
+      function fitSelectWidth(select, minWidth, maxWidth, extra = 28) {
+        if (!select || select.hidden) return;
+        const width = Math.max(minWidth, Math.min(maxWidth, selectTextWidth(select) + extra));
+        select.style.width = `${width}px`;
+        select.style.flexBasis = `${width}px`;
+      }
+
+      function fitChatSelectionWidths() {
+        if (!chatPrimaryGroup.hidden) {
+          fitSelectWidth(chatPrimarySelect, 88, 210, 38);
+          const primaryWidth = parseFloat(chatPrimarySelect.style.width || "0");
+          const removeWidth = chatAgentRemoveBtn.hidden ? 0 : 30;
+          const groupWidth = Math.min(246, Math.max(98, primaryWidth + removeWidth + 8));
+          chatPrimaryGroup.style.flexBasis = `${groupWidth}px`;
+          chatPrimaryGroup.style.width = `${groupWidth}px`;
+        } else {
+          chatPrimaryGroup.style.flexBasis = "";
+          chatPrimaryGroup.style.width = "";
+        }
+        fitSelectWidth(chatModelSelect, 68, 118, 38);
+        fitSelectWidth(chatSkillSelect, 72, 144, 38);
+      }
+
+      function renderChatPrimarySelect() {
+        const currentValue = currentChatPrimaryValue();
+        chatPrimarySelect.innerHTML = `
+          <optgroup label="快捷模式">
+            ${Object.entries(chatApps).map(([key, app]) => `<option value="app:${escapeHtml(key)}">${escapeHtml(app.title)}</option>`).join("")}
+          </optgroup>
+          <optgroup label="专家">
+            ${employeeContacts.map(card => `<option value="expert:${escapeHtml(card.title)}">${escapeHtml(card.title)}</option>`).join("")}
+          </optgroup>
         `;
-        chatAgentSelect.value = squareCards.some(card => card.title === currentValue) ? currentValue : "";
-        chatAgentBar.hidden = currentChatMode !== "agent" || !selectedChatAgent;
-        chatAgentRemoveBtn.hidden = !selectedChatAgent;
+        chatPrimaryGroup.hidden = !currentValue;
+        if (currentValue) chatPrimarySelect.value = currentValue;
+        chatAgentRemoveBtn.hidden = !selectedChatAgent && !selectedChatApp;
+        fitChatSelectionWidths();
+      }
+
+      function renderChatSkillSelect() {
+        chatSkillSelect.innerHTML = `
+          <option value="">技能选择</option>
+          ${skillShortcuts.map(item => `<option value="${escapeHtml(item.name)}">${escapeHtml(item.name)}</option>`).join("")}
+        `;
+        chatSkillSelect.value = skillShortcuts.some(item => item.name === selectedChatSkill) ? selectedChatSkill : "";
+        fitChatSelectionWidths();
+      }
+
+      function syncChatSelectionControls() {
+        const hideModelAndSkill = currentChatMode === "agent" && Boolean(selectedChatAgent);
+        chatModelSelect.hidden = hideModelAndSkill;
+        chatSkillSelect.hidden = hideModelAndSkill;
       }
 
       function contextUsageSnapshot() {
@@ -1968,13 +2413,10 @@
 
       function setSelectedChatAgent(name = "") {
         selectedChatAgent = name;
-        renderChatAgentSelect();
+        if (name) selectedChatApp = "";
+        renderChatPrimarySelect();
+        syncChatSelectionControls();
         renderContextUsage();
-      }
-
-      function renderChatAppSelect() {
-        chatAppSelect.value = chatApps[selectedChatApp] ? selectedChatApp : "knowledge";
-        chatAppBar.hidden = currentChatMode === "agent" || !selectedChatApp;
       }
 
       function renderPptTemplates() {
@@ -1994,7 +2436,9 @@
 
       function setSelectedChatApp(app = "") {
         selectedChatApp = app;
-        renderChatAppSelect();
+        if (app) selectedChatAgent = "";
+        renderChatPrimarySelect();
+        syncChatSelectionControls();
         renderPptTemplates();
         renderContextUsage();
       }
@@ -2009,6 +2453,22 @@
         chatInput.value = prompt;
         openPage("chat");
         setChatMode("agent");
+        chatInput.focus();
+        chatInput.setSelectionRange(chatInput.value.length, chatInput.value.length);
+      }
+
+      function startNewSkillTask(skillName, prompt = "") {
+        setSelectedChatAgent("");
+        setSelectedChatApp("");
+        selectedChatSkill = skillName;
+        selectedPptTemplate = "";
+        chatThread.innerHTML = "";
+        syncContextProgressVisibility();
+        closeMentionMenu();
+        chatInput.value = prompt ? `/${skillName} ${prompt}` : `/${skillName} `;
+        openPage("chat");
+        setChatMode("agent");
+        renderChatSkillSelect();
         chatInput.focus();
         chatInput.setSelectionRange(chatInput.value.length, chatInput.value.length);
       }
@@ -2047,13 +2507,29 @@
         if (mode === "agent") {
           const parts = [];
           if (skills.length) parts.push(`已识别技能：${skills.join("、")}`);
-          if (agents.length) parts.push(`已选择智能体：${agents.join("、")}`);
-          return `${parts.join("；") || "已进入 Agent 任务编排"}。我会按任务目标拆解步骤、调用工具并汇总执行结果。`;
+          if (agents.length) parts.push(`已选择专家：${agents.join("、")}`);
+          return `${parts.join("；") || "已进入专家任务编排"}。我会按任务目标拆解步骤、调用工具并汇总执行结果。`;
         }
         if (mode === "knowledge") return "我会按知识问答方式检索可用知识与上下文，给出清晰、可追溯的回答。";
         if (mode === "writing") return "我会按深度写作模式组织结构、扩展要点，并输出成稿内容供你继续修改。";
         if (mode === "ppt") return `我会按 PPT 创作模式生成演示大纲、页面结构与讲述重点${selectedPptTemplate ? "，并结合你选中的模板展开内容" : ""}。`;
         return "我已收到你的问题，会按通用问答方式给出清晰、可执行的回答。";
+      }
+
+      function promptEnhanceText(mode = currentChatMode) {
+        if (mode === "knowledge") return "请补充问题背景、限定条件、信息来源要求和期望输出格式，并优先给出结论。";
+        if (mode === "writing") return "请补充受众、风格、篇幅、结构和必须覆盖的要点，并输出可直接使用的成稿。";
+        if (mode === "ppt") return "请补充汇报对象、使用场景、页数、核心观点和视觉风格，并输出逐页大纲。";
+        return "请补充任务目标、背景上下文、约束条件、交付物、时间要求和协作分工，并拆解执行步骤。";
+      }
+
+      function enhanceChatPrompt() {
+        const extra = promptEnhanceText();
+        const current = chatInput.value.trim();
+        chatInput.value = current ? `${current}\n\n补充要求：${extra}` : extra;
+        chatInput.focus();
+        chatInput.setSelectionRange(chatInput.value.length, chatInput.value.length);
+        renderContextUsage();
       }
 
       function appendMessage(role, text, meta = "", options = {}) {
@@ -2077,12 +2553,18 @@
           return;
         }
         const mode = currentChatMode;
-        const modeLabel = mode === "agent"
-          ? `Agent 模式${selectedChatAgent ? ` · 智能体：${selectedChatAgent}` : ""}`
-          : `${chatApps[mode]?.title || "知识问答"}${mode === "ppt" && selectedPptTemplate ? ` · 模板：${pptTemplates.find(item => item.id === selectedPptTemplate)?.title || ""}` : ""}`;
-        const effectiveText = mode === "agent" && selectedChatAgent && !/@([^\s/@]+)/.test(text)
-          ? `@${selectedChatAgent} ${text}`
-          : text;
+        const hideModelAndSkill = currentChatMode === "agent" && Boolean(selectedChatAgent);
+        const modeLabelParts = [
+          mode === "agent"
+            ? `专家模式${selectedChatAgent ? ` · 专家：${selectedChatAgent}` : ""}`
+            : `${chatApps[mode]?.title || "知识问答"}${mode === "ppt" && selectedPptTemplate ? ` · 模板：${pptTemplates.find(item => item.id === selectedPptTemplate)?.title || ""}` : ""}`
+        ];
+        if (!hideModelAndSkill && selectedChatModel) modeLabelParts.push(`模型：${selectedChatModel}`);
+        if (!hideModelAndSkill && selectedChatSkill) modeLabelParts.push(`技能：${selectedChatSkill}`);
+        const modeLabel = modeLabelParts.join(" · ");
+        let effectiveText = text;
+        if (selectedChatSkill && !/\/([^\s/@]+)/.test(effectiveText)) effectiveText = `/${selectedChatSkill} ${effectiveText}`;
+        if (mode === "agent" && selectedChatAgent && !/@([^\s/@]+)/.test(effectiveText)) effectiveText = `@${selectedChatAgent} ${effectiveText}`;
         appendMessage("user", text, modeLabel);
         chatInput.value = "";
         closeMentionMenu();
@@ -2094,13 +2576,13 @@
         currentChatMode = mode;
         const isAgent = mode === "agent";
         document.querySelectorAll(".chat-only").forEach(tool => tool.hidden = isAgent);
-        chatAttachmentBtn.hidden = mode === "knowledge";
         chatInput.placeholder = isAgent
-          ? "描述任务目标，输入 / 调用技能，输入 @ 使用智能体"
+          ? "描述任务目标，输入 / 调用技能，输入 @ 使用专家"
           : (chatApps[mode]?.placeholder || "请输入你的问题");
         if (!isAgent) closeMentionMenu();
-        renderChatAgentSelect();
-        renderChatAppSelect();
+        renderChatPrimarySelect();
+        renderChatSkillSelect();
+        syncChatSelectionControls();
         renderPptTemplates();
       }
 
@@ -2109,7 +2591,15 @@
         startNewChatAppTask(nextApp, chatApps[nextApp].prompt);
       }
 
-      function openPresetSquareChat(title, prompt) {
+      function openPresetSquareChat(title, prompt, taskType = "expert") {
+        if (taskType === "skill") {
+          startNewSkillTask(title, prompt || `请使用${title}帮助我处理当前任务。`);
+          return;
+        }
+        if (taskType === "team") {
+          startNewAgentTask("", prompt || `请介绍${title}的组成分工、适用场景和协作方式。`);
+          return;
+        }
         startNewAgentTask(title, prompt || "请根据当前任务目标给出处理方案和执行结果。");
       }
 
@@ -2142,8 +2632,6 @@
           window.location.href = "./万卷系统.html";
           return;
         }
-        employeeSquareMode = key === "square" ? Boolean(options.employeeSquare) : false;
-        if (!employeeSquareMode) employeeSquareKeyword = "";
         const native = ["chat","skills","square","files","employee","history","schedule","im"].includes(key), view = native ? key : "placeholder";
         document.querySelector(".app").classList.remove("employee-mode");
         document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.dataset.view === view));
@@ -2152,63 +2640,54 @@
         if (pageTitle) pageTitle.textContent = pages[key][0];
         if (!native) { document.getElementById("placeholderTitle").textContent = pages[key][0]; document.getElementById("placeholderDesc").textContent = pages[key][1]; }
         if (key === "square") renderMarkets();
+        if (key === "skills") {
+          if (!options.keepProjectView) projectViewMode = "list";
+          renderProjectWorkspace();
+        }
         popover.hidden = true; trigger.setAttribute("aria-expanded", "false");
       }
       document.querySelectorAll("[data-page]").forEach(btn => btn.addEventListener("click", () => openPage(btn.dataset.page)));
       document.addEventListener("click", e => {
-        const employeeSquare = e.target.closest("[data-employee-square]");
-        if (employeeSquare) {
-          openEmployeeSquare();
+        const projectOpen = e.target.closest("[data-project-open]");
+        if (projectOpen) {
+          openProjectDetail(projectOpen.dataset.projectOpen);
           return;
         }
-        const employeeNav = e.target.closest("[data-employee-nav]");
-        if (employeeNav) {
-          openEmployeeChat(Number(employeeNav.dataset.employeeNav));
+        const projectOption = e.target.closest("[data-project-option-type]");
+        if (projectOption) {
+          toggleProjectOption(projectOption.dataset.projectOptionType, projectOption.dataset.projectOptionValue);
           return;
         }
-        const addEmployee = e.target.closest("[data-add-employee]");
-        if (addEmployee) {
-          addEmployeeToNav(Number(addEmployee.dataset.addEmployee));
+        const marketRoot = e.target.closest("[data-market-root]");
+        if (marketRoot) {
+          marketState.squareRoot = marketRoot.dataset.marketRoot;
+          marketState.squareCategory = "全部";
+          renderMarkets();
+          return;
+        }
+        const openEmployee = e.target.closest("[data-open-employee]");
+        if (openEmployee) {
+          const employeeIndex = Number(openEmployee.dataset.openEmployee);
+          const employee = employeeContacts[employeeIndex];
+          if (employee) startNewAgentTask(employee.title, employee.prompt || "请根据当前任务目标给出处理方案和执行结果。");
           return;
         }
         const squareCard = e.target.closest("[data-square-title]");
         if (squareCard) {
-          openPresetSquareChat(squareCard.dataset.squareTitle, squareCard.dataset.squarePrompt);
+          openPresetSquareChat(squareCard.dataset.squareTitle, squareCard.dataset.squarePrompt, squareCard.dataset.squareTaskType || "expert");
           return;
         }
         const contact = e.target.closest("[data-employee-contact]");
         if (contact) {
-          activeEmployeeIndex = Number(contact.dataset.employeeContact);
-          renderEmployeeContacts();
-          renderEmployeeNavList();
+          const employeeIndex = Number(contact.dataset.employeeContact);
+          const employee = employeeContacts[employeeIndex];
+          if (employee) startNewAgentTask(employee.title, employee.prompt || "请根据当前任务目标给出处理方案和执行结果。");
           return;
         }
         const tab = e.target.closest("[data-market-tab]");
         if (tab) {
           marketState[tab.dataset.marketScope] = tab.dataset.marketTab;
           renderMarkets();
-          return;
-        }
-        const skillTab = e.target.closest("[data-skill-tab]");
-        if (skillTab) {
-          activeSkillTab = skillTab.dataset.skillTab;
-          renderSkillCenter();
-          return;
-        }
-        const skillCat = e.target.closest("[data-skill-cat]");
-        if (skillCat) {
-          activeSkillCategory = skillCat.dataset.skillCat;
-          activeSkillTab = "market";
-          renderSkillCenter();
-          return;
-        }
-        const skillToggle = e.target.closest("[data-skill-toggle]");
-        if (skillToggle) {
-          const skill = skillCards.find(item => item.id === skillToggle.dataset.skillToggle);
-          if (skill) {
-            skill.installed = !skill.installed;
-            renderSkillCenter();
-          }
           return;
         }
         const scheduleTab = e.target.closest("[data-schedule-tab]");
@@ -2244,14 +2723,28 @@
         employeeContactKeyword = e.target.value.trim();
         renderEmployeeContacts();
       });
-      document.getElementById("skillSearch").addEventListener("input", e => {
-        skillKeyword = e.target.value.trim();
-        renderSkillCenter();
+      document.getElementById("projectSearchInput").addEventListener("input", e => {
+        projectKeyword = e.target.value.trim();
+        renderProjectList();
       });
       document.getElementById("marketSearchInput").addEventListener("input", e => {
-        if (!employeeSquareMode) return;
-        employeeSquareKeyword = e.target.value.trim();
+        marketKeyword = e.target.value.trim();
         renderMarkets();
+      });
+      if (openProjectDialogBtn) openProjectDialogBtn.addEventListener("click", () => openProjectDialog());
+      if (cancelProjectDialogBtn) cancelProjectDialogBtn.addEventListener("click", closeProjectDialog);
+      if (submitProjectDialogBtn) submitProjectDialogBtn.addEventListener("click", submitProjectForm);
+      if (projectBackBtn) projectBackBtn.addEventListener("click", backToProjectList);
+      if (projectEditInstructionBtn) projectEditInstructionBtn.addEventListener("click", () => {
+        const project = currentProject();
+        openProjectDialog(project);
+      });
+      if (projectTaskCreateBtn) projectTaskCreateBtn.addEventListener("click", submitProjectTask);
+      if (projectTaskInput) projectTaskInput.addEventListener("keydown", e => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          submitProjectTask();
+        }
       });
       chatInput.addEventListener("input", () => {
         renderMentionMenu();
@@ -2275,20 +2768,34 @@
         const item = e.target.closest("[data-mention-value]");
         if (item) insertMention(item.dataset.mentionValue);
       });
-      chatAgentSelect.addEventListener("change", e => {
-        const nextAgent = e.target.value;
-        if (!nextAgent) {
+      chatPrimarySelect.addEventListener("change", e => {
+        const nextValue = e.target.value;
+        if (!nextValue) {
           setSelectedChatAgent("");
+          setSelectedChatApp("");
+          setChatMode("agent");
+          syncChatSelectionControls();
           return;
         }
-        startNewAgentTask(nextAgent);
+        if (nextValue.startsWith("expert:")) {
+          startNewAgentTask(nextValue.slice(7));
+          return;
+        }
+        if (nextValue.startsWith("app:")) {
+          const nextApp = nextValue.slice(4);
+          if (chatApps[nextApp]) startNewChatAppTask(nextApp, chatApps[nextApp].prompt);
+        }
       });
       chatAgentRemoveBtn.addEventListener("click", () => clearSelectedAgentTask());
-      chatAppSelect.addEventListener("change", e => {
-        const nextApp = e.target.value;
-        if (!chatApps[nextApp]) return;
-        startNewChatAppTask(nextApp, chatApps[nextApp].prompt);
+      chatModelSelect.addEventListener("change", e => {
+        selectedChatModel = e.target.value;
+        fitChatSelectionWidths();
       });
+      chatSkillSelect.addEventListener("change", e => {
+        selectedChatSkill = e.target.value;
+        fitChatSelectionWidths();
+      });
+      chatPromptEnhanceBtn.addEventListener("click", enhanceChatPrompt);
       pptTemplateGrid.addEventListener("click", e => {
         const templateCard = e.target.closest("[data-ppt-template]");
         if (!templateCard) return;
@@ -2304,26 +2811,27 @@
         const title = card.querySelector("strong").textContent.trim();
         activateChatApp(card.dataset.chatApp || title);
       }));
-      renderChatAgentSelect();
-      renderChatAppSelect();
+      renderChatPrimarySelect();
+      renderChatSkillSelect();
+      fitChatSelectionWidths();
       renderPptTemplates();
       renderContextUsage();
       syncContextProgressVisibility();
       setChatMode("agent");
-      quickScheduleBtn.addEventListener("click", quickCreateSchedule);
-      openScheduleDialogBtn.addEventListener("click", openScheduleDialog);
-      cancelScheduleDialogBtn.addEventListener("click", closeScheduleDialog);
-      submitScheduleDialogBtn.addEventListener("click", submitScheduleForm);
-      schedulePushInput.addEventListener("change", () => {
+      if (quickScheduleBtn) quickScheduleBtn.addEventListener("click", quickCreateSchedule);
+      if (openScheduleDialogBtn) openScheduleDialogBtn.addEventListener("click", openScheduleDialog);
+      if (cancelScheduleDialogBtn) cancelScheduleDialogBtn.addEventListener("click", closeScheduleDialog);
+      if (submitScheduleDialogBtn) submitScheduleDialogBtn.addEventListener("click", submitScheduleForm);
+      if (schedulePushInput) schedulePushInput.addEventListener("change", () => {
         scheduleChannelInput.disabled = !schedulePushInput.checked;
       });
-      openImDialogBtn.addEventListener("click", openImDialog);
-      connectFeishuBtn.addEventListener("click", () => {
+      if (openImDialogBtn) openImDialogBtn.addEventListener("click", openImDialog);
+      if (connectFeishuBtn) connectFeishuBtn.addEventListener("click", () => {
         openPage("im");
         openImDialog();
       });
-      cancelImDialogBtn.addEventListener("click", closeImDialog);
-      submitImDialogBtn.addEventListener("click", () => {
+      if (cancelImDialogBtn) cancelImDialogBtn.addEventListener("click", closeImDialog);
+      if (submitImDialogBtn) submitImDialogBtn.addEventListener("click", () => {
         const appId = appIdInput.value.trim();
         const appSecret = appSecretInput.value.trim();
         resetImError();
@@ -2338,10 +2846,10 @@
         syncImCard();
         closeImDialog();
       });
-      guideButtons.forEach(btn => btn.addEventListener("click", () => {
+      guideButtons.filter(Boolean).forEach(btn => btn.addEventListener("click", () => {
         window.open("https://open.feishu.cn/document/home/index", "_blank", "noopener");
       }));
-      trigger.addEventListener("click", e => { e.stopPropagation(); popover.hidden = !popover.hidden; trigger.setAttribute("aria-expanded", String(!popover.hidden)); });
+      if (trigger && popover) trigger.addEventListener("click", e => { e.stopPropagation(); popover.hidden = !popover.hidden; trigger.setAttribute("aria-expanded", String(!popover.hidden)); });
       document.addEventListener("click", e => {
         if (!popover.hidden && !popover.contains(e.target)) {
           popover.hidden = true;
@@ -2353,6 +2861,7 @@
       });
       imDialog.addEventListener("click", e => { if (e.target === imDialog) closeImDialog(); });
       scheduleDialog.addEventListener("click", e => { if (e.target === scheduleDialog) closeScheduleDialog(); });
+      projectDialog.addEventListener("click", e => { if (e.target === projectDialog) closeProjectDialog(); });
       document.addEventListener("keydown", e => {
         if (e.key !== "Escape") return;
         popover.hidden = true;
@@ -2360,6 +2869,7 @@
         closeContextPopover();
         if (!imDialog.hidden) closeImDialog();
         if (!scheduleDialog.hidden) closeScheduleDialog();
+        if (!projectDialog.hidden) closeProjectDialog();
       });
       syncImCard();
     </script>
