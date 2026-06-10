@@ -1022,6 +1022,1175 @@
         .market-grid { grid-template-columns: repeat(3, 1fr); }
         .quick-grid { grid-template-columns: repeat(2, 1fr); }
       }
+
+      /* Apple-inspired visual refresh */
+      :root {
+        --primary: #007aff;
+        --primary-hover: #006ee6;
+        --primary-soft: rgba(0, 122, 255, .10);
+        --primary-line: rgba(0, 122, 255, .22);
+        --text: #1d1d1f;
+        --text-2: #6e6e73;
+        --text-3: #9a9aa0;
+        --line: rgba(0, 0, 0, .08);
+        --bg: #f5f5f7;
+        --white: #fff;
+        --shadow: 0 22px 60px rgba(0, 0, 0, .08);
+        --soft-shadow: 0 10px 30px rgba(0, 0, 0, .055);
+        --panel: rgba(255, 255, 255, .72);
+        --panel-strong: rgba(255, 255, 255, .86);
+      }
+
+      html, body { min-width: 1080px; background: var(--bg); }
+      body {
+        color: var(--text);
+        background:
+          linear-gradient(180deg, #fbfbfd 0%, #f5f5f7 42%, #f1f2f5 100%);
+        -webkit-font-smoothing: antialiased;
+        text-rendering: geometricPrecision;
+      }
+      button, input, textarea, select { font: inherit; }
+      button { -webkit-tap-highlight-color: transparent; }
+      button:focus-visible,
+      input:focus-visible,
+      textarea:focus-visible,
+      select:focus-visible {
+        outline: 3px solid rgba(0, 122, 255, .18);
+        outline-offset: 2px;
+      }
+
+      .app { grid-template-columns: 236px 1fr; background: transparent; }
+      .sidebar {
+        padding: 18px 12px 14px;
+        border-right: 1px solid rgba(0, 0, 0, .06);
+        background: rgba(246, 246, 248, .78);
+        backdrop-filter: saturate(180%) blur(28px);
+        -webkit-backdrop-filter: saturate(180%) blur(28px);
+      }
+      .brand { height: 44px; margin-bottom: 16px; padding: 0 10px; }
+      .brand-logo { color: #1d1d1f; }
+      .brand-actions { gap: 6px; color: #707076; }
+      .brand-actions button,
+      .contacts-head button,
+      .employee-chat-actions button,
+      .icon-btn {
+        border-radius: 999px;
+        transition: background .18s ease, color .18s ease, transform .18s ease;
+      }
+      .brand-actions button:hover,
+      .contacts-head button:hover,
+      .employee-chat-actions button:hover,
+      .icon-btn:hover {
+        color: #1d1d1f;
+        background: rgba(0, 0, 0, .06);
+      }
+
+      .nav { gap: 3px; }
+      .nav-item,
+      .settings-trigger {
+        height: 42px;
+        border-radius: 12px;
+        color: #515154;
+        transition: background .18s ease, color .18s ease, transform .18s ease, box-shadow .18s ease;
+      }
+      .nav-item:hover,
+      .settings-trigger:hover {
+        color: #1d1d1f;
+        background: rgba(255, 255, 255, .76);
+      }
+      .nav-item.active {
+        color: #1d1d1f;
+        background: rgba(255, 255, 255, .92);
+        box-shadow: 0 1px 1px rgba(255, 255, 255, .85) inset, 0 8px 22px rgba(0, 0, 0, .06);
+      }
+      .nav-divider,
+      .nav-group-divider,
+      .sidebar-footer {
+        border-color: rgba(0, 0, 0, .07);
+      }
+      .nav-divider,
+      .nav-group-divider { background: rgba(0, 0, 0, .07); }
+      .recent-title,
+      .nav-section-title { color: #8b8b90; font-weight: 600; }
+      .recent-item {
+        border-radius: 10px;
+        color: #6e6e73;
+        transition: background .18s ease, color .18s ease;
+      }
+      .recent-item:hover { color: #1d1d1f; background: rgba(255, 255, 255, .68); }
+      .avatar,
+      .nav-employee-avatar {
+        background: linear-gradient(135deg, #007aff, #54c7ff);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.36);
+      }
+      .settings-popover,
+      .mention-menu,
+      .context-popover,
+      .modal-card {
+        border: 1px solid rgba(0, 0, 0, .08);
+        background: rgba(255, 255, 255, .88);
+        box-shadow: var(--shadow);
+        backdrop-filter: saturate(180%) blur(24px);
+        -webkit-backdrop-filter: saturate(180%) blur(24px);
+      }
+      .settings-popover { border-radius: 18px; }
+      .popover-item { border-radius: 10px; color: #515154; }
+      .popover-item:hover { color: #007aff; background: rgba(0, 122, 255, .08); }
+
+      .main,
+      .content,
+      .page { background: transparent; }
+      .content { scrollbar-color: rgba(0,0,0,.18) transparent; }
+      .chat-page {
+        padding: 48px 48px 56px;
+        background:
+          linear-gradient(180deg, rgba(255,255,255,.56), rgba(245,245,247,.88));
+      }
+      .hero {
+        max-width: 1040px;
+        transform: translateY(-1.5vh);
+      }
+      .hello {
+        margin-bottom: 28px;
+        color: #1d1d1f;
+        font-size: 46px;
+        line-height: 1.12;
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+      .hello em {
+        color: #007aff;
+        background: none;
+        -webkit-background-clip: initial;
+        background-clip: initial;
+      }
+
+      .chat-composer {
+        max-width: 980px;
+        padding: 12px;
+        border: 1px solid rgba(0, 0, 0, .08);
+        border-radius: 28px;
+        background: rgba(255, 255, 255, .86);
+        box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 24px 64px rgba(0, 0, 0, .10);
+        backdrop-filter: saturate(180%) blur(26px);
+        -webkit-backdrop-filter: saturate(180%) blur(26px);
+      }
+      .chat-composer:focus-within {
+        border-color: rgba(0, 122, 255, .28);
+        box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 28px 70px rgba(0, 0, 0, .12), 0 0 0 4px rgba(0, 122, 255, .10);
+      }
+      textarea,
+      .employee-input textarea,
+      .project-task-composer textarea,
+      .schedule-field textarea {
+        color: #1d1d1f;
+      }
+      .chat-composer textarea {
+        height: 112px;
+        padding: 18px 18px 12px;
+        border: 0;
+        border-radius: 20px;
+        background: rgba(245, 245, 247, .86);
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, .04);
+      }
+      textarea::placeholder,
+      input::placeholder { color: #a1a1a6; }
+      .composer-actions { padding: 10px 4px 0; }
+      .chat-primary-select,
+      .chat-option-select,
+      .tool-btn,
+      .model-btn,
+      .context-progress-btn,
+      .file-filter,
+      .market-tab,
+      .schedule-tab,
+      .skill-cat,
+      .project-option-chip {
+        border-radius: 999px;
+      }
+      .chat-primary-select,
+      .chat-option-select {
+        color: #3a3a3c;
+        background-color: rgba(245, 245, 247, .7);
+      }
+      .tool-btn,
+      .model-btn {
+        color: #6e6e73;
+        background: transparent;
+        transition: background .18s ease, color .18s ease;
+      }
+      .tool-btn:hover,
+      .model-btn:hover,
+      .context-progress-btn:hover {
+        color: #007aff;
+        background: rgba(0, 122, 255, .09);
+      }
+      .send-btn,
+      .employee-input-foot .employee-send {
+        background: #007aff;
+        box-shadow: 0 10px 22px rgba(0, 122, 255, .26);
+        transition: background .18s ease, transform .18s ease, box-shadow .18s ease;
+      }
+      .send-btn:hover,
+      .employee-input-foot .employee-send:hover {
+        background: #006ee6;
+        box-shadow: 0 14px 28px rgba(0, 122, 255, .30);
+        transform: translateY(-1px);
+      }
+      .composer-note { color: #9a9aa0; }
+
+      .chat-recommend-grid {
+        max-width: 920px;
+        gap: 14px;
+        margin-top: 30px;
+      }
+      .chat-recommend-card,
+      .market-card,
+      .skill-card,
+      .project-card,
+      .schedule-card,
+      .file-conversation-card,
+      .history-list,
+      .im-card,
+      .project-side-card,
+      .project-task-list,
+      .project-task-composer,
+      .context-popover-summary,
+      .context-metric,
+      .context-compress,
+      .ppt-template-card {
+        border: 1px solid rgba(0, 0, 0, .075);
+        background: rgba(255, 255, 255, .82);
+        box-shadow: 0 1px 0 rgba(255,255,255,.9) inset;
+      }
+      .chat-recommend-card {
+        min-height: 96px;
+        padding: 20px 94px 18px 22px;
+        border-radius: 20px;
+        transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      }
+      .chat-recommend-card:nth-child(1),
+      .chat-recommend-card:nth-child(2),
+      .chat-recommend-card:nth-child(3) {
+        background: rgba(255,255,255,.82);
+      }
+      .chat-recommend-card:hover,
+      .market-card:hover,
+      .skill-card:hover,
+      .project-card:hover,
+      .schedule-card:hover,
+      .ppt-template-card:hover {
+        border-color: rgba(0, 122, 255, .18);
+        box-shadow: var(--soft-shadow);
+        transform: translateY(-2px);
+      }
+      .chat-recommend-card strong { color: #1d1d1f; font-size: 17px; }
+      .chat-recommend-card span { color: #6e6e73; }
+      .recommend-art {
+        right: 22px;
+        top: 22px;
+        width: 50px;
+        height: 50px;
+        border-radius: 16px;
+        font-size: 18px;
+        box-shadow: none;
+      }
+      .recommend-art.write { background: linear-gradient(135deg, #34c759, #30d158); }
+      .recommend-art.ppt { background: linear-gradient(135deg, #ff9f0a, #ffcc00); }
+      .recommend-art.knowledge { background: linear-gradient(135deg, #007aff, #64d2ff); }
+
+      .market-page,
+      .skills-page,
+      .files-page,
+      .schedule-page,
+      .im-page {
+        padding: 24px;
+        background: transparent;
+      }
+      .market-shell,
+      .project-shell,
+      .files-shell,
+      .schedule-shell,
+      .skills-shell {
+        min-height: calc(100vh - 48px);
+        padding: 22px;
+        border: 1px solid rgba(0, 0, 0, .075);
+        border-radius: 26px;
+        background: rgba(255, 255, 255, .72);
+        box-shadow: 0 1px 0 rgba(255,255,255,.85) inset, 0 20px 54px rgba(0, 0, 0, .055);
+        backdrop-filter: saturate(180%) blur(22px);
+        -webkit-backdrop-filter: saturate(180%) blur(22px);
+      }
+      .market-head,
+      .files-head,
+      .schedule-head,
+      .project-list-head {
+        margin-bottom: 20px;
+      }
+      .market-title,
+      .files-title h1,
+      .schedule-title h1,
+      .project-list-head h2,
+      .project-detail-title h1 {
+        color: #1d1d1f;
+        font-weight: 700;
+      }
+      .market-search,
+      .skills-search,
+      .project-search,
+      .search,
+      .contacts-search,
+      .schedule-field input,
+      .schedule-field select,
+      .im-input {
+        border: 1px solid rgba(0, 0, 0, .08);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, .88);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.025);
+      }
+      .market-search:focus,
+      .skills-search:focus,
+      .project-search:focus,
+      .search:focus,
+      .schedule-field input:focus,
+      .schedule-field select:focus,
+      .schedule-field textarea:focus,
+      .im-input:focus {
+        border-color: rgba(0, 122, 255, .34);
+        box-shadow: 0 0 0 4px rgba(0, 122, 255, .10);
+      }
+      .market-tab,
+      .file-filter {
+        color: #6e6e73;
+        border: 1px solid transparent;
+        background: transparent;
+        transition: background .18s ease, color .18s ease, border-color .18s ease;
+      }
+      .market-tab:hover,
+      .file-filter:hover {
+        color: #1d1d1f;
+        background: rgba(255, 255, 255, .82);
+      }
+      .market-tab.active,
+      .file-filter.active,
+      .project-option-chip.active {
+        color: #007aff;
+        border-color: rgba(0, 122, 255, .16);
+        background: rgba(0, 122, 255, .09);
+      }
+      .market-grid,
+      .skills-grid,
+      .project-list-grid,
+      .schedule-grid {
+        gap: 16px;
+      }
+      .market-card,
+      .skill-card,
+      .project-card,
+      .schedule-card,
+      .file-conversation-card {
+        border-radius: 18px;
+        transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+      }
+      .market-card { padding: 18px; }
+      .market-card-icon,
+      .skill-logo,
+      .project-card-icon,
+      .project-detail-icon,
+      .file-icon,
+      .history-icon {
+        border-radius: 14px;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.28);
+      }
+      .market-card-title,
+      .skill-title,
+      .project-card-title,
+      .schedule-card-title,
+      .file-name,
+      .history-title { color: #1d1d1f; }
+      .market-card-desc,
+      .skill-desc,
+      .project-card-meta,
+      .schedule-card-desc,
+      .file-meta,
+      .history-sub,
+      .files-title p,
+      .schedule-title p,
+      .project-list-head p { color: #6e6e73; }
+
+      .project-hero {
+        grid-template-columns: 1fr;
+        margin-bottom: 26px;
+        padding: 8px 2px 2px;
+      }
+      .project-hero-copy h1 {
+        color: #1d1d1f;
+        font-size: 40px;
+        line-height: 48px;
+        font-weight: 700;
+      }
+      .project-hero-copy p {
+        max-width: 520px;
+        color: #6e6e73;
+        font-size: 15px;
+      }
+      .primary-btn,
+      .ghost-btn,
+      .im-config-btn,
+      .file-action-btn,
+      .file-expand-btn,
+      .new-chat-btn {
+        border-radius: 999px;
+        font-weight: 600;
+        transition: background .18s ease, color .18s ease, box-shadow .18s ease, transform .18s ease;
+      }
+      .primary-btn,
+      .im-config-btn {
+        color: #fff;
+        background: #007aff;
+        box-shadow: 0 10px 24px rgba(0, 122, 255, .24);
+      }
+      .primary-btn:hover,
+      .im-config-btn:hover {
+        background: #006ee6;
+        transform: translateY(-1px);
+      }
+      .ghost-btn,
+      .file-action-btn,
+      .file-expand-btn,
+      .new-chat-btn {
+        color: #3a3a3c;
+        border: 1px solid rgba(0, 0, 0, .08);
+        background: rgba(255, 255, 255, .82);
+      }
+      .ghost-btn:hover,
+      .file-action-btn:hover,
+      .file-expand-btn:hover,
+      .new-chat-btn:hover {
+        color: #007aff;
+        background: rgba(0, 122, 255, .08);
+        border-color: rgba(0, 122, 255, .18);
+      }
+
+      .employee-workbench { background: transparent; }
+      .employee-chat,
+      .employee-contacts {
+        background: rgba(255,255,255,.72);
+      }
+      .employee-chat-head,
+      .file-conversation-head {
+        border-color: rgba(0,0,0,.07);
+        background: rgba(255,255,255,.76);
+        backdrop-filter: saturate(180%) blur(18px);
+        -webkit-backdrop-filter: saturate(180%) blur(18px);
+      }
+      .task-scroll { background: linear-gradient(180deg, rgba(255,255,255,.72), rgba(245,245,247,.76)); }
+      .employee-composer-panel { bottom: 24px; }
+      .employee-input {
+        border: 1px solid rgba(0,0,0,.08);
+        border-radius: 24px;
+        background: rgba(255,255,255,.88);
+        box-shadow: var(--soft-shadow);
+        backdrop-filter: saturate(180%) blur(20px);
+        -webkit-backdrop-filter: saturate(180%) blur(20px);
+      }
+      .message-bubble {
+        border-radius: 18px;
+        border-color: rgba(0,0,0,.07);
+        background: rgba(255,255,255,.86);
+        box-shadow: var(--soft-shadow);
+      }
+      .message.user .message-bubble {
+        background: #007aff;
+        border-color: #007aff;
+      }
+
+      .modal-overlay { background: rgba(0, 0, 0, .18); }
+      .modal-card {
+        border-radius: 26px;
+        padding: 26px;
+      }
+      .modal-title {
+        color: #1d1d1f;
+        font-size: 22px;
+        line-height: 28px;
+        font-weight: 700;
+      }
+      .modal-desc { color: #6e6e73; }
+      .radio-pill {
+        border-color: #34c759;
+        background: rgba(52, 199, 89, .12);
+      }
+      .radio-pill::after { background: #34c759; }
+
+      @media (max-width: 1220px) {
+        .app { grid-template-columns: 220px 1fr; }
+        .chat-page { padding: 36px 28px 44px; }
+        .hello { font-size: 40px; }
+        .chat-recommend-grid { grid-template-columns: repeat(3, minmax(190px, 1fr)); }
+      }
+
+      /* Typography, color hierarchy, and spacing refinement */
+      body {
+        font-size: 14px;
+        line-height: 1.45;
+        letter-spacing: 0;
+      }
+      .sidebar,
+      .content,
+      .modal-card {
+        font-feature-settings: "kern";
+      }
+
+      .menu-label,
+      .popover-item,
+      .tool-btn,
+      .model-btn,
+      .chat-primary-select,
+      .chat-option-select,
+      .market-tab,
+      .file-filter,
+      .skill-cat,
+      .project-option-chip,
+      .ghost-btn,
+      .primary-btn,
+      .file-action-btn,
+      .file-expand-btn,
+      .new-chat-btn {
+        font-size: 13px;
+        line-height: 18px;
+      }
+      .nav-item,
+      .settings-trigger {
+        gap: 10px;
+        padding: 0 12px;
+      }
+      .menu-label {
+        color: inherit;
+        font-weight: 500;
+      }
+      .nav-item.active .menu-label {
+        font-weight: 600;
+      }
+      .recent-title {
+        padding: 10px 12px 7px;
+        color: #9a9aa0;
+        font-size: 11px;
+        line-height: 14px;
+        font-weight: 600;
+      }
+      .recent-item {
+        padding: 8px 12px;
+        color: #76767c;
+        font-size: 12px;
+        line-height: 16px;
+      }
+
+      .hello {
+        margin-bottom: 30px;
+        font-size: 48px;
+        line-height: 54px;
+        font-weight: 700;
+      }
+      .composer-note,
+      .market-card-foot,
+      .market-card-badge,
+      .project-card-meta,
+      .file-meta,
+      .file-time,
+      .history-sub,
+      .history-time,
+      .contact-desc,
+      .contact-date,
+      .employee-chat-title span,
+      .schedule-meta,
+      .schedule-result-time,
+      .context-metric-label,
+      .context-compress-desc {
+        color: #86868b;
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 400;
+      }
+      .chat-composer textarea {
+        font-size: 15px;
+        line-height: 22px;
+        font-weight: 400;
+      }
+      .chat-primary-select,
+      .chat-option-select {
+        font-weight: 500;
+      }
+      .chat-selection-row {
+        gap: 6px;
+      }
+      .composer-actions {
+        gap: 6px;
+      }
+
+      .chat-recommend-grid {
+        gap: 16px;
+        margin-top: 32px;
+      }
+      .chat-recommend-card {
+        padding: 22px 94px 20px 24px;
+      }
+      .chat-recommend-card strong,
+      .market-card-title,
+      .skill-title,
+      .project-card-title,
+      .file-name,
+      .history-title,
+      .schedule-card-title,
+      .schedule-result-title,
+      .project-side-card-head,
+      .contact-name,
+      .employee-chat-title strong {
+        color: #1d1d1f;
+        font-weight: 600;
+      }
+      .chat-recommend-card strong {
+        font-size: 18px;
+        line-height: 24px;
+      }
+      .chat-recommend-card span {
+        margin-top: 7px;
+        color: #6e6e73;
+        font-size: 13px;
+        line-height: 18px;
+        font-weight: 400;
+      }
+
+      .market-shell,
+      .project-shell,
+      .files-shell,
+      .schedule-shell,
+      .skills-shell {
+        padding: 24px;
+      }
+      .market-head,
+      .files-head,
+      .schedule-head,
+      .project-list-head {
+        align-items: center;
+        margin-bottom: 22px;
+      }
+      .files-title h1,
+      .schedule-title h1,
+      .project-list-head h2,
+      .project-detail-title h1,
+      .market-title {
+        font-size: 20px;
+        line-height: 26px;
+        font-weight: 700;
+      }
+      .files-title p,
+      .schedule-title p,
+      .project-list-head p,
+      .project-detail-title p,
+      .im-intro,
+      .im-card-desc,
+      .modal-desc {
+        color: #6e6e73;
+        font-size: 13px;
+        line-height: 19px;
+        font-weight: 400;
+      }
+      .market-tabs {
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+      .market-tab {
+        height: 34px;
+        padding: 0 14px;
+        font-weight: 500;
+      }
+      .market-tab.active {
+        font-weight: 600;
+      }
+      .market-grid,
+      .project-list-grid,
+      .schedule-grid,
+      .skills-grid {
+        gap: 18px;
+      }
+      .market-card {
+        min-height: 124px;
+        padding: 18px;
+      }
+      .market-card-head {
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+      .market-card-title {
+        font-size: 15px;
+        line-height: 21px;
+      }
+      .market-card-desc {
+        min-height: 40px;
+        margin-top: 7px;
+        color: #6e6e73;
+        font-size: 13px;
+        line-height: 20px;
+      }
+
+      .project-hero {
+        margin-bottom: 30px;
+        padding-top: 4px;
+      }
+      .project-hero-copy h1 {
+        font-size: 42px;
+        line-height: 48px;
+      }
+      .project-hero-copy p {
+        margin: 8px 0 22px;
+        font-size: 15px;
+        line-height: 22px;
+      }
+      .project-card,
+      .skill-card {
+        gap: 14px;
+        padding: 18px;
+      }
+      .project-card-title,
+      .skill-title {
+        font-size: 15px;
+        line-height: 21px;
+      }
+      .skill-desc {
+        margin-top: 6px;
+        color: #6e6e73;
+        font-size: 13px;
+        line-height: 19px;
+      }
+      .project-detail-body {
+        gap: 20px;
+      }
+      .project-side-card {
+        padding: 18px;
+      }
+      .project-side-card-head {
+        margin-bottom: 10px;
+        font-size: 15px;
+        line-height: 21px;
+      }
+      .project-side-card p {
+        color: #6e6e73;
+        font-size: 13px;
+        line-height: 19px;
+      }
+
+      .files-head,
+      .schedule-head {
+        gap: 22px;
+      }
+      .file-filters,
+      .schedule-actions {
+        gap: 10px;
+      }
+      .file-conversation-head {
+        padding: 16px 18px;
+      }
+      .file-conversation-title,
+      .schedule-result-title {
+        font-size: 15px;
+        line-height: 21px;
+      }
+      .generated-file-item,
+      .schedule-result-row,
+      .history-row {
+        padding: 14px 18px;
+      }
+      .file-name,
+      .history-title {
+        font-size: 14px;
+        line-height: 20px;
+      }
+
+      .schedule-card {
+        padding: 18px;
+      }
+      .schedule-card-head {
+        margin-bottom: 14px;
+      }
+      .schedule-card-title {
+        font-size: 15px;
+        line-height: 22px;
+      }
+      .schedule-card-desc,
+      .schedule-result-desc {
+        color: #6e6e73;
+        font-size: 13px;
+        line-height: 19px;
+      }
+      .schedule-tabs {
+        gap: 18px;
+        margin-bottom: 18px;
+      }
+      .schedule-tab {
+        height: 42px;
+        color: #76767c;
+        font-weight: 600;
+      }
+      .schedule-tab.active {
+        color: #1d1d1f;
+      }
+
+      .im-card {
+        padding: 28px;
+      }
+      .im-card-title {
+        color: #1d1d1f;
+        font-size: 20px;
+        line-height: 26px;
+        font-weight: 700;
+      }
+      .im-status,
+      .schedule-badge,
+      .context-compress-badge,
+      .model-tag {
+        font-size: 11px;
+        line-height: 16px;
+        font-weight: 600;
+      }
+      .modal-actions {
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      @media (max-width: 1220px) {
+        .hello {
+          font-size: 40px;
+          line-height: 46px;
+        }
+        .market-shell,
+        .project-shell,
+        .files-shell,
+        .schedule-shell,
+        .skills-shell {
+          padding: 20px;
+        }
+      }
+
+      /* Compact spacing pass for workbench density */
+      .sidebar {
+        padding: 16px 10px 12px;
+      }
+      .brand {
+        height: 40px;
+        margin-bottom: 12px;
+      }
+      .nav-item,
+      .settings-trigger {
+        height: 38px;
+        border-radius: 10px;
+      }
+      .recent-title {
+        padding: 8px 12px 5px;
+      }
+      .recent-item {
+        padding: 6px 12px;
+      }
+
+      .chat-page {
+        padding: 40px 40px 44px;
+      }
+      .hero {
+        max-width: 1000px;
+      }
+      .hello {
+        margin-bottom: 24px;
+        font-size: 44px;
+        line-height: 50px;
+      }
+      .chat-composer {
+        max-width: 960px;
+        padding: 10px;
+        border-radius: 24px;
+      }
+      .chat-composer textarea {
+        height: 104px;
+        padding: 16px 16px 10px;
+        border-radius: 18px;
+      }
+      .composer-actions {
+        padding-top: 8px;
+      }
+      .chat-recommend-grid {
+        gap: 12px;
+        margin-top: 24px;
+      }
+      .chat-recommend-card {
+        min-height: 86px;
+        padding: 18px 84px 16px 20px;
+        border-radius: 16px;
+      }
+      .recommend-art {
+        right: 18px;
+        top: 18px;
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+      }
+
+      .market-page,
+      .skills-page,
+      .files-page,
+      .schedule-page,
+      .im-page {
+        padding: 18px;
+      }
+      .market-shell,
+      .project-shell,
+      .files-shell,
+      .schedule-shell,
+      .skills-shell {
+        min-height: calc(100vh - 36px);
+        padding: 18px;
+        border-radius: 22px;
+      }
+      .market-head,
+      .files-head,
+      .schedule-head,
+      .project-list-head {
+        margin-bottom: 16px;
+      }
+      .market-tabs {
+        gap: 6px;
+        margin-bottom: 14px;
+      }
+      .market-tab {
+        height: 30px;
+        padding: 0 12px;
+      }
+      .market-grid,
+      .project-list-grid,
+      .schedule-grid,
+      .skills-grid {
+        gap: 12px;
+      }
+      .market-card,
+      .skill-card,
+      .project-card,
+      .schedule-card,
+      .project-side-card {
+        border-radius: 16px;
+      }
+      .market-card {
+        min-height: 112px;
+        padding: 15px;
+      }
+      .market-card-head {
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+      .market-card-desc {
+        min-height: 36px;
+        margin-top: 5px;
+        line-height: 18px;
+      }
+      .market-card-foot {
+        margin-top: 8px;
+      }
+
+      .project-hero {
+        margin-bottom: 22px;
+      }
+      .project-hero-copy h1 {
+        font-size: 38px;
+        line-height: 44px;
+      }
+      .project-hero-copy p {
+        margin: 6px 0 18px;
+      }
+      .project-card,
+      .skill-card {
+        min-height: 84px;
+        padding: 15px;
+      }
+      .project-detail-body {
+        gap: 14px;
+      }
+      .project-side-card {
+        padding: 15px;
+      }
+      .project-side-card-head {
+        margin-bottom: 8px;
+      }
+
+      .files-head,
+      .schedule-head {
+        gap: 16px;
+      }
+      .file-filters,
+      .schedule-actions {
+        gap: 8px;
+      }
+      .file-conversation-head,
+      .generated-file-item,
+      .schedule-result-row,
+      .history-row {
+        padding: 12px 15px;
+      }
+      .conversation-file-list {
+        gap: 10px;
+      }
+      .schedule-tabs {
+        gap: 14px;
+        margin-bottom: 14px;
+      }
+      .schedule-tab {
+        height: 38px;
+      }
+      .schedule-card {
+        min-height: 154px;
+        padding: 15px;
+      }
+      .schedule-card-head {
+        margin-bottom: 10px;
+      }
+
+      .im-card {
+        padding: 22px;
+      }
+      .modal-card {
+        padding: 22px;
+      }
+
+      @media (max-width: 1220px) {
+        .chat-page {
+          padding: 32px 24px 38px;
+        }
+        .hello {
+          font-size: 38px;
+          line-height: 44px;
+        }
+        .market-page,
+        .skills-page,
+        .files-page,
+        .schedule-page,
+        .im-page {
+          padding: 14px;
+        }
+        .market-shell,
+        .project-shell,
+        .files-shell,
+        .schedule-shell,
+        .skills-shell {
+          min-height: calc(100vh - 28px);
+          padding: 16px;
+        }
+      }
+
+      /* New task page: subtle quick-agent pills above composer */
+      .chat-composer {
+        background: #fff;
+      }
+      .chat-composer textarea {
+        background: #fff;
+        box-shadow: none;
+      }
+      .chat-composer textarea:focus,
+      .chat-composer textarea:focus-visible {
+        outline: 0;
+        box-shadow: none;
+      }
+      .chat-composer:focus-within {
+        background: #fff;
+        border-color: rgba(0, 0, 0, .08);
+        box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 24px 64px rgba(0, 0, 0, .10);
+      }
+      .chat-recommend-grid {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        max-width: 640px;
+        margin: 0 auto 14px;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+      .chat-recommend-card {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        flex: 0 1 auto;
+        min-width: 0;
+        min-height: 36px;
+        padding: 0 14px;
+        border: 1px solid rgba(0, 0, 0, .055);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, .56);
+        box-shadow: 0 1px 0 rgba(255, 255, 255, .7) inset;
+        text-align: center;
+        backdrop-filter: saturate(160%) blur(14px);
+        -webkit-backdrop-filter: saturate(160%) blur(14px);
+      }
+      .chat-recommend-card:hover {
+        color: #1d1d1f;
+        background: rgba(255, 255, 255, .82);
+        border-color: rgba(0, 0, 0, .08);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, .055);
+        transform: translateY(-1px);
+      }
+      .chat-recommend-card strong {
+        overflow: hidden;
+        color: #515154;
+        font-size: 14px;
+        line-height: 18px;
+        font-weight: 500;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .chat-recommend-card span {
+        display: none;
+      }
+      .recommend-art {
+        position: static;
+        display: grid;
+        width: 24px;
+        height: 24px;
+        flex: 0 0 auto;
+        place-items: center;
+        color: #6e6e73;
+        border-radius: 0;
+        background: transparent !important;
+        box-shadow: none;
+        font-size: 16px;
+        line-height: 1;
+        font-style: normal;
+        font-weight: 700;
+      }
+      .recommend-art svg {
+        width: 18px;
+        height: 18px;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 2;
+      }
+
+      @media (max-width: 1220px) {
+        .chat-recommend-grid {
+          max-width: 620px;
+          gap: 8px;
+        }
+        .chat-recommend-card {
+          min-height: 34px;
+          padding: 0 12px;
+        }
+        .chat-recommend-card strong {
+          font-size: 13px;
+          line-height: 18px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -1069,6 +2238,11 @@
             <div class="hero">
               <h1 class="hello">您好，<em>刘静</em></h1>
               <div class="chat-thread" id="chatThread" aria-live="polite"></div>
+              <div class="chat-recommend-grid">
+                <button class="chat-recommend-card" type="button" data-chat-app="knowledge"><i class="recommend-art knowledge"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.2"/><rect x="14" y="4" width="6" height="6" rx="1.2"/><rect x="4" y="14" width="6" height="6" rx="1.2"/><rect x="14" y="14" width="6" height="6" rx="1.2"/></svg></i><strong>知识问答</strong><span>通用问答与知识库检索</span></button>
+                <button class="chat-recommend-card" type="button" data-chat-app="writing"><i class="recommend-art write"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.2-4.2"/></svg></i><strong>深度写作</strong><span>专注专业内容创作</span></button>
+                <button class="chat-recommend-card" type="button" data-chat-app="ppt"><i class="recommend-art ppt"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v5h5"/><path d="M10 13h6M10 17h4"/></svg></i><strong>PPT创作</strong><span>一键生成专业演示</span></button>
+              </div>
               <div class="chat-composer-wrap">
                 <div class="chat-composer">
                   <textarea id="chatInput" placeholder="有什么我可以帮助您的？"></textarea>
@@ -1122,11 +2296,6 @@
                 </div>
                 <div class="composer-note">内容由 AI 生成，请仔细甄别重要信息</div>
                 <div class="ppt-template-grid" id="pptTemplateGrid" hidden></div>
-              </div>
-              <div class="chat-recommend-grid">
-                <button class="chat-recommend-card" type="button" data-chat-app="knowledge"><strong>知识问答</strong><span>通用问答与知识库检索</span><i class="recommend-art knowledge">问</i></button>
-                <button class="chat-recommend-card" type="button" data-chat-app="writing"><strong>深度写作</strong><span>专注专业内容创作</span><i class="recommend-art write">✓</i></button>
-                <button class="chat-recommend-card" type="button" data-chat-app="ppt"><strong>PPT创作</strong><span>一键生成专业演示</span><i class="recommend-art ppt">P</i></button>
               </div>
               
             </div>

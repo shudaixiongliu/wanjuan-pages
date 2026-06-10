@@ -1223,7 +1223,7 @@ function registerHandler(meta) {
 }
 
 function redirectToFrontApp() {
-  window.location.href = "./front-work.html";
+  window.location.href = "./front-work-v2.html";
 }
 
 function navigate(path) {
