@@ -199,9 +199,63 @@
       .message.located .message-bubble { border-color: #8f84ff; background: #f7f5ff; box-shadow: 0 0 0 3px rgba(73, 65, 230, .12), 0 8px 22px rgba(31,37,64,.08); transition: .2s ease; }
       .chat-composer { position: relative; overflow: visible; max-width: 1080px; margin: 0 auto; border: 1px solid #dde0ee; border-radius: 12px; background: rgba(255,255,255,.92); box-shadow: 0 10px 32px rgba(32, 39, 77, .08); }
       .chat-composer:focus-within { border-color: var(--primary-line); box-shadow: 0 8px 26px rgba(73, 65, 230, .1); }
-      .agent-tip { display: flex; align-items: center; gap: 10px; height: 38px; padding: 0 14px; color: #545b6d; border-bottom: 1px solid var(--line); font-size: 12px; }
-      .agent-tip[hidden], .chat-only[hidden] { display: none; }
-      .beta { padding: 2px 7px; color: #596174; background: #eef0f7; border-radius: 4px; font-size: 11px; }
+      .chat-agent-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px 0;
+      }
+      .chat-agent-bar[hidden], .chat-only[hidden] { display: none; }
+      .chat-agent-remove {
+        display: grid;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        padding: 0;
+        color: #6a6e80;
+        border: 1px solid #d8d2ff;
+        border-radius: 50%;
+        background: #f5f3ff;
+        font-size: 14px;
+        line-height: 1;
+      }
+      .chat-agent-remove[hidden] { display: none; }
+      .chat-agent-remove:hover { color: #4941e6; background: #eeebff; }
+      .chat-app-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px 0;
+      }
+      .chat-app-bar[hidden] { display: none; }
+      .chat-agent-label {
+        color: #545b6d;
+        font-size: 12px;
+        line-height: 16px;
+        white-space: nowrap;
+      }
+      .chat-agent-select {
+        min-width: 180px;
+        height: 30px;
+        padding: 0 10px;
+        color: #4941e6;
+        border: 1px solid #d8d2ff;
+        border-radius: 999px;
+        background: #f5f3ff;
+        font-size: 12px;
+        outline: 0;
+      }
+      .chat-app-select {
+        min-width: 180px;
+        height: 30px;
+        padding: 0 10px;
+        color: #2563eb;
+        border: 1px solid #bfdbfe;
+        border-radius: 999px;
+        background: #eff6ff;
+        font-size: 12px;
+        outline: 0;
+      }
       textarea { display: block; width: 100%; height: 132px; padding: 20px 18px 0; resize: none; color: var(--text); border: 0; outline: 0; }
       textarea::placeholder { color: #a9aebe; }
       .mention-menu {
@@ -225,6 +279,110 @@
       .model-tag { padding: 2px 5px; color: #596174; background: #f4f5f8; border-radius: 3px; font-size: 11px; }
       .composer-spacer { flex: 1; }
       .action-divider { width: 1px; height: 20px; margin: 0 2px; background: var(--line); }
+      .context-progress-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        height: 30px;
+        padding: 0 10px;
+        color: #4f576a;
+        border: 1px solid #e4e7f1;
+        border-radius: 999px;
+        background: #fff;
+        font-size: 12px;
+        line-height: 16px;
+      }
+      .context-progress-btn:hover { color: #4941e6; border-color: #d8d2ff; background: #faf9ff; }
+      .context-progress-ring {
+        position: relative;
+        width: 16px;
+        height: 16px;
+        flex: 0 0 auto;
+        border-radius: 50%;
+        background: conic-gradient(#4941e6 0deg 90deg, #dfe4f2 90deg 360deg);
+      }
+      .context-progress-ring::after {
+        content: "";
+        position: absolute;
+        inset: 3px;
+        border-radius: 50%;
+        background: #fff;
+      }
+      .context-popover {
+        position: absolute;
+        right: 10px;
+        bottom: 52px;
+        z-index: 10;
+        width: 320px;
+        padding: 12px;
+        border: 1px solid #e6e9f2;
+        border-radius: 14px;
+        background: rgba(255,255,255,.98);
+        box-shadow: 0 18px 48px rgba(31, 37, 64, .14);
+      }
+      .context-popover[hidden] { display: none; }
+      .context-popover-summary {
+        padding: 12px 14px;
+        border: 1px solid #e6e9f2;
+        border-radius: 10px;
+        background: #fbfbfc;
+        color: #2f3344;
+        font-size: 13px;
+        line-height: 20px;
+      }
+      .context-popover-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .context-metric {
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: #f7f8fc;
+      }
+      .context-metric-label {
+        color: #7a8194;
+        font-size: 11px;
+        line-height: 16px;
+      }
+      .context-metric-value {
+        margin-top: 4px;
+        color: #2f3344;
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 600;
+      }
+      .context-compress {
+        margin-top: 12px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: #f7f8fc;
+      }
+      .context-compress-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        color: #2f3344;
+        font-size: 12px;
+        line-height: 18px;
+        font-weight: 600;
+      }
+      .context-compress-badge {
+        padding: 2px 8px;
+        color: #3f7df6;
+        border-radius: 999px;
+        background: #eaf2ff;
+        font-size: 11px;
+        font-weight: 500;
+      }
+      .context-compress-desc {
+        margin-top: 6px;
+        color: #7a8194;
+        font-size: 12px;
+        line-height: 18px;
+      }
       .send-btn {
         display: grid; place-items: center; width: 30px; height: 30px; color: #fff;
         border: 0; border-radius: 7px; background: var(--primary);
@@ -232,6 +390,25 @@
       .send-btn:hover { background: var(--primary-hover); }
       .send-btn svg, .tool-btn svg, .model-btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.9; }
       .composer-note { margin-top: 8px; color: var(--text-3); font-size: 11px; text-align: center; }
+      .ppt-template-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        max-width: 920px;
+        margin: 14px auto 0;
+      }
+      .ppt-template-grid[hidden] { display: none; }
+      .ppt-template-card {
+        padding: 14px;
+        border: 1px solid #dbe4ff;
+        border-radius: 10px;
+        background: #fff;
+        text-align: left;
+        box-shadow: 0 8px 20px rgba(37, 99, 235, .05);
+      }
+      .ppt-template-card.active { border-color: #7c9cff; background: #f5f8ff; box-shadow: 0 0 0 3px rgba(73, 65, 230, .08); }
+      .ppt-template-card strong { display: block; color: #32384c; font-size: 14px; line-height: 20px; font-weight: 600; }
+      .ppt-template-card span { display: block; margin-top: 6px; color: #6a6e80; font-size: 12px; line-height: 18px; }
       .chat-recommend-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(260px, 1fr));
@@ -781,24 +958,61 @@
               <div class="chat-thread" id="chatThread" aria-live="polite"></div>
               <div class="chat-composer-wrap">
                 <div class="chat-composer">
-                  <div class="agent-tip" id="agentTip" hidden><span class="beta">Beta</span><span>Agent 模式：输入 / 调用技能，输入 @ 使用智能体协作完成任务</span></div>
+                  <div class="chat-agent-bar" id="chatAgentBar" hidden>
+                    <select class="chat-agent-select" id="chatAgentSelect">
+                      <option value="">未选择</option>
+                    </select>
+                    <button class="chat-agent-remove" id="chatAgentRemoveBtn" type="button" aria-label="删除当前智能体" hidden>×</button>
+                  </div>
+                  <div class="chat-app-bar" id="chatAppBar" hidden>
+                    <select class="chat-app-select" id="chatAppSelect">
+                      <option value="knowledge">知识问答</option>
+                      <option value="writing">深度写作</option>
+                      <option value="ppt">PPT创作</option>
+                    </select>
+                  </div>
                   <textarea id="chatInput" placeholder="有什么我可以帮助您的？"></textarea>
                   <div class="mention-menu" id="mentionMenu" hidden></div>
+                  <div class="context-popover" id="contextPopover" hidden>
+                    <div class="context-popover-summary" id="contextPopoverSummary">25.1% · 42.2K / 168.0K 上下文已使用</div>
+                    <div class="context-popover-grid">
+                      <div class="context-metric">
+                        <div class="context-metric-label">剩余可用</div>
+                        <div class="context-metric-value" id="contextRemaining">125.8K</div>
+                      </div>
+                      <div class="context-metric">
+                        <div class="context-metric-label">本轮新增</div>
+                        <div class="context-metric-value" id="contextLatest">3.6K</div>
+                      </div>
+                    </div>
+                    <div class="context-compress">
+                      <div class="context-compress-head">
+                        <span>上下文压缩</span>
+                        <span class="context-compress-badge" id="contextCompressBadge">已压缩 1 次</span>
+                      </div>
+                      <div class="context-compress-desc" id="contextCompressDesc">最近一次压缩保留了任务目标、已选对象和关键结论，压缩后释放约 18.4K 上下文空间。</div>
+                    </div>
+                  </div>
                   <div class="composer-actions">
                     <button class="tool-btn icon-only" title="添加附件"><svg viewBox="0 0 24 24"><path d="m9 12 5.5-5.5a3 3 0 0 1 4.2 4.2l-7.1 7.1a5 5 0 0 1-7.1-7.1l7.1-7.1"/><path d="m8 14 6.5-6.5"/></svg></button>
                     <button class="tool-btn icon-only chat-only" title="联网搜索"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4a12 12 0 0 1 0 16M12 4a12 12 0 0 0 0 16"/></svg></button>
                     <button class="tool-btn chat-only" title="知识库"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 11h6"/></svg><span class="model-tag">99</span></button>
                     <button class="model-btn"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M4.2 7.5l3.5 2M16.3 14l3.5 2M4.2 16.5l3.5-2M16.3 10l3.5-2"/><circle cx="12" cy="12" r="5"/></svg>GLAC-110 <span class="model-tag">通用</span><span>⌄</span></button>
                     <span class="composer-spacer"></span>
+                    <button class="context-progress-btn" id="contextProgressBtn" type="button" title="查看上下文使用情况" hidden>
+                      <span class="context-progress-ring" aria-hidden="true"></span>
+                      <span id="contextProgressText">25.1%</span>
+                    </button>
                     <button class="send-btn" id="chatSendBtn" title="发送"><svg viewBox="0 0 24 24"><path d="m5 12 14-7-5 14-2-6z"/></svg></button>
                   </div>
                 </div>
                 <div class="composer-note">内容由 AI 生成，请仔细甄别重要信息</div>
+                <div class="ppt-template-grid" id="pptTemplateGrid" hidden></div>
               </div>
               <div class="chat-recommend-grid">
                 <button class="chat-recommend-card" type="button" data-chat-app="knowledge"><strong>知识问答</strong><span>通用问答与知识库检索</span><i class="recommend-art knowledge">问</i></button>
-                <button class="chat-recommend-card" type="button"><strong>深度写作</strong><span>专注专业内容创作</span><i class="recommend-art write">✓</i></button>
-                <button class="chat-recommend-card" type="button"><strong>PPT创作</strong><span>一键生成专业演示</span><i class="recommend-art ppt">P</i></button>
+                <button class="chat-recommend-card" type="button" data-chat-app="writing"><strong>深度写作</strong><span>专注专业内容创作</span><i class="recommend-art write">✓</i></button>
+                <button class="chat-recommend-card" type="button" data-chat-app="ppt"><strong>PPT创作</strong><span>一键生成专业演示</span><i class="recommend-art ppt">P</i></button>
               </div>
             </div>
           </section>
@@ -1039,18 +1253,18 @@
       };
       const squareTabs = ["全部", "开发", "创作", "办公", "生活"];
       const squareCards = [
-        { icon: "合", color: "#5b7cff", title: "合同信息抽取", badge: "置顶", category: "办公", desc: "精准提取并结构化输出，大幅提升合同审核、归档效率。", source: "自主规划" },
-        { icon: "默", color: "#7f72ff", title: "默认智能体", category: "办公", desc: "默认智能体，适配通用任务，快速进入处理流程。", source: "自主规划" },
-        { icon: "数", color: "#f1ab3c", title: "数据分析", category: "办公", desc: "面向行业数据分析与报告生成，支持多个 Excel 表格文件。", source: "自主规划" },
-        { icon: "跨", color: "#5c8dff", title: "跨时区会议时间换算", category: "生活", desc: "帮助快速推算不同时区之间的会议时间，明确各国对应时刻。", source: "自主规划" },
-        { icon: "营", color: "#6d8dff", title: "营销助手", category: "创作", desc: "专注于高效产出营销内容，降低创作与格式转化成本。", source: "自主规划" },
-        { icon: "印", color: "#ff7e73", title: "pdf水印添加助手", category: "办公", desc: "支持默认和自定义英文水印，适配 PDF 批量加印场景。", source: "自主规划" },
-        { icon: "P", color: "#2f6de1", title: "PDF文档处理", category: "办公", desc: "支持表格提取、合并拆分、OCR 识别转换等常用能力。", source: "自主规划" },
-        { icon: "AI", color: "#78a6ff", title: "AI 文本检测与自然化助手", category: "创作", desc: "识别 AI 写作特征并提供自然化处理建议，增强文本可读性。", source: "自主规划" },
-        { icon: "智", color: "#4b9dff", title: "智改文档", category: "开发", desc: "支持上传文档智能解析、内容修改与结构调整，输出规范版本。", source: "自主规划" },
-        { icon: "汛", color: "#95a8c9", title: "流域防汛形势分析智能体", category: "开发", desc: "基于降雨、水位、入库流量等数据生成防汛分析报告。", source: "自主规划" },
-        { icon: "司", color: "#87a5ff", title: "公司深度研报助手", category: "办公", desc: "根据公司名称完成基础信息、业务深度分析与风险研究输出。", source: "自主规划" },
-        { icon: "译", color: "#8a90ff", title: "翻译助手", category: "生活", desc: "支持中英日等多语种互译，适配商务与生活场景。", source: "自主规划" }
+        { icon: "合", color: "#5b7cff", title: "合同信息抽取", badge: "置顶", category: "办公", desc: "精准提取并结构化输出，大幅提升合同审核、归档效率。", source: "自主规划", prompt: "请帮我提取这份合同中的甲乙方、合同金额、履约期限、付款方式和关键风险点，并整理成结构化结果。" },
+        { icon: "默", color: "#7f72ff", title: "默认智能体", category: "办公", desc: "默认智能体，适配通用任务，快速进入处理流程。", source: "自主规划", prompt: "请根据我的任务目标，先拆解执行步骤，再给出清晰的处理结果和下一步建议。" },
+        { icon: "数", color: "#f1ab3c", title: "数据分析", category: "办公", desc: "面向行业数据分析与报告生成，支持多个 Excel 表格文件。", source: "自主规划", prompt: "请对上传的表格数据做趋势分析，输出关键指标变化、异常点和可汇报结论。" },
+        { icon: "跨", color: "#5c8dff", title: "跨时区会议时间换算", category: "生活", desc: "帮助快速推算不同时区之间的会议时间，明确各国对应时刻。", source: "自主规划", prompt: "请帮我把北京时间下周三 15:00 的会议换算成纽约、伦敦、东京和新加坡时间，并提示是否在工作时间内。" },
+        { icon: "营", color: "#6d8dff", title: "营销助手", category: "创作", desc: "专注于高效产出营销内容，降低创作与格式转化成本。", source: "自主规划", prompt: "请围绕新产品发布活动，生成一版朋友圈文案、公众号标题和 3 条短视频脚本方向。" },
+        { icon: "印", color: "#ff7e73", title: "pdf水印添加助手", category: "办公", desc: "支持默认和自定义英文水印，适配 PDF 批量加印场景。", source: "自主规划", prompt: "请帮我给这批 PDF 添加英文水印 CONFIDENTIAL，并说明适合的水印位置、透明度和批量处理方式。" },
+        { icon: "P", color: "#2f6de1", title: "PDF文档处理", category: "办公", desc: "支持表格提取、合并拆分、OCR 识别转换等常用能力。", source: "自主规划", prompt: "请帮我识别这份 PDF 的文字内容，并提取其中的表格与关键字段，输出为可编辑结果。" },
+        { icon: "AI", color: "#78a6ff", title: "AI 文本检测与自然化助手", category: "创作", desc: "识别 AI 写作特征并提供自然化处理建议，增强文本可读性。", source: "自主规划", prompt: "请检测这段文本中的 AI 写作痕迹，并给出更自然、更像人工表达的改写版本。" },
+        { icon: "智", color: "#4b9dff", title: "智改文档", category: "开发", desc: "支持上传文档智能解析、内容修改与结构调整，输出规范版本。", source: "自主规划", prompt: "请帮我优化这份文档的结构和措辞，按正式汇报材料的风格输出修订版。" },
+        { icon: "汛", color: "#95a8c9", title: "流域防汛形势分析智能体", category: "开发", desc: "基于降雨、水位、入库流量等数据生成防汛分析报告。", source: "自主规划", prompt: "请结合当前降雨、水位和入库流量数据，生成一版流域防汛形势分析报告，并给出处置建议。" },
+        { icon: "司", color: "#87a5ff", title: "公司深度研报助手", category: "办公", desc: "根据公司名称完成基础信息、业务深度分析与风险研究输出。", source: "自主规划", prompt: "请针对这家公司生成一版深度研报，包含主营业务、竞争格局、财务表现、核心风险和投资看点。" },
+        { icon: "译", color: "#8a90ff", title: "翻译助手", category: "生活", desc: "支持中英日等多语种互译，适配商务与生活场景。", source: "自主规划", prompt: "请将下面内容翻译成英文，并保留商务邮件语气，同时给出一个更自然的英文标题。" }
       ];
       const employeeContacts = [
         { icon: "合", color: "#7f72ff", title: "合同审核助手（B版）", desc: "合同审核数字员工，自动解析合同风险...", date: "2026/3" },
@@ -1094,6 +1308,22 @@
       let activeSkillTab = "market";
       let activeSkillCategory = "效率工具";
       let skillKeyword = "";
+      let selectedChatAgent = "";
+      let selectedChatApp = "";
+      let selectedPptTemplate = "";
+      const chatApps = {
+        knowledge: { title: "知识问答", placeholder: "请输入你要查询的问题或知识点", prompt: "请基于已知资料回答这个问题，并给出清晰结论。" },
+        writing: { title: "深度写作", placeholder: "请输入写作主题、受众、风格和输出要求", prompt: "请围绕这个主题生成一篇结构完整、表达专业的长文初稿。" },
+        ppt: { title: "PPT创作", placeholder: "请输入演示主题、场景、页数和重点内容", prompt: "请根据我的主题生成一版 PPT 大纲，并给出每页标题与核心内容。" }
+      };
+      const pptTemplates = [
+        { id: "ppt-report", title: "工作汇报", desc: "适合周报、月报、阶段成果汇报", prompt: "请生成一套工作汇报 PPT，大纲包含工作成果、关键数据、风险问题和下阶段计划。" },
+        { id: "ppt-plan", title: "项目方案", desc: "适合立项、规划、实施方案展示", prompt: "请生成一套项目方案 PPT，大纲包含项目背景、目标、实施路径、资源计划和风险控制。" },
+        { id: "ppt-product", title: "产品介绍", desc: "适合产品卖点、功能亮点、应用场景", prompt: "请生成一套产品介绍 PPT，大纲包含产品定位、核心功能、优势亮点、典型场景和价值总结。" },
+        { id: "ppt-training", title: "培训课件", desc: "适合内部培训、课程讲解、知识分享", prompt: "请生成一套培训课件 PPT，大纲包含培训目标、核心知识点、案例演示、实操建议和总结。" },
+        { id: "ppt-sales", title: "客户提案", desc: "适合商务提案、客户汇报、解决方案推荐", prompt: "请生成一套客户提案 PPT，大纲包含客户痛点、解决方案、实施收益、案例证明和合作方式。" },
+        { id: "ppt-brand", title: "品牌宣传", desc: "适合品牌介绍、活动招商、市场推广", prompt: "请生成一套品牌宣传 PPT，大纲包含品牌故事、产品矩阵、市场优势、合作资源和行动引导。" }
+      ];
       const history = [
         ["合同审核风险点分析","合同审核助手 · 已完成 8 条风险识别","今天 14:32"],
         ["帮我整理本周项目进度","通用问答 · 汇总研发与设计交付情况","今天 10:18"],
@@ -1193,7 +1423,7 @@
         const activeTab = marketState[scope];
         const visibleCards = activeTab === "全部" ? cards : cards.filter(card => card.category === activeTab);
         container.innerHTML = visibleCards.map(card => `
-          <article class="market-card" ${card.employeeIndex !== undefined ? `data-add-employee="${card.employeeIndex}"` : ""}>
+          <article class="market-card" ${card.employeeIndex !== undefined ? `data-add-employee="${card.employeeIndex}"` : `data-square-title="${escapeHtml(card.title)}" data-square-prompt="${escapeHtml(card.prompt || "")}"`}>
             <div class="market-card-head">
               <span class="market-card-icon" style="background:${card.color}">${card.icon}</span>
               <div class="market-card-copy">
@@ -1547,7 +1777,20 @@
       const chatInput = document.getElementById("chatInput");
       const chatSendBtn = document.getElementById("chatSendBtn");
       const mentionMenu = document.getElementById("mentionMenu");
-      const agentTip = document.getElementById("agentTip");
+      const contextPopover = document.getElementById("contextPopover");
+      const contextProgressBtn = document.getElementById("contextProgressBtn");
+      const contextProgressText = document.getElementById("contextProgressText");
+      const contextPopoverSummary = document.getElementById("contextPopoverSummary");
+      const contextRemaining = document.getElementById("contextRemaining");
+      const contextLatest = document.getElementById("contextLatest");
+      const contextCompressBadge = document.getElementById("contextCompressBadge");
+      const contextCompressDesc = document.getElementById("contextCompressDesc");
+      const chatAgentBar = document.getElementById("chatAgentBar");
+      const chatAgentSelect = document.getElementById("chatAgentSelect");
+      const chatAgentRemoveBtn = document.getElementById("chatAgentRemoveBtn");
+      const chatAppBar = document.getElementById("chatAppBar");
+      const chatAppSelect = document.getElementById("chatAppSelect");
+      const pptTemplateGrid = document.getElementById("pptTemplateGrid");
 
       function escapeHtml(value) {
         return String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
@@ -1634,12 +1877,142 @@
         chatInput.focus();
         const cursor = before.length + insertText.length;
         chatInput.setSelectionRange(cursor, cursor);
+        if (prefix === "@") setSelectedChatAgent(value);
         closeMentionMenu();
+      }
+
+      function renderChatAgentSelect() {
+        const currentValue = selectedChatAgent;
+        chatAgentSelect.innerHTML = `
+          <option value="">未选择</option>
+          ${squareCards.map(card => `<option value="${escapeHtml(card.title)}">${escapeHtml(card.title)}</option>`).join("")}
+        `;
+        chatAgentSelect.value = squareCards.some(card => card.title === currentValue) ? currentValue : "";
+        chatAgentBar.hidden = currentChatMode !== "agent" || !selectedChatAgent;
+        chatAgentRemoveBtn.hidden = !selectedChatAgent;
+      }
+
+      function contextUsageSnapshot() {
+        const base = currentChatMode === "agent" ? 42200 : currentChatMode === "ppt" ? 51600 : currentChatMode === "writing" ? 46800 : 39200;
+        const agentBonus = selectedChatAgent ? 4200 : 0;
+        const appBonus = selectedChatApp === "ppt" ? 6800 : selectedChatApp === "writing" ? 3600 : selectedChatApp === "knowledge" ? 2400 : 0;
+        const templateBonus = selectedPptTemplate ? 5400 : 0;
+        const inputBonus = Math.min((chatInput.value || "").length * 14, 22000);
+        const used = Math.min(base + agentBonus + appBonus + templateBonus + inputBonus, 168000);
+        const ratio = used / 168000;
+        const remaining = 168000 - used;
+        const compressed = used > 52000 ? 1 + Math.floor((used - 52000) / 28000) : 0;
+        return { used, remaining, ratio, compressed, latest: Math.min(3600 + Math.floor(inputBonus / 6), 12800) };
+      }
+
+      function formatContextValue(value) {
+        return `${(value / 1000).toFixed(1)}K`;
+      }
+
+      function renderContextUsage() {
+        const snapshot = contextUsageSnapshot();
+        const percent = `${(snapshot.ratio * 100).toFixed(1)}%`;
+        contextProgressText.textContent = percent;
+        contextPopoverSummary.textContent = `${percent} · ${formatContextValue(snapshot.used)} / 168.0K 上下文已使用`;
+        contextRemaining.textContent = formatContextValue(snapshot.remaining);
+        contextLatest.textContent = formatContextValue(snapshot.latest);
+        contextCompressBadge.textContent = snapshot.compressed ? `已压缩 ${snapshot.compressed} 次` : "未触发压缩";
+        contextCompressDesc.textContent = snapshot.compressed
+          ? `最近一次压缩保留了任务目标、当前模式、已选对象和关键结论，压缩后释放约 ${formatContextValue(Math.min(18400 + snapshot.compressed * 1200, 28600))} 上下文空间。`
+          : "当前上下文仍较充足，系统会在接近上限时自动压缩历史消息并保留关键上下文。";
+      }
+
+      function syncContextProgressVisibility() {
+        const visible = chatPage.classList.contains("has-chat");
+        contextProgressBtn.hidden = !visible;
+        if (!visible) closeContextPopover();
+      }
+
+      function closeContextPopover() {
+        contextPopover.hidden = true;
+      }
+
+      function setSelectedChatAgent(name = "") {
+        selectedChatAgent = name;
+        renderChatAgentSelect();
+        renderContextUsage();
+      }
+
+      function renderChatAppSelect() {
+        chatAppSelect.value = chatApps[selectedChatApp] ? selectedChatApp : "knowledge";
+        chatAppBar.hidden = currentChatMode === "agent" || !selectedChatApp;
+      }
+
+      function renderPptTemplates() {
+        const visible = currentChatMode === "ppt" && selectedChatApp === "ppt";
+        pptTemplateGrid.hidden = !visible;
+        if (!visible) {
+          pptTemplateGrid.innerHTML = "";
+          return;
+        }
+        pptTemplateGrid.innerHTML = pptTemplates.map(item => `
+          <button class="ppt-template-card ${selectedPptTemplate === item.id ? "active" : ""}" type="button" data-ppt-template="${escapeHtml(item.id)}">
+            <strong>${escapeHtml(item.title)}</strong>
+            <span>${escapeHtml(item.desc)}</span>
+          </button>
+        `).join("");
+      }
+
+      function setSelectedChatApp(app = "") {
+        selectedChatApp = app;
+        renderChatAppSelect();
+        renderPptTemplates();
+        renderContextUsage();
+      }
+
+      function startNewAgentTask(agentName = selectedChatAgent, prompt = "") {
+        setSelectedChatAgent(agentName);
+        setSelectedChatApp("");
+        selectedPptTemplate = "";
+        chatThread.innerHTML = "";
+        chatPage.classList.remove("has-chat");
+        syncContextProgressVisibility();
+        closeMentionMenu();
+        chatInput.value = prompt;
+        openPage("chat");
+        setChatMode("agent");
+        chatInput.focus();
+        chatInput.setSelectionRange(chatInput.value.length, chatInput.value.length);
+      }
+
+      function clearSelectedAgentTask() {
+        setSelectedChatAgent("");
+        setSelectedChatApp("");
+        selectedPptTemplate = "";
+        chatThread.innerHTML = "";
+        chatPage.classList.remove("has-chat");
+        syncContextProgressVisibility();
+        closeMentionMenu();
+        chatInput.value = "";
+        openPage("chat");
+        setChatMode("agent");
+        chatInput.focus();
+      }
+
+      function startNewChatAppTask(app, prompt = "") {
+        setSelectedChatAgent("");
+        selectedPptTemplate = "";
+        setSelectedChatApp(app);
+        chatThread.innerHTML = "";
+        chatPage.classList.remove("has-chat");
+        syncContextProgressVisibility();
+        closeMentionMenu();
+        chatInput.value = prompt;
+        openPage("chat");
+        setChatMode(app);
+        chatInput.focus();
+        chatInput.setSelectionRange(chatInput.value.length, chatInput.value.length);
       }
 
       function messageSummary(text, mode = currentChatMode) {
         const skills = [...text.matchAll(/\/([^\s/@]+)/g)].map(match => match[1]);
         const agents = [...text.matchAll(/@([^\s/@]+)/g)].map(match => match[1]);
+        if (mode === "agent" && selectedChatAgent && !agents.includes(selectedChatAgent)) agents.unshift(selectedChatAgent);
         if (mode === "agent") {
           const parts = [];
           if (skills.length) parts.push(`已识别技能：${skills.join("、")}`);
@@ -1647,11 +2020,14 @@
           return `${parts.join("；") || "已进入 Agent 任务编排"}。我会按任务目标拆解步骤、调用工具并汇总执行结果。`;
         }
         if (mode === "knowledge") return "我会按知识问答方式检索可用知识与上下文，给出清晰、可追溯的回答。";
+        if (mode === "writing") return "我会按深度写作模式组织结构、扩展要点，并输出成稿内容供你继续修改。";
+        if (mode === "ppt") return `我会按 PPT 创作模式生成演示大纲、页面结构与讲述重点${selectedPptTemplate ? "，并结合你选中的模板展开内容" : ""}。`;
         return "我已收到你的问题，会按通用问答方式给出清晰、可执行的回答。";
       }
 
       function appendMessage(role, text, meta = "", options = {}) {
         chatPage.classList.add("has-chat");
+        syncContextProgressVisibility();
         const avatar = role === "user" ? "刘" : "AI";
         const node = document.createElement("div");
         node.className = `message ${role}`;
@@ -1670,32 +2046,39 @@
           return;
         }
         const mode = currentChatMode;
-        const modeLabel = mode === "agent" ? "Agent 模式" : "知识问答";
+        const modeLabel = mode === "agent"
+          ? `Agent 模式${selectedChatAgent ? ` · 智能体：${selectedChatAgent}` : ""}`
+          : `${chatApps[mode]?.title || "知识问答"}${mode === "ppt" && selectedPptTemplate ? ` · 模板：${pptTemplates.find(item => item.id === selectedPptTemplate)?.title || ""}` : ""}`;
+        const effectiveText = mode === "agent" && selectedChatAgent && !/@([^\s/@]+)/.test(text)
+          ? `@${selectedChatAgent} ${text}`
+          : text;
         appendMessage("user", text, modeLabel);
         chatInput.value = "";
         closeMentionMenu();
-        setTimeout(() => appendMessage("assistant", messageSummary(text, mode), "模拟交互"), 180);
+        renderContextUsage();
+        setTimeout(() => appendMessage("assistant", messageSummary(effectiveText, mode), "模拟交互"), 180);
       }
 
       function setChatMode(mode) {
         currentChatMode = mode;
         const isAgent = mode === "agent";
         document.querySelectorAll(".chat-only").forEach(tool => tool.hidden = isAgent);
-        agentTip.hidden = !isAgent;
-        chatInput.placeholder = isAgent ? "描述任务目标，输入 / 调用技能，输入 @ 使用智能体" : "知识问答：请输入你的问题";
+        chatInput.placeholder = isAgent
+          ? "描述任务目标，输入 / 调用技能，输入 @ 使用智能体"
+          : (chatApps[mode]?.placeholder || "请输入你的问题");
         if (!isAgent) closeMentionMenu();
+        renderChatAgentSelect();
+        renderChatAppSelect();
+        renderPptTemplates();
       }
 
       function activateChatApp(app) {
-        if (app === "knowledge") {
-          setChatMode("knowledge");
-          chatInput.value = "知识问答：";
-        } else {
-          setChatMode("agent");
-          chatInput.value = `/${app} `;
-        }
-        chatInput.focus();
-        chatInput.setSelectionRange(chatInput.value.length, chatInput.value.length);
+        const nextApp = chatApps[app] ? app : "knowledge";
+        startNewChatAppTask(nextApp, chatApps[nextApp].prompt);
+      }
+
+      function openPresetSquareChat(title, prompt) {
+        startNewAgentTask(title, prompt || "请根据当前任务目标给出处理方案和执行结果。");
       }
 
       function syncImCard() {
@@ -1754,6 +2137,11 @@
         const addEmployee = e.target.closest("[data-add-employee]");
         if (addEmployee) {
           addEmployeeToNav(Number(addEmployee.dataset.addEmployee));
+          return;
+        }
+        const squareCard = e.target.closest("[data-square-title]");
+        if (squareCard) {
+          openPresetSquareChat(squareCard.dataset.squareTitle, squareCard.dataset.squarePrompt);
           return;
         }
         const contact = e.target.closest("[data-employee-contact]");
@@ -1833,7 +2221,10 @@
         employeeSquareKeyword = e.target.value.trim();
         renderMarkets();
       });
-      chatInput.addEventListener("input", renderMentionMenu);
+      chatInput.addEventListener("input", () => {
+        renderMentionMenu();
+        renderContextUsage();
+      });
       chatInput.addEventListener("keydown", e => {
         if (e.key === "Enter" && !e.shiftKey) {
           e.preventDefault();
@@ -1843,14 +2234,49 @@
         if (e.key === "Escape") closeMentionMenu();
       });
       chatSendBtn.addEventListener("click", sendChatMessage);
+      contextProgressBtn.addEventListener("click", e => {
+        e.stopPropagation();
+        renderContextUsage();
+        contextPopover.hidden = !contextPopover.hidden;
+      });
       mentionMenu.addEventListener("click", e => {
         const item = e.target.closest("[data-mention-value]");
         if (item) insertMention(item.dataset.mentionValue);
+      });
+      chatAgentSelect.addEventListener("change", e => {
+        const nextAgent = e.target.value;
+        if (!nextAgent) {
+          setSelectedChatAgent("");
+          return;
+        }
+        startNewAgentTask(nextAgent);
+      });
+      chatAgentRemoveBtn.addEventListener("click", () => clearSelectedAgentTask());
+      chatAppSelect.addEventListener("change", e => {
+        const nextApp = e.target.value;
+        if (!chatApps[nextApp]) return;
+        startNewChatAppTask(nextApp, chatApps[nextApp].prompt);
+      });
+      pptTemplateGrid.addEventListener("click", e => {
+        const templateCard = e.target.closest("[data-ppt-template]");
+        if (!templateCard) return;
+        const template = pptTemplates.find(item => item.id === templateCard.dataset.pptTemplate);
+        if (!template) return;
+        selectedPptTemplate = template.id;
+        renderPptTemplates();
+        chatInput.value = template.prompt;
+        chatInput.focus();
+        chatInput.setSelectionRange(chatInput.value.length, chatInput.value.length);
       });
       document.querySelectorAll(".chat-recommend-card").forEach(card => card.addEventListener("click", () => {
         const title = card.querySelector("strong").textContent.trim();
         activateChatApp(card.dataset.chatApp || title);
       }));
+      renderChatAgentSelect();
+      renderChatAppSelect();
+      renderPptTemplates();
+      renderContextUsage();
+      syncContextProgressVisibility();
       setChatMode("agent");
       quickScheduleBtn.addEventListener("click", quickCreateSchedule);
       openScheduleDialogBtn.addEventListener("click", openScheduleDialog);
@@ -1880,13 +2306,22 @@
         window.open("https://open.feishu.cn/document/home/index", "_blank", "noopener");
       }));
       trigger.addEventListener("click", e => { e.stopPropagation(); popover.hidden = !popover.hidden; trigger.setAttribute("aria-expanded", String(!popover.hidden)); });
-      document.addEventListener("click", e => { if (!popover.hidden && !popover.contains(e.target)) { popover.hidden = true; trigger.setAttribute("aria-expanded", "false"); } });
+      document.addEventListener("click", e => {
+        if (!popover.hidden && !popover.contains(e.target)) {
+          popover.hidden = true;
+          trigger.setAttribute("aria-expanded", "false");
+        }
+        if (!contextPopover.hidden && !contextPopover.contains(e.target) && !contextProgressBtn.contains(e.target)) {
+          closeContextPopover();
+        }
+      });
       imDialog.addEventListener("click", e => { if (e.target === imDialog) closeImDialog(); });
       scheduleDialog.addEventListener("click", e => { if (e.target === scheduleDialog) closeScheduleDialog(); });
       document.addEventListener("keydown", e => {
         if (e.key !== "Escape") return;
         popover.hidden = true;
         trigger.setAttribute("aria-expanded", "false");
+        closeContextPopover();
         if (!imDialog.hidden) closeImDialog();
         if (!scheduleDialog.hidden) closeScheduleDialog();
       });
