@@ -417,6 +417,32 @@
         max-width: 760px;
         margin: 54px auto 0;
       }
+      .chat-footer-extension {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        max-width: 920px;
+        margin: 18px auto 0;
+        padding: 12px 16px;
+        color: #6a6e80;
+        border: 1px solid #e7e9f1;
+        border-radius: 12px;
+        background: rgba(255,255,255,.72);
+        font-size: 13px;
+        line-height: 20px;
+      }
+      .chat-footer-extension-text { white-space: nowrap; }
+      .chat-footer-extension-btn {
+        padding: 0;
+        color: #1677d9;
+        border: 0;
+        background: transparent;
+        font-size: 13px;
+        line-height: 20px;
+        font-weight: 600;
+      }
+      .chat-footer-extension-btn:hover { color: #0e5fc0; }
       .chat-recommend-card {
         position: relative;
         overflow: hidden;
@@ -995,7 +1021,7 @@
                     </div>
                   </div>
                   <div class="composer-actions">
-                    <button class="tool-btn icon-only" title="添加附件"><svg viewBox="0 0 24 24"><path d="m9 12 5.5-5.5a3 3 0 0 1 4.2 4.2l-7.1 7.1a5 5 0 0 1-7.1-7.1l7.1-7.1"/><path d="m8 14 6.5-6.5"/></svg></button>
+                    <button class="tool-btn icon-only" id="chatAttachmentBtn" title="添加附件"><svg viewBox="0 0 24 24"><path d="m9 12 5.5-5.5a3 3 0 0 1 4.2 4.2l-7.1 7.1a5 5 0 0 1-7.1-7.1l7.1-7.1"/><path d="m8 14 6.5-6.5"/></svg></button>
                     <button class="tool-btn icon-only chat-only" title="联网搜索"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4a12 12 0 0 1 0 16M12 4a12 12 0 0 0 0 16"/></svg></button>
                     <button class="tool-btn chat-only" title="知识库"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 11h6"/></svg><span class="model-tag">99</span></button>
                     <button class="model-btn"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M4.2 7.5l3.5 2M16.3 14l3.5 2M4.2 16.5l3.5-2M16.3 10l3.5-2"/><circle cx="12" cy="12" r="5"/></svg>GLAC-110 <span class="model-tag">通用</span><span>⌄</span></button>
@@ -1014,6 +1040,10 @@
                 <button class="chat-recommend-card" type="button" data-chat-app="knowledge"><strong>知识问答</strong><span>通用问答与知识库检索</span><i class="recommend-art knowledge">问</i></button>
                 <button class="chat-recommend-card" type="button" data-chat-app="writing"><strong>深度写作</strong><span>专注专业内容创作</span><i class="recommend-art write">✓</i></button>
                 <button class="chat-recommend-card" type="button" data-chat-app="ppt"><strong>PPT创作</strong><span>一键生成专业演示</span><i class="recommend-art ppt">P</i></button>
+              </div>
+              <div class="chat-footer-extension">
+                <span class="chat-footer-extension-text">您也可以在飞书里 @我 来执行任务，</span>
+                <button class="chat-footer-extension-btn" id="connectFeishuBtn" type="button">点击连接飞书</button>
               </div>
             </div>
           </section>
@@ -1772,11 +1802,13 @@
       const openImDialogBtn = document.getElementById("openImDialogBtn");
       const cancelImDialogBtn = document.getElementById("cancelImDialogBtn");
       const submitImDialogBtn = document.getElementById("submitImDialogBtn");
+      const connectFeishuBtn = document.getElementById("connectFeishuBtn");
       const guideButtons = [document.getElementById("imGuideBtn"), document.getElementById("imGuideBtnDialog")];
       const chatPage = document.querySelector(".chat-page");
       const chatThread = document.getElementById("chatThread");
       const chatInput = document.getElementById("chatInput");
       const chatSendBtn = document.getElementById("chatSendBtn");
+      const chatAttachmentBtn = document.getElementById("chatAttachmentBtn");
       const mentionMenu = document.getElementById("mentionMenu");
       const contextPopover = document.getElementById("contextPopover");
       const contextProgressBtn = document.getElementById("contextProgressBtn");
@@ -2062,6 +2094,7 @@
         currentChatMode = mode;
         const isAgent = mode === "agent";
         document.querySelectorAll(".chat-only").forEach(tool => tool.hidden = isAgent);
+        chatAttachmentBtn.hidden = mode === "knowledge";
         chatInput.placeholder = isAgent
           ? "描述任务目标，输入 / 调用技能，输入 @ 使用智能体"
           : (chatApps[mode]?.placeholder || "请输入你的问题");
@@ -2285,6 +2318,10 @@
         scheduleChannelInput.disabled = !schedulePushInput.checked;
       });
       openImDialogBtn.addEventListener("click", openImDialog);
+      connectFeishuBtn.addEventListener("click", () => {
+        openPage("im");
+        openImDialog();
+      });
       cancelImDialogBtn.addEventListener("click", closeImDialog);
       submitImDialogBtn.addEventListener("click", () => {
         const appId = appIdInput.value.trim();
