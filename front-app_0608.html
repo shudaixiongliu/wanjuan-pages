@@ -292,6 +292,7 @@
         font-size: 12px;
         line-height: 16px;
       }
+      .chat-page:not(.has-chat) .context-progress-btn { display: none !important; }
       .context-progress-btn:hover { color: #4941e6; border-color: #d8d2ff; background: #faf9ff; }
       .context-progress-ring {
         position: relative;
@@ -918,7 +919,7 @@
         <nav class="nav" aria-label="主导航">
           <button class="nav-item active" data-page="chat"><span class="icon"><svg viewBox="0 0 24 24"><path d="M5 19h14"/><path d="M6 18.5 18.4 6.1a2 2 0 0 0-2.8-2.8L3.2 15.7 3 20z"/></svg></span><span class="menu-label">新建任务</span></button>
           <button class="nav-item" data-page="square"><span class="icon"><svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M4.8 6.8l2.1 2.1M17.1 17.1l2.1 2.1M3 12h3M18 12h3M4.8 17.2l2.1-2.1M17.1 6.9l2.1-2.1"/><circle cx="12" cy="12" r="3"/></svg></span><span class="menu-label">Agent</span></button>
-          <button class="nav-item" data-page="skills"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="2.2"/><circle cx="17" cy="7" r="2.2"/><circle cx="7" cy="17" r="2.2"/><circle cx="17" cy="17" r="2.2"/></svg></span><span class="menu-label">插件</span></button>
+          <button class="nav-item" data-page="skills"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="2.2"/><circle cx="17" cy="7" r="2.2"/><circle cx="7" cy="17" r="2.2"/><circle cx="17" cy="17" r="2.2"/></svg></span><span class="menu-label">技能</span></button>
           <button class="nav-item" data-page="schedule"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="menu-label">定时任务</span></button>
           <button class="nav-item" data-page="files"><span class="icon"><svg viewBox="0 0 24 24"><path d="M6 4h4l3 16H9z"/><path d="M12 4h4l3 16h-4z"/><path d="M5 20h15"/></svg></span><span class="menu-label">库</span></button>
           <div class="nav-section-head">
@@ -1923,7 +1924,8 @@
       }
 
       function syncContextProgressVisibility() {
-        const visible = chatPage.classList.contains("has-chat");
+        const visible = chatThread.children.length > 0;
+        chatPage.classList.toggle("has-chat", visible);
         contextProgressBtn.hidden = !visible;
         if (!visible) closeContextPopover();
       }
@@ -1970,7 +1972,6 @@
         setSelectedChatApp("");
         selectedPptTemplate = "";
         chatThread.innerHTML = "";
-        chatPage.classList.remove("has-chat");
         syncContextProgressVisibility();
         closeMentionMenu();
         chatInput.value = prompt;
@@ -1985,7 +1986,6 @@
         setSelectedChatApp("");
         selectedPptTemplate = "";
         chatThread.innerHTML = "";
-        chatPage.classList.remove("has-chat");
         syncContextProgressVisibility();
         closeMentionMenu();
         chatInput.value = "";
@@ -1999,7 +1999,6 @@
         selectedPptTemplate = "";
         setSelectedChatApp(app);
         chatThread.innerHTML = "";
-        chatPage.classList.remove("has-chat");
         syncContextProgressVisibility();
         closeMentionMenu();
         chatInput.value = prompt;
