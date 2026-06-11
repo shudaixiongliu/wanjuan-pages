@@ -952,11 +952,14 @@
       .project-card-more { color: #a5acbb; font-size: 18px; }
       .project-detail-head { display: grid; gap: 14px; margin-bottom: 16px; }
       .project-back-btn { width: fit-content; }
+      .project-detail-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
       .project-detail-title { display: flex; align-items: center; gap: 14px; }
       .project-detail-icon { display: grid; place-items: center; width: 42px; height: 42px; color: #4d5565; border-radius: 12px; background: #f3f4f8; }
       .project-detail-icon svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
       .project-detail-title h1 { margin: 0; color: #161e32; font-size: 24px; line-height: 30px; font-weight: 600; }
       .project-detail-title p { margin: 4px 0 0; color: #9295a4; font-size: 13px; line-height: 18px; }
+      .project-invite-btn { display: inline-flex; align-items: center; gap: 8px; flex: 0 0 auto; }
+      .project-invite-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.9; }
       .project-detail-body { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 16px; }
       .project-task-composer { padding: 16px; border: 1px solid #ebecf4; border-radius: 16px; background: #fff; }
       .project-task-composer textarea { width: 100%; height: 92px; padding: 0; border: 0; outline: 0; resize: none; }
@@ -983,6 +986,21 @@
       .project-option-chip { display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 12px; color: #4d5565; border: 1px solid #dfe3ee; border-radius: 999px; background: #fff; font-size: 13px; line-height: 18px; cursor: pointer; }
       .project-option-chip input { display: none; }
       .project-option-chip.active { color: #4941e6; border-color: #cbc2ff; background: #f3f0ff; }
+      .invite-link-box { display: flex; align-items: center; gap: 10px; margin-top: 18px; padding: 10px; border: 1px solid #ebecf4; border-radius: 8px; background: #fff; }
+      .invite-link-input { flex: 1; min-width: 0; height: 34px; padding: 0 10px; color: #4d5565; border: 1px solid #ebecf4; border-radius: 6px; background: #f7f8fa; font-size: 13px; }
+      .invite-copy-state { min-height: 18px; margin-top: 10px; color: #6a6e80; font-size: 12px; line-height: 16px; }
+      .project-people-list { display: grid; gap: 8px; }
+      .project-person-item { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; gap: 10px; align-items: center; min-height: 44px; }
+      .project-person-avatar { display: grid; width: 30px; height: 30px; place-items: center; color: #fff; border-radius: 999px; background: #007aff; font-size: 12px; font-weight: 600; }
+      .project-person-name { overflow: hidden; color: #32384c; font-size: 13px; line-height: 18px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+      .project-person-meta { overflow: hidden; margin-top: 2px; color: #9295a4; font-size: 12px; line-height: 16px; text-overflow: ellipsis; white-space: nowrap; }
+      .project-person-actions { display: flex; gap: 6px; }
+      .project-person-btn { height: 28px; padding: 0 9px; color: #4d5565; border: 1px solid #ebecf4; border-radius: 999px; background: #fff; font-size: 12px; line-height: 16px; }
+      .project-person-btn.primary { color: #fff; border-color: #007aff; background: #007aff; }
+      .project-person-btn:hover { color: #007aff; border-color: rgba(0, 122, 255, .22); background: rgba(0, 122, 255, .08); }
+      .project-person-empty { color: #9295a4; font-size: 12px; line-height: 18px; }
+      .invite-members-block { margin-top: 18px; }
+      .invite-members-head { margin-bottom: 10px; color: #32384c; font-size: 13px; line-height: 18px; font-weight: 600; }
 
       .employee-shell { grid-template-columns: 1fr; }
       .employee-contacts { padding: 16px; border-right-color: #ebecf4; }
@@ -2019,6 +2037,61 @@
         margin-bottom: 8px;
       }
 
+      .project-detail-top {
+        align-items: flex-start;
+      }
+      .project-invite-btn {
+        min-width: 108px;
+        height: 36px;
+        padding: 0 14px;
+        font-size: 13px;
+        line-height: 18px;
+      }
+      .invite-link-box {
+        margin-top: 18px;
+        padding: 8px;
+        border-color: rgba(0, 0, 0, .075);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, .72);
+      }
+      .invite-link-input {
+        height: 38px;
+        border-color: rgba(0, 0, 0, .07);
+        border-radius: 12px;
+        background: rgba(245, 245, 247, .82);
+        color: #515154;
+      }
+      .invite-copy-state {
+        color: #86868b;
+      }
+      .project-person-item {
+        padding: 8px;
+        border: 1px solid rgba(0, 0, 0, .055);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, .58);
+      }
+      .project-person-avatar {
+        background: linear-gradient(135deg, #007aff, #64d2ff);
+      }
+      .project-person-name {
+        color: #1d1d1f;
+      }
+      .project-person-meta,
+      .project-person-empty {
+        color: #86868b;
+      }
+      .project-person-btn {
+        border-color: rgba(0, 0, 0, .075);
+        background: rgba(255, 255, 255, .72);
+      }
+      .project-person-btn.primary {
+        border-color: #007aff;
+        background: #007aff;
+      }
+      .invite-members-head {
+        color: #1d1d1f;
+      }
+
       .files-head,
       .schedule-head {
         gap: 16px;
@@ -2577,12 +2650,15 @@
               <div class="project-detail-view" id="projectDetailView" hidden>
                 <div class="project-detail-head">
                   <button class="ghost-btn project-back-btn" type="button" id="projectBackBtn">返回项目</button>
-                  <div class="project-detail-title">
-                    <div class="project-detail-icon"><svg viewBox="0 0 24 24"><path d="M4 7h5l2 2h9v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M4 7V6a2 2 0 0 1 2-2h4l2 2h4"/></svg></div>
-                    <div>
-                      <h1 id="projectDetailName"></h1>
-                      <p id="projectDetailMeta"></p>
+                  <div class="project-detail-top">
+                    <div class="project-detail-title">
+                      <div class="project-detail-icon"><svg viewBox="0 0 24 24"><path d="M4 7h5l2 2h9v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M4 7V6a2 2 0 0 1 2-2h4l2 2h4"/></svg></div>
+                      <div>
+                        <h1 id="projectDetailName"></h1>
+                        <p id="projectDetailMeta"></p>
+                      </div>
                     </div>
+                    <button class="primary-btn project-invite-btn" type="button" id="openProjectInviteBtn"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="4"/><path d="M19 8v6M16 11h6"/></svg>邀请协作</button>
                   </div>
                 </div>
                 <div class="project-detail-body">
@@ -2613,6 +2689,21 @@
                       <div class="project-side-card-head"><strong>指令</strong><span>›</span></div>
                       <p id="projectInstructionSummary"></p>
                       <button class="ghost-btn" type="button" id="projectEditInstructionBtn">+ 添加</button>
+                    </article>
+                    <article class="project-side-card">
+                      <div class="project-side-card-head"><strong>协同成员</strong><span id="projectMemberCount">0</span></div>
+                      <p>已加入此项目的成员，可共同处理项目任务。</p>
+                      <div class="project-people-list" id="projectMemberList"></div>
+                    </article>
+                    <article class="project-side-card">
+                      <div class="project-side-card-head"><strong>申请成员</strong><span id="projectRequestCount">0</span></div>
+                      <p>通过邀请链接提交的协同申请，管理员可同意或拒绝。</p>
+                      <div class="project-people-list" id="projectRequestList"></div>
+                    </article>
+                    <article class="project-side-card">
+                      <div class="project-side-card-head"><strong>已邀请成员</strong><span id="projectInvitedCount">0</span></div>
+                      <p>已发送邀请链接的成员及当前确认状态。</p>
+                      <div class="project-people-list" id="projectInvitedSideList"></div>
                     </article>
                     <article class="project-side-card">
                       <div class="project-side-card-head"><strong>文件</strong><span>›</span></div>
@@ -2837,19 +2928,30 @@
             <span>指令</span>
             <textarea id="projectInstructionInput" placeholder="描述项目默认执行方式、上下文约束或协作规则（选填）"></textarea>
           </label>
-          <div class="schedule-field full">
-            <span>专家</span>
-            <div class="project-option-grid" id="projectExpertOptions"></div>
-          </div>
-          <div class="schedule-field full">
-            <span>技能</span>
-            <div class="project-option-grid" id="projectSkillOptions"></div>
-          </div>
           <div class="form-error full" id="projectFormError"></div>
         </div>
         <div class="modal-actions">
           <button class="ghost-btn" type="button" id="cancelProjectDialogBtn">取消</button>
           <button class="primary-btn" type="button" id="submitProjectDialogBtn">创建项目</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-overlay" id="projectInviteDialog" hidden>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="projectInviteDialogTitle">
+        <h2 class="modal-title" id="projectInviteDialogTitle">邀请成员协同</h2>
+        <p class="modal-desc" id="projectInviteDesc">生成当前项目的邀请链接，发送给成员后即可加入协同工作。</p>
+        <div class="invite-link-box">
+          <input class="invite-link-input" id="projectInviteLinkInput" type="text" readonly value="" aria-label="项目邀请链接" />
+          <button class="primary-btn" type="button" id="copyProjectInviteBtn">复制链接</button>
+        </div>
+        <div class="invite-copy-state" id="projectInviteCopyState" aria-live="polite"></div>
+        <div class="invite-members-block">
+          <div class="invite-members-head">已邀请成员</div>
+          <div class="project-people-list" id="projectInvitedMemberList"></div>
+        </div>
+        <div class="modal-actions">
+          <button class="ghost-btn" type="button" id="simulateProjectRequestBtn">模拟成员申请</button>
+          <button class="ghost-btn" type="button" id="closeProjectInviteBtn">关闭</button>
         </div>
       </div>
     </div>
@@ -2925,6 +3027,17 @@
           skills: ["腾讯文档", "流程图生成"],
           files: ["需求访谈纪要.docx"],
           automations: ["每周一 09:00 周报同步"],
+          members: [
+            { id: "member-liujing", name: "刘静", email: "liujing@example.com", role: "所有者" },
+            { id: "member-chenyu", name: "陈宇", email: "chenyu@example.com", role: "协作者" }
+          ],
+          invitedMembers: [
+            { id: "invite-wangmin", name: "王敏", email: "wangmin@example.com", status: "已邀请" },
+            { id: "invite-zhaolei", name: "赵磊", email: "zhaolei@example.com", status: "待确认" }
+          ],
+          joinRequests: [
+            { id: "req-sunqi", name: "孙琦", email: "sunqi@example.com", note: "通过邀请链接申请加入", time: "刚刚" }
+          ],
           tasks: [{ title: "制定2026年春节购物清单", time: "4 个月前" }]
         },
         {
@@ -2938,6 +3051,13 @@
           skills: ["腾讯会议"],
           files: ["项目排期表.xlsx"],
           automations: [],
+          members: [
+            { id: "member-liujing", name: "刘静", email: "liujing@example.com", role: "所有者" }
+          ],
+          invitedMembers: [
+            { id: "invite-lina", name: "李娜", email: "lina@example.com", status: "已邀请" }
+          ],
+          joinRequests: [],
           tasks: [{ title: "整理项目启动会纪要", time: "今天" }]
         },
         {
@@ -2951,6 +3071,11 @@
           skills: ["NeoData金融搜索服务"],
           files: [],
           automations: [],
+          members: [
+            { id: "member-liujing", name: "刘静", email: "liujing@example.com", role: "所有者" }
+          ],
+          invitedMembers: [],
+          joinRequests: [],
           tasks: []
         }
       ];
@@ -3202,6 +3327,56 @@
           ? values.map(value => `<span class="project-side-tag">${escapeHtml(value)}</span>`).join("")
           : `<span class="project-side-tag">${escapeHtml(emptyText)}</span>`;
       }
+      function personInitial(name = "") {
+        return String(name).trim().slice(0, 1) || "成";
+      }
+      function renderProjectPersonList(containerId, people, emptyText, type = "member") {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        if (!people || !people.length) {
+          container.innerHTML = `<div class="project-person-empty">${escapeHtml(emptyText)}</div>`;
+          return;
+        }
+        container.innerHTML = people.map(person => {
+          const meta = type === "request"
+            ? `${person.note || "申请加入项目"} · ${person.time || "刚刚"}`
+            : type === "invite"
+            ? `${person.email || ""} · ${person.status || "已邀请"}`
+            : `${person.email || ""} · ${person.role || "协作者"}`;
+          const actions = type === "request"
+            ? `<span class="project-person-actions">
+                <button class="project-person-btn primary" type="button" data-project-request-action="approve" data-request-id="${escapeHtml(person.id)}">同意</button>
+                <button class="project-person-btn" type="button" data-project-request-action="reject" data-request-id="${escapeHtml(person.id)}">拒绝</button>
+              </span>`
+            : "";
+          return `
+            <article class="project-person-item">
+              <span class="project-person-avatar">${escapeHtml(personInitial(person.name))}</span>
+              <span>
+                <span class="project-person-name">${escapeHtml(person.name)}</span>
+                <span class="project-person-meta">${escapeHtml(meta)}</span>
+              </span>
+              ${actions}
+            </article>
+          `;
+        }).join("");
+      }
+      function renderProjectCollaboration(project = currentProject()) {
+        if (!project) return;
+        project.members = project.members || [];
+        project.invitedMembers = project.invitedMembers || [];
+        project.joinRequests = project.joinRequests || [];
+        const memberCount = document.getElementById("projectMemberCount");
+        const requestCount = document.getElementById("projectRequestCount");
+        const invitedCount = document.getElementById("projectInvitedCount");
+        if (memberCount) memberCount.textContent = project.members.length;
+        if (requestCount) requestCount.textContent = project.joinRequests.length;
+        if (invitedCount) invitedCount.textContent = project.invitedMembers.length;
+        renderProjectPersonList("projectMemberList", project.members, "暂无协同成员", "member");
+        renderProjectPersonList("projectRequestList", project.joinRequests, "暂无待处理申请", "request");
+        renderProjectPersonList("projectInvitedSideList", project.invitedMembers, "暂无已邀请成员", "invite");
+        renderProjectPersonList("projectInvitedMemberList", project.invitedMembers, "暂无已邀请成员", "invite");
+      }
       function renderProjectDetail() {
         const project = currentProject();
         if (!project) {
@@ -3217,6 +3392,7 @@
         renderProjectTags("projectSkillTags", project.skills, "暂无技能");
         renderProjectTags("projectExpertTags", project.experts, "暂无专家");
         renderProjectTags("projectAutomationTags", project.automations, "暂无定时任务");
+        renderProjectCollaboration(project);
         const list = document.getElementById("projectTaskList");
         if (list) {
           list.innerHTML = (project.tasks && project.tasks.length)
@@ -3251,6 +3427,81 @@
         projectViewMode = "list";
         renderProjectWorkspace();
       }
+      function projectInviteLink(project) {
+        const url = new URL(window.location.href);
+        url.hash = `project=${encodeURIComponent(project.id)}&invite=1`;
+        return url.toString();
+      }
+      function openProjectInviteDialog() {
+        const project = currentProject();
+        if (!project || !projectInviteDialog) return;
+        projectInviteLinkInput.value = projectInviteLink(project);
+        document.getElementById("projectInviteDesc").textContent = `将链接发送给成员，成员可加入「${project.name}」协同工作。`;
+        projectInviteCopyState.textContent = "";
+        renderProjectCollaboration(project);
+        projectInviteDialog.hidden = false;
+        projectInviteLinkInput.focus();
+        projectInviteLinkInput.select();
+      }
+      function closeProjectInviteDialog() {
+        if (projectInviteDialog) projectInviteDialog.hidden = true;
+      }
+      async function copyProjectInviteLink() {
+        const link = projectInviteLinkInput.value;
+        if (!link) return;
+        try {
+          if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(link);
+          } else {
+            projectInviteLinkInput.select();
+            document.execCommand("copy");
+          }
+          projectInviteCopyState.textContent = "邀请链接已复制，可以发送给协作成员。";
+        } catch (error) {
+          projectInviteLinkInput.focus();
+          projectInviteLinkInput.select();
+          projectInviteCopyState.textContent = "复制失败，已选中链接，可手动复制。";
+        }
+      }
+      function handleProjectJoinRequest(requestId, action) {
+        const project = currentProject();
+        if (!project) return;
+        project.joinRequests = project.joinRequests || [];
+        project.members = project.members || [];
+        project.invitedMembers = project.invitedMembers || [];
+        const requestIndex = project.joinRequests.findIndex(item => item.id === requestId);
+        if (requestIndex < 0) return;
+        const [request] = project.joinRequests.splice(requestIndex, 1);
+        const invite = project.invitedMembers.find(item => item.email === request.email);
+        if (action === "approve") {
+          if (!project.members.some(item => item.email === request.email)) {
+            project.members.push({ id: `member-${Date.now()}`, name: request.name, email: request.email, role: "协作者" });
+          }
+          if (invite) invite.status = "已加入";
+        } else if (invite) {
+          invite.status = "已拒绝";
+        }
+        renderProjectCollaboration(project);
+      }
+      function simulateProjectJoinRequest() {
+        const project = currentProject();
+        if (!project) return;
+        project.joinRequests = project.joinRequests || [];
+        project.invitedMembers = project.invitedMembers || [];
+        project.members = project.members || [];
+        const nextIndex = project.joinRequests.length + project.members.length + project.invitedMembers.length + 1;
+        const applicant = {
+          id: `req-${Date.now()}`,
+          name: `协作者${nextIndex}`,
+          email: `member${nextIndex}@example.com`,
+          note: "点击邀请链接后确认申请",
+          time: "刚刚"
+        };
+        project.joinRequests.push(applicant);
+        project.invitedMembers.push({ id: `invite-${Date.now()}`, name: applicant.name, email: applicant.email, status: "已申请" });
+        projectInviteCopyState.textContent = `${applicant.name} 已通过邀请链接提交协同申请。`;
+        renderProjectCollaboration(project);
+      }
       function submitProjectForm() {
         const name = document.getElementById("projectNameInput").value.trim();
         const instruction = document.getElementById("projectInstructionInput").value.trim();
@@ -3282,6 +3533,9 @@
             skills: [...projectSkillDraft],
             files: [],
             automations: [],
+            members: [{ id: "member-liujing", name: "刘静", email: "liujing@example.com", role: "所有者" }],
+            invitedMembers: [],
+            joinRequests: [],
             tasks: []
           };
           projectRecords.unshift(nextProject);
@@ -3614,6 +3868,13 @@
       const chatSkillSelect = document.getElementById("chatSkillSelect");
       const chatPromptEnhanceBtn = document.getElementById("chatPromptEnhanceBtn");
       const pptTemplateGrid = document.getElementById("pptTemplateGrid");
+      const openProjectInviteBtn = document.getElementById("openProjectInviteBtn");
+      const projectInviteDialog = document.getElementById("projectInviteDialog");
+      const projectInviteLinkInput = document.getElementById("projectInviteLinkInput");
+      const projectInviteCopyState = document.getElementById("projectInviteCopyState");
+      const copyProjectInviteBtn = document.getElementById("copyProjectInviteBtn");
+      const closeProjectInviteBtn = document.getElementById("closeProjectInviteBtn");
+      const simulateProjectRequestBtn = document.getElementById("simulateProjectRequestBtn");
 
       function escapeHtml(value) {
         return String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
@@ -4273,6 +4534,11 @@
           toggleProjectOption(projectOption.dataset.projectOptionType, projectOption.dataset.projectOptionValue);
           return;
         }
+        const requestAction = e.target.closest("[data-project-request-action]");
+        if (requestAction) {
+          handleProjectJoinRequest(requestAction.dataset.requestId, requestAction.dataset.projectRequestAction);
+          return;
+        }
         const marketRoot = e.target.closest("[data-market-root]");
         if (marketRoot) {
           marketState.squareRoot = marketRoot.dataset.marketRoot;
@@ -4350,6 +4616,10 @@
       if (cancelProjectDialogBtn) cancelProjectDialogBtn.addEventListener("click", closeProjectDialog);
       if (submitProjectDialogBtn) submitProjectDialogBtn.addEventListener("click", submitProjectForm);
       if (projectBackBtn) projectBackBtn.addEventListener("click", backToProjectList);
+      if (openProjectInviteBtn) openProjectInviteBtn.addEventListener("click", openProjectInviteDialog);
+      if (copyProjectInviteBtn) copyProjectInviteBtn.addEventListener("click", copyProjectInviteLink);
+      if (closeProjectInviteBtn) closeProjectInviteBtn.addEventListener("click", closeProjectInviteDialog);
+      if (simulateProjectRequestBtn) simulateProjectRequestBtn.addEventListener("click", simulateProjectJoinRequest);
       if (projectEditInstructionBtn) projectEditInstructionBtn.addEventListener("click", () => {
         const project = currentProject();
         openProjectDialog(project);
@@ -4490,6 +4760,7 @@
       imDialog.addEventListener("click", e => { if (e.target === imDialog) closeImDialog(); });
       scheduleDialog.addEventListener("click", e => { if (e.target === scheduleDialog) closeScheduleDialog(); });
       projectDialog.addEventListener("click", e => { if (e.target === projectDialog) closeProjectDialog(); });
+      projectInviteDialog.addEventListener("click", e => { if (e.target === projectInviteDialog) closeProjectInviteDialog(); });
       document.addEventListener("keydown", e => {
         if (e.key !== "Escape") return;
         popover.hidden = true;
@@ -4498,6 +4769,7 @@
         if (!imDialog.hidden) closeImDialog();
         if (!scheduleDialog.hidden) closeScheduleDialog();
         if (!projectDialog.hidden) closeProjectDialog();
+        if (!projectInviteDialog.hidden) closeProjectInviteDialog();
       });
       syncImCard();
     </script>
