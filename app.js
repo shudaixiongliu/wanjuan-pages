@@ -183,6 +183,7 @@ const state = {
     view: "grid",
   },
   createDigitalEmployee: null,
+  createExpert: null,
   employeeEditor: {
     mode: "edit",
     index: 0,
@@ -1032,7 +1033,7 @@ function createFilterId(prefix, text) {
 }
 
 function selectOptions(label) {
-  if (label.includes("专家类型")) return ["全部", "RAG", "自主规划", "多应用协同"];
+  if (label.includes("专家类型")) return ["全部", "数字员工专家", "RAG专家", "自主规划专家", "专家团队"];
   if (label.includes("文档格式")) return ["全部", "PDF", "Word", "Excel", "TXT", "Markdown"];
   if (label.includes("审核状态")) return ["全部", "待审核", "已通过", "已驳回"];
   if (label.includes("状态")) return ["全部", "排队中", "文件解析中", "文件增强中", "处理完成", "处理失败", "已发布", "未发布"];
@@ -1353,6 +1354,12 @@ function renderSidebar() {
         <div class="brand-logo">
           ${icon("logoFull", "brand-logo-full-icon", { width: "86px", height: "34px" })}
         </div>
+      </div>
+      <div class="sidebar-create">
+        <button class="sidebar-create-btn" data-handler="${registerHandler({ type: "openCreateExpert" })}">
+          ${icon("plus", "sidebar-create-icon")}
+          <span>创建专家</span>
+        </button>
       </div>
       <div class="menu">
         ${menuItems.map(renderMenuItem).join("")}
@@ -4449,6 +4456,116 @@ function closeCreateDigitalEmployeeModal() {
   render();
 }
 
+function createExpertState() {
+  return {
+    type: "数字员工专家",
+    name: "",
+    desc: "",
+  };
+}
+
+function openCreateExpertModal() {
+  state.drawer = null;
+  state.createExpert = createExpertState();
+  render();
+}
+
+function closeCreateExpertModal() {
+  state.createExpert = null;
+  render();
+}
+
+function renderCreateExpertModal() {
+  if (!state.createExpert) return "";
+  const view = state.createExpert;
+  const types = [
+    {
+      key: "数字员工专家",
+      title: "数字员工专家",
+      tone: "employee",
+      desc: "结合 Harness 框架的稳定调度能力，打造具备特定岗位技能的数字员工，可自主承接标准业务流程，实现企业人力资产的数字化。",
+      tags: ["Harness架构", "岗位辅助", "全天候执行"],
+    },
+    {
+      key: "RAG专家",
+      title: "RAG专家",
+      tone: "rag",
+      desc: "基于 RAG 配置专家，可自主进行私域知识库精准检索 + 大模型生成，企业知识问答优选。",
+      tags: ["知识库", "自主规划", "独立执行"],
+    },
+    {
+      key: "自主规划专家",
+      title: "自主规划专家",
+      tone: "planner",
+      desc: "具备自主规划、知识库调用、工具调用、Skills调用 + 大模型生成，适合独立完成的任务场景。",
+      tags: ["Skills", "工具调用", "知识赋能"],
+    },
+    {
+      key: "专家团队",
+      title: "专家团队",
+      tone: "team",
+      desc: "多个专家协同工作，通过调度专家分配任务，适合复杂的多领域协作场景。",
+      tags: ["多专家", "任务协同", "分工合作"],
+    },
+  ];
+  return `
+    <div class="modal-mask" data-handler="${registerHandler({ type: "closeCreateExpert" })}"></div>
+    <section class="modal create-expert-modal" role="dialog" aria-modal="true" aria-labelledby="createExpertTitle">
+      <div class="modal-head">
+        <span id="createExpertTitle">创建专家</span>
+        <button class="icon-btn" aria-label="关闭" data-handler="${registerHandler({ type: "closeCreateExpert" })}">${icon("close")}</button>
+      </div>
+      <div class="modal-body create-expert-body">
+        <div class="create-expert-field">
+          <label class="create-expert-label">专家类型<span>*</span></label>
+          <div class="create-expert-type-grid">
+            ${types.map((item) => `
+              <button
+                class="create-expert-type ${view.type === item.key ? "active" : ""}"
+                data-handler="${registerHandler({ type: "selectCreateExpertType", value: item.key })}"
+              >
+                <span class="create-expert-type-icon ${item.tone}"></span>
+                <span class="create-expert-type-content">
+                  <strong>${item.title}</strong>
+                </span>
+              </button>
+            `).join("")}
+          </div>
+        </div>
+        <div class="create-expert-field">
+          <label class="create-expert-label" for="createExpertName">专家名称<span>*</span></label>
+          <div class="create-expert-input-wrap">
+            <input
+              id="createExpertName"
+              class="create-expert-input"
+              maxlength="30"
+              value="${escapeHtml(view.name)}"
+              placeholder="请输入专家名称"
+            />
+            <span>${view.name.length}/30</span>
+          </div>
+        </div>
+        <div class="create-expert-field">
+          <label class="create-expert-label" for="createExpertDesc">专家描述<span>*</span></label>
+          <div class="create-expert-textarea-wrap">
+            <textarea
+              id="createExpertDesc"
+              class="create-expert-textarea"
+              maxlength="200"
+              placeholder="请输入专家能力、适用场景或使用说明"
+            >${escapeHtml(view.desc)}</textarea>
+            <span>${view.desc.length}/200</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" data-handler="${registerHandler({ type: "closeCreateExpert" })}">取消</button>
+        <button class="btn primary" data-handler="${registerHandler({ type: "submitCreateExpert" })}">确定</button>
+      </div>
+    </section>
+  `;
+}
+
 function renderCreateDigitalEmployeeModal() {
   if (!state.createDigitalEmployee) return "";
   const view = state.createDigitalEmployee;
@@ -4584,6 +4701,7 @@ function renderLegalAssistantConfig(view) {
 function renderPortal() {
   return [
     state.drawer ? renderDrawer() : "",
+    state.createExpert ? renderCreateExpertModal() : "",
     state.createDigitalEmployee ? renderCreateDigitalEmployeeModal() : "",
   ].join("");
 }
@@ -4660,6 +4778,16 @@ document.addEventListener("click", (event) => {
   if (meta.type === "closeTab") closeTab(meta.path);
   if (meta.type === "drawer") openDrawer(meta.title, meta.fields);
   if (meta.type === "closeDrawer") closeDrawer();
+  if (meta.type === "openCreateExpert") openCreateExpertModal();
+  if (meta.type === "closeCreateExpert") closeCreateExpertModal();
+  if (meta.type === "selectCreateExpertType" && state.createExpert) {
+    state.createExpert.type = meta.value;
+    render();
+  }
+  if (meta.type === "submitCreateExpert") {
+    closeCreateExpertModal();
+    navigate("/dashboard/robotList");
+  }
   if (meta.type === "closeCreateDigitalEmployee") closeCreateDigitalEmployeeModal();
   if (meta.type === "selectCreateEmployeeTemplate") {
     state.createDigitalEmployee = createDigitalEmployeeState(meta.value);
@@ -4999,6 +5127,18 @@ document.addEventListener("input", (event) => {
     if (counter) counter.textContent = `${state.createDigitalEmployee.duty.length}/200`;
     return;
   }
+  if (event.target.matches("#createExpertName") && state.createExpert) {
+    state.createExpert.name = event.target.value.slice(0, 30);
+    const counter = event.target.parentElement?.querySelector("span");
+    if (counter) counter.textContent = `${state.createExpert.name.length}/30`;
+    return;
+  }
+  if (event.target.matches("#createExpertDesc") && state.createExpert) {
+    state.createExpert.desc = event.target.value.slice(0, 200);
+    const counter = event.target.parentElement?.querySelector("span");
+    if (counter) counter.textContent = `${state.createExpert.desc.length}/200`;
+    return;
+  }
   if (event.target.matches("#createLegalCompany") && state.createDigitalEmployee) {
     state.createDigitalEmployee.legalConfig.company = event.target.value;
     return;
@@ -5069,6 +5209,10 @@ window.addEventListener("hashchange", () => {
 });
 
 document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && state.createExpert) {
+    closeCreateExpertModal();
+    return;
+  }
   if (event.key === "Escape" && state.createDigitalEmployee) {
     closeCreateDigitalEmployeeModal();
   }

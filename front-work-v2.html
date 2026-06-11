@@ -189,6 +189,7 @@
       .chat-page.has-chat .hello,
       .chat-page.has-chat .chat-recommend-grid { display: none; }
       .chat-page.has-chat .hero { transform: none; }
+      .chat-task-list { display: none; }
       .message { display: flex; gap: 10px; align-items: flex-start; }
       .message.user { justify-content: flex-end; }
       .message-avatar { display: grid; place-items: center; width: 28px; height: 28px; flex: 0 0 auto; color: #fff; background: var(--primary); border-radius: 50%; font-size: 12px; font-weight: 600; }
@@ -2191,6 +2192,234 @@
           line-height: 18px;
         }
       }
+
+      /* Active chat interaction layout */
+      .chat-page.has-chat {
+        justify-content: flex-start;
+        padding: 28px 40px 238px;
+        min-height: auto;
+      }
+      .chat-page.has-chat .hero {
+        display: flex;
+        width: min(100%, 980px);
+        max-width: 980px;
+        min-height: auto;
+        flex-direction: column;
+        margin: 0 auto;
+      }
+      .chat-page.has-chat .chat-thread {
+        display: flex;
+        flex: 0 0 auto;
+        max-width: 100%;
+        max-height: none;
+        margin: 0;
+        padding: 4px 4px 24px;
+        overflow: visible;
+      }
+      .chat-page.has-chat .chat-task-list {
+        display: grid;
+        gap: 0;
+        max-width: 980px;
+        width: 100%;
+        margin: 0 auto 10px;
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, .88);
+        box-shadow: 0 1px 0 rgba(255,255,255,.82) inset, 0 10px 28px rgba(0, 0, 0, .055);
+        backdrop-filter: saturate(180%) blur(18px);
+        -webkit-backdrop-filter: saturate(180%) blur(18px);
+      }
+      .chat-page.has-chat .chat-task-list:empty {
+        display: none;
+      }
+      .chat-task-list:empty {
+        display: none;
+      }
+      .chat-task-item {
+        display: grid;
+        grid-template-columns: 24px minmax(0, 1fr) auto;
+        gap: 10px;
+        align-items: center;
+        min-height: 48px;
+        padding: 10px 12px 10px 14px;
+        border-bottom: 1px solid rgba(0, 0, 0, .055);
+        background: transparent;
+        transition: background .18s ease, box-shadow .18s ease;
+      }
+      .chat-task-item:last-child {
+        border-bottom: 0;
+      }
+      .chat-task-item:hover {
+        background: rgba(255, 255, 255, .7);
+      }
+      .chat-task-item.is-editing {
+        background: rgba(255, 255, 255, .92);
+        box-shadow: inset 0 0 0 1px rgba(46, 112, 255, .12);
+      }
+      .chat-task-lead {
+        display: grid;
+        width: 24px;
+        height: 24px;
+        place-items: center;
+        color: #9a9aa0;
+      }
+      .chat-task-lead svg,
+      .chat-task-action svg {
+        width: 17px;
+        height: 17px;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.9;
+      }
+      .chat-task-title {
+        overflow: hidden;
+        color: #474b57;
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 600;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .chat-task-copy {
+        min-width: 0;
+      }
+      .chat-task-actions {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, .74);
+        box-shadow: inset 0 0 0 1px rgba(17, 24, 39, .06);
+      }
+      .chat-task-guide {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        height: 28px;
+        padding: 0 10px;
+        color: #3a68f6;
+        border: 1px solid rgba(58, 104, 246, .14);
+        border-radius: 999px;
+        background: rgba(58, 104, 246, .08);
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 600;
+        white-space: nowrap;
+        cursor: pointer;
+        transition: color .18s ease, background .18s ease, border-color .18s ease, transform .18s ease;
+      }
+      .chat-task-guide:hover,
+      .chat-task-action:hover {
+        color: #1d1d1f;
+        background: rgba(17, 24, 39, .08);
+        border-color: rgba(17, 24, 39, .08);
+        transform: translateY(-1px);
+      }
+      .chat-task-action {
+        display: grid;
+        width: 30px;
+        height: 30px;
+        place-items: center;
+        color: #707583;
+        border: 1px solid transparent;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, .55);
+        cursor: pointer;
+        transition: color .18s ease, background .18s ease, border-color .18s ease, transform .18s ease, opacity .18s ease;
+      }
+      .chat-task-guide svg {
+        width: 14px;
+        height: 14px;
+      }
+      .chat-task-action[data-chat-task-delete] {
+        color: #b56974;
+      }
+      .chat-task-action:disabled {
+        opacity: .38;
+        cursor: default;
+        transform: none;
+      }
+      .chat-task-action:disabled:hover,
+      .chat-task-guide:disabled:hover {
+        color: inherit;
+        background: inherit;
+        border-color: inherit;
+        transform: none;
+      }
+      .chat-task-edit-field {
+        display: block;
+      }
+      .chat-task-edit-input {
+        width: 100%;
+        height: 36px;
+        padding: 0 12px;
+        color: #32384c;
+        border: 1px solid rgba(58, 104, 246, .18);
+        border-radius: 12px;
+        background: #fff;
+        outline: 0;
+        font-size: 14px;
+        line-height: 20px;
+        box-shadow: 0 1px 2px rgba(17, 24, 39, .06);
+      }
+      .chat-task-edit-input:focus {
+        border-color: rgba(58, 104, 246, .42);
+        box-shadow: 0 0 0 4px rgba(58, 104, 246, .10);
+      }
+      .chat-task-save {
+        color: #2452de;
+      }
+      .chat-task-edit-actions {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .chat-page.has-chat .chat-composer-wrap {
+        position: fixed;
+        right: 40px;
+        bottom: 28px;
+        left: calc(236px + 40px);
+        z-index: 12;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+        pointer-events: none;
+      }
+      .chat-page.has-chat .chat-composer,
+      .chat-page.has-chat .composer-note,
+      .chat-page.has-chat .ppt-template-grid {
+        pointer-events: auto;
+      }
+      .chat-page.has-chat .chat-composer {
+        width: 100%;
+        max-width: 980px;
+      }
+      .chat-page.has-chat .chat-composer textarea {
+        height: 76px;
+      }
+      .chat-page.has-chat .message {
+        max-width: 100%;
+      }
+      .chat-page.has-chat .message-bubble {
+        max-width: min(720px, 82%);
+      }
+
+      @media (max-width: 1220px) {
+        .chat-page.has-chat {
+          padding: 22px 24px 226px;
+        }
+        .chat-page.has-chat .chat-composer-wrap {
+          right: 24px;
+          bottom: 22px;
+          left: calc(220px + 24px);
+        }
+      }
     </style>
   </head>
   <body>
@@ -2244,6 +2473,7 @@
                 <button class="chat-recommend-card" type="button" data-chat-app="ppt"><i class="recommend-art ppt"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v5h5"/><path d="M10 13h6M10 17h4"/></svg></i><strong>PPT创作</strong><span>一键生成专业演示</span></button>
               </div>
               <div class="chat-composer-wrap">
+                <div class="chat-task-list" id="chatTaskList" aria-label="当前任务列表"></div>
                 <div class="chat-composer">
                   <textarea id="chatInput" placeholder="有什么我可以帮助您的？"></textarea>
                   <div class="mention-menu" id="mentionMenu" hidden></div>
@@ -2743,6 +2973,8 @@
       let selectedChatModel = "glm-5.1";
       let selectedChatSkill = "";
       let selectedPptTemplate = "";
+      let chatTurnCount = 0;
+      let chatQueueTimer = null;
       const chatApps = {
         knowledge: { title: "知识问答", placeholder: "请输入你要查询的问题或知识点", prompt: "请基于已知资料回答这个问题，并给出清晰结论。" },
         writing: { title: "深度写作", placeholder: "请输入写作主题、受众、风格和输出要求", prompt: "请围绕这个主题生成一篇结构完整、表达专业的长文初稿。" },
@@ -3257,6 +3489,8 @@
         openPage("chat");
         chatPage.classList.add("has-chat");
         chatThread.innerHTML = "";
+        if (chatTaskList) chatTaskList.innerHTML = "";
+        chatTurnCount = conversation.messages.filter(message => message.role === "user").length;
         conversation.messages.forEach(message => appendMessage(message.role, message.text, message.meta, { messageId: message.id }));
         const target = chatThread.querySelector(`[data-message-id="${targetMessageId}"]`);
         if (!target) {
@@ -3357,7 +3591,9 @@
       const scheduleChannelInput = document.getElementById("scheduleChannelInput");
       const guideButtons = [document.getElementById("imGuideBtn"), document.getElementById("imGuideBtnDialog")];
       const chatPage = document.querySelector(".chat-page");
+      const chatContent = document.querySelector(".content");
       const chatThread = document.getElementById("chatThread");
+      const chatTaskList = document.getElementById("chatTaskList");
       const chatInput = document.getElementById("chatInput");
       const chatSendBtn = document.getElementById("chatSendBtn");
       const chatAttachmentBtn = document.getElementById("chatAttachmentBtn");
@@ -3570,7 +3806,7 @@
       }
 
       function syncContextProgressVisibility() {
-        const visible = chatThread.children.length > 0;
+        const visible = chatThread.children.length > 0 || Boolean(chatTaskList?.children.length);
         chatPage.classList.toggle("has-chat", visible);
         contextProgressBtn.hidden = !visible;
         if (!visible) closeContextPopover();
@@ -3612,12 +3848,23 @@
         renderContextUsage();
       }
 
+      function resetChatConversation() {
+        chatThread.innerHTML = "";
+        if (chatTaskList) chatTaskList.innerHTML = "";
+        chatTurnCount = 0;
+        if (chatQueueTimer) {
+          clearTimeout(chatQueueTimer);
+          chatQueueTimer = null;
+        }
+        chatPage.classList.remove("has-chat");
+        syncContextProgressVisibility();
+      }
+
       function startNewAgentTask(agentName = selectedChatAgent, prompt = "") {
         setSelectedChatAgent(agentName);
         setSelectedChatApp("");
         selectedPptTemplate = "";
-        chatThread.innerHTML = "";
-        syncContextProgressVisibility();
+        resetChatConversation();
         closeMentionMenu();
         chatInput.value = prompt;
         openPage("chat");
@@ -3631,8 +3878,7 @@
         setSelectedChatApp("");
         selectedChatSkill = skillName;
         selectedPptTemplate = "";
-        chatThread.innerHTML = "";
-        syncContextProgressVisibility();
+        resetChatConversation();
         closeMentionMenu();
         chatInput.value = prompt ? `/${skillName} ${prompt}` : `/${skillName} `;
         openPage("chat");
@@ -3646,8 +3892,7 @@
         setSelectedChatAgent("");
         setSelectedChatApp("");
         selectedPptTemplate = "";
-        chatThread.innerHTML = "";
-        syncContextProgressVisibility();
+        resetChatConversation();
         closeMentionMenu();
         chatInput.value = "";
         openPage("chat");
@@ -3659,8 +3904,7 @@
         setSelectedChatAgent("");
         selectedPptTemplate = "";
         setSelectedChatApp(app);
-        chatThread.innerHTML = "";
-        syncContextProgressVisibility();
+        resetChatConversation();
         closeMentionMenu();
         chatInput.value = prompt;
         openPage("chat");
@@ -3712,7 +3956,180 @@
           ? `<div class="message-bubble">${escapeHtml(text)}${meta ? `<div class="message-meta">${escapeHtml(meta)}</div>` : ""}</div><span class="message-avatar">${avatar}</span>`
           : `<span class="message-avatar">${avatar}</span><div class="message-bubble">${escapeHtml(text)}${meta ? `<div class="message-meta">${escapeHtml(meta)}</div>` : ""}</div>`;
         chatThread.appendChild(node);
+        if (chatContent) chatContent.scrollTop = chatContent.scrollHeight;
         chatThread.scrollTop = chatThread.scrollHeight;
+        return node;
+      }
+
+      function buildChatPayload(text, base = {}) {
+        const mode = base.mode || currentChatMode;
+        const chatAgent = Object.prototype.hasOwnProperty.call(base, "selectedChatAgent") ? base.selectedChatAgent : selectedChatAgent;
+        const chatSkill = Object.prototype.hasOwnProperty.call(base, "selectedChatSkill") ? base.selectedChatSkill : selectedChatSkill;
+        const chatModel = Object.prototype.hasOwnProperty.call(base, "selectedChatModel") ? base.selectedChatModel : selectedChatModel;
+        const pptTemplateId = Object.prototype.hasOwnProperty.call(base, "selectedPptTemplate") ? base.selectedPptTemplate : selectedPptTemplate;
+        const hideModelAndSkill = mode === "agent" && Boolean(chatAgent);
+        const modeLabelParts = [
+          mode === "agent"
+            ? `专家模式${chatAgent ? ` · 专家：${chatAgent}` : ""}`
+            : `${chatApps[mode]?.title || "知识问答"}${mode === "ppt" && pptTemplateId ? ` · 模板：${pptTemplates.find(item => item.id === pptTemplateId)?.title || ""}` : ""}`
+        ];
+        if (!hideModelAndSkill && chatModel) modeLabelParts.push(`模型：${chatModel}`);
+        if (!hideModelAndSkill && chatSkill) modeLabelParts.push(`技能：${chatSkill}`);
+        const modeLabel = modeLabelParts.join(" · ");
+        let effectiveText = text;
+        if (chatSkill && !/\/([^\s/@]+)/.test(effectiveText)) effectiveText = `/${chatSkill} ${effectiveText}`;
+        if (mode === "agent" && chatAgent && !/@([^\s/@]+)/.test(effectiveText)) effectiveText = `@${chatAgent} ${effectiveText}`;
+        return {
+          ...base,
+          text,
+          meta: base.meta || modeLabel,
+          effectiveText,
+          mode,
+          modeLabel,
+          selectedChatAgent: chatAgent,
+          selectedChatSkill: chatSkill,
+          selectedChatModel: chatModel,
+          selectedPptTemplate: pptTemplateId
+        };
+      }
+
+      function renderChatTaskNode(taskNode) {
+        if (!taskNode?._chatPayload) return;
+        const { text = "", meta = "" } = taskNode._chatPayload;
+        const isEditing = taskNode.dataset.editing === "true";
+        taskNode.classList.toggle("is-editing", isEditing);
+        taskNode.innerHTML = `
+          <span class="chat-task-lead" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 5v7a4 4 0 0 0 4 4h6"/><path d="m14 12 4 4-4 4"/></svg></span>
+          ${isEditing
+            ? `<label class="chat-task-copy chat-task-edit-field"><input class="chat-task-edit-input" type="text" value="${escapeHtml(text)}" aria-label="编辑排队任务" maxlength="500" placeholder="编辑排队任务"></label>`
+            : `<span class="chat-task-copy" title="${escapeHtml(text)}"><span class="chat-task-title">${escapeHtml(text)}</span></span>`
+          }
+          <span class="chat-task-actions">
+            ${isEditing
+              ? `<span class="chat-task-edit-actions">
+                  <button class="chat-task-guide chat-task-save" type="button" data-chat-task-save title="保存编辑">保存</button>
+                  <button class="chat-task-action" type="button" data-chat-task-cancel title="取消编辑" aria-label="取消编辑"><svg viewBox="0 0 24 24"><path d="m7 7 10 10"/><path d="m17 7-10 10"/></svg></button>
+                </span>`
+              : `<button class="chat-task-guide" type="button" data-chat-task-guide title="${escapeHtml(meta || "引导此任务")}"><svg viewBox="0 0 24 24"><path d="M7 5v7a4 4 0 0 0 4 4h6"/><path d="m14 12 4 4-4 4"/></svg>引导</button>
+                <button class="chat-task-action" type="button" data-chat-task-up title="上移" aria-label="上移"><svg viewBox="0 0 24 24"><path d="m7 14 5-5 5 5"/><path d="M12 9v10"/></svg></button>
+                <button class="chat-task-action" type="button" data-chat-task-down title="下移" aria-label="下移"><svg viewBox="0 0 24 24"><path d="m7 10 5 5 5-5"/><path d="M12 5v10"/></svg></button>
+                <button class="chat-task-action" type="button" data-chat-task-edit title="编辑消息" aria-label="编辑消息"><svg viewBox="0 0 24 24"><path d="M5 19h4l10-10a2.1 2.1 0 0 0-3-3L6 16z"/><path d="M14 6l4 4"/></svg></button>
+                <button class="chat-task-action" type="button" data-chat-task-delete title="删除任务" aria-label="删除任务"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M10 11v6M14 11v6"/><path d="M6 7l1 14h10l1-14"/><path d="M9 7V4h6v3"/></svg></button>`
+            }
+          </span>
+        `;
+      }
+
+      function syncChatTaskControls() {
+        if (!chatTaskList) return;
+        const tasks = Array.from(chatTaskList.querySelectorAll(".chat-task-item"));
+        tasks.forEach((taskNode, index) => {
+          const upButton = taskNode.querySelector("[data-chat-task-up]");
+          const downButton = taskNode.querySelector("[data-chat-task-down]");
+          if (upButton) upButton.disabled = index === 0;
+          if (downButton) downButton.disabled = index === tasks.length - 1;
+        });
+      }
+
+      function appendChatTask(text, meta = "", payload = {}) {
+        if (!chatTaskList) return null;
+        chatPage.classList.add("has-chat");
+        const node = document.createElement("article");
+        node.className = "chat-task-item";
+        node._chatPayload = buildChatPayload(text, { meta, ...payload });
+        renderChatTaskNode(node);
+        chatTaskList.appendChild(node);
+        syncChatTaskControls();
+        syncContextProgressVisibility();
+        if (chatContent) chatContent.scrollTop = chatContent.scrollHeight;
+        return node;
+      }
+
+      function taskTitleFromNode(taskNode) {
+        const editingValue = taskNode?.querySelector(".chat-task-edit-input")?.value?.trim();
+        if (editingValue) return editingValue;
+        return taskNode?.querySelector(".chat-task-title")?.textContent?.trim() || "";
+      }
+
+      function removeChatTask(taskNode) {
+        if (!taskNode) return;
+        taskNode.remove();
+        if (!chatTaskList?.children.length && chatQueueTimer) {
+          clearTimeout(chatQueueTimer);
+          chatQueueTimer = null;
+        }
+        syncChatTaskControls();
+        syncContextProgressVisibility();
+        scheduleQueuedChatDrain();
+      }
+
+      function scheduleQueuedChatDrain() {
+        if (chatQueueTimer || !chatTaskList?.children.length) return;
+        chatQueueTimer = setTimeout(() => {
+          chatQueueTimer = null;
+          const taskNode = chatTaskList?.querySelector(".chat-task-item");
+          if (!taskNode) return;
+          const payload = taskNode._chatPayload;
+          removeChatTask(taskNode);
+          if (payload) appendNormalChatExchange(payload.text, payload.effectiveText, payload.mode, payload.modeLabel);
+          scheduleQueuedChatDrain();
+        }, 10000);
+      }
+
+      function moveChatTask(taskNode, direction) {
+        if (!taskNode || !chatTaskList) return;
+        if (direction === "up" && taskNode.previousElementSibling) {
+          chatTaskList.insertBefore(taskNode, taskNode.previousElementSibling);
+        }
+        if (direction === "down" && taskNode.nextElementSibling) {
+          chatTaskList.insertBefore(taskNode.nextElementSibling, taskNode);
+        }
+        syncChatTaskControls();
+        scheduleQueuedChatDrain();
+      }
+
+      function setChatTaskEditing(taskNode, editing) {
+        if (!taskNode) return;
+        if (editing) {
+          chatTaskList?.querySelectorAll('.chat-task-item[data-editing="true"]').forEach(node => {
+            if (node !== taskNode) setChatTaskEditing(node, false);
+          });
+          taskNode.dataset.editing = "true";
+        } else {
+          delete taskNode.dataset.editing;
+        }
+        renderChatTaskNode(taskNode);
+        syncChatTaskControls();
+        if (editing) {
+          const input = taskNode.querySelector(".chat-task-edit-input");
+          input?.focus();
+          input?.select();
+        }
+      }
+
+      function saveChatTaskEdit(taskNode) {
+        const nextText = taskNode?.querySelector(".chat-task-edit-input")?.value?.trim();
+        if (!taskNode || !nextText) {
+          taskNode?.querySelector(".chat-task-edit-input")?.focus();
+          return;
+        }
+        taskNode._chatPayload = buildChatPayload(nextText, taskNode._chatPayload || {});
+        delete taskNode.dataset.editing;
+        renderChatTaskNode(taskNode);
+        syncChatTaskControls();
+        scheduleQueuedChatDrain();
+      }
+
+      function dispatchQueuedTaskNow(taskNode) {
+        if (!taskNode) return;
+        const payload = taskNode._chatPayload;
+        removeChatTask(taskNode);
+        if (payload) appendNormalChatExchange(payload.text, payload.effectiveText, payload.mode, payload.modeLabel);
+      }
+
+      function appendNormalChatExchange(text, effectiveText, mode, modeLabel) {
+        appendMessage("user", text, modeLabel);
+        setTimeout(() => appendMessage("assistant", messageSummary(effectiveText, mode), "模拟交互"), 180);
       }
 
       function sendChatMessage() {
@@ -3721,24 +4138,18 @@
           chatInput.focus();
           return;
         }
-        const mode = currentChatMode;
-        const hideModelAndSkill = currentChatMode === "agent" && Boolean(selectedChatAgent);
-        const modeLabelParts = [
-          mode === "agent"
-            ? `专家模式${selectedChatAgent ? ` · 专家：${selectedChatAgent}` : ""}`
-            : `${chatApps[mode]?.title || "知识问答"}${mode === "ppt" && selectedPptTemplate ? ` · 模板：${pptTemplates.find(item => item.id === selectedPptTemplate)?.title || ""}` : ""}`
-        ];
-        if (!hideModelAndSkill && selectedChatModel) modeLabelParts.push(`模型：${selectedChatModel}`);
-        if (!hideModelAndSkill && selectedChatSkill) modeLabelParts.push(`技能：${selectedChatSkill}`);
-        const modeLabel = modeLabelParts.join(" · ");
-        let effectiveText = text;
-        if (selectedChatSkill && !/\/([^\s/@]+)/.test(effectiveText)) effectiveText = `/${selectedChatSkill} ${effectiveText}`;
-        if (mode === "agent" && selectedChatAgent && !/@([^\s/@]+)/.test(effectiveText)) effectiveText = `@${selectedChatAgent} ${effectiveText}`;
-        appendMessage("user", text, modeLabel);
+        const payload = buildChatPayload(text);
+        chatTurnCount += 1;
+        const shouldQueue = chatTurnCount >= 3;
         chatInput.value = "";
         closeMentionMenu();
         renderContextUsage();
-        setTimeout(() => appendMessage("assistant", messageSummary(effectiveText, mode), "模拟交互"), 180);
+        if (!shouldQueue) {
+          appendNormalChatExchange(payload.text, payload.effectiveText, payload.mode, payload.modeLabel);
+          return;
+        }
+        appendChatTask(payload.text, payload.meta, payload);
+        scheduleQueuedChatDrain();
       }
 
       function setChatMode(mode) {
@@ -3817,6 +4228,41 @@
       }
       document.querySelectorAll("[data-page]").forEach(btn => btn.addEventListener("click", () => openPage(btn.dataset.page)));
       document.addEventListener("click", e => {
+        const taskSave = e.target.closest("[data-chat-task-save]");
+        if (taskSave) {
+          saveChatTaskEdit(taskSave.closest(".chat-task-item"));
+          return;
+        }
+        const taskCancel = e.target.closest("[data-chat-task-cancel]");
+        if (taskCancel) {
+          setChatTaskEditing(taskCancel.closest(".chat-task-item"), false);
+          return;
+        }
+        const taskUp = e.target.closest("[data-chat-task-up]");
+        if (taskUp) {
+          moveChatTask(taskUp.closest(".chat-task-item"), "up");
+          return;
+        }
+        const taskDown = e.target.closest("[data-chat-task-down]");
+        if (taskDown) {
+          moveChatTask(taskDown.closest(".chat-task-item"), "down");
+          return;
+        }
+        const taskDelete = e.target.closest("[data-chat-task-delete]");
+        if (taskDelete) {
+          removeChatTask(taskDelete.closest(".chat-task-item"));
+          return;
+        }
+        const taskEdit = e.target.closest("[data-chat-task-edit]");
+        if (taskEdit) {
+          setChatTaskEditing(taskEdit.closest(".chat-task-item"), true);
+          return;
+        }
+        const taskGuide = e.target.closest("[data-chat-task-guide]");
+        if (taskGuide) {
+          dispatchQueuedTaskNow(taskGuide.closest(".chat-task-item"));
+          return;
+        }
         const projectOpen = e.target.closest("[data-project-open]");
         if (projectOpen) {
           openProjectDetail(projectOpen.dataset.projectOpen);
@@ -3913,6 +4359,19 @@
         if (e.key === "Enter" && !e.shiftKey) {
           e.preventDefault();
           submitProjectTask();
+        }
+      });
+      chatTaskList?.addEventListener("keydown", e => {
+        const editInput = e.target.closest(".chat-task-edit-input");
+        if (!editInput) return;
+        if (e.key === "Enter") {
+          e.preventDefault();
+          saveChatTaskEdit(editInput.closest(".chat-task-item"));
+          return;
+        }
+        if (e.key === "Escape") {
+          e.preventDefault();
+          setChatTaskEditing(editInput.closest(".chat-task-item"), false);
         }
       });
       chatInput.addEventListener("input", () => {
