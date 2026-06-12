@@ -1264,16 +1264,16 @@
       .chat-mode-icon,
       .chat-mode-option-icon {
         display: grid;
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
         place-items: center;
         color: #5c6473;
       }
       .chat-mode-icon svg,
       .chat-mode-option-icon svg,
       .chat-mode-chevron {
-        width: 18px;
-        height: 18px;
+        width: 16px;
+        height: 16px;
         fill: none;
         stroke: currentColor;
         stroke-linecap: round;
@@ -1287,16 +1287,17 @@
       .chat-mode-menu {
         position: absolute;
         left: 0;
-        top: 42px;
+        top: auto;
+        bottom: 38px;
         z-index: 25;
-        width: 308px;
-        padding: 10px;
+        width: 236px;
+        padding: 7px;
         border: 1px solid rgba(255, 255, 255, .72);
-        border-radius: 20px;
+        border-radius: 16px;
         background: linear-gradient(180deg, rgba(255, 255, 255, .97), rgba(248, 250, 252, .94));
-        box-shadow: 0 24px 60px rgba(15, 23, 42, .16), 0 2px 8px rgba(15, 23, 42, .08);
-        backdrop-filter: saturate(180%) blur(26px);
-        -webkit-backdrop-filter: saturate(180%) blur(26px);
+        box-shadow: 0 18px 42px rgba(15, 23, 42, .13), 0 1px 5px rgba(15, 23, 42, .07);
+        backdrop-filter: saturate(180%) blur(22px);
+        -webkit-backdrop-filter: saturate(180%) blur(22px);
       }
       .chat-mode-menu[hidden],
       .chat-expert-menu[hidden] {
@@ -1304,19 +1305,19 @@
       }
       .chat-mode-option {
         display: grid;
-        grid-template-columns: 28px minmax(0, 1fr) auto auto;
-        gap: 12px;
+        grid-template-columns: 24px minmax(0, 1fr) auto auto;
+        gap: 9px;
         align-items: center;
         width: 100%;
-        min-height: 48px;
-        padding: 0 12px;
+        min-height: 38px;
+        padding: 0 9px;
         color: #232834;
         border: 0;
-        border-radius: 16px;
+        border-radius: 12px;
         background: transparent;
         font-family: "Inter", "SF Pro Text", "PingFang SC", "Microsoft YaHei", sans-serif;
-        font-size: 14px;
-        line-height: 20px;
+        font-size: 13px;
+        line-height: 18px;
         font-weight: 600;
         letter-spacing: .01em;
         text-align: left;
@@ -1335,51 +1336,137 @@
       .chat-mode-check,
       .chat-mode-arrow {
         color: #3568ff;
-        font-size: 16px;
+        font-size: 14px;
         font-weight: 700;
       }
       .chat-mode-info {
         display: grid;
-        width: 18px;
-        height: 18px;
+        position: relative;
+        align-self: center;
+        justify-self: center;
+        width: 16px;
+        height: 16px;
         place-items: center;
+        box-sizing: border-box;
+        margin: 0;
         color: #98a2b3;
         border: 1px solid rgba(152, 162, 179, .65);
         border-radius: 50%;
         background: rgba(255, 255, 255, .7);
-        font-size: 11px;
-        line-height: 1;
+        font-size: 10px;
+        line-height: 16px;
         font-weight: 700;
         font-style: normal;
+        text-align: center;
+      }
+      .chat-mode-info::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        right: -6px;
+        bottom: calc(100% + 10px);
+        z-index: 5;
+        width: max-content;
+        max-width: 220px;
+        padding: 7px 10px;
+        color: #1d1d1f;
+        border: 1px solid rgba(0, 0, 0, .06);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, .96);
+        box-shadow: 0 12px 30px rgba(15, 23, 42, .14), 0 1px 2px rgba(15, 23, 42, .06);
+        font-size: 12px;
+        line-height: 17px;
+        font-weight: 500;
+        text-align: left;
+        white-space: normal;
+        pointer-events: none;
+        opacity: 0;
+        transform: translateY(4px);
+        transition: opacity .16s ease, transform .16s ease;
+      }
+      .chat-mode-info:hover::after {
+        opacity: 1;
+        transform: translateY(0);
       }
       .chat-mode-divider {
         height: 1px;
-        margin: 8px 12px;
+        margin: 6px 9px;
         background: linear-gradient(90deg, rgba(15, 23, 42, 0), rgba(15, 23, 42, .12), rgba(15, 23, 42, 0));
       }
       .chat-expert-menu {
+        position: absolute;
+        left: calc(100% + 8px);
+        top: 0;
+        z-index: 28;
+        display: flex;
+        flex-direction: column;
+        width: 248px;
+        max-height: 300px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, .72);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, .96);
+        box-shadow: 0 18px 42px rgba(15, 23, 42, .13), 0 1px 5px rgba(15, 23, 42, .07);
+        backdrop-filter: saturate(180%) blur(22px);
+        -webkit-backdrop-filter: saturate(180%) blur(22px);
+      }
+      .chat-expert-search {
+        position: relative;
+        flex: 0 0 auto;
+        padding: 9px 9px 6px;
+      }
+      .chat-expert-search svg {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        width: 16px;
+        height: 16px;
+        color: #8a94a6;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 2;
+        transform: translateY(-34%);
+        pointer-events: none;
+      }
+      .chat-expert-search input {
+        width: 100%;
+        height: 34px;
+        padding: 0 12px 0 34px;
+        color: #1d1d1f;
+        border: 0;
+        border-radius: 12px;
+        outline: 0;
+        background: rgba(244, 245, 247, .92);
+        font: 600 13px/18px "Inter", "SF Pro Text", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+      .chat-expert-search input::placeholder {
+        color: #9aa3b2;
+      }
+      .chat-expert-results {
         display: grid;
-        gap: 4px;
-        margin-top: 10px;
-        padding-top: 10px;
-        border-top: 1px solid rgba(15, 23, 42, .07);
+        gap: 1px;
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        padding: 3px 9px 9px;
       }
       .chat-expert-option {
         display: grid;
         grid-template-columns: 28px minmax(0, 1fr);
-        gap: 12px;
+        gap: 9px;
         align-items: center;
         min-height: 42px;
-        padding: 0 12px;
+        padding: 0 8px;
         color: #4b5565;
         border: 0;
-        border-radius: 14px;
+        border-radius: 11px;
         background: transparent;
         font-family: "Inter", "SF Pro Text", "PingFang SC", "Microsoft YaHei", sans-serif;
         font-size: 13px;
         line-height: 18px;
         font-weight: 500;
-        letter-spacing: .01em;
+        letter-spacing: 0;
         text-align: left;
         transition: background .18s ease, color .18s ease, transform .18s ease;
       }
@@ -1394,10 +1481,52 @@
         height: 24px;
         place-items: center;
         color: #fff;
-        border-radius: 9px;
-        font-size: 11px;
+        border-radius: 8px;
+        font-size: 10px;
         font-weight: 700;
         box-shadow: 0 6px 14px rgba(15, 23, 42, .14);
+      }
+      .chat-expert-text {
+        display: flex;
+        min-width: 0;
+        align-items: baseline;
+        gap: 8px;
+      }
+      .chat-expert-name {
+        overflow: hidden;
+        color: #111827;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: 650;
+      }
+      .chat-expert-meta {
+        overflow: hidden;
+        color: #a2a7b0;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 12px;
+        font-weight: 500;
+      }
+      .chat-expert-empty {
+        padding: 18px 10px 22px;
+        color: #9aa3b2;
+        font-size: 12px;
+        line-height: 17px;
+        text-align: center;
+      }
+      .chat-expert-more {
+        flex: 0 0 auto;
+        height: 40px;
+        padding: 0 12px;
+        color: #2563eb;
+        border: 0;
+        border-top: 1px solid rgba(15, 23, 42, .08);
+        background: rgba(255, 255, 255, .82);
+        font: 650 13px/18px "Inter", "SF Pro Text", "PingFang SC", "Microsoft YaHei", sans-serif;
+        text-align: left;
+      }
+      .chat-expert-more:hover {
+        background: rgba(37, 99, 235, .06);
       }
       .tool-btn,
       .model-btn {
@@ -2906,13 +3035,13 @@
                           <button class="chat-mode-option" type="button" data-chat-mode-option="plan">
                             <span class="chat-mode-option-icon"><svg viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="16" rx="2"/><path d="M9 4V2M15 4V2M9 9h6M9 13h6"/></svg></span>
                             <span>Plan</span>
-                            <span class="chat-mode-info">i</span>
+                            <span class="chat-mode-info" data-tooltip="可控的规划师，计划-审批-分步执行" title="可控的规划师，计划-审批-分步执行">i</span>
                           </button>
                           <button class="chat-mode-option active" type="button" data-chat-mode-option="ask">
                             <span class="chat-mode-option-icon"><svg viewBox="0 0 24 24"><path d="M5 8.5A5.5 5.5 0 0 1 10.5 3h3A5.5 5.5 0 0 1 19 8.5v2A5.5 5.5 0 0 1 13.5 16H12l-4.5 4v-4.8A5.5 5.5 0 0 1 5 10.5z"/></svg></span>
                             <span>Agent</span>
                             <span class="chat-mode-check">✓</span>
-                            <span class="chat-mode-info">i</span>
+                            <span class="chat-mode-info" data-tooltip="全自动执行者，目标驱动，全自动闭环" title="全自动执行者，目标驱动，全自动闭环">i</span>
                           </button>
                           <div class="chat-mode-divider"></div>
                           <button class="chat-mode-option summon" type="button" data-chat-mode-option="expert">
@@ -3449,6 +3578,8 @@
       let chatTurnCount = 0;
       let chatQueueTimer = null;
       let selectedChatModePreset = "ask";
+      let chatExpertKeyword = "";
+      let chatExpertResultLimit = 5;
       const chatApps = {
         knowledge: { title: "知识问答", placeholder: "请输入你要查询的问题或知识点", prompt: "请基于已知资料回答这个问题，并给出清晰结论。" },
         writing: { title: "深度写作", placeholder: "请输入写作主题、受众、风格和输出要求", prompt: "请围绕这个主题生成一篇结构完整、表达专业的长文初稿。" },
@@ -3588,7 +3719,10 @@
         rootTabs.forEach(tab => tab.classList.toggle("active", tab.dataset.marketRoot === squareRoot));
         if (modeTabs) modeTabs.hidden = squareRoot !== "专家";
         if (squareRoot === "专家") renderMarketTabs("squareModeTabs", "squareMode", squareModeTabs);
-        if (searchInput) searchInput.placeholder = squareRoot === "技能" ? "搜索技能" : (squareMode === "专家团" ? "搜索专家团" : "搜索专家");
+        if (searchInput) {
+          searchInput.placeholder = squareRoot === "技能" ? "搜索技能" : (squareMode === "专家团" ? "搜索专家团" : "搜索专家");
+          searchInput.value = marketKeyword;
+        }
         if (tabs) tabs.hidden = false;
         const categories = squareRoot === "技能" ? marketSkillCategories : (squareTabs[squareMode] || ["全部"]);
         if (!categories.includes(marketState.squareCategory)) marketState.squareCategory = "全部";
@@ -4389,6 +4523,42 @@
         if (chatExpertMenu) chatExpertMenu.hidden = true;
       }
 
+      function chatExpertMatches() {
+        const keyword = chatExpertKeyword.trim().toLowerCase();
+        return employeeContacts.filter(item => !keyword || item.title.toLowerCase().includes(keyword));
+      }
+
+      function renderChatExpertMenu() {
+        if (!chatExpertMenu) return;
+        const matches = chatExpertMatches();
+        const visibleExperts = matches.slice(0, chatExpertResultLimit);
+        chatExpertMenu.innerHTML = `
+          <label class="chat-expert-search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.2-4.2"/></svg>
+            <input id="chatExpertSearch" type="search" placeholder="搜索专家..." value="${escapeHtml(chatExpertKeyword)}" autocomplete="off" />
+          </label>
+          <div class="chat-expert-results" id="chatExpertResults">
+            ${visibleExperts.length ? visibleExperts.map(item => `
+              <button class="chat-expert-option" type="button" data-chat-expert-option="${escapeHtml(item.title)}">
+                <span class="chat-expert-avatar" style="background:${item.color}">${escapeHtml(item.icon)}</span>
+                <span class="chat-expert-text">
+                  <span class="chat-expert-name">${escapeHtml(item.title)}</span>
+                  <span class="chat-expert-meta">${escapeHtml(item.category || "专家")}</span>
+                </span>
+              </button>
+            `).join("") : `<div class="chat-expert-empty">没有找到相关专家</div>`}
+          </div>
+          <button class="chat-expert-more" type="button" data-chat-expert-more>在 专家 中查找更多 ↗</button>
+        `;
+      }
+
+      function openChatExpertMenu() {
+        if (!chatExpertMenu) return;
+        renderChatExpertMenu();
+        chatExpertMenu.hidden = false;
+        requestAnimationFrame(() => chatExpertMenu.querySelector("#chatExpertSearch")?.focus());
+      }
+
       function renderChatModeControl() {
         if (!chatModeTrigger || !chatModeLabel) return;
         const icon = chatModeTrigger.querySelector(".chat-mode-icon");
@@ -4399,14 +4569,7 @@
           const check = option.querySelector(".chat-mode-check");
           if (check) check.style.visibility = option.classList.contains("active") ? "visible" : "hidden";
         });
-        if (chatExpertMenu) {
-          chatExpertMenu.innerHTML = employeeContacts.map(item => `
-            <button class="chat-expert-option" type="button" data-chat-expert-option="${escapeHtml(item.title)}">
-              <span class="chat-expert-avatar" style="background:${item.color}">${escapeHtml(item.icon)}</span>
-              <span>${escapeHtml(item.title)}</span>
-            </button>
-          `).join("");
-        }
+        renderChatExpertMenu();
       }
 
       function renderChatPrimarySelect() {
@@ -4441,18 +4604,13 @@
 
       function renderSelectedSkillChips() {
         if (!chatSkillChipRow) return;
-        chatSkillChipRow.hidden = selectedChatSkills.length === 0;
-        chatSkillChipRow.innerHTML = selectedChatSkills.map((skill, index) => `
-          <span class="chat-skill-chip">
-            <span>/${escapeHtml(skill)}</span>
-            <button type="button" data-chat-skill-remove="${index}" aria-label="移除${escapeHtml(skill)}">×</button>
-          </span>
-        `).join("");
+        chatSkillChipRow.hidden = true;
+        chatSkillChipRow.innerHTML = "";
       }
 
       function insertSkillToken(skillName) {
         if (!skillName) return;
-        const skills = [...selectedChatSkills, ...selectedSkillTokensFromInput()];
+        const skills = selectedSkillTokensFromInput();
         if (skills.length >= 10) {
           const oldPlaceholder = chatInput.placeholder;
           chatInput.placeholder = "最多可添加 10 个技能";
@@ -4460,17 +4618,27 @@
           chatInput.focus();
           return;
         }
-        selectedChatSkills.push(skillName);
-        renderSelectedSkillChips();
+        const start = chatInput.selectionStart ?? chatInput.value.length;
+        const end = chatInput.selectionEnd ?? start;
+        const before = chatInput.value.slice(0, start);
+        const after = chatInput.value.slice(end);
+        const needsLeadingSpace = before.length > 0 && !/\s$/.test(before);
+        const needsTrailingSpace = after.length > 0 && !/^\s/.test(after);
+        const token = `${needsLeadingSpace ? " " : ""}/${skillName}${needsTrailingSpace || !after.length ? " " : ""}`;
+        chatInput.value = `${before}${token}${after}`;
+        const cursor = before.length + token.length;
         chatInput.focus();
+        chatInput.setSelectionRange(cursor, cursor);
         renderMentionMenu();
         renderContextUsage();
       }
 
       function syncChatSelectionControls() {
+        const hasSelectedApp = Boolean(selectedChatApp);
         const hideModelAndSkill = currentChatMode === "agent" && Boolean(selectedChatAgent);
         chatModelSelect.hidden = hideModelAndSkill;
-        chatSkillSelect.hidden = hideModelAndSkill;
+        chatSkillSelect.hidden = hideModelAndSkill || hasSelectedApp;
+        if (chatAttachmentBtn) chatAttachmentBtn.hidden = selectedChatApp === "knowledge";
       }
 
       function contextUsageSnapshot() {
@@ -4478,8 +4646,7 @@
         const agentBonus = selectedChatAgent ? 4200 : 0;
         const appBonus = selectedChatApp === "ppt" ? 6800 : selectedChatApp === "writing" ? 3600 : selectedChatApp === "knowledge" ? 2400 : 0;
         const templateBonus = selectedPptTemplate ? 5400 : 0;
-        const skillBonus = selectedChatSkills.join(" ").length * 18;
-        const inputBonus = Math.min((chatInput.value || "").length * 14 + skillBonus, 22000);
+        const inputBonus = Math.min((chatInput.value || "").length * 14, 22000);
         const used = Math.min(base + agentBonus + appBonus + templateBonus + inputBonus, 168000);
         const ratio = used / 168000;
         const remaining = 168000 - used;
@@ -4563,6 +4730,10 @@
         syncContextProgressVisibility();
       }
 
+      function hasActiveChatConversation() {
+        return Boolean(chatPage.classList.contains("has-chat") || chatThread.children.length || chatTaskList?.children.length);
+      }
+
       function startNewAgentTask(agentName = selectedChatAgent, prompt = "") {
         setSelectedChatAgent(agentName);
         setSelectedChatApp("");
@@ -4576,16 +4747,19 @@
         chatInput.setSelectionRange(chatInput.value.length, chatInput.value.length);
       }
 
+      function openExpertNewTask(employee) {
+        if (!employee) return;
+        startNewAgentTask(employee.title, employee.prompt || "请根据当前任务目标给出处理方案和执行结果。");
+      }
+
       function startNewSkillTask(skillName, prompt = "") {
         setSelectedChatAgent("");
         setSelectedChatApp("");
         selectedChatSkill = "";
         selectedPptTemplate = "";
         resetChatConversation();
-        selectedChatSkills = [skillName];
-        renderSelectedSkillChips();
         closeMentionMenu();
-        chatInput.value = prompt || "";
+        chatInput.value = prompt ? `/${skillName} ${prompt}` : `/${skillName} `;
         openPage("chat");
         setChatMode("agent");
         renderChatSkillSelect();
@@ -4686,8 +4860,7 @@
         if (!hideModelAndSkill && chatModel) modeLabelParts.push(`模型：${chatModel}`);
         if (!hideModelAndSkill && skillLabel) modeLabelParts.push(`技能：${skillLabel}`);
         const modeLabel = modeLabelParts.join(" · ");
-        const chipSkillPrefix = chipSkills.length ? `${chipSkills.map(skill => `/${skill}`).join(" ")} ` : "";
-        let effectiveText = `${chipSkillPrefix}${text}`.trim();
+        let effectiveText = text.trim();
         if (mode === "agent" && chatAgent && !/@([^\s/@]+)/.test(effectiveText)) effectiveText = `@${chatAgent} ${effectiveText}`;
         return {
           ...base,
@@ -4855,7 +5028,6 @@
         const shouldQueue = chatTurnCount >= 3;
         chatInput.value = "";
         selectedChatSkills = [];
-        renderSelectedSkillChips();
         closeMentionMenu();
         renderContextUsage();
         if (!shouldQueue) {
@@ -4957,16 +5129,38 @@
         }
         const expertOption = e.target.closest("[data-chat-expert-option]");
         if (expertOption) {
-          setSelectedChatAgent(expertOption.dataset.chatExpertOption);
+          const expertName = expertOption.dataset.chatExpertOption;
+          if (!selectedChatAgent && hasActiveChatConversation()) {
+            startNewAgentTask(expertName);
+            closeChatModeMenu();
+            return;
+          }
+          setSelectedChatAgent(expertName);
           setChatMode("agent");
           closeChatModeMenu();
+          return;
+        }
+        const expertMore = e.target.closest("[data-chat-expert-more]");
+        if (expertMore) {
+          marketState.squareRoot = "专家";
+          marketState.squareMode = "专家";
+          marketState.squareCategory = "全部";
+          marketKeyword = chatExpertKeyword.trim();
+          closeChatModeMenu();
+          openPage("square");
           return;
         }
         const modeOption = e.target.closest("[data-chat-mode-option]");
         if (modeOption) {
           const value = modeOption.dataset.chatModeOption;
           if (value === "expert") {
-            chatExpertMenu.hidden = !chatExpertMenu.hidden;
+            if (chatExpertMenu.hidden) {
+              chatExpertKeyword = "";
+              chatExpertResultLimit = 5;
+              openChatExpertMenu();
+            } else {
+              chatExpertMenu.hidden = true;
+            }
             return;
           }
           selectedChatModePreset = value === "plan" ? "plan" : "ask";
@@ -5047,8 +5241,7 @@
         const openEmployee = e.target.closest("[data-open-employee]");
         if (openEmployee) {
           const employeeIndex = Number(openEmployee.dataset.openEmployee);
-          const employee = employeeContacts[employeeIndex];
-          if (employee) startNewAgentTask(employee.title, employee.prompt || "请根据当前任务目标给出处理方案和执行结果。");
+          openExpertNewTask(employeeContacts[employeeIndex]);
           return;
         }
         const squareCard = e.target.closest("[data-square-title]");
@@ -5060,7 +5253,7 @@
         if (contact) {
           const employeeIndex = Number(contact.dataset.employeeContact);
           const employee = employeeContacts[employeeIndex];
-          if (employee) startNewAgentTask(employee.title, employee.prompt || "请根据当前任务目标给出处理方案和执行结果。");
+          openExpertNewTask(employee);
           return;
         }
         const tab = e.target.closest("[data-market-tab]");
@@ -5164,6 +5357,24 @@
         const item = e.target.closest("[data-mention-value]");
         if (item) insertMention(item.dataset.mentionValue);
       });
+      chatExpertMenu.addEventListener("input", e => {
+        if (e.target.id !== "chatExpertSearch") return;
+        chatExpertKeyword = e.target.value;
+        chatExpertResultLimit = 5;
+        renderChatExpertMenu();
+        const input = chatExpertMenu.querySelector("#chatExpertSearch");
+        input?.focus();
+        input?.setSelectionRange(input.value.length, input.value.length);
+      });
+      chatExpertMenu.addEventListener("scroll", e => {
+        if (!e.target.classList?.contains("chat-expert-results")) return;
+        const node = e.target;
+        if (node.scrollTop + node.clientHeight < node.scrollHeight - 18) return;
+        const total = chatExpertMatches().length;
+        if (chatExpertResultLimit >= total) return;
+        chatExpertResultLimit = Math.min(total, chatExpertResultLimit + 5);
+        renderChatExpertMenu();
+      }, true);
       chatPrimarySelect.addEventListener("change", e => {
         const nextValue = e.target.value;
         if (!nextValue) {
