@@ -1232,6 +1232,173 @@
         color: #3a3a3c;
         background-color: rgba(245, 245, 247, .7);
       }
+      .chat-selection-group {
+        display: none !important;
+      }
+      .chat-mode-control {
+        position: relative;
+        flex: 0 0 auto;
+      }
+      .chat-mode-trigger {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        height: 32px;
+        padding: 0 11px;
+        color: #2f3441;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, .72);
+        box-shadow: inset 0 0 0 1px rgba(17, 24, 39, .06);
+        font-size: 13px;
+        line-height: 18px;
+        font-weight: 600;
+        letter-spacing: .01em;
+        transition: background .18s ease, box-shadow .18s ease, color .18s ease;
+      }
+      .chat-mode-trigger:hover,
+      .chat-mode-trigger[aria-expanded="true"] {
+        background: rgba(255, 255, 255, .92);
+        box-shadow: inset 0 0 0 1px rgba(17, 24, 39, .08), 0 8px 20px rgba(15, 23, 42, .08);
+      }
+      .chat-mode-icon,
+      .chat-mode-option-icon {
+        display: grid;
+        width: 20px;
+        height: 20px;
+        place-items: center;
+        color: #5c6473;
+      }
+      .chat-mode-icon svg,
+      .chat-mode-option-icon svg,
+      .chat-mode-chevron {
+        width: 18px;
+        height: 18px;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.9;
+      }
+      .chat-mode-chevron {
+        width: 14px;
+        height: 14px;
+      }
+      .chat-mode-menu {
+        position: absolute;
+        left: 0;
+        top: 42px;
+        z-index: 25;
+        width: 308px;
+        padding: 10px;
+        border: 1px solid rgba(255, 255, 255, .72);
+        border-radius: 20px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, .97), rgba(248, 250, 252, .94));
+        box-shadow: 0 24px 60px rgba(15, 23, 42, .16), 0 2px 8px rgba(15, 23, 42, .08);
+        backdrop-filter: saturate(180%) blur(26px);
+        -webkit-backdrop-filter: saturate(180%) blur(26px);
+      }
+      .chat-mode-menu[hidden],
+      .chat-expert-menu[hidden] {
+        display: none;
+      }
+      .chat-mode-option {
+        display: grid;
+        grid-template-columns: 28px minmax(0, 1fr) auto auto;
+        gap: 12px;
+        align-items: center;
+        width: 100%;
+        min-height: 48px;
+        padding: 0 12px;
+        color: #232834;
+        border: 0;
+        border-radius: 16px;
+        background: transparent;
+        font-family: "Inter", "SF Pro Text", "PingFang SC", "Microsoft YaHei", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 600;
+        letter-spacing: .01em;
+        text-align: left;
+        transition: background .18s ease, color .18s ease, transform .18s ease, box-shadow .18s ease;
+      }
+      .chat-mode-option:hover,
+      .chat-mode-option.active {
+        color: #101828;
+        background: rgba(17, 24, 39, .055);
+        transform: translateY(-1px);
+      }
+      .chat-mode-option.active {
+        background: linear-gradient(180deg, rgba(53, 104, 255, .12), rgba(53, 104, 255, .08));
+        box-shadow: inset 0 0 0 1px rgba(53, 104, 255, .14);
+      }
+      .chat-mode-check,
+      .chat-mode-arrow {
+        color: #3568ff;
+        font-size: 16px;
+        font-weight: 700;
+      }
+      .chat-mode-info {
+        display: grid;
+        width: 18px;
+        height: 18px;
+        place-items: center;
+        color: #98a2b3;
+        border: 1px solid rgba(152, 162, 179, .65);
+        border-radius: 50%;
+        background: rgba(255, 255, 255, .7);
+        font-size: 11px;
+        line-height: 1;
+        font-weight: 700;
+        font-style: normal;
+      }
+      .chat-mode-divider {
+        height: 1px;
+        margin: 8px 12px;
+        background: linear-gradient(90deg, rgba(15, 23, 42, 0), rgba(15, 23, 42, .12), rgba(15, 23, 42, 0));
+      }
+      .chat-expert-menu {
+        display: grid;
+        gap: 4px;
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid rgba(15, 23, 42, .07);
+      }
+      .chat-expert-option {
+        display: grid;
+        grid-template-columns: 28px minmax(0, 1fr);
+        gap: 12px;
+        align-items: center;
+        min-height: 42px;
+        padding: 0 12px;
+        color: #4b5565;
+        border: 0;
+        border-radius: 14px;
+        background: transparent;
+        font-family: "Inter", "SF Pro Text", "PingFang SC", "Microsoft YaHei", sans-serif;
+        font-size: 13px;
+        line-height: 18px;
+        font-weight: 500;
+        letter-spacing: .01em;
+        text-align: left;
+        transition: background .18s ease, color .18s ease, transform .18s ease;
+      }
+      .chat-expert-option:hover {
+        color: #111827;
+        background: rgba(17, 24, 39, .055);
+        transform: translateY(-1px);
+      }
+      .chat-expert-avatar {
+        display: grid;
+        width: 24px;
+        height: 24px;
+        place-items: center;
+        color: #fff;
+        border-radius: 9px;
+        font-size: 11px;
+        font-weight: 700;
+        box-shadow: 0 6px 14px rgba(15, 23, 42, .14);
+      }
       .tool-btn,
       .model-btn {
         color: #6e6e73;
@@ -2159,10 +2326,64 @@
       /* New task page: subtle quick-agent pills above composer */
       .chat-composer {
         background: #fff;
+        overflow: visible;
+      }
+      .chat-composer .composer-actions,
+      .chat-composer .chat-selection-row {
+        overflow: visible;
+      }
+      .chat-mode-control {
+        z-index: 30;
       }
       .chat-composer textarea {
         background: #fff;
         box-shadow: none;
+      }
+      .chat-skill-chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 0 6px 8px;
+      }
+      .chat-skill-chip-row[hidden] {
+        display: none;
+      }
+      .chat-skill-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        max-width: 168px;
+        height: 24px;
+        padding: 0 7px;
+        color: #515154;
+        border: 1px solid rgba(0, 0, 0, .055);
+        border-radius: 6px;
+        background: #f1f2f4;
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 500;
+      }
+      .chat-skill-chip span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .chat-skill-chip button {
+        display: grid;
+        width: 16px;
+        height: 16px;
+        place-items: center;
+        padding: 0;
+        color: #8e8e93;
+        border: 0;
+        border-radius: 4px;
+        background: transparent;
+        font-size: 14px;
+        line-height: 1;
+      }
+      .chat-skill-chip button:hover {
+        color: #1d1d1f;
+        background: rgba(0, 0, 0, .07);
       }
       .chat-composer textarea:focus,
       .chat-composer textarea:focus-visible {
@@ -2493,6 +2714,104 @@
           left: calc(220px + 24px);
         }
       }
+
+      /* Expert page: refined three-level navigation */
+      .market-page .market-head {
+        align-items: center;
+        padding-bottom: 14px;
+        border-bottom: 1px solid rgba(0, 0, 0, .055);
+      }
+      .market-head-left {
+        min-width: 0;
+      }
+      .market-root-tabs {
+        display: inline-flex;
+        gap: 2px;
+        padding: 3px !important;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 999px;
+        background: rgba(245, 245, 247, .82);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .035);
+      }
+      .market-root-tabs .market-tab {
+        height: 30px;
+        min-width: 70px;
+        padding: 0 16px;
+        color: #6e6e73;
+        border: 0;
+        border-radius: 999px;
+        background: transparent;
+        font-size: 13px;
+        line-height: 18px;
+        font-weight: 600;
+      }
+      .market-root-tabs .market-tab:hover {
+        color: #1d1d1f;
+        background: rgba(255, 255, 255, .66);
+      }
+      .market-root-tabs .market-tab.active {
+        color: #1d1d1f;
+        background: #fff;
+        box-shadow: 0 1px 0 rgba(255, 255, 255, .9) inset, 0 5px 14px rgba(0, 0, 0, .075);
+      }
+      .market-mode-tabs {
+        display: inline-flex;
+        gap: 6px;
+        margin: 14px 0 10px;
+        padding: 0;
+      }
+      .market-mode-tabs .market-tab {
+        height: 32px;
+        padding: 0 14px;
+        color: #6e6e73;
+        border: 1px solid rgba(0, 0, 0, .065);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, .56);
+        font-size: 13px;
+        line-height: 18px;
+        font-weight: 600;
+      }
+      .market-mode-tabs .market-tab:hover {
+        color: #1d1d1f;
+        background: rgba(255, 255, 255, .82);
+      }
+      .market-mode-tabs .market-tab.active {
+        color: #007aff;
+        border-color: rgba(0, 122, 255, .18);
+        background: rgba(0, 122, 255, .09);
+      }
+      .market-category-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin: 0 0 16px;
+        padding: 0;
+      }
+      .market-category-tabs .market-tab {
+        height: 28px;
+        padding: 0 10px;
+        color: #86868b;
+        border: 0;
+        border-radius: 999px;
+        background: transparent;
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 500;
+      }
+      .market-category-tabs .market-tab:hover {
+        color: #1d1d1f;
+        background: rgba(0, 0, 0, .045);
+      }
+      .market-category-tabs .market-tab.active {
+        color: #1d1d1f;
+        background: rgba(0, 0, 0, .07);
+        font-weight: 600;
+      }
+      .market-page .market-search {
+        height: 34px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, .78);
+      }
     </style>
   </head>
   <body>
@@ -2512,7 +2831,7 @@
           <button class="nav-item" data-page="schedule"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="menu-label">自动化</span></button>
           <button class="nav-item" data-page="files"><span class="icon"><svg viewBox="0 0 24 24"><path d="M6 4h4l3 16H9z"/><path d="M12 4h4l3 16h-4z"/><path d="M5 20h15"/></svg></span><span class="menu-label">文件库</span></button>
           <div class="nav-divider"></div>
-          <div class="recent-title">最近对话</div>
+          <div class="recent-title">最近任务</div>
           <button class="recent-item">帮我整理本周项目进度</button>
           <button class="recent-item">合同审核风险点分析</button>
           <button class="recent-item">生成产品需求文档初稿</button>
@@ -2549,6 +2868,7 @@
                 <div class="chat-task-list" id="chatTaskList" aria-label="当前任务列表"></div>
                 <div class="chat-composer">
                   <textarea id="chatInput" placeholder="有什么我可以帮助您的？"></textarea>
+                  <div class="chat-skill-chip-row" id="chatSkillChipRow" hidden></div>
                   <div class="mention-menu" id="mentionMenu" hidden></div>
                   <div class="context-popover" id="contextPopover" hidden>
                     <div class="context-popover-summary" id="contextPopoverSummary">25.1% · 42.2K / 168.0K 上下文已使用</div>
@@ -2575,6 +2895,33 @@
                       <div class="chat-selection-group" id="chatPrimaryGroup" hidden>
                         <select class="chat-primary-select" id="chatPrimarySelect"></select>
                         <button class="chat-agent-remove" id="chatAgentRemoveBtn" type="button" aria-label="清除当前选择" hidden>×</button>
+                      </div>
+                      <div class="chat-mode-control">
+                        <button class="chat-mode-trigger" id="chatModeTrigger" type="button" aria-haspopup="true" aria-expanded="false">
+                          <span class="chat-mode-icon"><svg viewBox="0 0 24 24"><path d="M5 8.5A5.5 5.5 0 0 1 10.5 3h3A5.5 5.5 0 0 1 19 8.5v2A5.5 5.5 0 0 1 13.5 16H12l-4.5 4v-4.8A5.5 5.5 0 0 1 5 10.5z"/></svg></span>
+                          <span id="chatModeLabel">Agent</span>
+                          <svg class="chat-mode-chevron" viewBox="0 0 24 24"><path d="m7 10 5 5 5-5"/></svg>
+                        </button>
+                        <div class="chat-mode-menu" id="chatModeMenu" hidden>
+                          <button class="chat-mode-option" type="button" data-chat-mode-option="plan">
+                            <span class="chat-mode-option-icon"><svg viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="16" rx="2"/><path d="M9 4V2M15 4V2M9 9h6M9 13h6"/></svg></span>
+                            <span>Plan</span>
+                            <span class="chat-mode-info">i</span>
+                          </button>
+                          <button class="chat-mode-option active" type="button" data-chat-mode-option="ask">
+                            <span class="chat-mode-option-icon"><svg viewBox="0 0 24 24"><path d="M5 8.5A5.5 5.5 0 0 1 10.5 3h3A5.5 5.5 0 0 1 19 8.5v2A5.5 5.5 0 0 1 13.5 16H12l-4.5 4v-4.8A5.5 5.5 0 0 1 5 10.5z"/></svg></span>
+                            <span>Agent</span>
+                            <span class="chat-mode-check">✓</span>
+                            <span class="chat-mode-info">i</span>
+                          </button>
+                          <div class="chat-mode-divider"></div>
+                          <button class="chat-mode-option summon" type="button" data-chat-mode-option="expert">
+                            <span class="chat-mode-option-icon"><svg viewBox="0 0 24 24"><path d="M7 17c2-1.2 3.4-2 5-2s3 .8 5 2"/><circle cx="12" cy="8" r="3"/><path d="M4 20c1.4-3.8 4-6 8-6s6.6 2.2 8 6"/></svg></span>
+                            <span>召唤专家</span>
+                            <span class="chat-mode-arrow">›</span>
+                          </button>
+                          <div class="chat-expert-menu" id="chatExpertMenu" hidden></div>
+                        </div>
                       </div>
                       <select class="chat-option-select" id="chatModelSelect" aria-label="模型选择">
                         <option value="glm-5.1">GLM-5.1</option>
@@ -2608,7 +2955,7 @@
             <div class="market-shell">
               <div class="market-head">
                 <div class="market-head-left">
-                  <div class="market-tabs" style="margin-bottom:0;padding-left:0">
+                  <div class="market-tabs market-root-tabs" style="margin-bottom:0;padding-left:0">
                     <button class="market-tab active" type="button" data-market-root="专家">专家</button>
                     <button class="market-tab" type="button" data-market-root="技能">技能</button>
                   </div>
@@ -2619,8 +2966,8 @@
                   <input class="market-search" id="marketSearchInput" placeholder="搜索专家" />
                 </label>
               </div>
-              <div class="market-tabs" id="squareModeTabs"></div>
-              <div class="market-tabs" id="squareTabs"></div>
+              <div class="market-tabs market-mode-tabs" id="squareModeTabs"></div>
+              <div class="market-tabs market-category-tabs" id="squareTabs"></div>
               <div class="market-grid" id="squareGrid"></div>
             </div>
           </section>
@@ -3097,9 +3444,11 @@
       let selectedChatApp = "";
       let selectedChatModel = "glm-5.1";
       let selectedChatSkill = "";
+      let selectedChatSkills = [];
       let selectedPptTemplate = "";
       let chatTurnCount = 0;
       let chatQueueTimer = null;
+      let selectedChatModePreset = "ask";
       const chatApps = {
         knowledge: { title: "知识问答", placeholder: "请输入你要查询的问题或知识点", prompt: "请基于已知资料回答这个问题，并给出清晰结论。" },
         writing: { title: "深度写作", placeholder: "请输入写作主题、受众、风格和输出要求", prompt: "请围绕这个主题生成一篇结构完整、表达专业的长文初稿。" },
@@ -3864,8 +4213,13 @@
       const chatPrimaryGroup = document.getElementById("chatPrimaryGroup");
       const chatPrimarySelect = document.getElementById("chatPrimarySelect");
       const chatAgentRemoveBtn = document.getElementById("chatAgentRemoveBtn");
+      const chatModeTrigger = document.getElementById("chatModeTrigger");
+      const chatModeMenu = document.getElementById("chatModeMenu");
+      const chatModeLabel = document.getElementById("chatModeLabel");
+      const chatExpertMenu = document.getElementById("chatExpertMenu");
       const chatModelSelect = document.getElementById("chatModelSelect");
       const chatSkillSelect = document.getElementById("chatSkillSelect");
+      const chatSkillChipRow = document.getElementById("chatSkillChipRow");
       const chatPromptEnhanceBtn = document.getElementById("chatPromptEnhanceBtn");
       const pptTemplateGrid = document.getElementById("pptTemplateGrid");
       const openProjectInviteBtn = document.getElementById("openProjectInviteBtn");
@@ -3875,6 +4229,14 @@
       const copyProjectInviteBtn = document.getElementById("copyProjectInviteBtn");
       const closeProjectInviteBtn = document.getElementById("closeProjectInviteBtn");
       const simulateProjectRequestBtn = document.getElementById("simulateProjectRequestBtn");
+      const projectDialog = document.getElementById("projectDialog");
+      const openProjectDialogBtn = document.getElementById("openProjectDialogBtn");
+      const cancelProjectDialogBtn = document.getElementById("cancelProjectDialogBtn");
+      const submitProjectDialogBtn = document.getElementById("submitProjectDialogBtn");
+      const projectBackBtn = document.getElementById("projectBackBtn");
+      const projectEditInstructionBtn = document.getElementById("projectEditInstructionBtn");
+      const projectTaskCreateBtn = document.getElementById("projectTaskCreateBtn");
+      const projectTaskInput = document.getElementById("projectTaskInput");
 
       function escapeHtml(value) {
         return String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
@@ -4005,6 +4367,48 @@
         fitSelectWidth(chatSkillSelect, 72, 144, 38);
       }
 
+      function chatModeDisplayLabel() {
+        if (selectedChatAgent) return selectedChatAgent;
+        if (chatApps[selectedChatApp]) return chatApps[selectedChatApp].title;
+        return selectedChatModePreset === "plan" ? "Plan" : "Agent";
+      }
+
+      function chatModeIconSvg() {
+        if (selectedChatAgent) return `<svg viewBox="0 0 24 24"><path d="M7 17c2-1.2 3.4-2 5-2s3 .8 5 2"/><circle cx="12" cy="8" r="3"/><path d="M4 20c1.4-3.8 4-6 8-6s6.6 2.2 8 6"/></svg>`;
+        if (selectedChatApp === "knowledge") return `<svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.2"/><rect x="14" y="4" width="6" height="6" rx="1.2"/><rect x="4" y="14" width="6" height="6" rx="1.2"/><rect x="14" y="14" width="6" height="6" rx="1.2"/></svg>`;
+        if (selectedChatApp === "writing") return `<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.2-4.2"/></svg>`;
+        if (selectedChatApp === "ppt") return `<svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v5h5"/><path d="M10 13h6M10 17h4"/></svg>`;
+        if (selectedChatModePreset === "plan") return `<svg viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="16" rx="2"/><path d="M9 4V2M15 4V2M9 9h6M9 13h6"/></svg>`;
+        return `<svg viewBox="0 0 24 24"><path d="M5 8.5A5.5 5.5 0 0 1 10.5 3h3A5.5 5.5 0 0 1 19 8.5v2A5.5 5.5 0 0 1 13.5 16H12l-4.5 4v-4.8A5.5 5.5 0 0 1 5 10.5z"/></svg>`;
+      }
+
+      function closeChatModeMenu() {
+        if (!chatModeMenu || !chatModeTrigger) return;
+        chatModeMenu.hidden = true;
+        chatModeTrigger.setAttribute("aria-expanded", "false");
+        if (chatExpertMenu) chatExpertMenu.hidden = true;
+      }
+
+      function renderChatModeControl() {
+        if (!chatModeTrigger || !chatModeLabel) return;
+        const icon = chatModeTrigger.querySelector(".chat-mode-icon");
+        if (icon) icon.innerHTML = chatModeIconSvg();
+        chatModeLabel.textContent = chatModeDisplayLabel();
+        chatModeMenu?.querySelectorAll("[data-chat-mode-option]").forEach(option => {
+          option.classList.toggle("active", option.dataset.chatModeOption === selectedChatModePreset && !selectedChatAgent);
+          const check = option.querySelector(".chat-mode-check");
+          if (check) check.style.visibility = option.classList.contains("active") ? "visible" : "hidden";
+        });
+        if (chatExpertMenu) {
+          chatExpertMenu.innerHTML = employeeContacts.map(item => `
+            <button class="chat-expert-option" type="button" data-chat-expert-option="${escapeHtml(item.title)}">
+              <span class="chat-expert-avatar" style="background:${item.color}">${escapeHtml(item.icon)}</span>
+              <span>${escapeHtml(item.title)}</span>
+            </button>
+          `).join("");
+        }
+      }
+
       function renderChatPrimarySelect() {
         const currentValue = currentChatPrimaryValue();
         chatPrimarySelect.innerHTML = `
@@ -4018,6 +4422,7 @@
         chatPrimaryGroup.hidden = !currentValue;
         if (currentValue) chatPrimarySelect.value = currentValue;
         chatAgentRemoveBtn.hidden = !selectedChatAgent && !selectedChatApp;
+        renderChatModeControl();
         fitChatSelectionWidths();
       }
 
@@ -4026,8 +4431,40 @@
           <option value="">技能选择</option>
           ${skillShortcuts.map(item => `<option value="${escapeHtml(item.name)}">${escapeHtml(item.name)}</option>`).join("")}
         `;
-        chatSkillSelect.value = skillShortcuts.some(item => item.name === selectedChatSkill) ? selectedChatSkill : "";
+        chatSkillSelect.value = "";
         fitChatSelectionWidths();
+      }
+
+      function selectedSkillTokensFromInput() {
+        return [...chatInput.value.matchAll(/\/([^\s/@]+)/g)].map(match => match[1]);
+      }
+
+      function renderSelectedSkillChips() {
+        if (!chatSkillChipRow) return;
+        chatSkillChipRow.hidden = selectedChatSkills.length === 0;
+        chatSkillChipRow.innerHTML = selectedChatSkills.map((skill, index) => `
+          <span class="chat-skill-chip">
+            <span>/${escapeHtml(skill)}</span>
+            <button type="button" data-chat-skill-remove="${index}" aria-label="移除${escapeHtml(skill)}">×</button>
+          </span>
+        `).join("");
+      }
+
+      function insertSkillToken(skillName) {
+        if (!skillName) return;
+        const skills = [...selectedChatSkills, ...selectedSkillTokensFromInput()];
+        if (skills.length >= 10) {
+          const oldPlaceholder = chatInput.placeholder;
+          chatInput.placeholder = "最多可添加 10 个技能";
+          setTimeout(() => { chatInput.placeholder = oldPlaceholder; }, 1600);
+          chatInput.focus();
+          return;
+        }
+        selectedChatSkills.push(skillName);
+        renderSelectedSkillChips();
+        chatInput.focus();
+        renderMentionMenu();
+        renderContextUsage();
       }
 
       function syncChatSelectionControls() {
@@ -4041,7 +4478,8 @@
         const agentBonus = selectedChatAgent ? 4200 : 0;
         const appBonus = selectedChatApp === "ppt" ? 6800 : selectedChatApp === "writing" ? 3600 : selectedChatApp === "knowledge" ? 2400 : 0;
         const templateBonus = selectedPptTemplate ? 5400 : 0;
-        const inputBonus = Math.min((chatInput.value || "").length * 14, 22000);
+        const skillBonus = selectedChatSkills.join(" ").length * 18;
+        const inputBonus = Math.min((chatInput.value || "").length * 14 + skillBonus, 22000);
         const used = Math.min(base + agentBonus + appBonus + templateBonus + inputBonus, 168000);
         const ratio = used / 168000;
         const remaining = 168000 - used;
@@ -4080,6 +4518,7 @@
       function setSelectedChatAgent(name = "") {
         selectedChatAgent = name;
         if (name) selectedChatApp = "";
+        if (name) selectedChatModePreset = "ask";
         renderChatPrimarySelect();
         syncChatSelectionControls();
         renderContextUsage();
@@ -4103,6 +4542,7 @@
       function setSelectedChatApp(app = "") {
         selectedChatApp = app;
         if (app) selectedChatAgent = "";
+        if (app) selectedChatModePreset = "ask";
         renderChatPrimarySelect();
         syncChatSelectionControls();
         renderPptTemplates();
@@ -4112,6 +4552,8 @@
       function resetChatConversation() {
         chatThread.innerHTML = "";
         if (chatTaskList) chatTaskList.innerHTML = "";
+        selectedChatSkills = [];
+        renderSelectedSkillChips();
         chatTurnCount = 0;
         if (chatQueueTimer) {
           clearTimeout(chatQueueTimer);
@@ -4137,11 +4579,13 @@
       function startNewSkillTask(skillName, prompt = "") {
         setSelectedChatAgent("");
         setSelectedChatApp("");
-        selectedChatSkill = skillName;
+        selectedChatSkill = "";
         selectedPptTemplate = "";
         resetChatConversation();
+        selectedChatSkills = [skillName];
+        renderSelectedSkillChips();
         closeMentionMenu();
-        chatInput.value = prompt ? `/${skillName} ${prompt}` : `/${skillName} `;
+        chatInput.value = prompt || "";
         openPage("chat");
         setChatMode("agent");
         renderChatSkillSelect();
@@ -4182,6 +4626,7 @@
           const parts = [];
           if (skills.length) parts.push(`已识别技能：${skills.join("、")}`);
           if (agents.length) parts.push(`已选择专家：${agents.join("、")}`);
+          if (!agents.length && selectedChatModePreset === "plan") return `${parts.join("；") || "已进入 Plan 模式"}。我会先拆解目标、列出执行计划，再按步骤推进。`;
           return `${parts.join("；") || "已进入专家任务编排"}。我会按任务目标拆解步骤、调用工具并汇总执行结果。`;
         }
         if (mode === "knowledge") return "我会按知识问答方式检索可用知识与上下文，给出清晰、可追溯的回答。";
@@ -4228,17 +4673,21 @@
         const chatSkill = Object.prototype.hasOwnProperty.call(base, "selectedChatSkill") ? base.selectedChatSkill : selectedChatSkill;
         const chatModel = Object.prototype.hasOwnProperty.call(base, "selectedChatModel") ? base.selectedChatModel : selectedChatModel;
         const pptTemplateId = Object.prototype.hasOwnProperty.call(base, "selectedPptTemplate") ? base.selectedPptTemplate : selectedPptTemplate;
+        const modePreset = Object.prototype.hasOwnProperty.call(base, "selectedChatModePreset") ? base.selectedChatModePreset : selectedChatModePreset;
+        const chipSkills = Object.prototype.hasOwnProperty.call(base, "selectedChatSkills") ? base.selectedChatSkills : selectedChatSkills;
+        const skillsInText = [...chipSkills, ...text.matchAll(/\/([^\s/@]+)/g)].map(match => Array.isArray(match) ? match[1] : match);
+        const skillLabel = skillsInText.length ? skillsInText.join("、") : chatSkill;
         const hideModelAndSkill = mode === "agent" && Boolean(chatAgent);
         const modeLabelParts = [
           mode === "agent"
-            ? `专家模式${chatAgent ? ` · 专家：${chatAgent}` : ""}`
+            ? `${modePreset === "plan" && !chatAgent ? "Plan 模式" : "Ask 模式"}${chatAgent ? ` · 专家：${chatAgent}` : ""}`
             : `${chatApps[mode]?.title || "知识问答"}${mode === "ppt" && pptTemplateId ? ` · 模板：${pptTemplates.find(item => item.id === pptTemplateId)?.title || ""}` : ""}`
         ];
         if (!hideModelAndSkill && chatModel) modeLabelParts.push(`模型：${chatModel}`);
-        if (!hideModelAndSkill && chatSkill) modeLabelParts.push(`技能：${chatSkill}`);
+        if (!hideModelAndSkill && skillLabel) modeLabelParts.push(`技能：${skillLabel}`);
         const modeLabel = modeLabelParts.join(" · ");
-        let effectiveText = text;
-        if (chatSkill && !/\/([^\s/@]+)/.test(effectiveText)) effectiveText = `/${chatSkill} ${effectiveText}`;
+        const chipSkillPrefix = chipSkills.length ? `${chipSkills.map(skill => `/${skill}`).join(" ")} ` : "";
+        let effectiveText = `${chipSkillPrefix}${text}`.trim();
         if (mode === "agent" && chatAgent && !/@([^\s/@]+)/.test(effectiveText)) effectiveText = `@${chatAgent} ${effectiveText}`;
         return {
           ...base,
@@ -4250,7 +4699,9 @@
           selectedChatAgent: chatAgent,
           selectedChatSkill: chatSkill,
           selectedChatModel: chatModel,
-          selectedPptTemplate: pptTemplateId
+          selectedPptTemplate: pptTemplateId,
+          selectedChatModePreset: modePreset,
+          selectedChatSkills: [...chipSkills]
         };
       }
 
@@ -4403,6 +4854,8 @@
         chatTurnCount += 1;
         const shouldQueue = chatTurnCount >= 3;
         chatInput.value = "";
+        selectedChatSkills = [];
+        renderSelectedSkillChips();
         closeMentionMenu();
         renderContextUsage();
         if (!shouldQueue) {
@@ -4489,6 +4942,51 @@
       }
       document.querySelectorAll("[data-page]").forEach(btn => btn.addEventListener("click", () => openPage(btn.dataset.page)));
       document.addEventListener("click", e => {
+        const modeTrigger = e.target.closest("#chatModeTrigger");
+        if (modeTrigger) {
+          e.stopPropagation();
+          const willOpen = chatModeMenu.hidden;
+          if (willOpen) {
+            renderChatModeControl();
+            chatModeMenu.hidden = false;
+            chatModeTrigger.setAttribute("aria-expanded", "true");
+          } else {
+            closeChatModeMenu();
+          }
+          return;
+        }
+        const expertOption = e.target.closest("[data-chat-expert-option]");
+        if (expertOption) {
+          setSelectedChatAgent(expertOption.dataset.chatExpertOption);
+          setChatMode("agent");
+          closeChatModeMenu();
+          return;
+        }
+        const modeOption = e.target.closest("[data-chat-mode-option]");
+        if (modeOption) {
+          const value = modeOption.dataset.chatModeOption;
+          if (value === "expert") {
+            chatExpertMenu.hidden = !chatExpertMenu.hidden;
+            return;
+          }
+          selectedChatModePreset = value === "plan" ? "plan" : "ask";
+          setSelectedChatAgent("");
+          setSelectedChatApp("");
+          setChatMode("agent");
+          renderChatModeControl();
+          closeChatModeMenu();
+          return;
+        }
+        const skillRemove = e.target.closest("[data-chat-skill-remove]");
+        if (skillRemove) {
+          const index = Number(skillRemove.dataset.chatSkillRemove);
+          if (Number.isInteger(index)) {
+            selectedChatSkills.splice(index, 1);
+            renderSelectedSkillChips();
+            renderContextUsage();
+          }
+          return;
+        }
         const taskSave = e.target.closest("[data-chat-task-save]");
         if (taskSave) {
           saveChatTaskEdit(taskSave.closest(".chat-task-item"));
@@ -4690,7 +5188,8 @@
         fitChatSelectionWidths();
       });
       chatSkillSelect.addEventListener("change", e => {
-        selectedChatSkill = e.target.value;
+        insertSkillToken(e.target.value);
+        e.target.value = "";
         fitChatSelectionWidths();
       });
       chatPromptEnhanceBtn.addEventListener("click", enhanceChatPrompt);
@@ -4711,6 +5210,8 @@
       }));
       renderChatPrimarySelect();
       renderChatSkillSelect();
+      renderChatModeControl();
+      renderSelectedSkillChips();
       fitChatSelectionWidths();
       renderPptTemplates();
       renderContextUsage();
@@ -4753,6 +5254,9 @@
           popover.hidden = true;
           trigger.setAttribute("aria-expanded", "false");
         }
+        if (chatModeMenu && !chatModeMenu.hidden && !chatModeMenu.contains(e.target) && !chatModeTrigger.contains(e.target)) {
+          closeChatModeMenu();
+        }
         if (!contextPopover.hidden && !contextPopover.contains(e.target) && !contextProgressBtn.contains(e.target)) {
           closeContextPopover();
         }
@@ -4765,6 +5269,7 @@
         if (e.key !== "Escape") return;
         popover.hidden = true;
         trigger.setAttribute("aria-expanded", "false");
+        closeChatModeMenu();
         closeContextPopover();
         if (!imDialog.hidden) closeImDialog();
         if (!scheduleDialog.hidden) closeScheduleDialog();
