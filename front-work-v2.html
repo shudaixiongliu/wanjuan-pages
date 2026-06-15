@@ -521,6 +521,13 @@
       }
       .market-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
       .market-head-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+      .market-head-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-left: auto;
+      }
       .market-title { color: #32384c; font-size: 14px; font-weight: 700; }
       .market-close {
         display: inline-grid; place-items: center; width: 28px; height: 28px; color: #949bad;
@@ -532,7 +539,7 @@
       .market-tabs[hidden] { display: none; }
       .market-search-wrap {
         position: relative;
-        flex: 0 0 auto;
+        flex: 0 0 218px;
       }
       .market-search {
         height: 24px;
@@ -544,7 +551,7 @@
         font-size: 11px;
       }
       .market-search {
-        width: 138px;
+        width: 100%;
         padding: 0 10px 0 28px;
       }
       .market-search-icon {
@@ -612,6 +619,63 @@
         color: #6e6e73;
         border-color: rgba(0, 0, 0, .08);
         background: rgba(0, 0, 0, .045);
+      }
+      .skill-add-control {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        flex: 0 0 auto;
+      }
+      .skill-add-control[hidden] {
+        display: none;
+      }
+      .skill-add-trigger {
+        min-width: 86px;
+        height: 32px;
+        padding: 0 12px;
+        border-radius: 999px;
+        font-size: 13px;
+        line-height: 18px;
+        font-weight: 600;
+      }
+      .skill-add-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        z-index: 12;
+        display: grid;
+        min-width: 128px;
+        padding: 6px;
+        border: 1px solid rgba(0, 0, 0, .08);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, .96);
+        box-shadow: 0 18px 42px rgba(15, 23, 42, .13), 0 1px 5px rgba(15, 23, 42, .07);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-4px);
+        transition: opacity .16s ease, transform .16s ease;
+      }
+      .skill-add-control:hover .skill-add-menu,
+      .skill-add-control:focus-within .skill-add-menu {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+      .skill-add-menu button {
+        height: 34px;
+        padding: 0 12px;
+        color: #1d1d1f;
+        border: 0;
+        border-radius: 10px;
+        background: transparent;
+        font-size: 13px;
+        line-height: 18px;
+        font-weight: 600;
+        text-align: left;
+      }
+      .skill-add-menu button:hover {
+        color: #007aff;
+        background: rgba(0, 122, 255, .08);
       }
       .history-list { overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
       .history-row { display: flex; align-items: center; gap: 14px; min-height: 62px; padding: 0 16px; border-bottom: 1px solid var(--line); }
@@ -758,6 +822,115 @@
       .im-input:focus { border-color: var(--primary-line); background: rgba(255, 255, 255, 0.92); }
       .im-input.input-error { border-color: #eb4453; background: rgba(255, 241, 240, 0.85); }
       .form-error { min-height: 20px; color: #d93747; font-size: 13px; }
+      .skill-upload-card {
+        width: min(600px, calc(100vw - 48px));
+        padding: 24px 28px 26px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, .96);
+        box-shadow: 0 22px 58px rgba(15, 23, 42, .16);
+      }
+      .skill-upload-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 20px;
+      }
+      .skill-upload-title {
+        margin: 0;
+        color: #1d1d1f;
+        font-size: 20px;
+        line-height: 28px;
+        font-weight: 700;
+      }
+      .skill-upload-close {
+        display: grid;
+        width: 30px;
+        height: 30px;
+        place-items: center;
+        color: #6e6e73;
+        border: 0;
+        border-radius: 999px;
+        background: transparent;
+        font-size: 26px;
+        line-height: 1;
+      }
+      .skill-upload-close:hover {
+        color: #1d1d1f;
+        background: rgba(0, 0, 0, .06);
+      }
+      .skill-upload-drop {
+        display: grid;
+        min-height: 164px;
+        place-items: center;
+        border: 2px dashed rgba(0, 0, 0, .12);
+        border-radius: 16px;
+        background: rgba(250, 250, 251, .62);
+        color: #3a3a3c;
+        text-align: center;
+        cursor: pointer;
+      }
+      .skill-upload-drop:hover {
+        border-color: rgba(0, 122, 255, .28);
+        background: rgba(0, 122, 255, .035);
+      }
+      .skill-upload-drop svg {
+        width: 34px;
+        height: 34px;
+        margin-bottom: 14px;
+        color: #8e8e93;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.7;
+      }
+      .skill-upload-copy {
+        font-size: 17px;
+        line-height: 24px;
+        font-weight: 500;
+      }
+      .skill-upload-file {
+        margin-top: 6px;
+        color: #6e6e73;
+        font-size: 13px;
+        line-height: 18px;
+      }
+      .skill-upload-check {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 18px;
+        color: #3a3a3c;
+        font-size: 15px;
+        line-height: 22px;
+        font-weight: 500;
+      }
+      .skill-upload-check input {
+        width: 20px;
+        height: 20px;
+        accent-color: #007aff;
+      }
+      .skill-upload-rules {
+        margin-top: 20px;
+        color: #5f6368;
+      }
+      .skill-upload-rules h3 {
+        margin: 0 0 10px;
+        color: #2f3033;
+        font-size: 16px;
+        line-height: 22px;
+        font-weight: 700;
+      }
+      .skill-upload-rules ul {
+        margin: 0;
+        padding-left: 24px;
+      }
+      .skill-upload-rules li {
+        margin: 7px 0;
+        font-size: 14px;
+        line-height: 22px;
+      }
       .modal-actions { display: flex; justify-content: flex-end; gap: 16px; margin-top: 18px; }
       .ghost-btn, .primary-btn {
         min-width: 136px; height: 64px; border: 0; border-radius: 14px; font-size: 18px; font-weight: 600;
@@ -3030,9 +3203,28 @@
         font-weight: 600;
       }
       .market-page .market-search {
+        width: 100%;
         height: 34px;
         border-radius: 999px;
         background: rgba(255, 255, 255, .78);
+      }
+      .market-page .market-head-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-left: auto;
+      }
+      .market-page .market-search-wrap {
+        width: 220px;
+        flex: 0 0 220px;
+      }
+      .market-page .skill-add-trigger {
+        min-width: 88px;
+        height: 34px;
+        padding: 0 14px;
+        border-radius: 999px;
+        font-size: 13px;
+        line-height: 18px;
       }
     </style>
   </head>
@@ -3049,7 +3241,7 @@
         <nav class="nav" aria-label="主导航">
           <button class="nav-item active" data-page="chat"><span class="icon"><svg viewBox="0 0 24 24"><path d="M5 19h14"/><path d="M6 18.5 18.4 6.1a2 2 0 0 0-2.8-2.8L3.2 15.7 3 20z"/></svg></span><span class="menu-label">新建任务</span></button>
           <button class="nav-item" data-page="square"><span class="icon"><svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M4.8 6.8l2.1 2.1M17.1 17.1l2.1 2.1M3 12h3M18 12h3M4.8 17.2l2.1-2.1M17.1 6.9l2.1-2.1"/><circle cx="12" cy="12" r="3"/></svg></span><span class="menu-label">专家</span></button>
-          <button class="nav-item" data-page="skills"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="2.2"/><circle cx="17" cy="7" r="2.2"/><circle cx="7" cy="17" r="2.2"/><circle cx="17" cy="17" r="2.2"/></svg></span><span class="menu-label">项目</span></button>
+          <button class="nav-item" data-page="skills"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="2.2"/><circle cx="17" cy="7" r="2.2"/><circle cx="7" cy="17" r="2.2"/><circle cx="17" cy="17" r="2.2"/></svg></span><span class="menu-label">项目（二期）</span></button>
           <button class="nav-item" data-page="schedule"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="menu-label">自动化</span></button>
           <button class="nav-item" data-page="files"><span class="icon"><svg viewBox="0 0 24 24"><path d="M6 4h4l3 16H9z"/><path d="M12 4h4l3 16h-4z"/><path d="M5 20h15"/></svg></span><span class="menu-label">文件库</span></button>
           <div class="nav-divider"></div>
@@ -3183,10 +3375,19 @@
                   </div>
                   
                 </div>
-                <label class="market-search-wrap">
-                  <span class="market-search-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.2-4.2"/></svg></span>
-                  <input class="market-search" id="marketSearchInput" placeholder="搜索专家" />
-                </label>
+                <div class="market-head-actions">
+                  <label class="market-search-wrap">
+                    <span class="market-search-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.2-4.2"/></svg></span>
+                    <input class="market-search" id="marketSearchInput" placeholder="搜索专家" />
+                  </label>
+                  <div class="skill-add-control" id="skillAddControl" hidden>
+                    <button class="primary-btn skill-add-trigger" type="button">添加技能</button>
+                    <div class="skill-add-menu" role="menu">
+                      <button type="button" id="uploadSkillBtn" role="menuitem">上传技能</button>
+                      <button type="button" id="createSkillBtn" role="menuitem">创建技能</button>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="market-tabs market-mode-tabs" id="squareModeTabs"></div>
               <div class="market-tabs market-category-tabs" id="squareTabs"></div>
@@ -3497,6 +3698,33 @@
         <div class="modal-actions">
           <button class="ghost-btn" type="button" id="cancelScheduleDialogBtn">取消</button>
           <button class="primary-btn" type="button" id="submitScheduleDialogBtn">创建</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-overlay" id="skillUploadDialog" hidden>
+      <div class="skill-upload-card" role="dialog" aria-modal="true" aria-labelledby="skillUploadTitle">
+        <div class="skill-upload-head">
+          <h2 class="skill-upload-title" id="skillUploadTitle">上传技能</h2>
+          <button class="skill-upload-close" type="button" id="closeSkillUploadBtn" aria-label="关闭上传技能弹窗">×</button>
+        </div>
+        <label class="skill-upload-drop" for="skillUploadInput">
+          <span>
+            <svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="13" rx="2"/><path d="M8 6V4h8v2"/><path d="M12 16V10"/><path d="m9 13 3-3 3 3"/></svg>
+            <span class="skill-upload-copy">拖拽文件或点击上传</span>
+            <span class="skill-upload-file" id="skillUploadFileState">支持文件夹或 .zip / .md 文件</span>
+          </span>
+          <input id="skillUploadInput" type="file" hidden />
+        </label>
+        <label class="skill-upload-check">
+          <input id="skillAutoInstallInput" type="checkbox" />
+          <span>非高风险自动安装</span>
+        </label>
+        <div class="skill-upload-rules">
+          <h3>文件要求</h3>
+          <ul>
+            <li>文件夹或者 .zip 需要包含 SKILL.md 文件</li>
+            <li>.md 文件需包含 YAML 格式的技能名称和描述</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -3833,6 +4061,8 @@
         const modeTabs = document.getElementById("squareModeTabs");
         const tabs = document.getElementById("squareTabs");
         rootTabs.forEach(tab => tab.classList.toggle("active", tab.dataset.marketRoot === squareRoot));
+        const skillAdd = document.getElementById("skillAddControl");
+        if (skillAdd) skillAdd.hidden = squareRoot !== "技能";
         if (modeTabs) modeTabs.hidden = false;
         if (squareRoot === "专家") renderMarketTabs("squareModeTabs", "squareMode", squareModeTabs);
         if (squareRoot === "技能") renderMarketTabs("squareModeTabs", "squareSkillMode", squareSkillModeTabs);
@@ -3881,6 +4111,30 @@
         installedSkillIds.add(skill.id);
         renderMarkets();
         renderChatSkillSelect();
+      }
+      function openSkillUploadDialog() {
+        if (!skillUploadDialog) return;
+        if (skillUploadFileState) skillUploadFileState.textContent = "支持文件夹或 .zip / .md 文件";
+        if (skillUploadInput) skillUploadInput.value = "";
+        skillUploadDialog.hidden = false;
+      }
+      function closeSkillUploadDialog() {
+        if (skillUploadDialog) skillUploadDialog.hidden = true;
+      }
+      function createSkillFromChat() {
+        selectedChatSkills = [];
+        selectedPptTemplate = "";
+        setSelectedChatAgent("");
+        setSelectedChatApp("");
+        selectedChatModePreset = "ask";
+        resetChatConversation();
+        closeMentionMenu();
+        closeSkillUploadDialog();
+        openPage("chat");
+        setChatMode("agent");
+        chatInput.value = "/skill-creator 请帮我创建一个可以实现「……」的skill";
+        chatInput.focus();
+        chatInput.setSelectionRange(chatInput.value.length, chatInput.value.length);
       }
       renderMarkets();
       function projectExpertChoices() {
@@ -4523,6 +4777,13 @@
       const projectEditInstructionBtn = document.getElementById("projectEditInstructionBtn");
       const projectTaskCreateBtn = document.getElementById("projectTaskCreateBtn");
       const projectTaskInput = document.getElementById("projectTaskInput");
+      const skillAddControl = document.getElementById("skillAddControl");
+      const uploadSkillBtn = document.getElementById("uploadSkillBtn");
+      const createSkillBtn = document.getElementById("createSkillBtn");
+      const skillUploadDialog = document.getElementById("skillUploadDialog");
+      const closeSkillUploadBtn = document.getElementById("closeSkillUploadBtn");
+      const skillUploadInput = document.getElementById("skillUploadInput");
+      const skillUploadFileState = document.getElementById("skillUploadFileState");
 
       function escapeHtml(value) {
         return String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
@@ -5617,6 +5878,13 @@
       if (openScheduleDialogBtn) openScheduleDialogBtn.addEventListener("click", openScheduleDialog);
       if (cancelScheduleDialogBtn) cancelScheduleDialogBtn.addEventListener("click", closeScheduleDialog);
       if (submitScheduleDialogBtn) submitScheduleDialogBtn.addEventListener("click", submitScheduleForm);
+      if (uploadSkillBtn) uploadSkillBtn.addEventListener("click", openSkillUploadDialog);
+      if (createSkillBtn) createSkillBtn.addEventListener("click", createSkillFromChat);
+      if (closeSkillUploadBtn) closeSkillUploadBtn.addEventListener("click", closeSkillUploadDialog);
+      if (skillUploadInput) skillUploadInput.addEventListener("change", () => {
+        const fileName = skillUploadInput.files?.[0]?.name;
+        if (skillUploadFileState) skillUploadFileState.textContent = fileName ? `已选择：${fileName}` : "支持文件夹或 .zip / .md 文件";
+      });
       if (schedulePushInput) schedulePushInput.addEventListener("change", () => {
         scheduleChannelInput.disabled = !schedulePushInput.checked;
       });
@@ -5659,6 +5927,7 @@
       });
       imDialog.addEventListener("click", e => { if (e.target === imDialog) closeImDialog(); });
       scheduleDialog.addEventListener("click", e => { if (e.target === scheduleDialog) closeScheduleDialog(); });
+      skillUploadDialog.addEventListener("click", e => { if (e.target === skillUploadDialog) closeSkillUploadDialog(); });
       projectDialog.addEventListener("click", e => { if (e.target === projectDialog) closeProjectDialog(); });
       projectInviteDialog.addEventListener("click", e => { if (e.target === projectInviteDialog) closeProjectInviteDialog(); });
       document.addEventListener("keydown", e => {
@@ -5669,6 +5938,7 @@
         closeContextPopover();
         if (!imDialog.hidden) closeImDialog();
         if (!scheduleDialog.hidden) closeScheduleDialog();
+        if (!skillUploadDialog.hidden) closeSkillUploadDialog();
         if (!projectDialog.hidden) closeProjectDialog();
         if (!projectInviteDialog.hidden) closeProjectInviteDialog();
       });
