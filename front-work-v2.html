@@ -592,7 +592,27 @@
         display: -webkit-box; overflow: hidden; min-height: 34px; margin: 8px 0 0; color: #7a8194;
         font-size: 11px; line-height: 1.55; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
       }
-      .market-card-foot { margin-top: 10px; color: #8d94a6; font-size: 11px; }
+      .market-card-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 10px; color: #8d94a6; font-size: 11px; }
+      .market-card-action {
+        height: 26px;
+        padding: 0 10px;
+        color: #007aff;
+        border: 1px solid rgba(0, 122, 255, .2);
+        border-radius: 999px;
+        background: rgba(0, 122, 255, .08);
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 600;
+      }
+      .market-card-action:hover {
+        border-color: rgba(0, 122, 255, .34);
+        background: rgba(0, 122, 255, .12);
+      }
+      .market-card-action.installed {
+        color: #6e6e73;
+        border-color: rgba(0, 0, 0, .08);
+        background: rgba(0, 0, 0, .045);
+      }
       .history-list { overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
       .history-row { display: flex; align-items: center; gap: 14px; min-height: 62px; padding: 0 16px; border-bottom: 1px solid var(--line); }
       .history-row:last-child { border-bottom: 0; }
@@ -960,7 +980,39 @@
       .project-detail-title p { margin: 4px 0 0; color: #9295a4; font-size: 13px; line-height: 18px; }
       .project-invite-btn { display: inline-flex; align-items: center; gap: 8px; flex: 0 0 auto; }
       .project-invite-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.9; }
+      .project-detail-tabs {
+        display: inline-flex;
+        width: fit-content;
+        gap: 2px;
+        padding: 3px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 999px;
+        background: rgba(245, 245, 247, .86);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .035);
+      }
+      .project-detail-tab {
+        height: 30px;
+        min-width: 72px;
+        padding: 0 16px;
+        color: #6e6e73;
+        border: 0;
+        border-radius: 999px;
+        background: transparent;
+        font-size: 13px;
+        line-height: 18px;
+        font-weight: 600;
+      }
+      .project-detail-tab:hover {
+        color: #1d1d1f;
+        background: rgba(255, 255, 255, .64);
+      }
+      .project-detail-tab.active {
+        color: #1d1d1f;
+        background: #fff;
+        box-shadow: 0 1px 0 rgba(255, 255, 255, .9) inset, 0 5px 14px rgba(0, 0, 0, .075);
+      }
       .project-detail-body { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 16px; }
+      .project-detail-panel[hidden] { display: none; }
       .project-task-composer { padding: 16px; border: 1px solid #ebecf4; border-radius: 16px; background: #fff; }
       .project-task-composer textarea { width: 100%; height: 92px; padding: 0; border: 0; outline: 0; resize: none; }
       .project-task-compose-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; }
@@ -976,6 +1028,47 @@
       .project-task-item span { color: #9295a4; font-size: 12px; line-height: 16px; }
       .project-task-dot { display: grid; place-items: center; width: 20px; height: 20px; color: #6a6e80; border-radius: 6px; background: #f3f4f8; font-size: 12px; }
       .project-task-time { justify-self: end; color: #9295a4; font-size: 12px; line-height: 16px; }
+      .project-member-panel {
+        display: grid;
+        gap: 16px;
+      }
+      .project-member-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .project-member-head h2 {
+        margin: 0;
+        color: #161e32;
+        font-size: 18px;
+        line-height: 24px;
+        font-weight: 600;
+      }
+      .project-member-head p {
+        margin: 6px 0 0;
+        color: #9295a4;
+        font-size: 13px;
+        line-height: 18px;
+      }
+      .project-member-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .project-member-card {
+        min-width: 0;
+        padding: 16px;
+        border: 1px solid #ebecf4;
+        border-radius: 12px;
+        background: #fff;
+      }
+      .project-member-card p {
+        margin: 0 0 12px;
+        color: #6a6e80;
+        font-size: 13px;
+        line-height: 18px;
+      }
       .project-detail-side { display: grid; gap: 12px; }
       .project-side-card { padding: 16px; border: 1px solid #ebecf4; border-radius: 12px; background: #fff; }
       .project-side-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; color: #32384c; font-size: 16px; line-height: 22px; font-weight: 600; }
@@ -3134,52 +3227,68 @@
                         <p id="projectDetailMeta"></p>
                       </div>
                     </div>
-                    <button class="primary-btn project-invite-btn" type="button" id="openProjectInviteBtn"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="4"/><path d="M19 8v6M16 11h6"/></svg>邀请协作</button>
+                  </div>
+                  <div class="project-detail-tabs" role="tablist" aria-label="项目详情">
+                    <button class="project-detail-tab active" type="button" data-project-detail-tab="tasks" role="tab" aria-selected="true">任务</button>
+                    <button class="project-detail-tab" type="button" data-project-detail-tab="members" role="tab" aria-selected="false">成员</button>
                   </div>
                 </div>
                 <div class="project-detail-body">
                   <div class="project-detail-main">
-                    <div class="project-task-composer">
-                      <textarea id="projectTaskInput" placeholder="在此项目中启动任务"></textarea>
-                      <div class="project-task-compose-foot">
-                        <div class="project-task-compose-tools">
-                          <button class="tool-btn icon-only" type="button" title="新建附件"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
-                          <button class="tool-btn" type="button" title="专家">专家</button>
-                          <button class="tool-btn" type="button" title="技能">技能</button>
+                    <section class="project-detail-panel" id="projectTasksPanel">
+                      <div class="project-task-composer">
+                        <textarea id="projectTaskInput" placeholder="在此项目中启动任务"></textarea>
+                        <div class="project-task-compose-foot">
+                          <div class="project-task-compose-tools">
+                            <button class="tool-btn icon-only" type="button" title="新建附件"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+                            <button class="tool-btn" type="button" title="专家">专家</button>
+                            <button class="tool-btn" type="button" title="技能">技能</button>
+                          </div>
+                          <button class="send-btn" id="projectTaskCreateBtn" type="button" title="创建任务"><svg viewBox="0 0 24 24"><path d="m5 12 14-7-5 14-2-6z"/></svg></button>
                         </div>
-                        <button class="send-btn" id="projectTaskCreateBtn" type="button" title="创建任务"><svg viewBox="0 0 24 24"><path d="m5 12 14-7-5 14-2-6z"/></svg></button>
                       </div>
-                    </div>
-                    <div class="project-task-list-wrap">
-                      <div class="project-task-list-head">
+                      <div class="project-task-list-wrap">
+                        <div class="project-task-list-head">
+                          <div>
+                            <h2>任务</h2>
+                            <p>您的任务是私密的，除非您共享它们</p>
+                          </div>
+                        </div>
+                        <div class="project-task-list" id="projectTaskList"></div>
+                      </div>
+                    </section>
+                    <section class="project-detail-panel project-member-panel" id="projectMembersPanel" hidden>
+                      <div class="project-member-head">
                         <div>
-                          <h2>任务</h2>
-                          <p>您的任务是私密的，除非您共享它们</p>
+                          <h2>成员</h2>
+                          <p>管理项目协作成员、邀请状态和加入申请。</p>
                         </div>
+                        <button class="primary-btn project-invite-btn" type="button" id="openProjectInviteBtn"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="4"/><path d="M19 8v6M16 11h6"/></svg>邀请协作</button>
                       </div>
-                      <div class="project-task-list" id="projectTaskList"></div>
-                    </div>
+                      <div class="project-member-grid">
+                        <article class="project-member-card">
+                          <div class="project-side-card-head"><strong>协同成员</strong><span id="projectMemberCount">0</span></div>
+                          <p>已加入此项目的成员，可共同处理项目任务。</p>
+                          <div class="project-people-list" id="projectMemberList"></div>
+                        </article>
+                        <article class="project-member-card">
+                          <div class="project-side-card-head"><strong>申请成员</strong><span id="projectRequestCount">0</span></div>
+                          <p>通过邀请链接提交的协同申请，管理员可同意或拒绝。</p>
+                          <div class="project-people-list" id="projectRequestList"></div>
+                        </article>
+                        <article class="project-member-card">
+                          <div class="project-side-card-head"><strong>已邀请成员</strong><span id="projectInvitedCount">0</span></div>
+                          <p>已发送邀请链接的成员及当前确认状态。</p>
+                          <div class="project-people-list" id="projectInvitedSideList"></div>
+                        </article>
+                      </div>
+                    </section>
                   </div>
                   <aside class="project-detail-side">
                     <article class="project-side-card">
                       <div class="project-side-card-head"><strong>指令</strong><span>›</span></div>
                       <p id="projectInstructionSummary"></p>
                       <button class="ghost-btn" type="button" id="projectEditInstructionBtn">+ 添加</button>
-                    </article>
-                    <article class="project-side-card">
-                      <div class="project-side-card-head"><strong>协同成员</strong><span id="projectMemberCount">0</span></div>
-                      <p>已加入此项目的成员，可共同处理项目任务。</p>
-                      <div class="project-people-list" id="projectMemberList"></div>
-                    </article>
-                    <article class="project-side-card">
-                      <div class="project-side-card-head"><strong>申请成员</strong><span id="projectRequestCount">0</span></div>
-                      <p>通过邀请链接提交的协同申请，管理员可同意或拒绝。</p>
-                      <div class="project-people-list" id="projectRequestList"></div>
-                    </article>
-                    <article class="project-side-card">
-                      <div class="project-side-card-head"><strong>已邀请成员</strong><span id="projectInvitedCount">0</span></div>
-                      <p>已发送邀请链接的成员及当前确认状态。</p>
-                      <div class="project-people-list" id="projectInvitedSideList"></div>
                     </article>
                     <article class="project-side-card">
                       <div class="project-side-card-head"><strong>文件</strong><span>›</span></div>
@@ -3441,6 +3550,7 @@
       };
       const squareRootTabs = ["专家", "技能"];
       const squareModeTabs = ["专家", "专家团"];
+      const squareSkillModeTabs = ["技能市场", "已安装"];
       const squareTabs = {
         "专家": ["全部", "法务", "项目", "分析", "运营"],
         "专家团": ["全部", "交付协同", "经营分析", "研发支持"]
@@ -3469,6 +3579,7 @@
         { id: "tencent-ima", icon: "ima", color: "linear-gradient(135deg,#f9fff0,#dff9af)", title: "腾讯ima", category: "知识与学习", desc: "支持笔记与知识库的读取、写入和检索。", source: "技能市场", prompt: "请说明腾讯 ima 技能如何支持知识沉淀与检索。" },
         { id: "aihot", icon: "火", color: "linear-gradient(135deg,#ffb02e,#eb4453)", title: "AIHOT", category: "商业运营", desc: "一句话检索每日精选 AI 模型、产品与行业信息。", source: "技能市场", prompt: "请说明 AIHOT 技能在商业运营信息收集中的应用方式。" }
       ];
+      const installedSkillIds = new Set(["tencent-doc", "tencent-meeting"]);
       const skillShortcuts = [
         { name: "合同审核", desc: "识别风险条款并输出修改建议", icon: "审" },
         { name: "深度写作", desc: "生成结构化长文、报告和方案", icon: "写" },
@@ -3565,6 +3676,7 @@
       let skillKeyword = "";
       let projectKeyword = "";
       let projectViewMode = "list";
+      let activeProjectDetailTab = "tasks";
       let activeProjectId = "proj-needs";
       let editingProjectId = "";
       let projectExpertDraft = [];
@@ -3669,7 +3781,7 @@
         { title: "部门业务周报生成", desc: "周报草稿已生成，包含项目进度、阻塞事项和下周重点。", time: "06-01 09:04", status: "已完成" }
       ];
       let activeScheduleTab = "tasks";
-      const marketState = { squareRoot: "专家", squareMode: "专家", squareCategory: "全部", employee: "全部" };
+      const marketState = { squareRoot: "专家", squareMode: "专家", squareSkillMode: "技能市场", squareCategory: "全部", employee: "全部" };
       function renderMarketTabs(containerId, scope, tabs) {
         const container = document.getElementById(containerId);
         if (!container) return;
@@ -3694,7 +3806,7 @@
         const activeTab = marketState[scope];
         const visibleCards = activeTab === "全部" ? cards : cards.filter(card => card.category === activeTab);
         container.innerHTML = visibleCards.map(card => `
-          <article class="market-card" ${card.employeeIndex !== undefined ? `data-open-employee="${card.employeeIndex}"` : `data-square-title="${escapeHtml(card.title)}" data-square-prompt="${escapeHtml(card.prompt || "")}" data-square-task-type="${escapeHtml(card.taskType || "expert")}"`}>
+          <article class="market-card" ${card.employeeIndex !== undefined ? `data-open-employee="${card.employeeIndex}"` : card.isInstallable ? `data-market-skill-card="${escapeHtml(card.id)}"` : `data-square-title="${escapeHtml(card.title)}" data-square-prompt="${escapeHtml(card.prompt || "")}" data-square-task-type="${escapeHtml(card.taskType || "expert")}"`}>
             <div class="market-card-head">
               <span class="market-card-icon" style="background:${card.color}">${card.icon}</span>
               <div class="market-card-copy">
@@ -3705,22 +3817,27 @@
                 <p class="market-card-desc">${card.desc}</p>
               </div>
             </div>
-            <div class="market-card-foot">${card.source}</div>
+            <div class="market-card-foot">
+              <span>${card.source}</span>
+              ${card.actionLabel ? `<button class="market-card-action ${card.actionType === "installed" ? "installed" : ""}" type="button" data-market-skill-action="${escapeHtml(card.actionType)}" data-market-skill-id="${escapeHtml(card.id)}">${escapeHtml(card.actionLabel)}</button>` : ""}
+            </div>
           </article>
         `).join("");
       }
       function renderMarkets() {
         const squareRoot = marketState.squareRoot;
         const squareMode = marketState.squareMode;
+        const squareSkillMode = marketState.squareSkillMode;
         const searchInput = document.getElementById("marketSearchInput");
         const rootTabs = document.querySelectorAll("[data-market-root]");
         const modeTabs = document.getElementById("squareModeTabs");
         const tabs = document.getElementById("squareTabs");
         rootTabs.forEach(tab => tab.classList.toggle("active", tab.dataset.marketRoot === squareRoot));
-        if (modeTabs) modeTabs.hidden = squareRoot !== "专家";
+        if (modeTabs) modeTabs.hidden = false;
         if (squareRoot === "专家") renderMarketTabs("squareModeTabs", "squareMode", squareModeTabs);
+        if (squareRoot === "技能") renderMarketTabs("squareModeTabs", "squareSkillMode", squareSkillModeTabs);
         if (searchInput) {
-          searchInput.placeholder = squareRoot === "技能" ? "搜索技能" : (squareMode === "专家团" ? "搜索专家团" : "搜索专家");
+          searchInput.placeholder = squareRoot === "技能" ? (squareSkillMode === "已安装" ? "搜索已安装技能" : "搜索技能市场") : (squareMode === "专家团" ? "搜索专家团" : "搜索专家");
           searchInput.value = marketKeyword;
         }
         if (tabs) tabs.hidden = false;
@@ -3729,7 +3846,20 @@
         renderMarketTabs("squareTabs", "squareCategory", categories);
         const keyword = marketKeyword.trim().toLowerCase();
         const cards = squareRoot === "技能"
-          ? marketSkillCards.map(item => ({ ...item, taskType: "skill" }))
+          ? marketSkillCards
+              .filter(item => squareSkillMode === "技能市场" || installedSkillIds.has(item.id))
+              .map(item => {
+                const installed = installedSkillIds.has(item.id);
+                return {
+                  ...item,
+                  taskType: "skill",
+                  source: installed ? "已安装" : "技能市场",
+                  badge: installed ? "已安装" : "",
+                  isInstallable: squareSkillMode === "技能市场" && !installed,
+                  actionType: squareSkillMode === "技能市场" ? (installed ? "installed" : "install") : "use",
+                  actionLabel: squareSkillMode === "技能市场" ? (installed ? "已安装" : "安装") : "使用"
+                };
+              })
           : squareMode === "专家团"
           ? skillCards.map(item => ({
               taskType: "team",
@@ -3744,6 +3874,13 @@
           : employeeContacts.map(employeeToMarketCard);
         const visibleCards = cards.filter(card => !keyword || `${card.title} ${card.desc}`.toLowerCase().includes(keyword));
         renderMarketGrid("squareGrid", "squareCategory", visibleCards);
+      }
+      function installMarketSkill(skillId) {
+        const skill = marketSkillCards.find(item => item.id === skillId);
+        if (!skill) return;
+        installedSkillIds.add(skill.id);
+        renderMarkets();
+        renderChatSkillSelect();
       }
       renderMarkets();
       function projectExpertChoices() {
@@ -3860,6 +3997,19 @@
         renderProjectPersonList("projectInvitedSideList", project.invitedMembers, "暂无已邀请成员", "invite");
         renderProjectPersonList("projectInvitedMemberList", project.invitedMembers, "暂无已邀请成员", "invite");
       }
+      function renderProjectDetailTabs() {
+        const normalizedTab = activeProjectDetailTab === "members" ? "members" : "tasks";
+        activeProjectDetailTab = normalizedTab;
+        document.querySelectorAll("[data-project-detail-tab]").forEach(tab => {
+          const isActive = tab.dataset.projectDetailTab === normalizedTab;
+          tab.classList.toggle("active", isActive);
+          tab.setAttribute("aria-selected", isActive ? "true" : "false");
+        });
+        const taskPanel = document.getElementById("projectTasksPanel");
+        const memberPanel = document.getElementById("projectMembersPanel");
+        if (taskPanel) taskPanel.hidden = normalizedTab !== "tasks";
+        if (memberPanel) memberPanel.hidden = normalizedTab !== "members";
+      }
       function renderProjectDetail() {
         const project = currentProject();
         if (!project) {
@@ -3876,6 +4026,7 @@
         renderProjectTags("projectExpertTags", project.experts, "暂无专家");
         renderProjectTags("projectAutomationTags", project.automations, "暂无定时任务");
         renderProjectCollaboration(project);
+        renderProjectDetailTabs();
         const list = document.getElementById("projectTaskList");
         if (list) {
           list.innerHTML = (project.tasks && project.tasks.length)
@@ -3904,6 +4055,7 @@
       function openProjectDetail(projectId) {
         activeProjectId = projectId;
         projectViewMode = "detail";
+        activeProjectDetailTab = "tasks";
         renderProjectWorkspace();
       }
       function backToProjectList() {
@@ -4398,7 +4550,7 @@
             type: "skill",
             title: "调用技能",
             prefix: "/",
-            items: skillShortcuts.map(item => ({ ...item, value: item.name, color: "#4941e6" }))
+            items: installedSkillOptions().map(item => ({ ...item, value: item.name, color: "#4941e6" }))
           };
         }
         return {
@@ -4589,10 +4741,17 @@
         fitChatSelectionWidths();
       }
 
+      function installedSkillOptions() {
+        return marketSkillCards
+          .filter(item => installedSkillIds.has(item.id))
+          .map(item => ({ name: item.title, desc: item.desc, icon: item.icon }));
+      }
+
       function renderChatSkillSelect() {
+        const installedSkills = installedSkillOptions();
         chatSkillSelect.innerHTML = `
           <option value="">技能选择</option>
-          ${skillShortcuts.map(item => `<option value="${escapeHtml(item.name)}">${escapeHtml(item.name)}</option>`).join("")}
+          ${installedSkills.map(item => `<option value="${escapeHtml(item.name)}">${escapeHtml(item.name)}</option>`).join("")}
         `;
         chatSkillSelect.value = "";
         fitChatSelectionWidths();
@@ -4851,10 +5010,13 @@
         const chipSkills = Object.prototype.hasOwnProperty.call(base, "selectedChatSkills") ? base.selectedChatSkills : selectedChatSkills;
         const skillsInText = [...chipSkills, ...text.matchAll(/\/([^\s/@]+)/g)].map(match => Array.isArray(match) ? match[1] : match);
         const skillLabel = skillsInText.length ? skillsInText.join("、") : chatSkill;
-        const hideModelAndSkill = mode === "agent" && Boolean(chatAgent);
+        const isExpertTask = mode === "agent" && Boolean(chatAgent);
+        const hideModelAndSkill = isExpertTask;
         const modeLabelParts = [
-          mode === "agent"
-            ? `${modePreset === "plan" && !chatAgent ? "Plan 模式" : "Ask 模式"}${chatAgent ? ` · 专家：${chatAgent}` : ""}`
+          isExpertTask
+            ? `专家：${chatAgent}`
+            : mode === "agent"
+            ? `${modePreset === "plan" ? "Plan 模式" : "Ask 模式"}`
             : `${chatApps[mode]?.title || "知识问答"}${mode === "ppt" && pptTemplateId ? ` · 模板：${pptTemplates.find(item => item.id === pptTemplateId)?.title || ""}` : ""}`
         ];
         if (!hideModelAndSkill && chatModel) modeLabelParts.push(`模型：${chatModel}`);
@@ -5014,7 +5176,7 @@
 
       function appendNormalChatExchange(text, effectiveText, mode, modeLabel) {
         appendMessage("user", text, modeLabel);
-        setTimeout(() => appendMessage("assistant", messageSummary(effectiveText, mode), "模拟交互"), 180);
+        setTimeout(() => appendMessage("assistant", messageSummary(effectiveText, mode), modeLabel), 180);
       }
 
       function sendChatMessage() {
@@ -5221,6 +5383,12 @@
           openProjectDetail(projectOpen.dataset.projectOpen);
           return;
         }
+        const projectDetailTab = e.target.closest("[data-project-detail-tab]");
+        if (projectDetailTab) {
+          activeProjectDetailTab = projectDetailTab.dataset.projectDetailTab === "members" ? "members" : "tasks";
+          renderProjectDetailTabs();
+          return;
+        }
         const projectOption = e.target.closest("[data-project-option-type]");
         if (projectOption) {
           toggleProjectOption(projectOption.dataset.projectOptionType, projectOption.dataset.projectOptionValue);
@@ -5236,6 +5404,20 @@
           marketState.squareRoot = marketRoot.dataset.marketRoot;
           marketState.squareCategory = "全部";
           renderMarkets();
+          return;
+        }
+        const marketSkillAction = e.target.closest("[data-market-skill-action]");
+        if (marketSkillAction) {
+          const skillId = marketSkillAction.dataset.marketSkillId;
+          const skill = marketSkillCards.find(item => item.id === skillId);
+          const action = marketSkillAction.dataset.marketSkillAction;
+          if (action === "install") installMarketSkill(skillId);
+          if (action === "installed") {
+            marketState.squareSkillMode = "已安装";
+            marketState.squareCategory = "全部";
+            renderMarkets();
+          }
+          if (action === "use" && skill) openPresetSquareChat(skill.title, skill.prompt, "skill");
           return;
         }
         const openEmployee = e.target.closest("[data-open-employee]");
@@ -5259,6 +5441,9 @@
         const tab = e.target.closest("[data-market-tab]");
         if (tab) {
           marketState[tab.dataset.marketScope] = tab.dataset.marketTab;
+          if (tab.dataset.marketScope === "squareMode" || tab.dataset.marketScope === "squareSkillMode") {
+            marketState.squareCategory = "全部";
+          }
           renderMarkets();
           return;
         }
