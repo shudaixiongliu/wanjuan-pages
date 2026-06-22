@@ -137,6 +137,7 @@ const menuItems = [
       { label: "系统模型配置", path: "/system/model-config" },
       { label: "参数设置", path: "/system/parameter" },
       { label: "数据监控", path: "/system/monitor" },
+      { label: "审批管理", path: "/system/approval-center" },
     ],
   },
 ];
@@ -949,6 +950,11 @@ const pages = {
     ["模型配置刷新", "model-config-sync", "2026-04-28 09:20:08", tag("成功", "success"), "0.21s", actions(["查看日志"])],
     ["知识库索引状态巡检", "kb-health-check", "2026-04-28 09:31:44", tag("成功", "success"), "1.16s", actions(["查看日志"])],
   ], [button("刷新监控", "open", "primary")], "3"),
+  "/system/approval-center": genericSystemPage("审批中心", ["审批单号", "审批类型", "发起人", "当前节点", "状态", "发起时间", "操作"], [
+    ["AP20260615001", "系统发布审批", "刘静", "技术负责人审批", tag("审批中", "warning"), "2026-06-15 10:24:18", actions(["查看", "催办"])],
+    ["AP20260614007", "模型配置变更", "陈宇", "运维确认", tag("待处理", "info"), "2026-06-14 18:06:43", actions(["查看", "审批"])],
+    ["AP20260613012", "权限开通申请", "王敏", "已完成", tag("已通过", "success"), "2026-06-13 09:48:27", actions(["查看"])],
+  ], [field("请输入审批单号"), field("请输入发起人"), button("重 置", "reset"), button("发起审批", "open", "primary")], "3"),
 };
 
 function normalizePath(path) {
@@ -4415,13 +4421,43 @@ function renderDrawer() {
   `;
 }
 
+const DIGITAL_EMPLOYEE_TEMPLATE_CARDS = [
+  {
+    key: "blank",
+    title: "空白员工",
+    desc: "自定义配置",
+    tone: "blank",
+  },
+  {
+    key: "legal",
+    title: "法律助手",
+    desc: "合同法务、智能审查",
+    tone: "legal",
+  },
+];
+
+const DIGITAL_EMPLOYEE_TEMPLATE_DEFAULTS = {
+  legal: {
+    name: "法律助手",
+    duty: "法律助手，专注于合同审核、风险预警与合规管理，把控业务法律风险，保障业务合规开展。",
+  },
+  blank: {
+    name: "",
+    duty: "",
+  },
+};
+
+function getDigitalEmployeeTemplateDefault(template = "legal") {
+  return DIGITAL_EMPLOYEE_TEMPLATE_DEFAULTS[template] || DIGITAL_EMPLOYEE_TEMPLATE_DEFAULTS.legal;
+}
+
 function createDigitalEmployeeState(template = "legal") {
-  const legalDuty = "法律助手，专注于合同审核、风险预警与合规管理，把控业务法律风险，保障业务合规开展。";
+  const templateDefault = getDigitalEmployeeTemplateDefault(template);
   if (template === "blank") {
     return {
       template: "blank",
-      name: "",
-      duty: "",
+      name: templateDefault.name,
+      duty: templateDefault.duty,
       generated: false,
       legalConfig: {
         role: "",
@@ -4433,8 +4469,8 @@ function createDigitalEmployeeState(template = "legal") {
   }
   return {
     template: "legal",
-    name: "法律助手",
-    duty: legalDuty,
+    name: templateDefault.name,
+    duty: templateDefault.duty,
     generated: false,
     legalConfig: {
       role: "",
@@ -4457,10 +4493,12 @@ function closeCreateDigitalEmployeeModal() {
 }
 
 function createExpertState() {
+  const templateDefault = getDigitalEmployeeTemplateDefault("legal");
   return {
     type: "数字员工专家",
-    name: "",
-    desc: "",
+    template: "legal",
+    name: templateDefault.name,
+    desc: templateDefault.duty,
   };
 }
 
@@ -4478,6 +4516,7 @@ function closeCreateExpertModal() {
 function renderCreateExpertModal() {
   if (!state.createExpert) return "";
   const view = state.createExpert;
+  const showEmployeeTemplates = view.type === "数字员工专家";
   const types = [
     {
       key: "数字员工专家",
@@ -4532,6 +4571,27 @@ function renderCreateExpertModal() {
             `).join("")}
           </div>
         </div>
+        ${showEmployeeTemplates ? `
+          <div class="create-expert-field">
+            <label class="create-expert-label">模板选择<span>*</span></label>
+            <div class="digital-employee-template-grid create-expert-template-grid">
+              ${DIGITAL_EMPLOYEE_TEMPLATE_CARDS.map((card) => `
+                <button
+                  class="digital-employee-template-card create-expert-template-card ${view.template === card.key ? "active" : ""}"
+                  data-handler="${registerHandler({ type: "selectCreateExpertTemplate", value: card.key })}"
+                >
+                  <span class="digital-employee-template-icon ${card.tone}">
+                    ${card.key === "blank" ? icon("folder", "wj-icon") : icon("check", "wj-icon")}
+                  </span>
+                  <span class="digital-employee-template-copy">
+                    <strong>${card.title}</strong>
+                    <em>${card.desc}</em>
+                  </span>
+                </button>
+              `).join("")}
+            </div>
+          </div>
+        ` : ""}
         <div class="create-expert-field">
           <label class="create-expert-label" for="createExpertName">专家名称<span>*</span></label>
           <div class="create-expert-input-wrap">
@@ -4569,20 +4629,7 @@ function renderCreateExpertModal() {
 function renderCreateDigitalEmployeeModal() {
   if (!state.createDigitalEmployee) return "";
   const view = state.createDigitalEmployee;
-  const cards = [
-    {
-      key: "blank",
-      title: "空白员工",
-      desc: "自定义配置",
-      tone: "blank",
-    },
-    {
-      key: "legal",
-      title: "法律助手",
-      desc: "合同法务、智能审查",
-      tone: "legal",
-    },
-  ];
+  const cards = DIGITAL_EMPLOYEE_TEMPLATE_CARDS;
   return `
     <div class="modal-mask" data-handler="${registerHandler({ type: "closeCreateDigitalEmployee" })}"></div>
     <section class="digital-employee-modal" role="dialog" aria-modal="true" aria-label="创建数字员工">
@@ -4782,6 +4829,24 @@ document.addEventListener("click", (event) => {
   if (meta.type === "closeCreateExpert") closeCreateExpertModal();
   if (meta.type === "selectCreateExpertType" && state.createExpert) {
     state.createExpert.type = meta.value;
+    if (meta.value === "数字员工专家" && !state.createExpert.template) {
+      state.createExpert.template = "legal";
+    }
+    if (meta.value === "数字员工专家" && !state.createExpert.name && !state.createExpert.desc) {
+      const templateDefault = getDigitalEmployeeTemplateDefault(state.createExpert.template);
+      state.createExpert.name = templateDefault.name;
+      state.createExpert.desc = templateDefault.duty;
+    }
+    if (meta.value !== "数字员工专家") {
+      state.createExpert.template = "";
+    }
+    render();
+  }
+  if (meta.type === "selectCreateExpertTemplate" && state.createExpert) {
+    const templateDefault = getDigitalEmployeeTemplateDefault(meta.value);
+    state.createExpert.template = meta.value;
+    state.createExpert.name = templateDefault.name;
+    state.createExpert.desc = templateDefault.duty;
     render();
   }
   if (meta.type === "submitCreateExpert") {

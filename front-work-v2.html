@@ -577,6 +577,13 @@
         font-weight: 600;
       }
       .market-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+      .market-grid.scroll-y {
+        max-height: calc(100vh - 280px);
+        overflow-y: auto;
+        align-content: start;
+        padding-right: 6px;
+        scrollbar-gutter: stable;
+      }
       .market-card {
         min-height: 106px;
         padding: 14px 14px 12px;
@@ -690,28 +697,44 @@
       .files-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
       .files-title h1 { margin: 0; color: #161e32; font-size: 16px; line-height: 22px; font-weight: 600; }
       .files-title p { margin: 6px 0 0; color: #6a6e80; font-size: 13px; line-height: 18px; }
+      .file-toolbar { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+      .file-search { position: relative; display: flex; align-items: center; width: min(320px, 32vw); }
+      .file-search svg { position: absolute; left: 12px; width: 16px; height: 16px; color: #8e95a5; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
+      .file-search input { width: 100%; height: 34px; padding: 0 12px 0 36px; color: #252b3a; border: 1px solid #ebecf4; border-radius: 999px; background: #fff; outline: none; font-size: 13px; line-height: 18px; transition: border-color .16s ease, box-shadow .16s ease, background .16s ease; }
+      .file-search input::placeholder { color: #9aa1b2; }
+      .file-search input:focus { border-color: rgba(73, 65, 230, .32); background: #fff; box-shadow: 0 0 0 3px rgba(73, 65, 230, .08); }
       .file-filters { display: flex; gap: 8px; }
       .file-filter { height: 32px; padding: 0 12px; color: #6a6e80; border: 1px solid #ebecf4; border-radius: 6px; background: #fff; font-size: 13px; line-height: 18px; }
       .file-filter:hover { color: #4941e6; border-color: #d8d2ff; background: #faf9ff; }
       .file-filter.active { color: #4941e6; border-color: #d8d2ff; background: #f3f0ff; font-weight: 600; }
       .file-toast { min-height: 18px; margin: -4px 0 12px; color: #6a6e80; font-size: 12px; line-height: 16px; }
       .conversation-file-list { display: grid; gap: 14px; }
-      .file-conversation-card { overflow: hidden; border: 1px solid #ebecf4; border-radius: 8px; background: #fff; }
+      .file-conversation-card { overflow: visible; border: 1px solid #ebecf4; border-radius: 8px; background: #fff; }
       .file-conversation-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 16px; background: #fafbfc; border-bottom: 1px solid #ebecf4; }
       .file-conversation-title { color: #32384c; font-size: 14px; line-height: 20px; font-weight: 600; }
       .file-conversation-meta { margin-top: 4px; color: #6a6e80; font-size: 12px; line-height: 16px; }
       .file-expand-btn { height: 28px; padding: 0 10px; color: #6a6e80; border: 1px solid #ebecf4; border-radius: 6px; background: #fff; font-size: 12px; line-height: 16px; white-space: nowrap; }
       .file-expand-btn:hover { color: #4941e6; border-color: #d8d2ff; background: #f7f5ff; }
       .generated-file-list { display: grid; }
-      .generated-file-item { display: grid; grid-template-columns: 36px minmax(0, 1fr) 124px 132px; gap: 12px; align-items: center; min-height: 64px; padding: 12px 16px; border-bottom: 1px solid #f0f1f6; }
+      .generated-file-item { position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr) 124px 40px; gap: 12px; align-items: center; min-height: 64px; padding: 12px 16px; border-bottom: 1px solid #f0f1f6; }
       .generated-file-item:last-child { border-bottom: 0; }
       .file-icon { display: grid; place-items: center; width: 36px; height: 36px; color: #4941e6; border-radius: 8px; background: #f3f0ff; font-size: 12px; line-height: 16px; font-weight: 700; }
       .file-name { overflow: hidden; color: #32384c; font-size: 14px; line-height: 20px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
       .file-meta { margin-top: 4px; color: #6a6e80; font-size: 12px; line-height: 16px; }
       .file-time { color: #6a6e80; font-size: 12px; line-height: 16px; }
-      .file-actions { display: flex; justify-content: flex-end; gap: 8px; }
-      .file-action-btn { height: 30px; padding: 0 10px; color: #4d5565; border: 1px solid #ebecf4; border-radius: 6px; background: #fff; font-size: 13px; line-height: 18px; }
+      .file-actions { position: relative; display: flex; justify-content: flex-end; }
+      .file-actions.open { z-index: 40; }
+      .file-more-btn { display: grid; width: 32px; height: 32px; place-items: center; color: #6a6e80; border: 0; border-radius: 10px; background: transparent; }
+      .file-more-btn svg { width: 18px; height: 18px; fill: currentColor; }
+      .file-more-btn:hover,
+      .file-actions.open .file-more-btn { color: #1d1d1f; background: #f3f4f7; }
+      .file-action-menu { position: absolute; top: 36px; right: 0; z-index: 30; display: none; min-width: 148px; overflow: hidden; padding: 8px; border: 1px solid rgba(0, 0, 0, .08); border-radius: 18px; background: rgba(255, 255, 255, .94); box-shadow: 0 18px 42px rgba(20, 24, 40, .16); backdrop-filter: blur(18px); }
+      .file-actions.open .file-action-menu { display: grid; }
+      .file-action-btn { height: 38px; padding: 0 14px; color: #3a3a3c; border: 0; border-radius: 10px; background: transparent; font-size: 14px; line-height: 20px; text-align: left; }
       .file-action-btn:hover { color: #4941e6; border-color: #d8d2ff; background: #faf9ff; }
+      .file-preview-body { display: grid; gap: 14px; }
+      .file-preview-meta { display: flex; flex-wrap: wrap; gap: 8px; color: #6a6e80; font-size: 13px; line-height: 18px; }
+      .file-preview-content { max-height: 260px; overflow: auto; padding: 14px; color: #32384c; border: 1px solid #ebecf4; border-radius: 14px; background: #f7f8fb; font-size: 13px; line-height: 22px; white-space: pre-wrap; }
       .files-empty { display: grid; min-height: 260px; place-items: center; color: #9295a4; border: 1px dashed #ebecf4; border-radius: 8px; font-size: 13px; line-height: 18px; }
       .im-page { padding: 36px; }
       .im-shell { max-width: 1040px; margin: 0 auto; }
@@ -1526,6 +1549,41 @@
       .chat-mode-trigger[aria-expanded="true"] {
         background: rgba(255, 255, 255, .92);
         box-shadow: inset 0 0 0 1px rgba(17, 24, 39, .08), 0 8px 20px rgba(15, 23, 42, .08);
+      }
+      .chat-model-control {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+      }
+      .chat-model-toast {
+        position: absolute;
+        left: 50%;
+        bottom: calc(100% + 9px);
+        z-index: 35;
+        width: max-content;
+        max-width: 240px;
+        padding: 7px 10px;
+        color: #1d1d1f;
+        border: 1px solid rgba(0, 0, 0, .06);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, .96);
+        box-shadow: 0 12px 30px rgba(15, 23, 42, .14), 0 1px 2px rgba(15, 23, 42, .06);
+        font-size: 12px;
+        line-height: 17px;
+        font-weight: 500;
+        text-align: left;
+        white-space: normal;
+        pointer-events: none;
+        opacity: 0;
+        transform: translate(-50%, 4px);
+        transition: opacity .16s ease, transform .16s ease;
+      }
+      .chat-model-toast.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      .chat-model-toast[hidden] {
+        display: none;
       }
       .chat-mode-icon,
       .chat-mode-option-icon {
@@ -2716,6 +2774,46 @@
           min-height: calc(100vh - 28px);
           padding: 16px;
         }
+        .file-toolbar {
+          width: 100%;
+          flex-wrap: wrap;
+        }
+        .file-search {
+          width: min(100%, 360px);
+        }
+      }
+
+      .files-page.active {
+        height: 100%;
+        min-height: 0;
+        overflow: hidden;
+      }
+      .files-page.active .files-shell {
+        display: flex;
+        height: calc(100vh - 48px);
+        min-height: 0;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .files-page.active .conversation-file-list {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        padding-right: 6px;
+        padding-bottom: 72px;
+        scrollbar-gutter: stable;
+      }
+      .files-page.active .conversation-file-list::-webkit-scrollbar {
+        width: 8px;
+      }
+      .files-page.active .conversation-file-list::-webkit-scrollbar-thumb {
+        border: 2px solid transparent;
+        border-radius: 999px;
+        background: rgba(60, 60, 67, .22);
+        background-clip: content-box;
+      }
+      .files-page.active .conversation-file-list::-webkit-scrollbar-track {
+        background: transparent;
       }
 
       /* New task page: subtle quick-agent pills above composer */
@@ -3337,11 +3435,14 @@
                           <div class="chat-expert-menu" id="chatExpertMenu" hidden></div>
                         </div>
                       </div>
-                      <select class="chat-option-select" id="chatModelSelect" aria-label="模型选择">
-                        <option value="glm-5.1">GLM-5.1</option>
-                        <option value="doubao-1.5-pro">豆包 1.5 Pro</option>
-                        <option value="deepseek-v3">DeepSeek V3</option>
-                      </select>
+                      <span class="chat-model-control">
+                        <select class="chat-option-select" id="chatModelSelect" aria-label="模型选择">
+                          <option value="glm-5.1">GLM-5.1</option>
+                          <option value="doubao-1.5-pro">豆包 1.5 Pro</option>
+                          <option value="deepseek-v3">DeepSeek V3</option>
+                        </select>
+                        <span class="chat-model-toast" id="chatModelToast" role="status" aria-live="polite" hidden></span>
+                      </span>
                       <select class="chat-option-select" id="chatSkillSelect" aria-label="技能选择">
                         <option value="">技能选择</option>
                       </select>
@@ -3524,10 +3625,11 @@
                   <h1>文件库</h1>
                   <p>集中管理我的文件与对话生成产物，可下载并定位到对应上下文</p>
                 </div>
-                <div class="file-filters" aria-label="文件筛选">
-                  <button class="file-filter active" type="button" data-file-filter="all">全部</button>
-                  <button class="file-filter" type="button" data-file-filter="recent">仅最近 7 天</button>
-                  <button class="file-filter" type="button" data-file-filter="withFiles">仅有文件的对话</button>
+                <div class="file-toolbar">
+                  <label class="file-search" aria-label="搜索任务或文件">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.2-4.2"/></svg>
+                    <input id="fileSearchInput" type="search" placeholder="搜索任务名称或文件名称" autocomplete="off" />
+                  </label>
                 </div>
               </div>
               <div class="file-toast" id="fileToast" aria-live="polite"></div>
@@ -3728,6 +3830,16 @@
         </div>
       </div>
     </div>
+    <div class="modal-overlay" id="filePreviewDialog" hidden>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="filePreviewTitle">
+        <h2 class="modal-title" id="filePreviewTitle">预览文件</h2>
+        <div class="file-preview-body" id="filePreviewBody"></div>
+        <div class="modal-actions">
+          <button class="ghost-btn" type="button" id="closeFilePreviewBtn">关闭</button>
+          <button class="primary-btn" type="button" id="downloadPreviewFileBtn">下载文件</button>
+        </div>
+      </div>
+    </div>
     <div class="modal-overlay" id="projectDialog" hidden>
       <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="projectDialogTitle">
         <h2 class="modal-title" id="projectDialogTitle">创建项目</h2>
@@ -3802,10 +3914,20 @@
       const marketSkillCards = [
         { id: "tencent-doc", icon: "T", color: "linear-gradient(135deg,#2f6de1,#4bd3ff)", title: "腾讯文档", category: "办公协同", desc: "创建、编辑和管理在线文档、表格与协作文档。", source: "技能市场", prompt: "请介绍腾讯文档技能可支持的常见办公协同场景。" },
         { id: "tencent-meeting", icon: "M", color: "linear-gradient(135deg,#1686ff,#2458e6)", title: "腾讯会议", category: "办公协同", desc: "支持会议预约、修改、取消与会议信息查询。", source: "技能市场", prompt: "请说明腾讯会议技能可以完成哪些会议管理操作。" },
+        { id: "feishu-docs", icon: "飞", color: "linear-gradient(135deg,#00c2ff,#0d7cff)", title: "飞书文档", category: "办公协同", desc: "支持多人协作编辑文档、表格，并联动评论与权限管理。", source: "技能市场", prompt: "请介绍飞书文档技能在团队协作和内容共创中的典型用法。" },
+        { id: "dingtalk-calendar", icon: "钉", color: "linear-gradient(135deg,#1677ff,#59b4ff)", title: "钉钉日程", category: "办公协同", desc: "创建会议、安排日程、查询空闲时间并同步提醒事项。", source: "技能市场", prompt: "请说明钉钉日程技能如何帮助团队完成会议和时间管理。" },
         { id: "neodata-finance", icon: "N", color: "linear-gradient(135deg,#4b7bff,#3158d8)", title: "NeoData金融搜索服务", category: "数据分析", desc: "自然语言查询股票、基金、宏观和商品等金融数据。", source: "技能市场", prompt: "请介绍 NeoData 金融搜索服务的核心能力和适用场景。" },
+        { id: "powerbi-insight", icon: "BI", color: "linear-gradient(135deg,#f7c62f,#f18f01)", title: "Power BI 洞察", category: "数据分析", desc: "快速分析经营报表、识别趋势异常并生成数据解读结论。", source: "技能市场", prompt: "请介绍 Power BI 洞察技能适用于哪些数据分析和经营复盘场景。" },
+        { id: "excel-automation", icon: "X", color: "linear-gradient(135deg,#1f9d62,#56d68f)", title: "Excel自动化", category: "数据分析", desc: "批量处理表格、清洗数据、汇总指标并生成分析结果。", source: "技能市场", prompt: "请说明 Excel 自动化技能如何提升报表整理和数据处理效率。" },
         { id: "cnb-cool", icon: "c", color: "linear-gradient(135deg,#ff8b2f,#ff5c00)", title: "cnb.cool", category: "效率工具", desc: "覆盖仓库、Issue、PR、流水线、制品库等研发操作。", source: "技能市场", prompt: "请介绍 cnb.cool 技能适合哪些研发协作场景。" },
+        { id: "jira-project", icon: "J", color: "linear-gradient(135deg,#1c7bff,#4aa3ff)", title: "Jira项目助手", category: "效率工具", desc: "管理需求、缺陷、迭代和任务流转，支持研发项目协同推进。", source: "技能市场", prompt: "请说明 Jira 项目助手技能在需求跟踪和研发协作中的作用。" },
+        { id: "notion-workspace", icon: "N", color: "linear-gradient(135deg,#2a2a2a,#5a5a5a)", title: "Notion工作台", category: "效率工具", desc: "统一整理项目文档、任务清单和知识页面，提升个人与团队效率。", source: "技能市场", prompt: "请介绍 Notion 工作台技能适合哪些知识组织和任务管理场景。" },
         { id: "tencent-ima", icon: "ima", color: "linear-gradient(135deg,#f9fff0,#dff9af)", title: "腾讯ima", category: "知识与学习", desc: "支持笔记与知识库的读取、写入和检索。", source: "技能市场", prompt: "请说明腾讯 ima 技能如何支持知识沉淀与检索。" },
-        { id: "aihot", icon: "火", color: "linear-gradient(135deg,#ffb02e,#eb4453)", title: "AIHOT", category: "商业运营", desc: "一句话检索每日精选 AI 模型、产品与行业信息。", source: "技能市场", prompt: "请说明 AIHOT 技能在商业运营信息收集中的应用方式。" }
+        { id: "wolfram-alpha", icon: "WA", color: "linear-gradient(135deg,#f56b2a,#fcb045)", title: "Wolfram Alpha", category: "知识与学习", desc: "提供公式推导、科学计算和事实查询，适合学习与研究辅助。", source: "技能市场", prompt: "请介绍 Wolfram Alpha 技能在学习研究和复杂问题求解中的价值。" },
+        { id: "paper-search", icon: "研", color: "linear-gradient(135deg,#7b61ff,#b48cff)", title: "论文检索助手", category: "知识与学习", desc: "检索论文、提炼摘要、梳理研究方向并输出阅读建议。", source: "技能市场", prompt: "请说明论文检索助手技能适用于哪些学习和研究场景。" },
+        { id: "aihot", icon: "火", color: "linear-gradient(135deg,#ffb02e,#eb4453)", title: "AIHOT", category: "商业运营", desc: "一句话检索每日精选 AI 模型、产品与行业信息。", source: "技能市场", prompt: "请说明 AIHOT 技能在商业运营信息收集中的应用方式。" },
+        { id: "douyin-trend", icon: "抖", color: "linear-gradient(135deg,#111111,#ff2d55)", title: "抖音热点洞察", category: "商业运营", desc: "跟踪热点内容、行业趋势和爆款选题，辅助营销策划与选题判断。", source: "技能市场", prompt: "请介绍抖音热点洞察技能如何帮助内容运营和营销选题。" },
+        { id: "xiaohongshu-campaign", icon: "红", color: "linear-gradient(135deg,#ff4d6d,#ff8fa3)", title: "小红书种草助手", category: "商业运营", desc: "分析热门笔记方向、用户兴趣和品牌传播机会，辅助种草策划。", source: "技能市场", prompt: "请说明小红书种草助手技能在品牌运营和内容传播中的使用方式。" }
       ];
       const installedSkillIds = new Set(["tencent-doc", "tencent-meeting"]);
       const skillShortcuts = [
@@ -3996,7 +4118,9 @@
           ]
         }
       ];
-      let activeFileFilter = "all";
+      let fileKeyword = "";
+      let activeFileActionMenu = "";
+      let previewFileId = "";
       const expandedFileGroups = { "conv-market-report": false };
       const scheduleTasks = [
         { name: "每日合同风险巡检", prompt: "每天汇总新增合同，识别高风险条款并输出修改建议。", frequency: "每天 09:00", range: "2026-06-01 至 2026-12-31", push: "飞书群机器人", status: "running" },
@@ -4060,9 +4184,11 @@
         const rootTabs = document.querySelectorAll("[data-market-root]");
         const modeTabs = document.getElementById("squareModeTabs");
         const tabs = document.getElementById("squareTabs");
+        const grid = document.getElementById("squareGrid");
         rootTabs.forEach(tab => tab.classList.toggle("active", tab.dataset.marketRoot === squareRoot));
         const skillAdd = document.getElementById("skillAddControl");
         if (skillAdd) skillAdd.hidden = squareRoot !== "技能";
+        if (grid) grid.classList.toggle("scroll-y", squareRoot === "技能");
         if (modeTabs) modeTabs.hidden = false;
         if (squareRoot === "专家") renderMarketTabs("squareModeTabs", "squareMode", squareModeTabs);
         if (squareRoot === "技能") renderMarketTabs("squareModeTabs", "squareSkillMode", squareSkillModeTabs);
@@ -4070,10 +4196,11 @@
           searchInput.placeholder = squareRoot === "技能" ? (squareSkillMode === "已安装" ? "搜索已安装技能" : "搜索技能市场") : (squareMode === "专家团" ? "搜索专家团" : "搜索专家");
           searchInput.value = marketKeyword;
         }
-        if (tabs) tabs.hidden = false;
+        const hideSkillInstalledCategories = squareRoot === "技能" && squareSkillMode === "已安装";
+        if (tabs) tabs.hidden = hideSkillInstalledCategories;
         const categories = squareRoot === "技能" ? marketSkillCategories : (squareTabs[squareMode] || ["全部"]);
-        if (!categories.includes(marketState.squareCategory)) marketState.squareCategory = "全部";
-        renderMarketTabs("squareTabs", "squareCategory", categories);
+        if (hideSkillInstalledCategories || !categories.includes(marketState.squareCategory)) marketState.squareCategory = "全部";
+        renderMarketTabs("squareTabs", "squareCategory", hideSkillInstalledCategories ? [] : categories);
         const keyword = marketKeyword.trim().toLowerCase();
         const cards = squareRoot === "技能"
           ? marketSkillCards
@@ -4572,24 +4699,29 @@
       function renderFilesPage() {
         const list = document.getElementById("conversationFileList");
         if (!list) return;
-        document.querySelectorAll("[data-file-filter]").forEach(btn => btn.classList.toggle("active", btn.dataset.fileFilter === activeFileFilter));
+        const keyword = fileKeyword.trim().toLowerCase();
         const visibleConversations = fileConversations.filter(item => {
-          if (activeFileFilter === "recent") return item.isRecent && item.files.length;
-          if (activeFileFilter === "withFiles") return item.files.length;
           return item.files.length;
-        });
+        }).map(conversation => {
+          if (!keyword) return { ...conversation, visibleFiles: conversation.files };
+          const taskMatched = conversation.title.toLowerCase().includes(keyword);
+          const visibleFiles = taskMatched
+            ? conversation.files
+            : conversation.files.filter(file => file.name.toLowerCase().includes(keyword));
+          return { ...conversation, visibleFiles };
+        }).filter(conversation => !keyword || conversation.visibleFiles.length);
         list.innerHTML = visibleConversations.map(conversation => {
           const expanded = expandedFileGroups[conversation.conversationId] !== false;
-          const hasMore = conversation.files.length > 3;
-          const files = hasMore && !expanded ? conversation.files.slice(0, 3) : conversation.files;
+          const hasMore = conversation.visibleFiles.length > 3;
+          const files = hasMore && !expanded ? conversation.visibleFiles.slice(0, 3) : conversation.visibleFiles;
           return `
             <article class="file-conversation-card" data-file-conversation="${escapeHtml(conversation.conversationId)}">
               <div class="file-conversation-head">
                 <div>
                   <div class="file-conversation-title">${escapeHtml(conversation.title)}</div>
-                  <div class="file-conversation-meta">${escapeHtml(conversation.time)} · ${fileCountText(conversation.files.length)}</div>
+                  <div class="file-conversation-meta">${escapeHtml(conversation.time)} · ${fileCountText(conversation.visibleFiles.length)}</div>
                 </div>
-                ${hasMore ? `<button class="file-expand-btn" type="button" data-file-expand="${escapeHtml(conversation.conversationId)}">${expanded ? "收起" : `展开更多 ${conversation.files.length - 3}`}</button>` : ""}
+                ${hasMore ? `<button class="file-expand-btn" type="button" data-file-expand="${escapeHtml(conversation.conversationId)}">${expanded ? "收起" : `展开更多 ${conversation.visibleFiles.length - 3}`}</button>` : ""}
               </div>
               ${files.length ? `<div class="generated-file-list">
                 ${files.map(file => `
@@ -4600,16 +4732,51 @@
                       <div class="file-meta">${escapeHtml(file.type)} · ${escapeHtml(file.size)}</div>
                     </div>
                     <div class="file-time">${escapeHtml(file.generatedAt)}</div>
-                    <div class="file-actions">
-                      <button class="file-action-btn" type="button" data-file-download="${escapeHtml(file.id)}">下载</button>
-                      <button class="file-action-btn" type="button" data-file-locate="${escapeHtml(file.id)}">定位</button>
+                    <div class="file-actions ${activeFileActionMenu === file.id ? "open" : ""}">
+                      <button class="file-more-btn" type="button" aria-label="文件操作" aria-expanded="${activeFileActionMenu === file.id ? "true" : "false"}" data-file-menu="${escapeHtml(file.id)}">
+                        <svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
+                      </button>
+                      <div class="file-action-menu" role="menu">
+                        <button class="file-action-btn" type="button" role="menuitem" data-file-preview="${escapeHtml(file.id)}">预览文件</button>
+                        <button class="file-action-btn" type="button" role="menuitem" data-file-locate="${escapeHtml(file.id)}">定位到任务</button>
+                        <button class="file-action-btn" type="button" role="menuitem" data-file-download="${escapeHtml(file.id)}">下载文件</button>
+                      </div>
                     </div>
                   </div>
                 `).join("")}
               </div>` : `<div class="files-empty">暂无生成文件</div>`}
             </article>
           `;
-        }).join("") || `<div class="files-empty">还没有生成文件，去发起一次对话任务吧</div>`;
+        }).join("") || `<div class="files-empty">${keyword ? "没有找到匹配的任务或文件" : "还没有生成文件，去发起一次对话任务吧"}</div>`;
+      }
+      function openFilePreview(fileId) {
+        const found = findGeneratedFile(fileId);
+        if (!found) {
+          setFileToast("文件不存在或已被删除", true);
+          return;
+        }
+        previewFileId = fileId;
+        activeFileActionMenu = "";
+        if (filePreviewBody) {
+          filePreviewBody.innerHTML = `
+            <div>
+              <div class="file-name" style="white-space:normal">${escapeHtml(found.file.name)}</div>
+              <div class="file-preview-meta">
+                <span>${escapeHtml(found.file.type)}</span>
+                <span>${escapeHtml(found.file.size)}</span>
+                <span>${escapeHtml(found.file.generatedAt)}</span>
+                <span>来源：${escapeHtml(found.conversation.title)}</span>
+              </div>
+            </div>
+            <div class="file-preview-content">${escapeHtml(found.file.content || "该文件暂无可预览内容，可下载后查看完整文件。")}</div>
+          `;
+        }
+        if (filePreviewDialog) filePreviewDialog.hidden = false;
+        renderFilesPage();
+      }
+      function closeFilePreview() {
+        previewFileId = "";
+        if (filePreviewDialog) filePreviewDialog.hidden = true;
       }
       function downloadGeneratedFile(fileId) {
         const found = findGeneratedFile(fileId);
@@ -4758,6 +4925,7 @@
       const chatModeLabel = document.getElementById("chatModeLabel");
       const chatExpertMenu = document.getElementById("chatExpertMenu");
       const chatModelSelect = document.getElementById("chatModelSelect");
+      const chatModelToast = document.getElementById("chatModelToast");
       const chatSkillSelect = document.getElementById("chatSkillSelect");
       const chatSkillChipRow = document.getElementById("chatSkillChipRow");
       const chatPromptEnhanceBtn = document.getElementById("chatPromptEnhanceBtn");
@@ -4784,6 +4952,11 @@
       const closeSkillUploadBtn = document.getElementById("closeSkillUploadBtn");
       const skillUploadInput = document.getElementById("skillUploadInput");
       const skillUploadFileState = document.getElementById("skillUploadFileState");
+      const filePreviewDialog = document.getElementById("filePreviewDialog");
+      const filePreviewBody = document.getElementById("filePreviewBody");
+      const fileSearchInput = document.getElementById("fileSearchInput");
+      const closeFilePreviewBtn = document.getElementById("closeFilePreviewBtn");
+      const downloadPreviewFileBtn = document.getElementById("downloadPreviewFileBtn");
 
       function escapeHtml(value) {
         return String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
@@ -5059,6 +5232,21 @@
         chatModelSelect.hidden = hideModelAndSkill;
         chatSkillSelect.hidden = hideModelAndSkill || hasSelectedApp;
         if (chatAttachmentBtn) chatAttachmentBtn.hidden = selectedChatApp === "knowledge";
+      }
+
+      let chatModelToastTimer = null;
+      function setChatModelToast(text) {
+        if (!chatModelToast) return;
+        chatModelToast.textContent = text;
+        chatModelToast.hidden = false;
+        requestAnimationFrame(() => chatModelToast.classList.add("show"));
+        if (chatModelToastTimer) clearTimeout(chatModelToastTimer);
+        chatModelToastTimer = setTimeout(() => {
+          chatModelToast.classList.remove("show");
+          setTimeout(() => {
+            if (!chatModelToast.classList.contains("show")) chatModelToast.hidden = true;
+          }, 180);
+        }, 2200);
       }
 
       function contextUsageSnapshot() {
@@ -5714,9 +5902,9 @@
           renderSchedulePage();
           return;
         }
-        const fileFilter = e.target.closest("[data-file-filter]");
-        if (fileFilter) {
-          activeFileFilter = fileFilter.dataset.fileFilter;
+        const fileMenu = e.target.closest("[data-file-menu]");
+        if (fileMenu) {
+          activeFileActionMenu = activeFileActionMenu === fileMenu.dataset.fileMenu ? "" : fileMenu.dataset.fileMenu;
           renderFilesPage();
           return;
         }
@@ -5724,17 +5912,32 @@
         if (fileExpand) {
           const id = fileExpand.dataset.fileExpand;
           expandedFileGroups[id] = expandedFileGroups[id] === false;
+          activeFileActionMenu = "";
           renderFilesPage();
+          return;
+        }
+        const filePreview = e.target.closest("[data-file-preview]");
+        if (filePreview) {
+          openFilePreview(filePreview.dataset.filePreview);
           return;
         }
         const fileDownload = e.target.closest("[data-file-download]");
         if (fileDownload) {
+          activeFileActionMenu = "";
+          renderFilesPage();
           downloadGeneratedFile(fileDownload.dataset.fileDownload);
           return;
         }
         const fileLocate = e.target.closest("[data-file-locate]");
         if (fileLocate) {
+          activeFileActionMenu = "";
+          renderFilesPage();
           locateGeneratedFile(fileLocate.dataset.fileLocate);
+          return;
+        }
+        if (activeFileActionMenu && !e.target.closest(".file-actions")) {
+          activeFileActionMenu = "";
+          renderFilesPage();
         }
       });
       document.getElementById("employeeContactSearch").addEventListener("input", e => {
@@ -5748,6 +5951,11 @@
       document.getElementById("marketSearchInput").addEventListener("input", e => {
         marketKeyword = e.target.value.trim();
         renderMarkets();
+      });
+      if (fileSearchInput) fileSearchInput.addEventListener("input", e => {
+        fileKeyword = e.target.value.trim();
+        activeFileActionMenu = "";
+        renderFilesPage();
       });
       if (openProjectDialogBtn) openProjectDialogBtn.addEventListener("click", () => openProjectDialog());
       if (cancelProjectDialogBtn) cancelProjectDialogBtn.addEventListener("click", closeProjectDialog);
@@ -5843,6 +6051,9 @@
       chatModelSelect.addEventListener("change", e => {
         selectedChatModel = e.target.value;
         fitChatSelectionWidths();
+        if (hasActiveChatConversation()) {
+          setChatModelToast("在对话中途切换模型会降低性能表现");
+        }
       });
       chatSkillSelect.addEventListener("change", e => {
         insertSkillToken(e.target.value);
@@ -5894,6 +6105,10 @@
         openImDialog();
       });
       if (cancelImDialogBtn) cancelImDialogBtn.addEventListener("click", closeImDialog);
+      if (closeFilePreviewBtn) closeFilePreviewBtn.addEventListener("click", closeFilePreview);
+      if (downloadPreviewFileBtn) downloadPreviewFileBtn.addEventListener("click", () => {
+        if (previewFileId) downloadGeneratedFile(previewFileId);
+      });
       if (submitImDialogBtn) submitImDialogBtn.addEventListener("click", () => {
         const appId = appIdInput.value.trim();
         const appSecret = appSecretInput.value.trim();
@@ -5924,10 +6139,15 @@
         if (!contextPopover.hidden && !contextPopover.contains(e.target) && !contextProgressBtn.contains(e.target)) {
           closeContextPopover();
         }
+        if (activeFileActionMenu && !e.target.closest(".file-actions")) {
+          activeFileActionMenu = "";
+          renderFilesPage();
+        }
       });
       imDialog.addEventListener("click", e => { if (e.target === imDialog) closeImDialog(); });
       scheduleDialog.addEventListener("click", e => { if (e.target === scheduleDialog) closeScheduleDialog(); });
       skillUploadDialog.addEventListener("click", e => { if (e.target === skillUploadDialog) closeSkillUploadDialog(); });
+      filePreviewDialog.addEventListener("click", e => { if (e.target === filePreviewDialog) closeFilePreview(); });
       projectDialog.addEventListener("click", e => { if (e.target === projectDialog) closeProjectDialog(); });
       projectInviteDialog.addEventListener("click", e => { if (e.target === projectInviteDialog) closeProjectInviteDialog(); });
       document.addEventListener("keydown", e => {
@@ -5939,6 +6159,11 @@
         if (!imDialog.hidden) closeImDialog();
         if (!scheduleDialog.hidden) closeScheduleDialog();
         if (!skillUploadDialog.hidden) closeSkillUploadDialog();
+        if (!filePreviewDialog.hidden) closeFilePreview();
+        if (activeFileActionMenu) {
+          activeFileActionMenu = "";
+          renderFilesPage();
+        }
         if (!projectDialog.hidden) closeProjectDialog();
         if (!projectInviteDialog.hidden) closeProjectInviteDialog();
       });

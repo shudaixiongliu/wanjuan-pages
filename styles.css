@@ -8752,6 +8752,37 @@ button.checkbox {
   font-style: normal;
 }
 
+.create-expert-template-grid {
+  gap: 12px;
+  margin-bottom: 0;
+}
+
+.create-expert-template-card {
+  min-height: 76px;
+  padding: 0 14px;
+  border-radius: 14px;
+}
+
+.create-expert-template-card .digital-employee-template-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+}
+
+.create-expert-template-card .digital-employee-template-copy {
+  gap: 5px;
+}
+
+.create-expert-template-card .digital-employee-template-copy strong {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.create-expert-template-card .digital-employee-template-copy em {
+  font-size: 12px;
+  line-height: 18px;
+}
+
 .digital-employee-form-block {
   margin-bottom: 22px;
 }
