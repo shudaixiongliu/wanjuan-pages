@@ -197,7 +197,64 @@
       .message-bubble { max-width: min(680px, 78%); padding: 10px 12px; color: #32384c; background: #fff; border: 1px solid var(--line); border-radius: 8px; font-size: 14px; line-height: 20px; box-shadow: 0 6px 18px rgba(31,37,64,.05); }
       .message.user .message-bubble { color: #fff; background: var(--primary); border-color: var(--primary); box-shadow: none; }
       .message-meta { margin-top: 6px; color: var(--text-3); font-size: 12px; line-height: 16px; }
+      .message-run-meta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        max-width: 100%;
+        margin-top: 9px;
+        padding: 5px 9px;
+        color: #717789;
+        border-radius: 9px;
+        background: #f3f4fa;
+        font-size: 12px;
+        line-height: 16px;
+      }
+      .message-run-meta span { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+      .message-run-meta svg,
+      .message-actions svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+      .message-footer {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 9px;
+      }
+      .message-actions {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .message-action-btn {
+        display: grid;
+        width: 28px;
+        height: 28px;
+        place-items: center;
+        color: #6f7585;
+        border: 0;
+        border-radius: 8px;
+        background: transparent;
+      }
+      .message-action-btn:hover { color: #1d1d1f; background: #f2f3f7; }
+      .message-action-btn.active { color: var(--primary); background: rgba(73, 65, 230, .1); }
       .message.located .message-bubble { border-color: #8f84ff; background: #f7f5ff; box-shadow: 0 0 0 3px rgba(73, 65, 230, .12), 0 8px 22px rgba(31,37,64,.08); transition: .2s ease; }
+      .message.system {
+        justify-content: center;
+      }
+      .message.system .message-bubble {
+        max-width: fit-content;
+        padding: 7px 12px;
+        color: #6f7585;
+        border-color: rgba(223, 227, 236, .95);
+        border-radius: 999px;
+        background: rgba(247, 248, 252, .92);
+        font-size: 12px;
+        line-height: 16px;
+        box-shadow: none;
+      }
+      .message.system .message-avatar {
+        display: none;
+      }
       .chat-composer {
         position: relative;
         overflow: visible;
@@ -300,33 +357,91 @@
         flex-wrap: nowrap;
       }
       .tool-btn, .model-btn {
-        display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 10px; color: #555968;
+        position: relative; display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 10px; color: #555968;
         border: 0; border-radius: 10px; background: transparent; font-size: 13px;
       }
       .tool-btn.icon-only { width: 32px; padding: 0; justify-content: center; border-radius: 8px; }
       .tool-btn:hover, .model-btn:hover { color: var(--primary); background: rgba(73, 65, 230, .08); }
+      .tool-btn:disabled { cursor: default; opacity: .64; }
+      .tool-btn.is-loading svg { visibility: hidden; }
+      .tool-btn.is-loading::after {
+        content: "";
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border: 2px solid rgba(73, 65, 230, .18);
+        border-top-color: var(--primary);
+        border-radius: 50%;
+        animation: promptEnhanceSpin .72s linear infinite;
+      }
+      @keyframes promptEnhanceSpin {
+        to { transform: rotate(360deg); }
+      }
+      .prompt-enhance-wrap {
+        position: relative;
+        display: inline-flex;
+      }
+      .prompt-enhance-bubble {
+        position: absolute;
+        left: 50%;
+        bottom: calc(100% + 10px);
+        z-index: 45;
+        width: max-content;
+        max-width: 260px;
+        padding: 8px 11px;
+        color: #1d1d1f;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, .96);
+        box-shadow: 0 14px 34px rgba(15, 23, 42, .16), 0 1px 2px rgba(15, 23, 42, .06);
+        font-size: 12px;
+        line-height: 17px;
+        font-weight: 500;
+        text-align: left;
+        pointer-events: auto;
+        opacity: 0;
+        transform: translate(-50%, 4px);
+        transition: opacity .18s ease, transform .18s ease;
+      }
+      .prompt-enhance-bubble::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: -6px;
+        width: 10px;
+        height: 10px;
+        border-right: 1px solid rgba(0, 0, 0, .07);
+        border-bottom: 1px solid rgba(0, 0, 0, .07);
+        background: rgba(255, 255, 255, .96);
+        transform: translateX(-50%) rotate(45deg);
+      }
+      .prompt-enhance-bubble.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      .prompt-enhance-bubble[hidden] {
+        display: none;
+      }
       .model-tag { padding: 2px 5px; color: #596174; background: #f4f5f8; border-radius: 3px; font-size: 11px; }
       .composer-spacer { flex: 1 1 auto; min-width: 8px; }
       .action-divider { width: 1px; height: 20px; margin: 0 2px; background: var(--line); }
       .context-progress-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
+        display: inline-grid;
+        place-items: center;
+        width: 32px;
         height: 32px;
-        padding: 0 10px;
-        color: #555968;
+        padding: 0;
+        color: #63697a;
         border: 0;
-        border-radius: 999px;
+        border-radius: 10px;
         background: transparent;
-        font-size: 12px;
-        line-height: 16px;
       }
       .chat-page:not(.has-chat) .context-progress-btn { display: none !important; }
-      .context-progress-btn:hover { color: #4941e6; background: rgba(73, 65, 230, .08); }
+      .context-progress-btn:hover { color: #3f4658; background: rgba(0, 0, 0, .045); }
       .context-progress-ring {
         position: relative;
-        width: 16px;
-        height: 16px;
+        width: 17px;
+        height: 17px;
         flex: 0 0 auto;
         border-radius: 50%;
         background: conic-gradient(#4941e6 0deg 90deg, #dfe4f2 90deg 360deg);
@@ -343,75 +458,58 @@
         right: 10px;
         bottom: 52px;
         z-index: 10;
-        width: 320px;
-        padding: 12px;
-        border: 1px solid #e6e9f2;
-        border-radius: 14px;
-        background: rgba(255,255,255,.98);
-        box-shadow: 0 18px 48px rgba(31, 37, 64, .14);
+        width: 276px;
+        padding: 10px;
+        border: 1px solid rgba(220, 225, 236, .9);
+        border-radius: 16px;
+        background: rgba(255,255,255,.94);
+        box-shadow: 0 14px 36px rgba(31, 37, 64, .10);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
       }
       .context-popover[hidden] { display: none; }
-      .context-popover-summary {
-        padding: 12px 14px;
-        border: 1px solid #e6e9f2;
-        border-radius: 10px;
-        background: #fbfbfc;
-        color: #2f3344;
-        font-size: 13px;
-        line-height: 20px;
-      }
       .context-popover-grid {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
-        margin-top: 12px;
+        grid-template-columns: 1.1fr 1.4fr;
+        gap: 8px;
       }
       .context-metric {
-        padding: 10px 12px;
-        border-radius: 10px;
-        background: #f7f8fc;
+        min-width: 0;
+        padding: 10px 11px;
+        border: 1px solid rgba(232, 236, 244, .95);
+        border-radius: 12px;
+        background: rgba(247, 248, 252, .82);
+      }
+      .context-metric.primary {
+        border-color: rgba(201, 224, 255, .95);
+        background: linear-gradient(180deg, rgba(234, 244, 255, .95), rgba(243, 248, 255, .92));
+      }
+      .context-metric.secondary {
+        background: rgba(247, 248, 252, .72);
       }
       .context-metric-label {
-        color: #7a8194;
-        font-size: 11px;
-        line-height: 16px;
+        display: none;
       }
       .context-metric-value {
-        margin-top: 4px;
+        margin-top: 0;
         color: #2f3344;
-        font-size: 14px;
-        line-height: 20px;
-        font-weight: 600;
-      }
-      .context-compress {
-        margin-top: 12px;
-        padding: 10px 12px;
-        border-radius: 10px;
-        background: #f7f8fc;
-      }
-      .context-compress-head {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 8px;
-        color: #2f3344;
-        font-size: 12px;
+        font-size: 13px;
         line-height: 18px;
         font-weight: 600;
+        letter-spacing: 0;
+        white-space: nowrap;
       }
-      .context-compress-badge {
-        padding: 2px 8px;
-        color: #3f7df6;
-        border-radius: 999px;
-        background: #eaf2ff;
-        font-size: 11px;
-        font-weight: 500;
+      .context-metric.primary .context-metric-value {
+        color: #3569b8;
+        font-size: 17px;
+        line-height: 21px;
+        font-weight: 650;
       }
-      .context-compress-desc {
-        margin-top: 6px;
-        color: #7a8194;
-        font-size: 12px;
+      .context-metric.secondary .context-metric-value {
+        color: #61697d;
+        font-size: 13px;
         line-height: 18px;
+        font-weight: 560;
       }
       .send-btn {
         display: grid; place-items: center; width: 40px; height: 40px; color: #fff;
@@ -692,36 +790,36 @@
       .history-title { font-size: 13px; font-weight: 500; }
       .history-sub { margin-top: 5px; color: var(--text-3); font-size: 12px; }
       .history-time { margin-left: auto; color: var(--text-3); font-size: 12px; }
-      .files-page { padding: 16px; background: #f7f8fa; }
-      .files-shell { min-height: calc(100vh - 32px); padding: 16px; border: 1px solid #ebecf4; border-radius: 8px; background: #fff; }
-      .files-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+      .files-page { padding: 12px; background: #f6f7fb; }
+      .files-shell { min-height: calc(100vh - 24px); padding: 14px 16px 12px; border: 1px solid rgba(15, 23, 42, .06); border-radius: 18px; background: rgba(255, 255, 255, .92); box-shadow: 0 16px 40px rgba(15, 23, 42, .04); backdrop-filter: blur(18px); }
+      .files-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
       .files-title h1 { margin: 0; color: #161e32; font-size: 16px; line-height: 22px; font-weight: 600; }
-      .files-title p { margin: 6px 0 0; color: #6a6e80; font-size: 13px; line-height: 18px; }
+      .files-title p { margin: 4px 0 0; color: #7a8091; font-size: 12px; line-height: 17px; }
       .file-toolbar { display: flex; align-items: center; gap: 10px; margin-left: auto; }
-      .file-search { position: relative; display: flex; align-items: center; width: min(320px, 32vw); }
+      .file-search { position: relative; display: flex; align-items: center; width: min(360px, 34vw); }
       .file-search svg { position: absolute; left: 12px; width: 16px; height: 16px; color: #8e95a5; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
-      .file-search input { width: 100%; height: 34px; padding: 0 12px 0 36px; color: #252b3a; border: 1px solid #ebecf4; border-radius: 999px; background: #fff; outline: none; font-size: 13px; line-height: 18px; transition: border-color .16s ease, box-shadow .16s ease, background .16s ease; }
+      .file-search input { width: 100%; height: 36px; padding: 0 12px 0 36px; color: #252b3a; border: 1px solid rgba(15, 23, 42, .08); border-radius: 999px; background: rgba(246, 247, 251, .88); outline: none; font-size: 13px; line-height: 18px; transition: border-color .16s ease, box-shadow .16s ease, background .16s ease; }
       .file-search input::placeholder { color: #9aa1b2; }
-      .file-search input:focus { border-color: rgba(73, 65, 230, .32); background: #fff; box-shadow: 0 0 0 3px rgba(73, 65, 230, .08); }
+      .file-search input:focus { border-color: rgba(73, 65, 230, .22); background: #fff; box-shadow: 0 0 0 3px rgba(73, 65, 230, .06); }
       .file-filters { display: flex; gap: 8px; }
       .file-filter { height: 32px; padding: 0 12px; color: #6a6e80; border: 1px solid #ebecf4; border-radius: 6px; background: #fff; font-size: 13px; line-height: 18px; }
       .file-filter:hover { color: #4941e6; border-color: #d8d2ff; background: #faf9ff; }
       .file-filter.active { color: #4941e6; border-color: #d8d2ff; background: #f3f0ff; font-weight: 600; }
-      .file-toast { min-height: 18px; margin: -4px 0 12px; color: #6a6e80; font-size: 12px; line-height: 16px; }
-      .conversation-file-list { display: grid; gap: 14px; }
-      .file-conversation-card { overflow: visible; border: 1px solid #ebecf4; border-radius: 8px; background: #fff; }
-      .file-conversation-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 16px; background: #fafbfc; border-bottom: 1px solid #ebecf4; }
+      .file-toast { min-height: 16px; margin: 0 0 10px; color: #7a8091; font-size: 12px; line-height: 16px; }
+      .conversation-file-list { display: grid; gap: 12px; align-content: start; }
+      .file-conversation-card { overflow: visible; border: 1px solid rgba(15, 23, 42, .06); border-radius: 18px; background: rgba(255, 255, 255, .98); box-shadow: 0 10px 28px rgba(15, 23, 42, .03); }
+      .file-conversation-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 13px 16px; background: rgba(248, 249, 252, .88); border-bottom: 1px solid rgba(15, 23, 42, .05); }
       .file-conversation-title { color: #32384c; font-size: 14px; line-height: 20px; font-weight: 600; }
-      .file-conversation-meta { margin-top: 4px; color: #6a6e80; font-size: 12px; line-height: 16px; }
-      .file-expand-btn { height: 28px; padding: 0 10px; color: #6a6e80; border: 1px solid #ebecf4; border-radius: 6px; background: #fff; font-size: 12px; line-height: 16px; white-space: nowrap; }
-      .file-expand-btn:hover { color: #4941e6; border-color: #d8d2ff; background: #f7f5ff; }
+      .file-conversation-meta { margin-top: 3px; color: #7a8091; font-size: 12px; line-height: 16px; }
+      .file-expand-btn { height: 28px; padding: 0 12px; color: #5f6678; border: 1px solid rgba(15, 23, 42, .08); border-radius: 999px; background: rgba(255, 255, 255, .92); font-size: 12px; line-height: 16px; white-space: nowrap; }
+      .file-expand-btn:hover { color: #4941e6; border-color: rgba(73, 65, 230, .16); background: rgba(73, 65, 230, .06); }
       .generated-file-list { display: grid; }
-      .generated-file-item { position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr) 124px 40px; gap: 12px; align-items: center; min-height: 64px; padding: 12px 16px; border-bottom: 1px solid #f0f1f6; }
+      .generated-file-item { position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr) 124px 40px; gap: 12px; align-items: center; min-height: 60px; padding: 11px 16px; border-bottom: 1px solid rgba(15, 23, 42, .05); }
       .generated-file-item:last-child { border-bottom: 0; }
-      .file-icon { display: grid; place-items: center; width: 36px; height: 36px; color: #4941e6; border-radius: 8px; background: #f3f0ff; font-size: 12px; line-height: 16px; font-weight: 700; }
+      .file-icon { display: grid; place-items: center; width: 36px; height: 36px; color: #4941e6; border-radius: 10px; background: #f4f2ff; font-size: 12px; line-height: 16px; font-weight: 700; }
       .file-name { overflow: hidden; color: #32384c; font-size: 14px; line-height: 20px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
-      .file-meta { margin-top: 4px; color: #6a6e80; font-size: 12px; line-height: 16px; }
-      .file-time { color: #6a6e80; font-size: 12px; line-height: 16px; }
+      .file-meta { margin-top: 3px; color: #7a8091; font-size: 12px; line-height: 16px; }
+      .file-time { color: #7a8091; font-size: 12px; line-height: 16px; }
       .file-actions { position: relative; display: flex; justify-content: flex-end; }
       .file-actions.open { z-index: 40; }
       .file-more-btn { display: grid; width: 32px; height: 32px; place-items: center; color: #6a6e80; border: 0; border-radius: 10px; background: transparent; }
@@ -734,8 +832,16 @@
       .file-action-btn:hover { color: #4941e6; border-color: #d8d2ff; background: #faf9ff; }
       .file-preview-body { display: grid; gap: 14px; }
       .file-preview-meta { display: flex; flex-wrap: wrap; gap: 8px; color: #6a6e80; font-size: 13px; line-height: 18px; }
-      .file-preview-content { max-height: 260px; overflow: auto; padding: 14px; color: #32384c; border: 1px solid #ebecf4; border-radius: 14px; background: #f7f8fb; font-size: 13px; line-height: 22px; white-space: pre-wrap; }
-      .files-empty { display: grid; min-height: 260px; place-items: center; color: #9295a4; border: 1px dashed #ebecf4; border-radius: 8px; font-size: 13px; line-height: 18px; }
+      .file-preview-content { max-height: 260px; overflow: auto; padding: 14px; color: #32384c; border: 1px solid rgba(15, 23, 42, .06); border-radius: 14px; background: #f7f8fb; font-size: 13px; line-height: 22px; white-space: pre-wrap; }
+      .file-list-footer { display: flex; align-items: center; justify-content: center; min-height: 30px; padding: 2px 0 10px; color: #9aa1b2; font-size: 12px; line-height: 16px; }
+      .files-empty { display: grid; min-height: 220px; place-items: center; color: #9295a4; border: 1px dashed rgba(15, 23, 42, .08); border-radius: 18px; font-size: 13px; line-height: 18px; background: rgba(255, 255, 255, .72); }
+      .chat-attachment-hint {
+        margin-top: 8px;
+        color: #8b91a3;
+        font-size: 11px;
+        line-height: 16px;
+        text-align: center;
+      }
       .im-page { padding: 36px; }
       .im-shell { max-width: 1040px; margin: 0 auto; }
       .im-intro { margin: 0 0 20px; color: var(--text-2); font-size: 14px; }
@@ -2800,7 +2906,7 @@
         min-height: 0;
         overflow-y: auto;
         padding-right: 6px;
-        padding-bottom: 72px;
+        padding-bottom: 18px;
         scrollbar-gutter: stable;
       }
       .files-page.active .conversation-file-list::-webkit-scrollbar {
@@ -3339,7 +3445,7 @@
         <nav class="nav" aria-label="主导航">
           <button class="nav-item active" data-page="chat"><span class="icon"><svg viewBox="0 0 24 24"><path d="M5 19h14"/><path d="M6 18.5 18.4 6.1a2 2 0 0 0-2.8-2.8L3.2 15.7 3 20z"/></svg></span><span class="menu-label">新建任务</span></button>
           <button class="nav-item" data-page="square"><span class="icon"><svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M4.8 6.8l2.1 2.1M17.1 17.1l2.1 2.1M3 12h3M18 12h3M4.8 17.2l2.1-2.1M17.1 6.9l2.1-2.1"/><circle cx="12" cy="12" r="3"/></svg></span><span class="menu-label">专家</span></button>
-          <button class="nav-item" data-page="skills"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="2.2"/><circle cx="17" cy="7" r="2.2"/><circle cx="7" cy="17" r="2.2"/><circle cx="17" cy="17" r="2.2"/></svg></span><span class="menu-label">项目（二期）</span></button>
+          <!-- <button class="nav-item" data-page="skills"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="2.2"/><circle cx="17" cy="7" r="2.2"/><circle cx="7" cy="17" r="2.2"/><circle cx="17" cy="17" r="2.2"/></svg></span><span class="menu-label">项目（二期）</span></button> -->
           <button class="nav-item" data-page="schedule"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="menu-label">自动化</span></button>
           <button class="nav-item" data-page="files"><span class="icon"><svg viewBox="0 0 24 24"><path d="M6 4h4l3 16H9z"/><path d="M12 4h4l3 16h-4z"/><path d="M5 20h15"/></svg></span><span class="menu-label">文件库</span></button>
           <div class="nav-divider"></div>
@@ -3383,23 +3489,13 @@
                   <div class="chat-skill-chip-row" id="chatSkillChipRow" hidden></div>
                   <div class="mention-menu" id="mentionMenu" hidden></div>
                   <div class="context-popover" id="contextPopover" hidden>
-                    <div class="context-popover-summary" id="contextPopoverSummary">25.1% · 42.2K / 168.0K 上下文已使用</div>
                     <div class="context-popover-grid">
-                      <div class="context-metric">
-                        <div class="context-metric-label">剩余可用</div>
-                        <div class="context-metric-value" id="contextRemaining">125.8K</div>
+                      <div class="context-metric primary">
+                        <div class="context-metric-value" id="contextUsedPercent">25.1%</div>
                       </div>
-                      <div class="context-metric">
-                        <div class="context-metric-label">本轮新增</div>
-                        <div class="context-metric-value" id="contextLatest">3.6K</div>
+                      <div class="context-metric secondary">
+                        <div class="context-metric-value" id="contextPopoverSummary">42.2K / 168.0K</div>
                       </div>
-                    </div>
-                    <div class="context-compress">
-                      <div class="context-compress-head">
-                        <span>上下文压缩</span>
-                        <span class="context-compress-badge" id="contextCompressBadge">已压缩 1 次</span>
-                      </div>
-                      <div class="context-compress-desc" id="contextCompressDesc">最近一次压缩保留了任务目标、已选对象和关键结论，压缩后释放约 18.4K 上下文空间。</div>
                     </div>
                   </div>
                   <div class="composer-actions">
@@ -3429,7 +3525,7 @@
                           <div class="chat-mode-divider"></div>
                           <button class="chat-mode-option summon" type="button" data-chat-mode-option="expert">
                             <span class="chat-mode-option-icon"><svg viewBox="0 0 24 24"><path d="M7 17c2-1.2 3.4-2 5-2s3 .8 5 2"/><circle cx="12" cy="8" r="3"/><path d="M4 20c1.4-3.8 4-6 8-6s6.6 2.2 8 6"/></svg></span>
-                            <span>召唤专家</span>
+                            <span>选择专家</span>
                             <span class="chat-mode-arrow">›</span>
                           </button>
                           <div class="chat-expert-menu" id="chatExpertMenu" hidden></div>
@@ -3451,15 +3547,20 @@
                     </div>
                     <span class="composer-spacer"></span>
                     <button class="tool-btn icon-only" id="chatAttachmentBtn" type="button" title="添加附件" aria-label="添加附件"><svg viewBox="0 0 24 24"><path d="m9 12 5.5-5.5a3 3 0 0 1 4.2 4.2l-7.1 7.1a5 5 0 0 1-7.1-7.1l7.1-7.1"/><path d="m8 14 6.5-6.5"/></svg></button>
-                    <button class="tool-btn icon-only" id="chatPromptEnhanceBtn" type="button" title="Prompt增强" aria-label="Prompt增强"><svg viewBox="0 0 24 24"><path d="M12 3l1.6 4.6L18 9.2l-4.4 1.6L12 15.4l-1.6-4.6L6 9.2l4.4-1.6z"/><path d="M19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8z"/><path d="M6 15l.9 2.1L9 18l-2.1.9L6 21l-.9-2.1L3 18l2.1-.9z"/></svg></button>
+                    <input id="chatAttachmentInput" type="file" hidden multiple />
+                    <span class="prompt-enhance-wrap">
+                      <button class="tool-btn icon-only" id="chatPromptEnhanceBtn" type="button" title="请先输入内容" aria-label="提示词润色" disabled><svg viewBox="0 0 24 24"><path d="M12 3l1.6 4.6L18 9.2l-4.4 1.6L12 15.4l-1.6-4.6L6 9.2l4.4-1.6z"/><path d="M19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8z"/><path d="M6 15l.9 2.1L9 18l-2.1.9L6 21l-.9-2.1L3 18l2.1-.9z"/></svg></button>
+                      <span class="prompt-enhance-bubble" id="promptEnhanceBubble" role="status" aria-live="polite" hidden></span>
+                    </span>
                     <button class="context-progress-btn" id="contextProgressBtn" type="button" title="查看上下文使用情况" hidden>
                       <span class="context-progress-ring" aria-hidden="true"></span>
-                      <span id="contextProgressText">25.1%</span>
+                      <span id="contextProgressText" hidden>25.1%</span>
                     </button>
                     <button class="send-btn" id="chatSendBtn" title="发送"><svg viewBox="0 0 24 24"><path d="m5 12 14-7-5 14-2-6z"/></svg></button>
                   </div>
                 </div>
-                <div class="composer-note">内容由 AI 生成，请仔细甄别重要信息</div>
+                <div class="chat-attachment-hint" id="chatAttachmentHint">最多10个·单文件&lt;100MB，单图片&lt;10MB(图片仅识别文字)</div>
+                <div class="composer-note" id="chatComposerNote">内容由 AI 生成，请仔细甄别重要信息</div>
                 <div class="ppt-template-grid" id="pptTemplateGrid" hidden></div>
               </div>
               
@@ -3817,10 +3918,6 @@
           </span>
           <input id="skillUploadInput" type="file" hidden />
         </label>
-        <label class="skill-upload-check">
-          <input id="skillAutoInstallInput" type="checkbox" />
-          <span>非高风险自动安装</span>
-        </label>
         <div class="skill-upload-rules">
           <h3>文件要求</h3>
           <ul>
@@ -4039,6 +4136,7 @@
       let selectedPptTemplate = "";
       let chatTurnCount = 0;
       let chatQueueTimer = null;
+      let lastContextCompressionLevel = 0;
       let selectedChatModePreset = "ask";
       let chatExpertKeyword = "";
       let chatExpertResultLimit = 5;
@@ -4116,12 +4214,85 @@
             { id: "file-market-outline", messageId: "msg-market-result", name: "汇报大纲.md", type: "MD", size: "24 KB", generatedAt: "昨天 15:27", content: "# 汇报大纲" },
             { id: "file-market-invalid", messageId: "msg-market-result", name: "历史明细导出.csv", type: "CSV", size: "680 KB", generatedAt: "昨天 15:28", downloadable: false, content: "" }
           ]
-        }
+        },
+        {
+          conversationId: "conv-bid-package",
+          title: "招投标材料打包整理",
+          time: "今天 09:12",
+          isRecent: true,
+          messages: [
+            { id: "msg-bid-user", role: "user", text: "把招投标材料按投标书、资质、报价和附件重新整理输出。", meta: "Agent 模式" },
+            { id: "msg-bid-result", role: "assistant", text: "已完成材料重组，输出目录索引、合规校验单和压缩归档说明。", meta: "生成文件 5 个" }
+          ],
+          files: [
+            { id: "file-bid-index", messageId: "msg-bid-result", name: "投标材料目录索引.xlsx", type: "XLSX", size: "146 KB", generatedAt: "今天 09:16", content: "目录,分类,页码" },
+            { id: "file-bid-checklist", messageId: "msg-bid-result", name: "合规校验单.docx", type: "DOCX", size: "218 KB", generatedAt: "今天 09:16", content: "校验项,状态,备注" },
+            { id: "file-bid-summary", messageId: "msg-bid-result", name: "投标材料说明.md", type: "MD", size: "22 KB", generatedAt: "今天 09:17", content: "# 投标材料说明" },
+            { id: "file-bid-cover", messageId: "msg-bid-result", name: "封面与目录建议.pdf", type: "PDF", size: "488 KB", generatedAt: "今天 09:17", content: "封面与目录建议" },
+            { id: "file-bid-archive", messageId: "msg-bid-result", name: "归档清单.csv", type: "CSV", size: "79 KB", generatedAt: "今天 09:18", content: "文件名,分组,状态" }
+          ]
+        },
+        {
+          conversationId: "conv-weekly-ops",
+          title: "月度经营分析资料汇总",
+          time: "昨天 11:08",
+          isRecent: true,
+          messages: [
+            { id: "msg-ops-user", role: "user", text: "把经营分析需要的表格和汇报材料整理成一套包。", meta: "Plan 模式" },
+            { id: "msg-ops-result", role: "assistant", text: "已输出月度经营分析资料包，包含趋势表、讲稿和核心摘要。", meta: "生成文件 6 个" }
+          ],
+          files: [
+            { id: "file-ops-brief", messageId: "msg-ops-result", name: "经营分析摘要.md", type: "MD", size: "29 KB", generatedAt: "昨天 11:13", content: "# 经营分析摘要" },
+            { id: "file-ops-report", messageId: "msg-ops-result", name: "经营分析汇报.pdf", type: "PDF", size: "1.4 MB", generatedAt: "昨天 11:14", content: "经营分析汇报" },
+            { id: "file-ops-data", messageId: "msg-ops-result", name: "收入成本分析.xlsx", type: "XLSX", size: "362 KB", generatedAt: "昨天 11:14", content: "月份,收入,成本" },
+            { id: "file-ops-speech", messageId: "msg-ops-result", name: "汇报讲稿.docx", type: "DOCX", size: "132 KB", generatedAt: "昨天 11:15", content: "汇报讲稿" },
+            { id: "file-ops-risk", messageId: "msg-ops-result", name: "风险观察清单.csv", type: "CSV", size: "46 KB", generatedAt: "昨天 11:15", content: "风险项,等级,措施" },
+            { id: "file-ops-appendix", messageId: "msg-ops-result", name: "附件图表备份.zip", type: "ZIP", size: "2.1 MB", generatedAt: "昨天 11:16", content: "图表备份说明" }
+          ]
+        },
+        {
+          conversationId: "conv-large-archive",
+          title: "供应商尽调材料整理",
+          time: "06 月 20 日 16:42",
+          isRecent: false,
+          messages: [
+            { id: "msg-large-user", role: "user", text: "整理供应商尽调材料并输出清单、摘要和原始附件索引。", meta: "Agent 模式" },
+            { id: "msg-large-result", role: "assistant", text: "尽调材料已批量整理，生成摘要、清单和附件索引。", meta: "生成文件 58 个" }
+          ],
+          files: Array.from({ length: 58 }, (_, index) => ({
+            id: `file-large-${index + 1}`,
+            messageId: "msg-large-result",
+            name: `供应商尽调附件-${String(index + 1).padStart(2, "0")}.pdf`,
+            type: "PDF",
+            size: `${220 + index * 3} KB`,
+            generatedAt: `06 月 20 日 ${String(16 + Math.floor((42 + index) / 60)).padStart(2, "0")}:${String((42 + index) % 60).padStart(2, "0")}`,
+            content: `供应商尽调附件 ${index + 1} 预览内容`
+          }))
+        },
+        ...Array.from({ length: 18 }, (_, index) => ({
+          conversationId: `conv-file-batch-${index + 1}`,
+          title: `自动化归档任务 ${index + 1}`,
+          time: `06 月 ${String(18 - Math.floor(index / 3)).padStart(2, "0")} 日 ${String(9 + (index % 5)).padStart(2, "0")}:${String((index * 7) % 60).padStart(2, "0")}`,
+          isRecent: index < 6,
+          messages: [
+            { id: `msg-file-batch-user-${index + 1}`, role: "user", text: "按业务线归档本轮自动化输出。", meta: "Agent 模式" },
+            { id: `msg-file-batch-result-${index + 1}`, role: "assistant", text: "自动化归档完成，已输出汇总表和结果说明。", meta: "生成文件 3 个" }
+          ],
+          files: [
+            { id: `file-batch-summary-${index + 1}`, messageId: `msg-file-batch-result-${index + 1}`, name: `归档摘要-${index + 1}.md`, type: "MD", size: `${18 + index} KB`, generatedAt: `06 月 ${String(18 - Math.floor(index / 3)).padStart(2, "0")} 日`, content: `# 归档摘要 ${index + 1}` },
+            { id: `file-batch-sheet-${index + 1}`, messageId: `msg-file-batch-result-${index + 1}`, name: `归档清单-${index + 1}.xlsx`, type: "XLSX", size: `${132 + index * 4} KB`, generatedAt: `06 月 ${String(18 - Math.floor(index / 3)).padStart(2, "0")} 日`, content: "文件名,状态,路径" },
+            { id: `file-batch-note-${index + 1}`, messageId: `msg-file-batch-result-${index + 1}`, name: `归档说明-${index + 1}.docx`, type: "DOCX", size: `${84 + index * 2} KB`, generatedAt: `06 月 ${String(18 - Math.floor(index / 3)).padStart(2, "0")} 日`, content: `归档说明 ${index + 1}` }
+          ]
+        }))
       ];
       let fileKeyword = "";
       let activeFileActionMenu = "";
       let previewFileId = "";
-      const expandedFileGroups = { "conv-market-report": false };
+      const FILE_GROUP_INITIAL_COUNT = 3;
+      const FILE_GROUP_BATCH_COUNT = 50;
+      const FILE_CONVERSATION_BATCH_COUNT = 20;
+      const fileGroupVisibleCounts = Object.create(null);
+      let visibleFileConversationCount = FILE_CONVERSATION_BATCH_COUNT;
       const scheduleTasks = [
         { name: "每日合同风险巡检", prompt: "每天汇总新增合同，识别高风险条款并输出修改建议。", frequency: "每天 09:00", range: "2026-06-01 至 2026-12-31", push: "飞书群机器人", status: "running" },
         { name: "部门业务周报生成", prompt: "每周汇总项目进展、风险事项和下周计划，生成周报草稿。", frequency: "每周一 09:00", range: "2026-06-01 至 2026-09-30", push: "不推送", status: "running" },
@@ -4696,35 +4867,73 @@
           if (toast.textContent === text) toast.textContent = "";
         }, 2400);
       }
-      function renderFilesPage() {
+      function getFileGroupVisibleCount(conversationId) {
+        const current = fileGroupVisibleCounts[conversationId];
+        return Math.max(FILE_GROUP_INITIAL_COUNT, current || FILE_GROUP_INITIAL_COUNT);
+      }
+      function getFileConversationMeta(conversation, keyword) {
+        if (!keyword) return `${conversation.time} · ${fileCountText(conversation.files.length)}`;
+        if (conversation.matchType === "task") return `${conversation.time} · 命中任务名，展示全部 ${conversation.files.length} 个文件`;
+        return `${conversation.time} · 命中文件 ${conversation.visibleFiles.length} 个 / 共 ${conversation.files.length} 个文件`;
+      }
+      function filteredFileConversations(keyword) {
+        return fileConversations
+          .filter(item => item.files.length)
+          .map(conversation => {
+            if (!keyword) {
+              const totalCount = conversation.files.length;
+              const visibleCount = Math.min(getFileGroupVisibleCount(conversation.conversationId), conversation.files.length);
+              return {
+                ...conversation,
+                matchType: "default",
+                visibleFiles: conversation.files.slice(0, visibleCount),
+                totalCount,
+                remainingCount: Math.max(totalCount - visibleCount, 0),
+                isExpanded: visibleCount > FILE_GROUP_INITIAL_COUNT
+              };
+            }
+            const taskMatched = conversation.title.toLowerCase().includes(keyword);
+            const matchedFiles = taskMatched
+              ? conversation.files
+              : conversation.files.filter(file => file.name.toLowerCase().includes(keyword));
+            return {
+              ...conversation,
+              matchType: taskMatched ? "task" : "file",
+              visibleFiles: matchedFiles,
+              totalCount: conversation.files.length,
+              remainingCount: 0
+            };
+          })
+          .filter(conversation => !keyword || conversation.visibleFiles.length);
+      }
+      function renderFilesPage(options = {}) {
         const list = document.getElementById("conversationFileList");
         if (!list) return;
+        const preserveScrollTop = Boolean(options.preserveScrollTop);
+        const previousScrollTop = preserveScrollTop ? list.scrollTop : 0;
         const keyword = fileKeyword.trim().toLowerCase();
-        const visibleConversations = fileConversations.filter(item => {
-          return item.files.length;
-        }).map(conversation => {
-          if (!keyword) return { ...conversation, visibleFiles: conversation.files };
-          const taskMatched = conversation.title.toLowerCase().includes(keyword);
-          const visibleFiles = taskMatched
-            ? conversation.files
-            : conversation.files.filter(file => file.name.toLowerCase().includes(keyword));
-          return { ...conversation, visibleFiles };
-        }).filter(conversation => !keyword || conversation.visibleFiles.length);
+        const allConversations = filteredFileConversations(keyword);
+        const visibleConversations = keyword
+          ? allConversations
+          : allConversations.slice(0, visibleFileConversationCount);
+        const hasMoreConversations = !keyword && visibleConversations.length < allConversations.length;
         list.innerHTML = visibleConversations.map(conversation => {
-          const expanded = expandedFileGroups[conversation.conversationId] !== false;
-          const hasMore = conversation.visibleFiles.length > 3;
-          const files = hasMore && !expanded ? conversation.visibleFiles.slice(0, 3) : conversation.visibleFiles;
+          const hasMoreFiles = !keyword && conversation.remainingCount > 0;
+          const showCollapse = !keyword && conversation.isExpanded;
           return `
             <article class="file-conversation-card" data-file-conversation="${escapeHtml(conversation.conversationId)}">
               <div class="file-conversation-head">
                 <div>
                   <div class="file-conversation-title">${escapeHtml(conversation.title)}</div>
-                  <div class="file-conversation-meta">${escapeHtml(conversation.time)} · ${fileCountText(conversation.visibleFiles.length)}</div>
+                  <div class="file-conversation-meta">${escapeHtml(getFileConversationMeta(conversation, keyword))}</div>
                 </div>
-                ${hasMore ? `<button class="file-expand-btn" type="button" data-file-expand="${escapeHtml(conversation.conversationId)}">${expanded ? "收起" : `展开更多 ${conversation.visibleFiles.length - 3}`}</button>` : ""}
+                <div style="display:flex; align-items:center; gap:8px;">
+                  ${hasMoreFiles ? `<button class="file-expand-btn" type="button" data-file-expand="${escapeHtml(conversation.conversationId)}">展开更多 ${Math.min(FILE_GROUP_BATCH_COUNT, conversation.remainingCount)} 个</button>` : ""}
+                  ${showCollapse ? `<button class="file-expand-btn" type="button" data-file-collapse="${escapeHtml(conversation.conversationId)}">收起</button>` : ""}
+                </div>
               </div>
-              ${files.length ? `<div class="generated-file-list">
-                ${files.map(file => `
+              ${conversation.visibleFiles.length ? `<div class="generated-file-list">
+                ${conversation.visibleFiles.map(file => `
                   <div class="generated-file-item">
                     <span class="file-icon">${escapeHtml(file.type)}</span>
                     <div>
@@ -4748,6 +4957,10 @@
             </article>
           `;
         }).join("") || `<div class="files-empty">${keyword ? "没有找到匹配的任务或文件" : "还没有生成文件，去发起一次对话任务吧"}</div>`;
+        if (visibleConversations.length) {
+          list.insertAdjacentHTML("beforeend", `<div class="file-list-footer">${hasMoreConversations ? "继续下滑，加载更多任务文件" : keyword ? `共找到 ${visibleConversations.length} 个任务分组` : `已展示全部 ${visibleConversations.length} 个任务分组`}</div>`);
+        }
+        if (preserveScrollTop) list.scrollTop = previousScrollTop;
       }
       function openFilePreview(fileId) {
         const found = findGeneratedFile(fileId);
@@ -4907,15 +5120,14 @@
       const chatInput = document.getElementById("chatInput");
       const chatSendBtn = document.getElementById("chatSendBtn");
       const chatAttachmentBtn = document.getElementById("chatAttachmentBtn");
+      const chatAttachmentInput = document.getElementById("chatAttachmentInput");
+      const chatAttachmentHint = document.getElementById("chatAttachmentHint");
       const mentionMenu = document.getElementById("mentionMenu");
       const contextPopover = document.getElementById("contextPopover");
       const contextProgressBtn = document.getElementById("contextProgressBtn");
       const contextProgressText = document.getElementById("contextProgressText");
+      const contextUsedPercent = document.getElementById("contextUsedPercent");
       const contextPopoverSummary = document.getElementById("contextPopoverSummary");
-      const contextRemaining = document.getElementById("contextRemaining");
-      const contextLatest = document.getElementById("contextLatest");
-      const contextCompressBadge = document.getElementById("contextCompressBadge");
-      const contextCompressDesc = document.getElementById("contextCompressDesc");
       const chatSelectionRow = document.getElementById("chatSelectionRow");
       const chatPrimaryGroup = document.getElementById("chatPrimaryGroup");
       const chatPrimarySelect = document.getElementById("chatPrimarySelect");
@@ -4929,6 +5141,8 @@
       const chatSkillSelect = document.getElementById("chatSkillSelect");
       const chatSkillChipRow = document.getElementById("chatSkillChipRow");
       const chatPromptEnhanceBtn = document.getElementById("chatPromptEnhanceBtn");
+      const promptEnhanceBubble = document.getElementById("promptEnhanceBubble");
+      const chatComposerNote = document.getElementById("chatComposerNote");
       const pptTemplateGrid = document.getElementById("pptTemplateGrid");
       const openProjectInviteBtn = document.getElementById("openProjectInviteBtn");
       const projectInviteDialog = document.getElementById("projectInviteDialog");
@@ -5181,6 +5395,79 @@
           .map(item => ({ name: item.title, desc: item.desc, icon: item.icon }));
       }
 
+      const attachmentProfiles = {
+        custom: {
+          text: "上传文件（最多3个，每个50MB），支持文档（pdf、docx、doc、txt、md、xlsx、xls、markdown、html格式），支持图片（png、jpg、jpeg格式）",
+          accept: ".pdf,.docx,.doc,.txt,.md,.xlsx,.xls,.markdown,.html,.png,.jpg,.jpeg",
+          maxCount: 3,
+          maxFileSize: 50 * 1024 * 1024,
+          imageMaxSize: 50 * 1024 * 1024
+        },
+        general: {
+          text: "最多10个·单文件<100MB，单图片<10MB(图片仅识别文字)",
+          accept: ".pdf,.docx,.doc,.txt,.md,.xlsx,.xls,.markdown,.html,.png,.jpg,.jpeg",
+          maxCount: 10,
+          maxFileSize: 100 * 1024 * 1024,
+          imageMaxSize: 10 * 1024 * 1024
+        },
+        expert: {
+          text: "上传文件，支持文档（pdf、docx、doc、txt、md、xlsx、xls、markdown、html格式），支持图片（png、jpg、jpeg格式）",
+          accept: ".pdf,.docx,.doc,.txt,.md,.xlsx,.xls,.markdown,.html,.png,.jpg,.jpeg",
+          maxCount: null,
+          maxFileSize: 100 * 1024 * 1024,
+          imageMaxSize: 100 * 1024 * 1024
+        }
+      };
+
+      function currentAttachmentProfile() {
+        if (currentChatMode === "agent" && selectedChatAgent) return attachmentProfiles.expert;
+        if (currentChatMode === "agent") return attachmentProfiles.general;
+        return attachmentProfiles.custom;
+      }
+
+      function syncAttachmentRules() {
+        const profile = currentAttachmentProfile();
+        if (chatAttachmentHint) chatAttachmentHint.textContent = profile.text;
+        if (chatAttachmentInput) {
+          chatAttachmentInput.accept = profile.accept;
+          chatAttachmentInput.multiple = true;
+          chatAttachmentInput.value = "";
+        }
+        if (chatAttachmentBtn) {
+          chatAttachmentBtn.hidden = false;
+          chatAttachmentBtn.title = profile.text;
+          chatAttachmentBtn.setAttribute("aria-label", profile.text);
+        }
+      }
+
+      function attachmentExt(file) {
+        return `.${(file?.name?.split(".").pop() || "").toLowerCase()}`;
+      }
+
+      function isAttachmentImage(file) {
+        return [".png", ".jpg", ".jpeg"].includes(attachmentExt(file)) || (file.type || "").startsWith("image/");
+      }
+
+      function validateAttachmentSelection(files, profile = currentAttachmentProfile()) {
+        const allowedExts = new Set(profile.accept.split(","));
+        if (profile.maxCount && files.length > profile.maxCount) {
+          return `最多上传 ${profile.maxCount} 个文件`;
+        }
+        for (const file of files) {
+          const ext = attachmentExt(file);
+          if (!allowedExts.has(ext)) {
+            return `暂不支持 ${ext.replace(".", "").toUpperCase() || "该格式"} 文件`;
+          }
+          if (file.size > profile.maxFileSize) {
+            return `文件“${file.name}”超过大小限制`;
+          }
+          if (isAttachmentImage(file) && file.size > profile.imageMaxSize) {
+            return `图片“${file.name}”超过大小限制`;
+          }
+        }
+        return "";
+      }
+
       function renderChatSkillSelect() {
         const installedSkills = installedSkillOptions();
         chatSkillSelect.innerHTML = `
@@ -5224,6 +5511,7 @@
         chatInput.setSelectionRange(cursor, cursor);
         renderMentionMenu();
         renderContextUsage();
+        syncPromptEnhanceAvailability();
       }
 
       function syncChatSelectionControls() {
@@ -5231,7 +5519,7 @@
         const hideModelAndSkill = currentChatMode === "agent" && Boolean(selectedChatAgent);
         chatModelSelect.hidden = hideModelAndSkill;
         chatSkillSelect.hidden = hideModelAndSkill || hasSelectedApp;
-        if (chatAttachmentBtn) chatAttachmentBtn.hidden = selectedChatApp === "knowledge";
+        syncAttachmentRules();
       }
 
       let chatModelToastTimer = null;
@@ -5249,17 +5537,17 @@
         }, 2200);
       }
 
-      function contextUsageSnapshot() {
+      function contextUsageSnapshot(inputText = chatInput.value || "") {
         const base = currentChatMode === "agent" ? 42200 : currentChatMode === "ppt" ? 51600 : currentChatMode === "writing" ? 46800 : 39200;
         const agentBonus = selectedChatAgent ? 4200 : 0;
         const appBonus = selectedChatApp === "ppt" ? 6800 : selectedChatApp === "writing" ? 3600 : selectedChatApp === "knowledge" ? 2400 : 0;
         const templateBonus = selectedPptTemplate ? 5400 : 0;
-        const inputBonus = Math.min((chatInput.value || "").length * 14, 22000);
+        const inputBonus = Math.min((inputText || "").length * 14, 22000);
         const used = Math.min(base + agentBonus + appBonus + templateBonus + inputBonus, 168000);
         const ratio = used / 168000;
         const remaining = 168000 - used;
         const compressed = used > 52000 ? 1 + Math.floor((used - 52000) / 28000) : 0;
-        return { used, remaining, ratio, compressed, latest: Math.min(3600 + Math.floor(inputBonus / 6), 12800) };
+        return { used, remaining, ratio };
       }
 
       function formatContextValue(value) {
@@ -5270,13 +5558,8 @@
         const snapshot = contextUsageSnapshot();
         const percent = `${(snapshot.ratio * 100).toFixed(1)}%`;
         contextProgressText.textContent = percent;
-        contextPopoverSummary.textContent = `${percent} · ${formatContextValue(snapshot.used)} / 168.0K 上下文已使用`;
-        contextRemaining.textContent = formatContextValue(snapshot.remaining);
-        contextLatest.textContent = formatContextValue(snapshot.latest);
-        contextCompressBadge.textContent = snapshot.compressed ? `已压缩 ${snapshot.compressed} 次` : "未触发压缩";
-        contextCompressDesc.textContent = snapshot.compressed
-          ? `最近一次压缩保留了任务目标、当前模式、已选对象和关键结论，压缩后释放约 ${formatContextValue(Math.min(18400 + snapshot.compressed * 1200, 28600))} 上下文空间。`
-          : "当前上下文仍较充足，系统会在接近上限时自动压缩历史消息并保留关键上下文。";
+        contextUsedPercent.textContent = percent;
+        contextPopoverSummary.textContent = `${formatContextValue(snapshot.used)} / 168.0K`;
       }
 
       function syncContextProgressVisibility() {
@@ -5330,6 +5613,7 @@
         selectedChatSkills = [];
         renderSelectedSkillChips();
         chatTurnCount = 0;
+        lastContextCompressionLevel = 0;
         if (chatQueueTimer) {
           clearTimeout(chatQueueTimer);
           chatQueueTimer = null;
@@ -5349,6 +5633,7 @@
         resetChatConversation();
         closeMentionMenu();
         chatInput.value = prompt;
+        syncPromptEnhanceAvailability();
         openPage("chat");
         setChatMode("agent");
         chatInput.focus();
@@ -5368,6 +5653,7 @@
         resetChatConversation();
         closeMentionMenu();
         chatInput.value = prompt ? `/${skillName} ${prompt}` : `/${skillName} `;
+        syncPromptEnhanceAvailability();
         openPage("chat");
         setChatMode("agent");
         renderChatSkillSelect();
@@ -5382,6 +5668,7 @@
         resetChatConversation();
         closeMentionMenu();
         chatInput.value = "";
+        syncPromptEnhanceAvailability();
         openPage("chat");
         setChatMode("agent");
         chatInput.focus();
@@ -5394,6 +5681,7 @@
         resetChatConversation();
         closeMentionMenu();
         chatInput.value = prompt;
+        syncPromptEnhanceAvailability();
         openPage("chat");
         setChatMode(app);
         chatInput.focus();
@@ -5417,36 +5705,334 @@
         return "我已收到你的问题，会按通用问答方式给出清晰、可执行的回答。";
       }
 
-      function promptEnhanceText(mode = currentChatMode) {
-        if (mode === "knowledge") return "请补充问题背景、限定条件、信息来源要求和期望输出格式，并优先给出结论。";
-        if (mode === "writing") return "请补充受众、风格、篇幅、结构和必须覆盖的要点，并输出可直接使用的成稿。";
-        if (mode === "ppt") return "请补充汇报对象、使用场景、页数、核心观点和视觉风格，并输出逐页大纲。";
-        return "请补充任务目标、背景上下文、约束条件、交付物、时间要求和协作分工，并拆解执行步骤。";
+      const defaultComposerNote = "内容由 AI 生成，请仔细甄别重要信息";
+      let promptEnhanceLoading = false;
+      let composerNoteTimer = null;
+      let promptEnhanceBubbleTimer = null;
+      let promptEnhanceBubblePaused = false;
+      let promptEnhanceViolationBlockedText = "";
+
+      function setComposerNote(text, isError = false) {
+        if (!chatComposerNote) return;
+        chatComposerNote.textContent = text || defaultComposerNote;
+        chatComposerNote.style.color = isError ? "#d93747" : "";
+        if (composerNoteTimer) clearTimeout(composerNoteTimer);
+        if (text) {
+          composerNoteTimer = setTimeout(() => {
+            chatComposerNote.textContent = defaultComposerNote;
+            chatComposerNote.style.color = "";
+          }, 2200);
+        }
       }
 
-      function enhanceChatPrompt() {
-        const extra = promptEnhanceText();
-        const current = chatInput.value.trim();
-        chatInput.value = current ? `${current}\n\n补充要求：${extra}` : extra;
-        chatInput.focus();
-        chatInput.setSelectionRange(chatInput.value.length, chatInput.value.length);
-        renderContextUsage();
+      function setPromptEnhanceLoading(loading) {
+        promptEnhanceLoading = loading;
+        if (!chatPromptEnhanceBtn) return;
+        chatPromptEnhanceBtn.classList.toggle("is-loading", loading);
+        chatPromptEnhanceBtn.setAttribute("aria-busy", String(loading));
+        syncPromptEnhanceAvailability();
+      }
+
+      function promptEnhanceErrorType(text = chatInput.value) {
+        if (text.includes("内容违规")) return "violation";
+        if (text.includes("网络超时")) return "timeout";
+        if (text.includes("服务端异常")) return "server";
+        if (text.includes("其他")) return "other";
+        return "";
+      }
+
+      function hidePromptEnhanceBubble() {
+        if (!promptEnhanceBubble) return;
+        promptEnhanceBubble.classList.remove("show");
+        window.setTimeout(() => {
+          if (!promptEnhanceBubble.classList.contains("show")) promptEnhanceBubble.hidden = true;
+        }, 180);
+      }
+
+      function schedulePromptEnhanceBubbleHide() {
+        if (promptEnhanceBubbleTimer) clearTimeout(promptEnhanceBubbleTimer);
+        promptEnhanceBubbleTimer = window.setTimeout(() => {
+          if (promptEnhanceBubblePaused) {
+            schedulePromptEnhanceBubbleHide();
+            return;
+          }
+          hidePromptEnhanceBubble();
+        }, 3000);
+      }
+
+      function showPromptEnhanceBubble(message) {
+        if (!promptEnhanceBubble) return;
+        promptEnhanceBubble.textContent = message;
+        promptEnhanceBubble.hidden = false;
+        requestAnimationFrame(() => promptEnhanceBubble.classList.add("show"));
+        schedulePromptEnhanceBubbleHide();
+      }
+
+      function syncPromptEnhanceAvailability() {
+        if (!chatPromptEnhanceBtn) return;
+        if (promptEnhanceViolationBlockedText && chatInput.value !== promptEnhanceViolationBlockedText) {
+          promptEnhanceViolationBlockedText = "";
+        }
+        const hasInput = Boolean(chatInput.value.trim());
+        const isViolationBlocked = Boolean(promptEnhanceViolationBlockedText && chatInput.value === promptEnhanceViolationBlockedText);
+        chatPromptEnhanceBtn.disabled = promptEnhanceLoading || !hasInput || isViolationBlocked;
+        chatPromptEnhanceBtn.title = promptEnhanceLoading ? "正在润色" : !hasInput ? "请先输入内容" : isViolationBlocked ? "输入内容不符合规范" : "提示词润色";
+        chatPromptEnhanceBtn.setAttribute("aria-label", promptEnhanceLoading ? "正在润色" : "提示词润色");
+        if (!isViolationBlocked && promptEnhanceBubble?.textContent === "输入内容不符合规范，请修改后重试") {
+          hidePromptEnhanceBubble();
+        }
+      }
+
+      function promptEnhanceFocus(mode = currentChatMode) {
+        if (selectedChatAgent) {
+          return `请结合专家“${selectedChatAgent}”的专业领域，补齐任务背景、分析维度、专业口径、约束条件和结果格式。`;
+        }
+        if (mode === "knowledge") {
+          return "请优化问题表达，明确资料来源和回答格式；若缺少必要范围，请标注不确定点，不要引入用户未提供的信息。";
+        }
+        if (mode === "writing") {
+          return "请补齐主题、受众、写作目的、文体风格、结构层级、篇幅要求和重点内容。";
+        }
+        if (mode === "ppt") {
+          return "请补齐演示主题、使用场景、受众、页数、章节结构、每页重点、叙事逻辑和视觉风格。";
+        }
+        if (selectedChatModePreset === "plan") {
+          return "请补齐任务目标、背景上下文、约束条件、验收标准和分步执行计划。";
+        }
+        return "请补齐任务目标、背景上下文、约束条件、交付物、时间要求和执行步骤。";
+      }
+
+      function preservedPromptCalls(text) {
+        const tokens = [];
+        const skills = [...text.matchAll(/\/([^\s/@]+)/g)].map(match => match[1]);
+        selectedSkillTokensFromInput().forEach(skill => {
+          if (!skills.includes(skill)) skills.push(skill);
+        });
+        skills.forEach(skill => tokens.push(`/${skill}`));
+        const agents = [...text.matchAll(/@([^\s/@]+)/g)].map(match => match[1]);
+        if (selectedChatAgent && !agents.includes(selectedChatAgent)) agents.unshift(selectedChatAgent);
+        agents.forEach(agent => tokens.push(`@${agent}`));
+        return [...new Set(tokens)];
+      }
+
+      function buildEnhancedPrompt(originalText) {
+        const current = originalText.trim();
+        const preservedCalls = preservedPromptCalls(current);
+        const callLine = preservedCalls.length ? `${preservedCalls.join(" ")}\n` : "";
+        const appTitle = selectedChatApp && chatApps[selectedChatApp] ? chatApps[selectedChatApp].title : "";
+        const modeLabel = selectedChatAgent
+          ? `专家任务：${selectedChatAgent}`
+          : appTitle || (selectedChatModePreset === "plan" ? "Plan 模式" : "Agent 模式");
+        const focus = promptEnhanceFocus();
+        const baseGoal = current || "请描述需要完成的任务目标";
+        return `${callLine}任务模式：${modeLabel}
+任务目标：${baseGoal.replace(/\n{3,}/g, "\n\n")}
+补充要求：${focus}
+输出要求：请先给出清晰结论，再按要点展开；如信息不足，请标注需要补充的内容。`;
+      }
+
+      function promptEnhanceErrorMessage(type) {
+        if (type === "violation") return "输入内容不符合规范，请修改后重试";
+        if (type === "timeout") return "网络不稳定，润色失败，请重试";
+        if (type === "server") return "服务繁忙，请稍后重试";
+        return "润色失败，请重试";
+      }
+
+      function requestPromptEnhancement(originalText, attempt = 1) {
+        return new Promise((resolve, reject) => {
+          window.setTimeout(() => {
+            try {
+              const errorType = promptEnhanceErrorType(originalText);
+              if (errorType === "timeout") {
+                reject({ type: attempt === 1 ? "timeout-retry" : "timeout" });
+                return;
+              }
+              if (errorType === "server" || errorType === "other" || errorType === "violation") {
+                reject({ type: errorType });
+                return;
+              }
+              resolve(buildEnhancedPrompt(originalText));
+            } catch (error) {
+              reject(error);
+            }
+          }, attempt === 1 ? 760 : 520);
+        });
+      }
+
+      async function enhanceChatPrompt() {
+        if (promptEnhanceLoading) return;
+        const originalText = chatInput.value;
+        if (!originalText.trim()) return;
+        const initialErrorType = promptEnhanceErrorType(originalText);
+        if (initialErrorType === "violation") {
+          promptEnhanceViolationBlockedText = originalText;
+          showPromptEnhanceBubble(promptEnhanceErrorMessage(initialErrorType));
+          syncPromptEnhanceAvailability();
+          return;
+        }
+        setPromptEnhanceLoading(true);
+        try {
+          let enhanced;
+          try {
+            enhanced = await requestPromptEnhancement(originalText, 1);
+          } catch (error) {
+            if (error?.type === "timeout-retry") {
+              enhanced = await requestPromptEnhancement(originalText, 2);
+            } else {
+              throw error;
+            }
+          }
+          chatInput.value = enhanced;
+          syncPromptEnhanceAvailability();
+          chatInput.focus();
+          chatInput.setSelectionRange(chatInput.value.length, chatInput.value.length);
+          renderMentionMenu();
+          renderContextUsage();
+        } catch (error) {
+          chatInput.value = originalText;
+          syncPromptEnhanceAvailability();
+          chatInput.focus();
+          chatInput.setSelectionRange(chatInput.value.length, chatInput.value.length);
+          const type = error?.type === "timeout-retry" ? "timeout" : error?.type || promptEnhanceErrorType(originalText) || "other";
+          showPromptEnhanceBubble(promptEnhanceErrorMessage(type));
+        } finally {
+          setPromptEnhanceLoading(false);
+        }
+      }
+
+      function chatModelDisplayName(value = selectedChatModel) {
+        const option = Array.from(chatModelSelect?.options || []).find(item => item.value === value);
+        return option?.textContent?.trim() || value || "默认模型";
+      }
+
+      function createAssistantRunInfo(payload = {}, text = "") {
+        if (payload.mode !== "agent" || payload.selectedChatAgent) return null;
+        const promptTokens = Math.max(95, Math.round((payload.text || "").length * 1.6) + 72);
+        const completionTokens = Math.max(860, Math.round(text.length * 2.8) + (payload.selectedChatModePreset === "plan" ? 520 : 280));
+        const cachedTokens = payload.selectedChatModePreset === "plan" ? 128 : 0;
+        return {
+          model: chatModelDisplayName(payload.selectedChatModel),
+          duration: payload.selectedChatModePreset === "plan" ? "1min 30s" : "42s",
+          promptTokens,
+          completionTokens,
+          cachedTokens,
+          totalTokens: promptTokens + completionTokens + cachedTokens
+        };
+      }
+
+      function messageRunMetaHtml(runInfo) {
+        if (!runInfo) return "";
+        return `<div class="message-run-meta" title="提示词 ${runInfo.promptTokens.toLocaleString()} · 回复 ${runInfo.completionTokens.toLocaleString()} · 缓存 ${runInfo.cachedTokens.toLocaleString()}">
+          <span><svg viewBox="0 0 24 24"><path d="M12 3l1.6 4.6L18 9.2l-4.4 1.6L12 15.4l-1.6-4.6L6 9.2l4.4-1.6z"/></svg>${escapeHtml(runInfo.model)}</span>
+          <span><svg viewBox="0 0 24 24"><path d="M13 2 5 14h6l-1 8 8-12h-6z"/></svg>${escapeHtml(runInfo.duration)}</span>
+          <span><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="7" ry="3"/><path d="M5 5v6c0 1.7 3.1 3 7 3s7-1.3 7-3V5"/><path d="M5 11v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg>Token ${runInfo.totalTokens.toLocaleString()}</span>
+        </div>`;
+      }
+
+      function messageActionsHtml() {
+        return `<div class="message-actions" aria-label="回答操作">
+          <button class="message-action-btn" type="button" data-message-action="retry" title="重试" aria-label="重试"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15.5-6.2"/><path d="M19 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2"/><path d="M5 21v-5h5"/></svg></button>
+          <button class="message-action-btn" type="button" data-message-action="like" title="点赞" aria-label="点赞"><svg viewBox="0 0 24 24"><path d="M7 10v10"/><path d="M15 6l-1 4h5.2a2 2 0 0 1 1.9 2.5l-1.6 6A2 2 0 0 1 17.6 20H7"/><path d="M7 10H4v10h3"/><path d="M15 6V3a2 2 0 0 0-2-2l-4 9"/></svg></button>
+          <button class="message-action-btn" type="button" data-message-action="dislike" title="点踩" aria-label="点踩"><svg viewBox="0 0 24 24"><path d="M7 14V4"/><path d="M15 18l-1-4h5.2a2 2 0 0 0 1.9-2.5l-1.6-6A2 2 0 0 0 17.6 4H7"/><path d="M7 14H4V4h3"/><path d="M15 18v3a2 2 0 0 1-2 2l-4-9"/></svg></button>
+          <button class="message-action-btn" type="button" data-message-action="copy" title="复制" aria-label="复制"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></button>
+        </div>`;
       }
 
       function appendMessage(role, text, meta = "", options = {}) {
         chatPage.classList.add("has-chat");
         syncContextProgressVisibility();
-        const avatar = role === "user" ? "刘" : "AI";
+        const avatar = role === "user" ? "刘" : role === "assistant" ? "AI" : "";
         const node = document.createElement("div");
         node.className = `message ${role}`;
         if (options.messageId) node.dataset.messageId = options.messageId;
+        node._messageText = text;
+        node._messagePayload = options.payload || null;
+        const runInfo = options.runInfo || null;
+        const assistantExtras = role === "assistant"
+          ? `<div class="message-footer">${messageActionsHtml()}${messageRunMetaHtml(runInfo)}</div>`
+          : "";
         node.innerHTML = role === "user"
           ? `<div class="message-bubble">${escapeHtml(text)}${meta ? `<div class="message-meta">${escapeHtml(meta)}</div>` : ""}</div><span class="message-avatar">${avatar}</span>`
-          : `<span class="message-avatar">${avatar}</span><div class="message-bubble">${escapeHtml(text)}${meta ? `<div class="message-meta">${escapeHtml(meta)}</div>` : ""}</div>`;
+          : `<span class="message-avatar">${avatar}</span><div class="message-bubble">${escapeHtml(text)}${meta ? `<div class="message-meta">${escapeHtml(meta)}</div>` : ""}${assistantExtras}</div>`;
         chatThread.appendChild(node);
         if (chatContent) chatContent.scrollTop = chatContent.scrollHeight;
         chatThread.scrollTop = chatThread.scrollHeight;
         return node;
+      }
+
+      function updateMessageText(node, text) {
+        const bubble = node?.querySelector(".message-bubble");
+        if (!bubble) return;
+        node._messageText = text;
+        bubble.textContent = text;
+      }
+
+      function maybeRunContextCompression(payload, onDone) {
+        const snapshot = contextUsageSnapshot(payload?.text || "");
+        if (snapshot.compressed <= lastContextCompressionLevel) {
+          onDone();
+          return;
+        }
+        lastContextCompressionLevel = snapshot.compressed;
+        const noticeNode = appendMessage("system", "正在压缩上下文...");
+        window.setTimeout(() => {
+          updateMessageText(noticeNode, "上下文压缩完成");
+          window.setTimeout(onDone, 260);
+        }, 760);
+      }
+
+      function rerenderAssistantMessage(node, text) {
+        if (!node?.classList?.contains("assistant")) return;
+        const payload = node._messagePayload || {};
+        const runInfo = createAssistantRunInfo(payload, text);
+        const bubble = node.querySelector(".message-bubble");
+        if (!bubble) return;
+        node._messageText = text;
+        bubble.innerHTML = `${escapeHtml(text)}<div class="message-footer">${messageActionsHtml()}${messageRunMetaHtml(runInfo)}</div>`;
+      }
+
+      async function copyMessageText(text, button) {
+        try {
+          if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            textarea.style.position = "fixed";
+            textarea.style.opacity = "0";
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            textarea.remove();
+          }
+          button.title = "已复制";
+          window.setTimeout(() => button.title = "复制", 1200);
+        } catch (error) {
+          button.title = "复制失败";
+          window.setTimeout(() => button.title = "复制", 1200);
+        }
+      }
+
+      function handleMessageAction(event) {
+        const button = event.target.closest("[data-message-action]");
+        if (!button) return;
+        const node = button.closest(".message.assistant");
+        if (!node) return;
+        const action = button.dataset.messageAction;
+        if (action === "copy") {
+          copyMessageText(node._messageText || "", button);
+          return;
+        }
+        if (action === "retry") {
+          const payload = node._messagePayload;
+          if (!payload) return;
+          rerenderAssistantMessage(node, `${messageSummary(payload.effectiveText, payload.mode)}\n\n已重新生成回答，并复核了关键信息。`);
+          return;
+        }
+        if (action === "like" || action === "dislike") {
+          node.querySelectorAll("[data-message-action='like'], [data-message-action='dislike']").forEach(item => item.classList.remove("active"));
+          button.classList.add("active");
+        }
       }
 
       function buildChatPayload(text, base = {}) {
@@ -5567,7 +6153,7 @@
           if (!taskNode) return;
           const payload = taskNode._chatPayload;
           removeChatTask(taskNode);
-          if (payload) appendNormalChatExchange(payload.text, payload.effectiveText, payload.mode, payload.modeLabel);
+          if (payload) appendNormalChatExchange(payload.text, payload.effectiveText, payload.mode, payload.modeLabel, payload);
           scheduleQueuedChatDrain();
         }, 10000);
       }
@@ -5620,12 +6206,20 @@
         if (!taskNode) return;
         const payload = taskNode._chatPayload;
         removeChatTask(taskNode);
-        if (payload) appendNormalChatExchange(payload.text, payload.effectiveText, payload.mode, payload.modeLabel);
+        if (payload) appendNormalChatExchange(payload.text, payload.effectiveText, payload.mode, payload.modeLabel, payload);
       }
 
-      function appendNormalChatExchange(text, effectiveText, mode, modeLabel) {
-        appendMessage("user", text, modeLabel);
-        setTimeout(() => appendMessage("assistant", messageSummary(effectiveText, mode), modeLabel), 180);
+      function appendNormalChatExchange(text, effectiveText, mode, modeLabel, payload = {}) {
+        appendMessage("user", text, "");
+        maybeRunContextCompression(payload, () => {
+          setTimeout(() => {
+            const answer = messageSummary(effectiveText, mode);
+            appendMessage("assistant", answer, "", {
+              payload,
+              runInfo: createAssistantRunInfo(payload, answer)
+            });
+          }, 180);
+        });
       }
 
       function sendChatMessage() {
@@ -5638,11 +6232,12 @@
         chatTurnCount += 1;
         const shouldQueue = chatTurnCount >= 3;
         chatInput.value = "";
+        syncPromptEnhanceAvailability();
         selectedChatSkills = [];
         closeMentionMenu();
         renderContextUsage();
         if (!shouldQueue) {
-          appendNormalChatExchange(payload.text, payload.effectiveText, payload.mode, payload.modeLabel);
+          appendNormalChatExchange(payload.text, payload.effectiveText, payload.mode, payload.modeLabel, payload);
           return;
         }
         appendChatTask(payload.text, payload.meta, payload);
@@ -5911,7 +6506,15 @@
         const fileExpand = e.target.closest("[data-file-expand]");
         if (fileExpand) {
           const id = fileExpand.dataset.fileExpand;
-          expandedFileGroups[id] = expandedFileGroups[id] === false;
+          fileGroupVisibleCounts[id] = getFileGroupVisibleCount(id) + FILE_GROUP_BATCH_COUNT;
+          activeFileActionMenu = "";
+          renderFilesPage();
+          return;
+        }
+        const fileCollapse = e.target.closest("[data-file-collapse]");
+        if (fileCollapse) {
+          const id = fileCollapse.dataset.fileCollapse;
+          fileGroupVisibleCounts[id] = FILE_GROUP_INITIAL_COUNT;
           activeFileActionMenu = "";
           renderFilesPage();
           return;
@@ -5952,10 +6555,35 @@
         marketKeyword = e.target.value.trim();
         renderMarkets();
       });
+      if (chatAttachmentBtn) chatAttachmentBtn.addEventListener("click", () => {
+        syncAttachmentRules();
+        chatAttachmentInput?.click();
+      });
+      if (chatAttachmentInput) chatAttachmentInput.addEventListener("change", e => {
+        const files = Array.from(e.target.files || []);
+        if (!files.length) return;
+        const error = validateAttachmentSelection(files);
+        if (error) {
+          setComposerNote(error, true);
+          chatAttachmentInput.value = "";
+          return;
+        }
+        setComposerNote(`已添加 ${files.length} 个附件`);
+      });
       if (fileSearchInput) fileSearchInput.addEventListener("input", e => {
         fileKeyword = e.target.value.trim();
         activeFileActionMenu = "";
+        visibleFileConversationCount = FILE_CONVERSATION_BATCH_COUNT;
         renderFilesPage();
+      });
+      const conversationFileList = document.getElementById("conversationFileList");
+      if (conversationFileList) conversationFileList.addEventListener("scroll", () => {
+        if (fileKeyword.trim()) return;
+        const totalWithFiles = fileConversations.filter(item => item.files.length).length;
+        if (visibleFileConversationCount >= totalWithFiles) return;
+        if (conversationFileList.scrollTop + conversationFileList.clientHeight < conversationFileList.scrollHeight - 80) return;
+        visibleFileConversationCount = Math.min(visibleFileConversationCount + FILE_CONVERSATION_BATCH_COUNT, totalWithFiles);
+        renderFilesPage({ preserveScrollTop: true });
       });
       if (openProjectDialogBtn) openProjectDialogBtn.addEventListener("click", () => openProjectDialog());
       if (cancelProjectDialogBtn) cancelProjectDialogBtn.addEventListener("click", closeProjectDialog);
@@ -5990,8 +6618,12 @@
         }
       });
       chatInput.addEventListener("input", () => {
+        if (promptEnhanceViolationBlockedText && chatInput.value !== promptEnhanceViolationBlockedText) {
+          promptEnhanceViolationBlockedText = "";
+        }
         renderMentionMenu();
         renderContextUsage();
+        syncPromptEnhanceAvailability();
       });
       chatInput.addEventListener("keydown", e => {
         if (e.key === "Enter" && !e.shiftKey) {
@@ -6001,6 +6633,7 @@
         }
         if (e.key === "Escape") closeMentionMenu();
       });
+      chatThread.addEventListener("click", handleMessageAction);
       chatSendBtn.addEventListener("click", sendChatMessage);
       contextProgressBtn.addEventListener("click", e => {
         e.stopPropagation();
@@ -6061,6 +6694,15 @@
         fitChatSelectionWidths();
       });
       chatPromptEnhanceBtn.addEventListener("click", enhanceChatPrompt);
+      if (promptEnhanceBubble) {
+        promptEnhanceBubble.addEventListener("mouseenter", () => {
+          promptEnhanceBubblePaused = true;
+        });
+        promptEnhanceBubble.addEventListener("mouseleave", () => {
+          promptEnhanceBubblePaused = false;
+          schedulePromptEnhanceBubbleHide();
+        });
+      }
       pptTemplateGrid.addEventListener("click", e => {
         const templateCard = e.target.closest("[data-ppt-template]");
         if (!templateCard) return;
@@ -6069,6 +6711,7 @@
         selectedPptTemplate = template.id;
         renderPptTemplates();
         chatInput.value = template.prompt;
+        syncPromptEnhanceAvailability();
         chatInput.focus();
         chatInput.setSelectionRange(chatInput.value.length, chatInput.value.length);
       });
@@ -6084,6 +6727,7 @@
       renderPptTemplates();
       renderContextUsage();
       syncContextProgressVisibility();
+      syncPromptEnhanceAvailability();
       setChatMode("agent");
       if (quickScheduleBtn) quickScheduleBtn.addEventListener("click", quickCreateSchedule);
       if (openScheduleDialogBtn) openScheduleDialogBtn.addEventListener("click", openScheduleDialog);
