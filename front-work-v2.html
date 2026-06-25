@@ -95,9 +95,35 @@
         background: transparent; font-size: 12px; text-align: left; text-overflow: ellipsis; white-space: nowrap;
       }
       .recent-item:hover { color: var(--primary); }
-      .sidebar-footer { position: relative; padding: 10px 0 0; border-top: 1px solid var(--line); }
+      .sidebar-footer { position: relative; display: flex; align-items: center; gap: 8px; padding: 10px 0 0; border-top: 1px solid var(--line); }
+      .sidebar-account { min-width: 0; flex: 1; }
       .settings-trigger .avatar { width: 26px; height: 26px; margin-left: -4px; }
-      .settings-trigger span:nth-child(2) { flex: 1; }
+      .settings-trigger span:nth-child(2) { flex: 1; min-width: 0; }
+      .message-center-trigger {
+        position: relative;
+        display: inline-grid;
+        width: 40px;
+        height: 40px;
+        flex: 0 0 auto;
+        place-items: center;
+        color: #596174;
+        border: 0;
+        border-radius: 12px;
+        background: transparent;
+        transition: .16s ease;
+      }
+      .message-center-trigger:hover { color: #222; background: rgba(0, 0, 0, .04); }
+      .message-center-trigger svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .message-center-dot {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #ff5c5c;
+        box-shadow: 0 0 0 2px #fff;
+      }
       .avatar {
         display: grid; place-items: center; flex: 0 0 auto; color: #fff; background: linear-gradient(135deg, #8e85fa, #4941e6);
         border-radius: 50%; font-size: 12px; font-weight: 600;
@@ -119,6 +145,164 @@
       }
       .popover-item:hover { color: var(--primary); background: #f7f8fc; }
       .popover-item svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .message-center-popover {
+        position: absolute;
+        left: calc(100% + 14px);
+        bottom: 42px;
+        width: 388px;
+        max-height: 520px;
+        padding: 12px 12px 10px;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: rgba(255, 255, 255, .96);
+        box-shadow: 0 20px 44px rgba(24, 32, 56, .14);
+        backdrop-filter: saturate(180%) blur(24px);
+        -webkit-backdrop-filter: saturate(180%) blur(24px);
+      }
+      .message-center-popover[hidden] { display: none; }
+      .message-center-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+      .message-center-head strong {
+        color: #1d1d1f;
+        font-size: 18px;
+        line-height: 24px;
+        font-weight: 600;
+      }
+      .message-center-close {
+        display: grid;
+        width: 30px;
+        height: 30px;
+        place-items: center;
+        color: #52545c;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(245, 245, 247, .9);
+      }
+      .message-center-close:hover { color: #1d1d1f; background: rgba(229, 229, 234, .96); }
+      .message-center-close svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.9; }
+      .message-center-tabs {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 10px;
+      }
+      .message-center-tab {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 30px;
+        padding: 0 12px;
+        color: #7b8090;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(245, 245, 247, .9);
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 500;
+      }
+      .message-center-tab.active {
+        color: #1d1d1f;
+        background: #fff;
+        box-shadow: 0 1px 0 rgba(255,255,255,.88) inset, 0 6px 16px rgba(31, 36, 53, .10);
+      }
+      .message-center-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 22px;
+        height: 18px;
+        margin-left: 5px;
+        padding: 0 6px;
+        color: #fff;
+        border-radius: 999px;
+        background: #ff5c5c;
+        font-size: 10px;
+        line-height: 14px;
+        font-weight: 700;
+      }
+      .message-center-readall {
+        margin-left: auto;
+        padding: 0 2px;
+        color: #8b92a3;
+        border: 0;
+        background: transparent;
+        font-size: 12px;
+        line-height: 16px;
+      }
+      .message-center-readall:hover { color: #007aff; }
+      .message-center-list {
+        display: grid;
+        gap: 8px;
+        max-height: 430px;
+        overflow-y: auto;
+        padding-right: 3px;
+      }
+      .message-center-list::-webkit-scrollbar { width: 8px; }
+      .message-center-list::-webkit-scrollbar-thumb {
+        border: 2px solid transparent;
+        border-radius: 999px;
+        background: rgba(60, 60, 67, .18);
+        background-clip: content-box;
+      }
+      .message-center-card {
+        position: relative;
+        display: grid;
+        gap: 6px;
+        padding: 11px 13px;
+        border: 1px solid rgba(15, 23, 42, .05);
+        border-radius: 16px;
+        background: rgba(245, 246, 249, .84);
+      }
+      .message-center-card.unread { background: rgba(246, 247, 251, .96); }
+      .message-center-card.unread.featured { background: linear-gradient(180deg, rgba(245, 247, 252, .98), rgba(240, 242, 247, .96)); }
+      .message-center-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        min-width: 0;
+      }
+      .message-center-type {
+        display: inline-grid;
+        width: 18px;
+        height: 18px;
+        flex: 0 0 auto;
+        place-items: center;
+        color: #6b7280;
+        border-radius: 50%;
+        background: rgba(255,255,255,.92);
+      }
+      .message-center-type svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .message-center-title {
+        overflow: hidden;
+        color: #1f2330;
+        font-size: 12px;
+        line-height: 17px;
+        font-weight: 600;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .message-center-desc,
+      .message-center-time {
+        margin-left: 26px;
+        color: #7b8090;
+        font-size: 11px;
+        line-height: 16px;
+      }
+      .message-center-time { color: #a0a5b1; }
+      .message-center-unread-dot {
+        position: absolute;
+        top: 15px;
+        right: 13px;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #ff5c5c;
+      }
       .main { display: flex; min-width: 0; flex-direction: column; }
       .topbar { display: none; }
       .page-title { color: #32384c; font-weight: 600; }
@@ -999,6 +1183,16 @@
         text-align: center;
         cursor: pointer;
       }
+      .skill-upload-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .skill-upload-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
       .skill-upload-drop:hover {
         border-color: rgba(0, 122, 255, .28);
         background: rgba(0, 122, 255, .035);
@@ -1006,7 +1200,6 @@
       .skill-upload-drop svg {
         width: 34px;
         height: 34px;
-        margin-bottom: 14px;
         color: #8e8e93;
         fill: none;
         stroke: currentColor;
@@ -1155,6 +1348,7 @@
       .settings-trigger .avatar { width: 24px; height: 24px; }
       .settings-popover { border-color: #ebecf4; border-radius: 8px; box-shadow: 0 10px 28px rgba(16, 24, 40, .10); }
       .popover-item { height: 32px; border-radius: 6px; font-size: 13px; line-height: 18px; }
+      .message-center-popover { border-color: #ebecf4; border-radius: 16px; box-shadow: 0 16px 40px rgba(16, 24, 40, .12); }
 
       .employee-mode .sidebar { padding: 16px 8px 12px; }
       .employee-mode .brand { height: 40px; margin-bottom: 12px; justify-content: center; padding: 0; }
@@ -1164,6 +1358,8 @@
       .employee-mode .nav { padding: 0; }
       .employee-mode .nav-item { width: 40px; height: 38px; border-radius: 8px; }
       .employee-mode .settings-trigger { width: 40px; height: 40px; border-radius: 8px; }
+      .employee-mode .sidebar-account { flex: 0 0 auto; }
+      .employee-mode .message-center-trigger { width: 40px; height: 40px; border-radius: 8px; }
       .employee-mode .nav-divider { width: 32px; margin: 8px auto; }
       .employee-mode .nav-group-divider { width: 32px; margin: 8px auto; }
 
@@ -1550,6 +1746,22 @@
       .settings-popover { border-radius: 18px; }
       .popover-item { border-radius: 10px; color: #515154; }
       .popover-item:hover { color: #007aff; background: rgba(0, 122, 255, .08); }
+      .message-center-trigger {
+        color: #515154;
+        background: rgba(255, 255, 255, .76);
+        box-shadow: 0 1px 0 rgba(255,255,255,.85) inset;
+      }
+      .message-center-trigger:hover {
+        color: #1d1d1f;
+        background: rgba(255, 255, 255, .96);
+        box-shadow: 0 1px 0 rgba(255,255,255,.92) inset, 0 8px 20px rgba(0,0,0,.06);
+      }
+      .message-center-popover {
+        border-radius: 24px;
+        border: 1px solid rgba(0, 0, 0, .08);
+        background: rgba(255, 255, 255, .88);
+        box-shadow: 0 26px 58px rgba(17, 24, 39, .14);
+      }
 
       .main,
       .content,
@@ -3455,18 +3667,84 @@
           <button class="recent-item">生成产品需求文档初稿</button>
         </nav>
         <div class="sidebar-footer">
-          <button class="settings-trigger" id="settingsTrigger" aria-expanded="false">
-            <span class="avatar">刘</span><span>刘静</span><span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.5-2-3.4-2.4 1a7 7 0 0 0-1.8-1L14.4 4h-4.8l-.3 2.3a7 7 0 0 0-1.8 1L5.1 6.1l-2 3.4L5 11a7 7 0 0 0 0 2l-1.9 1.5 2 3.4 2.4-1a7 7 0 0 0 1.8 1l.3 2.3h4.8l.3-2.3a7 7 0 0 0 1.8-1l2.4 1 2-3.4L19 13a7 7 0 0 0 .1-1Z"/></svg></span>
+          <div class="sidebar-account">
+            <button class="settings-trigger" id="settingsTrigger" aria-expanded="false">
+              <span class="avatar">刘</span><span>刘静</span>
+            </button>
+            <div class="settings-popover" id="settingsPopover" hidden>
+              <div class="popover-user"><span class="avatar">刘</span><div><div class="user-name">刘静</div><div class="user-email">liujing@example.com</div></div></div>
+              <div class="popover-divider"></div>
+              <button class="popover-item" data-page="profile"><svg viewBox="0 0 24 24"><path d="M4 19.5c2.5-1 5-1.5 8-1.5s5.5.5 8 1.5"/><circle cx="12" cy="9" r="4"/></svg>个人中心</button>
+              <button class="popover-item" data-page="memory"><svg viewBox="0 0 24 24"><path d="M7 4h8l3 3v13H7z"/><path d="M10 10h5M10 14h5"/></svg>记忆中心</button>
+              <button class="popover-item" data-page="im"><svg viewBox="0 0 24 24"><path d="M5 6.5h14a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H11l-4.5 3v-3H5a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Z"/><path d="M8 11h8M8 14h5"/></svg>IM 集成</button>
+              <div class="popover-divider"></div>
+              <div class="popover-label">管理入口</div>
+              <button class="popover-item" data-page="admin"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5M8 17h7"/></svg>管理后台</button>
+            </div>
+          </div>
+          <button class="message-center-trigger" id="messageCenterTrigger" aria-expanded="false" aria-label="消息中心" title="消息中心">
+            <svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 1 1 12 0v4.5l1.6 2.4a1 1 0 0 1-.83 1.56H5.23A1 1 0 0 1 4.4 14.9L6 12.5z"/><path d="M10 18a2 2 0 0 0 4 0"/></svg>
+            <span class="message-center-dot"></span>
           </button>
-          <div class="settings-popover" id="settingsPopover" hidden>
-            <div class="popover-user"><span class="avatar">刘</span><div><div class="user-name">刘静</div><div class="user-email">liujing@example.com</div></div></div>
-            <div class="popover-divider"></div>
-            <button class="popover-item" data-page="profile"><svg viewBox="0 0 24 24"><path d="M4 19.5c2.5-1 5-1.5 8-1.5s5.5.5 8 1.5"/><circle cx="12" cy="9" r="4"/></svg>个人中心</button>
-            <button class="popover-item" data-page="memory"><svg viewBox="0 0 24 24"><path d="M7 4h8l3 3v13H7z"/><path d="M10 10h5M10 14h5"/></svg>记忆中心</button>
-            <button class="popover-item" data-page="im"><svg viewBox="0 0 24 24"><path d="M5 6.5h14a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H11l-4.5 3v-3H5a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Z"/><path d="M8 11h8M8 14h5"/></svg>IM 集成</button>
-            <div class="popover-divider"></div>
-            <div class="popover-label">管理入口</div>
-            <button class="popover-item" data-page="admin"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5M8 17h7"/></svg>管理后台</button>
+          <div class="message-center-popover" id="messageCenterPopover" hidden>
+            <div class="message-center-head">
+              <strong>消息中心</strong>
+              <button class="message-center-close" id="messageCenterCloseBtn" type="button" aria-label="关闭消息中心">
+                <svg viewBox="0 0 24 24"><path d="m7 7 10 10"/><path d="m17 7-10 10"/></svg>
+              </button>
+            </div>
+            <div class="message-center-tabs">
+              <button class="message-center-tab active" type="button" data-message-filter="all">全部消息</button>
+              <button class="message-center-tab" type="button" data-message-filter="unread">未读消息<span class="message-center-badge">99+</span></button>
+              <button class="message-center-readall" type="button" data-message-action="readall">全部已读</button>
+            </div>
+            <div class="message-center-list" id="messageCenterList">
+              <article class="message-center-card unread featured" data-message-read="false">
+                <span class="message-center-unread-dot"></span>
+                <div class="message-center-row">
+                  <span class="message-center-type"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 1.5"/></svg></span>
+                  <div class="message-center-title">文档安全检测助手文档安全检测助手文档安全检测助...</div>
+                </div>
+                <div class="message-center-desc">供应商框架协议合同审核</div>
+                <div class="message-center-time">2026-04-20 20:00:00</div>
+              </article>
+              <article class="message-center-card unread" data-message-read="false">
+                <span class="message-center-unread-dot"></span>
+                <div class="message-center-row">
+                  <span class="message-center-type"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 1.5"/></svg></span>
+                  <div class="message-center-title">文档安全检测助手文档安全检测助...</div>
+                </div>
+                <div class="message-center-desc">供应商框架协议合同审核</div>
+                <div class="message-center-time">2026-04-20 20:00:00</div>
+              </article>
+              <article class="message-center-card unread" data-message-read="false">
+                <span class="message-center-unread-dot"></span>
+                <div class="message-center-row">
+                  <span class="message-center-type"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 1.5"/></svg></span>
+                  <div class="message-center-title">文档安全检测助手文档安全检测助...</div>
+                </div>
+                <div class="message-center-desc">供应商框架协议合同审核</div>
+                <div class="message-center-time">2026-04-20 20:00:00</div>
+              </article>
+              <article class="message-center-card unread" data-message-read="false">
+                <span class="message-center-unread-dot"></span>
+                <div class="message-center-row">
+                  <span class="message-center-type"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 1.5"/></svg></span>
+                  <div class="message-center-title">文档安全检测助手文档安全检测助...</div>
+                </div>
+                <div class="message-center-desc">供应商框架协议合同审核</div>
+                <div class="message-center-time">2026-04-20 20:00:00</div>
+              </article>
+              <article class="message-center-card unread" data-message-read="false">
+                <span class="message-center-unread-dot"></span>
+                <div class="message-center-row">
+                  <span class="message-center-type"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 1.5"/></svg></span>
+                  <div class="message-center-title">文档安全检测助手文档安全检测助...</div>
+                </div>
+                <div class="message-center-desc">供应商框架协议合同审核</div>
+                <div class="message-center-time">2026-04-20 20:00:00</div>
+              </article>
+            </div>
           </div>
         </div>
       </aside>
@@ -3911,20 +4189,16 @@
           <button class="skill-upload-close" type="button" id="closeSkillUploadBtn" aria-label="关闭上传技能弹窗">×</button>
         </div>
         <label class="skill-upload-drop" for="skillUploadInput">
-          <span>
-            <svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="13" rx="2"/><path d="M8 6V4h8v2"/><path d="M12 16V10"/><path d="m9 13 3-3 3 3"/></svg>
-            <span class="skill-upload-copy">拖拽文件或点击上传</span>
-            <span class="skill-upload-file" id="skillUploadFileState">支持文件夹或 .zip / .md 文件</span>
+          <span class="skill-upload-content">
+            <span class="skill-upload-primary">
+              <svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="13" rx="2"/><path d="M8 6V4h8v2"/><path d="M12 16V10"/><path d="m9 13 3-3 3 3"/></svg>
+              <span class="skill-upload-copy">拖拽文件或点击上传</span>
+            </span>
+            <span class="skill-upload-file" id="skillUploadFileState">支持 .zip / .skill 文件</span>
+            <span class="skill-upload-file">.zip或.skill文件,根目录包含SKILL.md；SKILL.md通过YAML格式定义技能名称与描述。</span>
           </span>
           <input id="skillUploadInput" type="file" hidden />
         </label>
-        <div class="skill-upload-rules">
-          <h3>文件要求</h3>
-          <ul>
-            <li>文件夹或者 .zip 需要包含 SKILL.md 文件</li>
-            <li>.md 文件需包含 YAML 格式的技能名称和描述</li>
-          </ul>
-        </div>
       </div>
     </div>
     <div class="modal-overlay" id="filePreviewDialog" hidden>
@@ -4412,7 +4686,7 @@
       }
       function openSkillUploadDialog() {
         if (!skillUploadDialog) return;
-        if (skillUploadFileState) skillUploadFileState.textContent = "支持文件夹或 .zip / .md 文件";
+        if (skillUploadFileState) skillUploadFileState.textContent = "支持 .zip / .md 文件";
         if (skillUploadInput) skillUploadInput.value = "";
         skillUploadDialog.hidden = false;
       }
@@ -5095,6 +5369,9 @@
       document.getElementById("historyList").innerHTML = history.map(a => `<div class="history-row"><span class="history-icon">⌁</span><div><div class="history-title">${a[0]}</div><div class="history-sub">${a[1]}</div></div><span class="history-time">${a[2]}</span></div>`).join("");
       const imConfig = { appId: "", appSecret: "" };
       const trigger = document.getElementById("settingsTrigger"), popover = document.getElementById("settingsPopover");
+      const messageCenterTrigger = document.getElementById("messageCenterTrigger");
+      const messageCenterPopover = document.getElementById("messageCenterPopover");
+      const messageCenterCloseBtn = document.getElementById("messageCenterCloseBtn");
       const imDialog = document.getElementById("imDialog");
       const appIdInput = document.getElementById("appIdInput");
       const appSecretInput = document.getElementById("appSecretInput");
@@ -6317,6 +6594,10 @@
           renderProjectWorkspace();
         }
         popover.hidden = true; trigger.setAttribute("aria-expanded", "false");
+        if (messageCenterPopover && messageCenterTrigger) {
+          messageCenterPopover.hidden = true;
+          messageCenterTrigger.setAttribute("aria-expanded", "false");
+        }
       }
       document.querySelectorAll("[data-page]").forEach(btn => btn.addEventListener("click", () => openPage(btn.dataset.page)));
       document.addEventListener("click", e => {
@@ -6771,11 +7052,65 @@
       guideButtons.filter(Boolean).forEach(btn => btn.addEventListener("click", () => {
         window.open("https://open.feishu.cn/document/home/index", "_blank", "noopener");
       }));
-      if (trigger && popover) trigger.addEventListener("click", e => { e.stopPropagation(); popover.hidden = !popover.hidden; trigger.setAttribute("aria-expanded", String(!popover.hidden)); });
-      document.addEventListener("click", e => {
-        if (!popover.hidden && !popover.contains(e.target)) {
+      function setMessageCenterFilter(filter) {
+        if (!messageCenterPopover) return;
+        messageCenterPopover.querySelectorAll("[data-message-filter]").forEach(button => {
+          button.classList.toggle("active", button.dataset.messageFilter === filter);
+        });
+        messageCenterPopover.querySelectorAll("[data-message-read]").forEach(item => {
+          const isUnread = item.dataset.messageRead === "false";
+          item.hidden = filter === "unread" ? !isUnread : false;
+        });
+      }
+      if (trigger && popover) trigger.addEventListener("click", e => {
+        e.stopPropagation();
+        const nextOpen = popover.hidden;
+        popover.hidden = !nextOpen;
+        trigger.setAttribute("aria-expanded", String(nextOpen));
+        if (nextOpen && messageCenterPopover && messageCenterTrigger) {
+          messageCenterPopover.hidden = true;
+          messageCenterTrigger.setAttribute("aria-expanded", "false");
+        }
+      });
+      if (messageCenterTrigger && messageCenterPopover) messageCenterTrigger.addEventListener("click", e => {
+        e.stopPropagation();
+        const nextOpen = messageCenterPopover.hidden;
+        messageCenterPopover.hidden = !nextOpen;
+        messageCenterTrigger.setAttribute("aria-expanded", String(nextOpen));
+        if (nextOpen && popover && trigger) {
           popover.hidden = true;
           trigger.setAttribute("aria-expanded", "false");
+        }
+      });
+      if (messageCenterCloseBtn && messageCenterPopover && messageCenterTrigger) messageCenterCloseBtn.addEventListener("click", () => {
+        messageCenterPopover.hidden = true;
+        messageCenterTrigger.setAttribute("aria-expanded", "false");
+      });
+      messageCenterPopover?.addEventListener("click", e => {
+        const filterBtn = e.target.closest("[data-message-filter]");
+        if (filterBtn) {
+          setMessageCenterFilter(filterBtn.dataset.messageFilter);
+          return;
+        }
+        const readAllBtn = e.target.closest("[data-message-action='readall']");
+        if (readAllBtn) {
+          messageCenterPopover.querySelectorAll("[data-message-read]").forEach(item => {
+            item.dataset.messageRead = "true";
+            item.classList.remove("unread", "featured");
+            item.querySelector(".message-center-unread-dot")?.remove();
+          });
+          messageCenterTrigger.querySelector(".message-center-dot")?.remove();
+          setMessageCenterFilter("all");
+        }
+      });
+      document.addEventListener("click", e => {
+        if (!popover.hidden && !e.target.closest("#settingsTrigger") && !e.target.closest("#settingsPopover")) {
+          popover.hidden = true;
+          trigger.setAttribute("aria-expanded", "false");
+        }
+        if (messageCenterPopover && !messageCenterPopover.hidden && !e.target.closest("#messageCenterTrigger") && !e.target.closest("#messageCenterPopover")) {
+          messageCenterPopover.hidden = true;
+          messageCenterTrigger?.setAttribute("aria-expanded", "false");
         }
         if (chatModeMenu && !chatModeMenu.hidden && !chatModeMenu.contains(e.target) && !chatModeTrigger.contains(e.target)) {
           closeChatModeMenu();

@@ -469,7 +469,7 @@ const pages = {
       },
       "我的专家": {
         filters: [field("请输入专家名称"), selectField("请选择专家类型"), dateField("创建开始日期", "创建结束日期"), button("重 置", "reset")],
-        actionButtons: [button("新增专家", "open", "primary", { hoverPreview: "robotCreate" })],
+        actionButtons: [button("新增专家", "open", "primary", { handler: { type: "openCreateExpert" }, hoverPreview: "robotCreate" })],
         columns: [
           ["序号", "56px"],
           ["名称", "176px"],
@@ -4492,6 +4492,41 @@ function closeCreateDigitalEmployeeModal() {
   render();
 }
 
+const CREATE_EXPERT_AVATAR_THEMES = [
+  ["#7b6df6", "#9d72ff"],
+  ["#3f7df6", "#5ea8ff"],
+  ["#1aa38d", "#38d5b4"],
+  ["#f08a24", "#ffb457"],
+  ["#f05a7e", "#ff8da1"],
+  ["#5468ff", "#7a8dff"],
+];
+
+function createExpertAvatarMark(name, type = "专家") {
+  const fallbackMap = {
+    数字员工专家: "数",
+    RAG专家: "R",
+    自主规划专家: "规",
+    专家团队: "团",
+  };
+  const source = String(name || fallbackMap[type] || "专").replace(/\s+/g, "");
+  return Array.from(source).slice(0, 2).join("") || "专";
+}
+
+function generateCreateExpertAvatarPayload(name, type = "专家", desc = "") {
+  const seed = `${name}|${type}|${desc}`;
+  let hash = 0;
+  for (const char of Array.from(seed)) {
+    hash = ((hash << 5) - hash) + char.charCodeAt(0);
+    hash |= 0;
+  }
+  const theme = CREATE_EXPERT_AVATAR_THEMES[Math.abs(hash) % CREATE_EXPERT_AVATAR_THEMES.length];
+  return {
+    avatarMark: createExpertAvatarMark(name, type),
+    avatarStyle: `linear-gradient(135deg, ${theme[0]} 0%, ${theme[1]} 100%)`,
+    avatarGenerated: true,
+  };
+}
+
 function createExpertState() {
   const templateDefault = getDigitalEmployeeTemplateDefault("legal");
   return {
@@ -4499,6 +4534,9 @@ function createExpertState() {
     template: "legal",
     name: templateDefault.name,
     desc: templateDefault.duty,
+    avatarMark: "",
+    avatarStyle: "",
+    avatarGenerated: false,
   };
 }
 
@@ -4615,6 +4653,22 @@ function renderCreateExpertModal() {
               placeholder="请输入专家能力、适用场景或使用说明"
             >${escapeHtml(view.desc)}</textarea>
             <span>${view.desc.length}/200</span>
+          </div>
+        </div>
+        <div class="create-expert-field">
+          <label class="create-expert-label">专家头像<span>*</span></label>
+          <div class="create-expert-avatar-config">
+            <div class="create-expert-avatar-stack">
+              <div
+                class="create-expert-avatar-preview ${view.avatarGenerated ? "generated" : "empty"}"
+                data-create-expert-avatar-preview="true"
+                style="${view.avatarGenerated ? `background:${escapeHtml(view.avatarStyle)}` : ""}"
+                aria-label="专家头像预览"
+              >${view.avatarGenerated ? escapeHtml(view.avatarMark || createExpertAvatarMark(view.name, view.type)) : icon("plus", "wj-icon")}</div>
+              <button class="digital-employee-ai-link create-expert-avatar-ai" data-handler="${registerHandler({ type: "generateCreateExpertAvatar" })}">
+                ${icon("star", "wj-icon")}AI生成
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -4840,6 +4894,12 @@ document.addEventListener("click", (event) => {
     if (meta.value !== "数字员工专家") {
       state.createExpert.template = "";
     }
+    if (state.createExpert.avatarGenerated) {
+      Object.assign(
+        state.createExpert,
+        generateCreateExpertAvatarPayload(state.createExpert.name, meta.value, state.createExpert.desc),
+      );
+    }
     render();
   }
   if (meta.type === "selectCreateExpertTemplate" && state.createExpert) {
@@ -4847,9 +4907,28 @@ document.addEventListener("click", (event) => {
     state.createExpert.template = meta.value;
     state.createExpert.name = templateDefault.name;
     state.createExpert.desc = templateDefault.duty;
+    if (state.createExpert.avatarGenerated) {
+      Object.assign(
+        state.createExpert,
+        generateCreateExpertAvatarPayload(templateDefault.name, state.createExpert.type, templateDefault.duty),
+      );
+    }
+    render();
+  }
+  if (meta.type === "generateCreateExpertAvatar" && state.createExpert) {
+    Object.assign(
+      state.createExpert,
+      generateCreateExpertAvatarPayload(state.createExpert.name, state.createExpert.type, state.createExpert.desc),
+    );
     render();
   }
   if (meta.type === "submitCreateExpert") {
+    if (state.createExpert && !state.createExpert.avatarGenerated) {
+      Object.assign(
+        state.createExpert,
+        generateCreateExpertAvatarPayload(state.createExpert.name, state.createExpert.type, state.createExpert.desc),
+      );
+    }
     closeCreateExpertModal();
     navigate("/dashboard/robotList");
   }
@@ -5196,12 +5275,36 @@ document.addEventListener("input", (event) => {
     state.createExpert.name = event.target.value.slice(0, 30);
     const counter = event.target.parentElement?.querySelector("span");
     if (counter) counter.textContent = `${state.createExpert.name.length}/30`;
+    if (state.createExpert.avatarGenerated) {
+      Object.assign(
+        state.createExpert,
+        generateCreateExpertAvatarPayload(state.createExpert.name, state.createExpert.type, state.createExpert.desc),
+      );
+      const avatarPreview = document.querySelector("[data-create-expert-avatar-preview]");
+      if (avatarPreview) {
+        avatarPreview.className = "create-expert-avatar-preview generated";
+        avatarPreview.textContent = state.createExpert.avatarMark;
+        avatarPreview.style.background = state.createExpert.avatarStyle;
+      }
+    }
     return;
   }
   if (event.target.matches("#createExpertDesc") && state.createExpert) {
     state.createExpert.desc = event.target.value.slice(0, 200);
     const counter = event.target.parentElement?.querySelector("span");
     if (counter) counter.textContent = `${state.createExpert.desc.length}/200`;
+    if (state.createExpert.avatarGenerated) {
+      Object.assign(
+        state.createExpert,
+        generateCreateExpertAvatarPayload(state.createExpert.name, state.createExpert.type, state.createExpert.desc),
+      );
+      const avatarPreview = document.querySelector("[data-create-expert-avatar-preview]");
+      if (avatarPreview) {
+        avatarPreview.className = "create-expert-avatar-preview generated";
+        avatarPreview.textContent = state.createExpert.avatarMark;
+        avatarPreview.style.background = state.createExpert.avatarStyle;
+      }
+    }
     return;
   }
   if (event.target.matches("#createLegalCompany") && state.createDigitalEmployee) {

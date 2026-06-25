@@ -5623,6 +5623,50 @@ button.checkbox {
   white-space: normal;
 }
 
+.create-expert-avatar-config {
+  display: block;
+}
+
+.create-expert-avatar-stack {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.create-expert-avatar-preview {
+  display: inline-grid;
+  place-items: center;
+  width: 88px;
+  height: 88px;
+  border: 1px dashed #dbe1ec;
+  border-radius: 18px;
+  background: #f7f8fc;
+  color: #98a1b3;
+  font-size: 28px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.create-expert-avatar-preview.empty {
+  box-shadow: none;
+}
+
+.create-expert-avatar-preview.empty svg {
+  width: 28px;
+  height: 28px;
+}
+
+.create-expert-avatar-preview.generated {
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(30, 36, 56, 0.12);
+}
+
+.create-expert-avatar-ai {
+  padding-left: 0;
+}
+
 .create-expert-input-wrap,
 .create-expert-textarea-wrap {
   position: relative;
