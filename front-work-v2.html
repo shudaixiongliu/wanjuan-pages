@@ -145,6 +145,9 @@
       }
       .popover-item:hover { color: var(--primary); background: #f7f8fc; }
       .popover-item svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .popover-item-text { min-width: 0; flex: 1; }
+      .popover-item-arrow { width: 14px !important; height: 14px !important; color: var(--text-3); }
+      .popover-item:hover .popover-item-arrow { color: var(--primary); }
       .message-center-popover {
         position: absolute;
         left: calc(100% + 14px);
@@ -3678,8 +3681,19 @@
               <button class="popover-item" data-page="memory"><svg viewBox="0 0 24 24"><path d="M7 4h8l3 3v13H7z"/><path d="M10 10h5M10 14h5"/></svg>记忆中心</button>
               <button class="popover-item" data-page="im"><svg viewBox="0 0 24 24"><path d="M5 6.5h14a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H11l-4.5 3v-3H5a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Z"/><path d="M8 11h8M8 14h5"/></svg>IM 集成</button>
               <div class="popover-divider"></div>
+              <button class="popover-item" id="legacyEmployeeEntry" type="button">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M6.5 19a5.5 5.5 0 0 1 11 0"/><path d="M19 5v5M16.5 7.5h5"/></svg>
+                <span class="popover-item-text">数字员工（旧版）</span>
+                <svg class="popover-item-arrow" viewBox="0 0 24 24"><path d="M9 5h10v10"/><path d="m19 5-9 9"/><path d="M15 19H5V9"/></svg>
+              </button>
+              <div class="popover-divider"></div>
               <div class="popover-label">管理入口</div>
               <button class="popover-item" data-page="admin"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5M8 17h7"/></svg>管理后台</button>
+              <div class="popover-divider"></div>
+              <button class="popover-item" id="logoutEntry" type="button">
+                <svg viewBox="0 0 24 24"><path d="M10 5H5v14h5"/><path d="M14 8l4 4-4 4"/><path d="M8 12h10"/></svg>
+                <span class="popover-item-text">退出登录</span>
+              </button>
             </div>
           </div>
           <button class="message-center-trigger" id="messageCenterTrigger" aria-expanded="false" aria-label="消息中心" title="消息中心">
@@ -5369,6 +5383,8 @@
       document.getElementById("historyList").innerHTML = history.map(a => `<div class="history-row"><span class="history-icon">⌁</span><div><div class="history-title">${a[0]}</div><div class="history-sub">${a[1]}</div></div><span class="history-time">${a[2]}</span></div>`).join("");
       const imConfig = { appId: "", appSecret: "" };
       const trigger = document.getElementById("settingsTrigger"), popover = document.getElementById("settingsPopover");
+      const legacyEmployeeEntry = document.getElementById("legacyEmployeeEntry");
+      const logoutEntry = document.getElementById("logoutEntry");
       const messageCenterTrigger = document.getElementById("messageCenterTrigger");
       const messageCenterPopover = document.getElementById("messageCenterPopover");
       const messageCenterCloseBtn = document.getElementById("messageCenterCloseBtn");
@@ -6600,6 +6616,12 @@
         }
       }
       document.querySelectorAll("[data-page]").forEach(btn => btn.addEventListener("click", () => openPage(btn.dataset.page)));
+      legacyEmployeeEntry?.addEventListener("click", () => {
+        window.location.href = "./front-employee.html";
+      });
+      logoutEntry?.addEventListener("click", () => {
+        window.location.href = "./index.html";
+      });
       document.addEventListener("click", e => {
         const modeTrigger = e.target.closest("#chatModeTrigger");
         if (modeTrigger) {

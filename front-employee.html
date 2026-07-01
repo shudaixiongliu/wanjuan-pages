@@ -3,781 +3,679 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>万卷 - 前台员工</title>
+    <title>万卷·数字员工</title>
     <script src="./reference/iconpark-41579.js"></script>
     <style>
       :root {
-        --primary: #4941e6;
-        --primary-hover: #766bf2;
-        --primary-soft: #f3f0ff;
-        --primary-line: #cbc2ff;
-        --text: #161e32;
-        --text-2: #6a6e80;
-        --text-3: #9295a4;
-        --line: #ebecf4;
-        --bg: #f7f8fa;
-        --white: #fff;
-        --green: #23bf6b;
-        --orange: #f18019;
-        --shadow: 0 12px 32px rgba(31, 37, 64, 0.1);
+        --brand: #6548ed;
+        --brand-2: #8a64ff;
+        --text: #242735;
+        --text-2: #687085;
+        --text-3: #9ca3b3;
+        --line: #e9ebf2;
+        --panel: #f8f9fb;
+        --green: #21c57a;
       }
 
       * { box-sizing: border-box; }
-      html, body { width: 100%; min-width: 1200px; height: 100%; margin: 0; }
+      html, body { width: 100%; min-width: 1180px; height: 100%; margin: 0; }
       body {
         overflow: hidden;
         color: var(--text);
-        background: var(--bg);
+        background: #fff;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
         font-size: 14px;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
       }
       button, input, textarea { font: inherit; }
       button { cursor: pointer; }
 
-      .front-shell { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
-      .front-sidebar {
+      .app {
+        display: grid;
+        grid-template-columns: 292px 364px minmax(0, 1fr);
+        width: 100%;
+        height: 100vh;
+        margin: 0;
+        overflow: hidden;
+        border: 0;
+        border-radius: 0;
+        background: #fff;
+        box-shadow: none;
+      }
+
+      .primary-sidebar {
         display: flex;
         flex-direction: column;
-        padding: 20px 16px 14px;
-        background: #fff;
+        min-width: 0;
+        padding: 20px 12px 12px;
         border-right: 1px solid var(--line);
+        background: linear-gradient(180deg, #fbfbfd 0%, #f7f8fa 100%);
       }
-      .front-sidebar-head {
+      .logo {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        margin-bottom: 18px;
+        height: 52px;
+        padding: 0 8px;
+        color: var(--brand);
+        white-space: nowrap;
       }
-      .front-logo {
+      .logo iconpark-icon {
         display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        color: var(--primary);
-        font-size: 24px;
-        font-weight: 700;
-      }
-      .front-logo-mark {
-        display: inline-grid;
-        place-items: center;
-        width: 34px;
+        width: 92px;
         height: 34px;
-        color: #fff;
-        border-radius: 10px;
-        background: linear-gradient(135deg, #766bf2, #4941e6);
-        font-size: 16px;
-        font-weight: 700;
+        flex: 0 0 auto;
       }
-      .front-collapse {
-        display: grid;
-        width: 32px;
-        height: 32px;
-        place-items: center;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: #fff;
+      .logo-suffix {
+        margin-left: -2px;
+        font-size: 25px;
+        line-height: 34px;
+        font-weight: 800;
+        letter-spacing: -1px;
       }
-      .front-collapse:hover { border-color: var(--primary-line); background: #faf9ff; }
-      .front-collapse span {
-        display: block;
-        width: 14px;
-        height: 2px;
-        background: #71778a;
-        border-radius: 999px;
-      }
-      .front-collapse span + span { margin-top: 4px; }
-      .front-new-chat {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        width: 100%;
-        height: 40px;
-        margin-bottom: 14px;
-        color: #fff;
-        border: 0;
-        border-radius: 10px;
-        background: linear-gradient(135deg, #5f56f4, #4941e6);
-        box-shadow: 0 10px 22px rgba(73, 65, 230, 0.18);
-      }
-      .front-new-chat:hover { background: linear-gradient(135deg, #6d63f8, #5850ee); }
-      .front-new-icon {
-        display: grid;
-        width: 18px;
-        height: 18px;
-        place-items: center;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.18);
-      }
-      .front-work-nav { display: grid; gap: 8px; }
-      .front-section-label {
-        padding: 2px 4px;
-        color: var(--text-3);
-        font-size: 12px;
-      }
-      .front-nav-item,
-      .front-side-item,
-      .front-manage {
+      .primary-nav { margin-top: 10px; }
+      .primary-nav-item {
         display: flex;
         align-items: center;
         gap: 12px;
         width: 100%;
-        min-height: 44px;
-        padding: 0 12px;
-        color: #4d5565;
-        border: 1px solid transparent;
-        border-radius: 10px;
+        height: 50px;
+        padding: 0 15px;
+        color: #43495a;
+        border: 0;
+        border-radius: 11px;
         background: transparent;
+        font-size: 14px;
+        font-weight: 600;
         text-align: left;
-        transition: 0.16s ease;
       }
-      .front-nav-item:hover,
-      .front-side-item:hover,
-      .front-manage:hover {
-        color: #161e32;
-        background: #f7f8fa;
-      }
-      .front-nav-item.active,
-      .front-side-item.active {
-        color: var(--primary);
-        border-color: #ddd7ff;
-        background: var(--primary-soft);
-      }
-      .front-nav-mark,
-      .front-side-icon,
-      .front-manage-icon,
-      .front-tag-icon,
-      .front-template-icon {
-        display: inline-grid;
-        width: 28px;
-        height: 28px;
-        place-items: center;
-        color: var(--primary);
-        border-radius: 8px;
-        background: var(--primary-soft);
-        font-size: 12px;
-        font-weight: 700;
-        flex: 0 0 auto;
-      }
-      .front-nav-item strong,
-      .front-side-item span,
-      .front-manage span:last-child { display: block; font-size: 14px; font-weight: 600; }
-      .front-nav-item em,
-      .front-side-item small,
-      .front-sidebar-card span,
-      .front-employee-sub,
-      .front-template-desc,
-      .front-task-meta,
-      .front-note,
-      .front-disclaimer,
-      .front-timeline-desc,
-      .front-search-note,
-      .front-global-search small,
-      .front-employee-meta,
-      .front-employee-detail p,
-      .front-panel-head em {
-        color: var(--text-3);
-        font-size: 12px;
-        font-style: normal;
-        line-height: 1.6;
-      }
-      .front-side-item em,
-      .front-status,
-      .front-timeline-state {
-        margin-left: auto;
-        padding: 2px 8px;
-        border-radius: 999px;
-        font-size: 11px;
-        white-space: nowrap;
-      }
-      .front-side-item em,
-      .front-status.running,
-      .front-timeline-state.done { color: var(--green); background: rgba(35, 191, 107, 0.12); }
-      .front-status.pending,
-      .front-timeline-state.pending { color: var(--orange); background: rgba(241, 128, 25, 0.12); }
-      .front-sidebar-card {
-        display: grid;
-        gap: 4px;
-        margin-top: 14px;
-        padding: 14px;
-        border: 1px solid var(--line);
-        border-radius: 12px;
+      .primary-nav-item.active {
+        color: #34394a;
         background: #fff;
+        box-shadow: 0 8px 22px rgba(36, 43, 67, .06);
       }
-      .front-sidebar-card.warning { background: #fffaf6; border-color: #f6dec6; }
-      .front-sidebar-card-head { color: var(--text-3); font-size: 12px; }
-      .front-sidebar-card strong { font-size: 14px; }
-      .front-manage { margin-top: auto; border-color: var(--line); }
-
-      .front-main {
-        min-width: 0;
-        padding: 18px;
-        overflow: auto;
+      .primary-nav-item svg,
+      .back-link svg {
+        width: 22px;
+        height: 22px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
       }
-      .front-global-top {
-        display: grid;
-        grid-template-columns: auto minmax(280px, 420px) auto;
-        gap: 16px;
-        align-items: center;
-        margin-bottom: 16px;
-      }
-      .front-global-top span {
-        display: block;
-        color: var(--text-3);
-        font-size: 12px;
-      }
-      .front-global-top strong {
-        display: block;
-        margin-top: 4px;
-        font-size: 18px;
-      }
-      .front-global-search {
+      .back-link {
         display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: auto;
+        padding: 10px 6px;
+        color: #4e5568;
+        border: 0;
+        background: transparent;
+        font-size: 14px;
+      }
+      .back-link:hover { color: var(--brand); }
+
+      .contacts {
+        display: flex;
+        min-width: 0;
         flex-direction: column;
-        gap: 6px;
+        border-right: 1px solid var(--line);
+        background: rgba(255, 255, 255, .96);
+      }
+      .contacts-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 78px;
+        padding: 0 20px;
+      }
+      .contacts-head h2 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 700;
+      }
+      .icon-button {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        place-items: center;
+        color: #586074;
+        border: 0;
+        border-radius: 9px;
+        background: transparent;
+      }
+      .icon-button:hover { color: var(--brand); background: #f3f1ff; }
+      .icon-button svg {
+        width: 21px;
+        height: 21px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.7;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .contact-search-row {
+        display: grid;
+        grid-template-columns: 1fr 42px;
+        gap: 10px;
+        padding: 0 20px 12px;
+      }
+      .search {
+        position: relative;
         min-width: 0;
       }
-      .front-global-search input {
+      .search input {
         width: 100%;
-        height: 40px;
-        padding: 0 14px;
+        height: 42px;
+        padding: 0 38px 0 14px;
         color: var(--text);
-        border: 1px solid var(--line);
+        border: 1px solid #e3e6ed;
         border-radius: 10px;
         outline: none;
         background: #fff;
       }
-      .front-global-search input:focus {
-        border-color: var(--primary-line);
-        box-shadow: 0 0 0 2px rgba(73, 65, 230, 0.08);
+      .search input::placeholder { color: #c2c6d0; }
+      .search input:focus {
+        border-color: #b9adfa;
+        box-shadow: 0 0 0 3px rgba(101, 72, 237, .08);
       }
-      .front-global-actions { display: flex; gap: 8px; justify-self: end; }
-      .front-global-actions button,
-      .front-panel-head button,
-      .front-link-btn,
-      .front-filter-btn,
-      .front-ghost-btn {
-        height: 32px;
-        padding: 0 12px;
-        color: #4d5565;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: #fff;
+      .search svg {
+        position: absolute;
+        top: 13px;
+        right: 13px;
+        width: 16px;
+        height: 16px;
+        fill: none;
+        stroke: #b7bdca;
+        stroke-width: 1.8;
+        stroke-linecap: round;
       }
-      .front-global-actions button:hover,
-      .front-panel-head button:hover,
-      .front-link-btn:hover,
-      .front-filter-btn:hover,
-      .front-ghost-btn:hover {
-        color: var(--primary);
-        border-color: var(--primary-line);
-        background: #faf9ff;
-      }
-
-      .front-workbench {
+      .notice-button {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) 320px;
-        gap: 16px;
-      }
-      .front-workspace-panel,
-      .front-context-card,
-      .front-hero-task,
-      .front-composer,
-      .front-panel-box,
-      .front-task-card,
-      .front-employee-card,
-      .front-template-card,
-      .front-timeline-row {
-        border: 1px solid var(--line);
-        border-radius: 16px;
-        background: #fff;
-        box-shadow: 0 8px 24px rgba(31, 37, 64, 0.04);
-      }
-      .front-workspace-panel { padding: 16px; }
-      .front-mode-switch {
-        display: inline-flex;
-        gap: 4px;
-        padding: 4px;
+        width: 42px;
+        height: 42px;
+        place-items: center;
+        color: #596174;
+        border: 1px solid #e3e6ed;
         border-radius: 10px;
-        background: #f4f5f8;
+        background: #fff;
       }
-      .front-mode-switch button {
-        height: 32px;
-        padding: 0 14px;
-        color: #7f8596;
+      .notice-button svg {
+        width: 20px;
+        height: 20px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.7;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .contact-list {
+        min-height: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 0 10px 16px;
+      }
+      .contact-list::-webkit-scrollbar { width: 8px; }
+      .contact-list::-webkit-scrollbar-thumb {
+        border: 2px solid transparent;
+        border-radius: 999px;
+        background: rgba(70, 77, 94, .18);
+        background-clip: content-box;
+      }
+      .contact-item {
+        display: grid;
+        grid-template-columns: 48px minmax(0, 1fr) auto;
+        gap: 12px;
+        align-items: center;
+        width: 100%;
+        height: 74px;
+        padding: 8px 10px;
+        color: inherit;
         border: 0;
-        border-radius: 8px;
+        border-radius: 13px;
         background: transparent;
+        text-align: left;
       }
-      .front-mode-switch button.active {
-        color: #161e32;
-        background: #fff;
-        box-shadow: 0 1px 4px rgba(31, 37, 64, 0.08);
-        font-weight: 600;
-      }
-      .front-hero-task {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 16px;
-        margin-top: 14px;
-        padding: 22px;
-        background:
-          radial-gradient(circle at top right, rgba(118, 107, 242, 0.14), transparent 28%),
-          linear-gradient(180deg, #ffffff, #fbfbff);
-      }
-      .front-hero-task h1 {
-        margin: 0 0 10px;
-        font-size: 28px;
-        line-height: 1.35;
-      }
-      .front-hero-task p { margin: 0; color: var(--text-2); line-height: 1.8; }
-      .front-hero-task button,
-      .front-send,
-      .front-primary-btn {
-        border: 0;
-        border-radius: 10px;
+      .contact-item:hover { background: #f7f8fb; }
+      .contact-item.active { background: #f2f3f7; }
+      .contact-avatar {
+        position: relative;
+        display: grid;
+        width: 46px;
+        height: 46px;
+        place-items: center;
+        overflow: hidden;
         color: #fff;
-        background: linear-gradient(135deg, #5f56f4, #4941e6);
+        border-radius: 10px;
+        background: var(--avatar);
+        font-size: 20px;
+        font-weight: 700;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .42);
       }
-      .front-hero-task button,
-      .front-primary-btn {
-        height: 36px;
-        padding: 0 14px;
+      .contact-avatar.photo {
+        color: #504235;
+        background:
+          radial-gradient(circle at 50% 31%, #f4d2b8 0 11%, transparent 12%),
+          radial-gradient(circle at 50% 23%, #37312d 0 13%, transparent 14%),
+          linear-gradient(145deg, #f7f3e9 0%, #e3ecf4 55%, #d7c49c 100%);
+        font-size: 0;
+      }
+      .online-dot {
+        position: absolute;
+        right: -2px;
+        bottom: -2px;
+        width: 13px;
+        height: 13px;
+        border: 2px solid #fff;
+        border-radius: 50%;
+        background: var(--green);
+      }
+      .contact-copy { min-width: 0; }
+      .contact-name,
+      .contact-desc {
+        overflow: hidden;
+        text-overflow: ellipsis;
         white-space: nowrap;
       }
-      .front-composer {
-        position: relative;
-        overflow: visible;
-        margin-top: 14px;
-        padding: 14px;
+      .contact-name {
+        margin-bottom: 5px;
+        color: #3e4351;
+        font-size: 14px;
+        font-weight: 500;
       }
-      .front-composer textarea {
+      .contact-desc { color: #949baa; font-size: 12px; }
+      .contact-date {
+        align-self: start;
+        padding-top: 5px;
+        color: #9299aa;
+        font-size: 12px;
+        white-space: nowrap;
+      }
+      .empty-contact {
+        padding: 38px 12px;
+        color: var(--text-3);
+        text-align: center;
+      }
+
+      .chat {
+        display: grid;
+        grid-template-rows: 80px minmax(0, 1fr);
+        min-width: 0;
+        min-height: 0;
+        background: #fff;
+      }
+      .chat-head {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+        padding: 0 24px;
+        border-bottom: 1px solid var(--line);
+      }
+      .chat-head .contact-avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+      }
+      .chat-title { min-width: 0; }
+      .chat-title strong,
+      .chat-title span {
         display: block;
-        width: 100%;
-        height: 112px;
-        resize: none;
-        padding: 0;
-        color: var(--text);
-        border: 0;
-        outline: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
-      .front-composer textarea::placeholder { color: #a9aebe; }
-      .front-composer-tools {
+      .chat-title strong { margin-bottom: 4px; font-size: 16px; }
+      .chat-title span { color: #9ba2b2; font-size: 12px; }
+      .chat-actions {
         display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-top: 12px;
-      }
-      .front-tool-left,
-      .front-tool-right {
-        display: flex;
-        align-items: center;
         gap: 8px;
+        margin-left: auto;
       }
-      .front-tool-right { margin-left: auto; }
-      .front-tool-left button,
-      .front-model-select,
-      .front-knowledge-btn,
-      .front-send {
+      .chat-stage {
+        position: relative;
+        display: grid;
+        grid-template-rows: minmax(0, 1fr) auto;
+        min-height: 0;
+        overflow: hidden;
+      }
+      .report-scroll {
+        min-height: 0;
+        overflow-y: auto;
+        padding: 32px max(48px, 11%) 24px;
+        scroll-behavior: smooth;
+      }
+      .report-scroll::-webkit-scrollbar { width: 13px; }
+      .report-scroll::-webkit-scrollbar-track { background: #fafafa; }
+      .report-scroll::-webkit-scrollbar-thumb {
+        border: 4px solid #fafafa;
+        border-radius: 999px;
+        background: #c8c8c8;
+      }
+      .report {
+        max-width: 940px;
+        margin: 0 auto;
+        color: #373b45;
+        font-size: 14px;
+        line-height: 1.75;
+      }
+      .report-intro { margin: 0 0 20px; }
+      .risk-heading {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin: 24px 0 16px;
+        font-size: 18px;
+        line-height: 1.4;
+      }
+      .risk-dot {
+        width: 20px;
+        height: 20px;
+        flex: 0 0 auto;
+        border-radius: 50%;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .12);
+      }
+      .risk-dot.red { background: linear-gradient(#ff6262, #dc2525); }
+      .risk-dot.yellow { background: linear-gradient(#ffd83f, #ffba00); }
+      .risk-dot.green { background: linear-gradient(#43db58, #00a82c); }
+      .report-table {
+        width: 100%;
+        margin: 0 0 24px;
+        overflow: hidden;
+        border-collapse: separate;
+        border-spacing: 0;
+        border: 1px solid #d7dbe3;
+        border-radius: 4px;
+        background: #fff;
+        font-size: 14px;
+      }
+      .report-table th,
+      .report-table td {
+        padding: 9px 14px;
+        border-right: 1px solid #dfe2e8;
+        border-bottom: 1px solid #dfe2e8;
+        vertical-align: top;
+        text-align: left;
+      }
+      .report-table th {
+        background: #f6f7f9;
+        font-weight: 700;
+      }
+      .report-table tr:last-child td { border-bottom: 0; }
+      .report-table th:last-child,
+      .report-table td:last-child { border-right: 0; }
+      .report-table .number { width: 60px; text-align: center; }
+      .report-table .issue { width: 43%; }
+      .report p { margin: 10px 0; }
+      .report-link { color: #1677df; text-decoration: none; }
+      .report-link:hover { text-decoration: underline; }
+      .loading-mark {
+        width: 17px;
+        height: 17px;
+        margin: 18px 4px 4px;
+        border: 1.8px solid #5d6472;
+        border-right-color: transparent;
+        border-radius: 50%;
+      }
+      .user-message {
+        max-width: 70%;
+        margin: 18px 0 18px auto;
+        padding: 11px 15px;
+        border-radius: 14px 14px 3px 14px;
+        background: #f0edff;
+        color: #403a69;
+      }
+
+      .composer-wrap {
+        position: relative;
+        z-index: 2;
+        padding: 8px max(54px, 9%) 16px;
+        background: linear-gradient(180deg, rgba(255,255,255,.72), #fff 22%);
+      }
+      .new-chat-button {
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        height: 32px;
-      }
-      .front-tool-left button,
-      .front-model-select,
-      .front-knowledge-btn {
-        padding: 0 10px;
-        color: #4f576a;
-        border: 1px solid var(--line);
+        height: 34px;
+        margin-bottom: 10px;
+        padding: 0 11px;
+        color: #6c7385;
+        border: 1px solid #e2e5ec;
         border-radius: 8px;
         background: #fff;
       }
-      .front-tool-left button:hover,
-      .front-model-select:hover,
-      .front-knowledge-btn:hover {
-        color: var(--primary);
-        border-color: var(--primary-line);
-        background: #fafaff;
+      .new-chat-button:hover { color: var(--brand); border-color: #c9bff8; }
+      .composer {
+        position: relative;
+        height: 164px;
+        padding: 17px 16px 14px;
+        border: 1px solid #e2e5ec;
+        border-radius: 11px;
+        background: #fff;
+        box-shadow: 0 6px 18px rgba(35, 42, 62, .02);
       }
-      .front-model-select em {
-        padding: 2px 6px;
-        border-radius: 999px;
-        background: #f1f2f7;
-        color: #6a6e80;
-        font-size: 11px;
-        font-style: normal;
+      .composer:focus-within {
+        border-color: #c3b9f6;
+        box-shadow: 0 0 0 3px rgba(101, 72, 237, .06);
       }
-      .front-send {
-        width: 36px;
-        justify-content: center;
+      .composer textarea {
+        display: block;
+        width: 100%;
+        height: 92px;
         padding: 0;
-      }
-      .front-send::before {
-        content: "↑";
+        resize: none;
+        color: var(--text);
+        border: 0;
+        outline: 0;
+        background: transparent;
         font-size: 14px;
-        line-height: 1;
       }
-      .front-panel-head {
+      .composer textarea::placeholder { color: #c2c6cf; }
+      .composer-tools {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 12px;
-        margin-bottom: 12px;
       }
-      .front-panel-head span {
-        color: #32384c;
-        font-size: 15px;
-        font-weight: 600;
-      }
-      .front-task-grid,
-      .front-template-grid,
-      .front-output-grid { display: grid; gap: 12px; }
-      .front-task-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 14px; }
-      .front-task-card,
-      .front-template-card,
-      .front-output-card { padding: 14px; }
-      .front-task-card strong,
-      .front-template-card strong,
-      .front-output-card strong,
-      .front-employee-name { display: block; font-size: 14px; font-weight: 600; }
-      .front-task-card:hover,
-      .front-template-card:hover,
-      .front-employee-card:hover,
-      .front-timeline-row:hover {
-        border-color: var(--primary-line);
-        box-shadow: 0 10px 26px rgba(31, 37, 64, 0.08);
-      }
-      .front-task-card.active,
-      .front-template-card.active,
-      .front-employee-card.active {
-        border-color: var(--primary-line);
-        background: linear-gradient(180deg, #faf9ff, #fff);
-      }
-      .front-task-head,
-      .front-employee-row,
-      .front-template-head,
-      .front-timeline-head {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .front-task-head { justify-content: space-between; }
-      .front-task-copy { min-width: 0; }
-      .front-task-copy p,
-      .front-output-card span,
-      .front-task-copy span,
-      .front-template-card p,
-      .front-timeline-row p,
-      .front-employee-detail span { margin-top: 6px; color: var(--text-2); line-height: 1.7; }
-      .front-output-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 14px; }
-      .front-output-card { min-height: 94px; }
-      .front-panel-box { margin-top: 14px; padding: 14px; }
-      .front-template-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .front-template-card { text-align: left; }
-      .front-context-panel { display: grid; gap: 12px; }
-      .front-context-card { padding: 14px; }
-      .front-employee-list,
-      .front-timeline-list,
-      .front-tag-list { display: grid; gap: 10px; }
-      .front-employee-card,
-      .front-timeline-row {
-        padding: 12px;
-        text-align: left;
-      }
-      .front-employee-row { align-items: flex-start; }
-      .front-employee-avatar {
+      .attach-button,
+      .send-button {
         display: grid;
-        width: 36px;
-        height: 36px;
+        width: 40px;
+        height: 40px;
         place-items: center;
-        color: #fff;
-        border-radius: 10px;
-        font-size: 13px;
-        font-weight: 700;
-        flex: 0 0 auto;
+        border-radius: 8px;
       }
-      .front-tag-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .front-tag-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 12px;
-        border: 1px solid var(--line);
-        border-radius: 12px;
+      .attach-button {
+        color: #667084;
+        border: 1px solid #e3e6ed;
         background: #fff;
       }
-      .front-timeline-state { margin-left: auto; }
-      .front-disclaimer {
-        margin: 16px 0 0;
-        color: var(--text-3);
+      .send-button {
+        color: #fff;
+        border: 0;
+        background: #d9dadd;
+      }
+      .send-button.ready { background: linear-gradient(135deg, var(--brand-2), var(--brand)); }
+      .attach-button svg,
+      .send-button svg {
+        width: 20px;
+        height: 20px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .disclaimer {
+        margin-top: 12px;
+        color: #c6cad4;
         font-size: 12px;
         text-align: center;
       }
-      .hidden { display: none !important; }
+      .attachment-name {
+        display: none;
+        max-width: 240px;
+        overflow: hidden;
+        color: #737b8e;
+        font-size: 12px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .attachment-name.show { display: block; }
+
+      @media (max-width: 1440px) {
+        .app { grid-template-columns: 238px 320px minmax(0, 1fr); }
+        .logo-suffix { font-size: 21px; }
+        .logo iconpark-icon { width: 82px; }
+        .report-scroll { padding-right: 42px; padding-left: 42px; }
+        .composer-wrap { padding-right: 44px; padding-left: 44px; }
+      }
     </style>
   </head>
   <body>
-    <div class="front-shell">
-      <aside class="front-sidebar">
-        <div class="front-sidebar-head">
-          <div class="front-logo">
-            <span class="front-logo-mark">万</span>
-            <span>万卷</span>
-          </div>
-          <button class="front-collapse" type="button" data-nav="./index.html" aria-label="返回后台">
-            <span></span><span></span>
-          </button>
+    <div class="app">
+      <aside class="primary-sidebar">
+        <div class="logo" aria-label="万卷·数字员工">
+          <iconpark-icon name="logonewtext" color="currentColor" width="92px" height="34px"></iconpark-icon>
+          <span class="logo-suffix">·数字员工</span>
         </div>
-
-        <button class="front-new-chat" type="button" id="newEmployeeTaskBtn">
-          <span class="front-new-icon">+</span>
-          <span>新建员工任务</span>
-        </button>
-
-        <nav class="front-work-nav">
-          <div class="front-section-label">前台工作台</div>
-          <button class="front-nav-item" type="button" data-nav="./front-app.html">
-            <span class="front-nav-mark">应</span>
-            <span>
-              <strong>前台应用</strong>
-              <em>Chat、Agent 与任务沉淀</em>
-            </span>
-          </button>
-          <button class="front-side-item active" type="button">
-            <span class="front-side-icon">员</span>
-            <span>前台员工</span>
-            <em>NEW</em>
+        <nav class="primary-nav" aria-label="数字员工导航">
+          <button class="primary-nav-item active" type="button">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M6 20a6 6 0 0 1 12 0"/><path d="M18.5 4.5v4M16.5 6.5h4"/></svg>
+            <span>数字员工</span>
           </button>
         </nav>
-
-        <section class="front-sidebar-card">
-          <div class="front-sidebar-card-head">当前工作空间</div>
-          <strong>业务协同前台</strong>
-          <span>岗位型员工统一入口</span>
-          <span>支持任务发起、审批和结果沉淀</span>
-        </section>
-
-        <section class="front-sidebar-card warning">
-          <div class="front-sidebar-card-head">待确认</div>
-          <strong>3 个任务待审批</strong>
-          <span>涉及对外发送、流程写入与合同修订</span>
-        </section>
-
-        <button class="front-manage" type="button" data-nav="./index.html">
-          <span class="front-manage-icon">管</span>
-          <span>后台管理</span>
+        <button class="back-link" id="backToWanjuan" type="button">
+          <svg viewBox="0 0 24 24"><path d="m14 6-6 6 6 6"/><path d="M8 12h11"/></svg>
+          <span>返回万卷</span>
         </button>
       </aside>
 
-      <main class="front-main">
-        <header class="front-global-top">
-          <div>
-            <span>Workspace</span>
-            <strong>前台员工工作台</strong>
-          </div>
-          <label class="front-global-search">
-            <input id="employeeSearch" placeholder="搜索员工、任务模板、执行记录" />
-            <small class="front-search-note">搜索结果会同步过滤右侧员工卡片</small>
+      <aside class="contacts">
+        <header class="contacts-head">
+          <h2>通讯录</h2>
+          <button class="icon-button" type="button" aria-label="收起通讯录">
+            <svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M15 4v16"/></svg>
+          </button>
+        </header>
+        <div class="contact-search-row">
+          <label class="search">
+            <input id="contactSearch" type="search" placeholder="搜索员工名称" />
+            <svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="5.5"/><path d="m15 15 4 4"/></svg>
           </label>
-          <div class="front-global-actions">
-            <button type="button" data-nav="./front-app.html">返回前台应用</button>
-            <button type="button">刘静 · 业务执行者</button>
+          <button class="notice-button" type="button" aria-label="消息通知">
+            <svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0v4.5l1.5 2.2a1 1 0 0 1-.83 1.56H5.33a1 1 0 0 1-.83-1.56L6 13.5z"/><path d="M10 20h4"/></svg>
+          </button>
+        </div>
+        <div class="contact-list" id="contactList"></div>
+      </aside>
+
+      <main class="chat">
+        <header class="chat-head">
+          <span class="contact-avatar photo" id="chatAvatar"><span class="online-dot"></span></span>
+          <div class="chat-title">
+            <strong id="chatName">合同审核助手（正式）</strong>
+            <span id="chatDescription">合同审核数字员工，通过AI自动完成合同上传解析、关键要素提取、风险条款...</span>
+          </div>
+          <div class="chat-actions">
+            <button class="icon-button" type="button" aria-label="会话搜索">
+              <svg viewBox="0 0 24 24"><path d="M4 7h10M4 12h7M4 17h5"/><circle cx="17" cy="14" r="3.5"/><path d="m19.7 16.7 2.3 2.3"/></svg>
+            </button>
+            <button class="icon-button" type="button" aria-label="会话详情">
+              <svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M15 4v16"/></svg>
+            </button>
           </div>
         </header>
 
-        <section class="front-workbench">
-          <div class="front-workspace-panel">
-            <div class="front-mode-switch" id="modeSwitch">
-              <button class="active" type="button" data-mode="chat">Chat 即时问答</button>
-              <button type="button" data-mode="agent">Agent 任务执行</button>
-            </div>
+        <section class="chat-stage">
+          <div class="report-scroll" id="reportScroll">
+            <article class="report" id="report">
+              <p class="report-intro">已完成合同文本解析与条款核验，以下为本次审核结果：</p>
 
-            <section class="front-hero-task">
-              <div>
-                <h1 id="heroTitle">把岗位型员工前置到业务一线</h1>
-                <p id="heroDesc">选择具体前台员工后，可以直接发起问题或任务，系统会保留执行链路、审批动作和结果沉淀。</p>
-              </div>
-              <button type="button" id="focusCurrentEmployeeBtn">查看当前员工</button>
-            </section>
+              <h3 class="risk-heading"><span class="risk-dot red"></span>高风险（优先处理）</h3>
+              <table class="report-table">
+                <thead>
+                  <tr><th class="number">#</th><th class="issue">问题</th><th>条款</th><th>修改方向</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td class="number">1</td><td>设备归还标准不清晰</td><td>6.1.1</td><td>明确设备完好状态、合理损耗范围与验收方式</td></tr>
+                  <tr><td class="number">2</td><td>乙方单方认定设备状态</td><td>6.1.2</td><td>改为双方共同确认，避免单方认定</td></tr>
+                  <tr><td class="number">3</td><td>甲方单方检验退还标准</td><td>6.1.2</td><td>改为双方共同检验，标准以自然损耗范围为据</td></tr>
+                  <tr><td class="number">4</td><td>缺失违约责任条款</td><td>无</td><td>新增双方违约责任（延迟交付/质量问题/逾期归还）</td></tr>
+                </tbody>
+              </table>
 
-            <div class="front-composer">
-              <textarea id="taskInput" placeholder="描述你的问题或任务目标，支持 @员工、引用模板、补充业务背景..."></textarea>
-              <div class="front-composer-tools">
-                <div class="front-tool-left">
-                  <button type="button" id="insertEmployeeBtn">@当前员工</button>
-                  <button type="button" id="insertTemplateBtn">插入模板</button>
-                  <button class="front-knowledge-btn" type="button">
-                    <span>知</span>
-                    <b>业务知识库</b>
-                  </button>
-                </div>
-                <div class="front-tool-right">
-                  <button class="front-model-select" type="button" id="modeSummaryBtn">
-                    <span>模</span>
-                    <b id="modeSummaryText">Chat · 快速问答</b>
-                    <em id="modeSummaryTag">轻交互</em>
-                  </button>
-                  <button class="front-send" type="button" id="sendTaskBtn" aria-label="发送任务"></button>
-                </div>
-              </div>
-            </div>
+              <h3 class="risk-heading"><span class="risk-dot yellow"></span>中风险（建议修改）</h3>
+              <table class="report-table">
+                <thead>
+                  <tr><th class="number">#</th><th class="issue">问题</th><th>修改方向</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td class="number">5</td><td>风险转移范围过宽（第五条）</td><td>加但书：设备自身质量问题风险归甲方</td></tr>
+                  <tr><td class="number">6</td><td>借用期限起止不对等（第三条）</td><td>实际发货延迟时截止日顺延</td></tr>
+                  <tr><td class="number">7</td><td>借用用途限定过窄（第一条）</td><td>扩展为“展示及导览演示”</td></tr>
+                  <tr><td class="number">8</td><td>归还标准模糊+甲方无接收义务（6.2.4）</td><td>明确“正常合理使用”，甲方5日内接收</td></tr>
+                  <tr><td class="number">9</td><td>拆卸禁令范围过宽（6.2.3）</td><td>限定为“影响产品完整性的拆卸”</td></tr>
+                  <tr><td class="number">10</td><td>管辖约定不明（8.3）</td><td>改为被告住所地法院</td></tr>
+                  <tr><td class="number">11</td><td>保密缺失四类例外（8.1）</td><td>补充已公开/已持有/第三方获取/独立研发</td></tr>
+                </tbody>
+              </table>
 
-            <section class="front-panel-box">
-              <div class="front-panel-head">
-                <span>当前员工任务面板</span>
-                <button type="button" id="useTemplateBtn">使用推荐模板</button>
-              </div>
-              <div class="front-task-grid" id="taskGrid"></div>
-            </section>
-
-            <section class="front-panel-box">
-              <div class="front-panel-head">
-                <span>常用任务模板</span>
-                <em>点击模板后自动写入输入框并切换到 Agent 模式</em>
-              </div>
-              <div class="front-template-grid" id="templateGrid"></div>
-            </section>
-
-            <section class="front-panel-box">
-              <div class="front-panel-head">
-                <span>结果沉淀</span>
-                <button type="button">查看治理规则</button>
-              </div>
-              <div class="front-output-grid">
-                <div class="front-output-card">
-                  <strong>任务记录</strong>
-                  <span>保留输入、员工选择、执行模式和当前状态，方便回溯。</span>
-                </div>
-                <div class="front-output-card">
-                  <strong>审批动作</strong>
-                  <span>写入系统、对外发送、合同修订等动作可进入审批链路。</span>
-                </div>
-                <div class="front-output-card">
-                  <strong>知识沉淀</strong>
-                  <span>高频结论可回流到前台应用、记忆中心和业务知识库。</span>
-                </div>
-              </div>
-            </section>
+              <h3 class="risk-heading"><span class="risk-dot green"></span>低风险</h3>
+              <p>合同份数、三处笔误（甲方/乙方混淆、邮寄/内合/盖章）、缺失设备质量保证条款。</p>
+              <p>每条风险的具体修改文本均在 JSON 的 suggested_revisions 字段中，可直接参照修改合同。</p>
+              <p>合同审核结果已保存，请点击 <a class="report-link" href="#">合同审核结果</a>。</p>
+              <div class="loading-mark" aria-label="处理中"></div>
+            </article>
           </div>
 
-          <aside class="front-context-panel">
-            <section class="front-context-card">
-              <div class="front-panel-head">
-                <span>员工列表</span>
-                <button type="button" id="resetSearchBtn">清空搜索</button>
+          <div class="composer-wrap">
+            <button class="new-chat-button" id="newChatButton" type="button"><span>＋</span><span>新对话</span></button>
+            <div class="composer">
+              <textarea id="messageInput" placeholder="有什么我可以帮助您的吗？"></textarea>
+              <div class="composer-tools">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <button class="attach-button" id="attachButton" type="button" aria-label="添加附件">
+                    <svg viewBox="0 0 24 24"><path d="m9.5 12.5 5-5a3 3 0 1 1 4.2 4.2l-7.2 7.2a5 5 0 0 1-7.1-7.1l7.1-7.1"/><path d="m7.5 15 7-7"/></svg>
+                  </button>
+                  <span class="attachment-name" id="attachmentName"></span>
+                  <input id="attachmentInput" type="file" hidden />
+                </div>
+                <button class="send-button" id="sendButton" type="button" aria-label="发送">
+                  <svg viewBox="0 0 24 24"><path d="m4 4 17 8-17 8 3-8z"/><path d="M7 12h14"/></svg>
+                </button>
               </div>
-              <div class="front-employee-list" id="employeeList"></div>
-            </section>
-
-            <section class="front-context-card">
-              <div class="front-panel-head">
-                <span>当前员工标签</span>
-                <button type="button" id="focusInputBtn">快速发起</button>
-              </div>
-              <div class="front-tag-list" id="tagList"></div>
-            </section>
-
-            <section class="front-context-card">
-              <div class="front-panel-head">
-                <span>执行时间线</span>
-                <button type="button">全部</button>
-              </div>
-              <div class="front-timeline-list" id="timelineList"></div>
-            </section>
-          </aside>
+            </div>
+            <div class="disclaimer">以上内容为AI生成，不代表开发者立场</div>
+          </div>
         </section>
-
-        <p class="front-disclaimer">前台员工页已统一为与前台应用一致的视觉和交互风格，任务输入、员工选择与模式切换保持同一套行为逻辑。</p>
       </main>
     </div>
 
     <script>
       const employees = [
-        {
-          name: "数据分析师",
-          icon: "数",
-          color: "#766bf2",
-          role: "增长数据复盘与归因分析",
-          desc: "擅长指标波动分析、留存拆解、实验复盘和异常定位，适合运营与产品协同。",
-          hero: "把数据分析能力前置到日常业务协同",
-          heroDesc: "适合快速定位指标异动、解释数据变化，并把结论直接沉淀到任务记录或项目知识。",
-          tags: ["指标分析", "留存拆解", "实验复盘", "可输出报告"],
-          tasks: [
-            { title: "周活下降复盘", desc: "读取本周数据、发布时间线和渠道变化，输出原因拆解。", status: "running" },
-            { title: "活动效果对比", desc: "比较本次活动与上期活动转化率、留存率和渠道差异。", status: "pending" },
-            { title: "日报异常巡检", desc: "自动扫描异常指标并生成早会摘要。", status: "running" }
-          ],
-          templates: [
-            { title: "活跃用户下降分析", desc: "分析近 7 天 DAU/互动次数下降原因，并给出 3 条优化建议。" },
-            { title: "活动转化漏斗复盘", desc: "拆解曝光、点击、转化、留存各环节损耗，并定位关键问题。" },
-            { title: "版本发布影响评估", desc: "结合版本发布时间与行为数据，评估发布对核心指标的影响。" }
-          ]
-        },
-        {
-          name: "产品经理",
-          icon: "产",
-          color: "#3f7df6",
-          role: "需求拆解与方案整理",
-          desc: "擅长把模糊需求整理成结构化方案，输出 PRD、流程和评审材料。",
-          hero: "让需求拆解和方案整理更快进入执行",
-          heroDesc: "适合立项前需求梳理、方案对齐和评审准备，输出格式更偏结构化文档。",
-          tags: ["PRD", "流程设计", "评审材料", "需求澄清"],
-          tasks: [
-            { title: "需求池整理", desc: "归类需求优先级，形成版本排期建议。", status: "running" },
-            { title: "评审纪要生成", desc: "基于会议输入生成结论、争议点和行动项。", status: "pending" },
-            { title: "原型说明补全", desc: "结合页面草图补充交互说明和边界规则。", status: "running" }
-          ],
-          templates: [
-            { title: "PRD 初稿生成", desc: "根据目标、用户和场景输出一版结构化 PRD 初稿。" },
-            { title: "需求评审准备", desc: "梳理目标、范围、流程、风险和验收标准。" },
-            { title: "流程优化建议", desc: "识别当前流程卡点并输出可落地的优化方案。" }
-          ]
-        },
-        {
-          name: "合同审核员工",
-          icon: "合",
-          color: "#23bf80",
-          role: "合同条款风险识别与修改建议",
-          desc: "自动抽取关键条款、识别风险点并生成修订建议，适合法务与业务送审前自查。",
-          hero: "把合同审核入口前置到业务送审前",
-          heroDesc: "适合业务自查、法务预审和关键条款风险提示，高风险动作可进入审批。",
-          tags: ["条款识别", "风险预警", "修订建议", "需审批"],
-          tasks: [
-            { title: "采购合同预检", desc: "提取价款、履约、违约和交付条款，识别高风险项。", status: "pending" },
-            { title: "法务送审前自查", desc: "输出合同关键问题摘要和修订建议。", status: "running" },
-            { title: "历史模板比对", desc: "与标准模板做差异比对并提示缺失项。", status: "running" }
-          ],
-          templates: [
-            { title: "合同风险扫描", desc: "识别高风险条款并输出修改建议与风险等级。" },
-            { title: "模板差异审查", desc: "对比公司标准模板，标记缺失和偏离内容。" },
-            { title: "送审摘要生成", desc: "生成送审说明、关键风险和待确认问题。" }
-          ]
-        }
+        { name: "方案助理", desc: "帮助解决方案专家进行方案梳理与输出", date: "2026/7/1", avatar: "方", color: "linear-gradient(135deg,#26c978,#51dfa0)" },
+        { name: "BRTV 新闻热点选题助手", desc: "基于实时舆情与资讯，辅助完成热点选题", date: "2026/6/29", avatar: "讯", color: "linear-gradient(135deg,#45a6ff,#786af4)" },
+        { name: "合同审核助手（正式）", desc: "合同审核数字员工，通过AI自动完成合同上传解析、关键要素提取、风险条款...", date: "2026/6/24", photo: true },
+        { name: "笔杆子", desc: "本数字员工专注于公文材料撰写与润色", date: "2026/6/23", avatar: "文", color: "linear-gradient(135deg,#283346,#566377)" },
+        { name: "合同审核助手（Beta）", desc: "合同审核数字员工，通过AI完成合同风险识别", date: "2026/6/16", photo: true },
+        { name: "流域防汛分析助手", desc: "智谱天河流域防汛形势分析数字员工", date: "2026/5/25", avatar: "南", color: "linear-gradient(135deg,#21bd73,#63d98f)" },
+        { name: "面试助手", desc: "我是您的AI面试官，为面试提供结构化支持", date: "2026/5/15", avatar: "面", color: "linear-gradient(135deg,#396df0,#758aff)" }
       ];
 
-      const timelineItems = [
-        { title: "任务已提交", desc: "已记录输入内容与所选员工，等待执行。", state: "done" },
-        { title: "执行计划生成", desc: "系统正在根据模式生成计划拆解与处理策略。", state: "done" },
-        { title: "工具与知识调用", desc: "按员工能力调用知识库、文件和历史记忆。", state: "pending" },
-        { title: "结果沉淀与审批", desc: "产出报告、记录或审批动作，支持回溯和治理。", state: "pending" }
-      ];
-
-      let activeEmployeeIndex = 0;
-      let currentMode = "chat";
-      let employeeKeyword = "";
-
-      const employeeList = document.getElementById("employeeList");
-      const taskGrid = document.getElementById("taskGrid");
-      const templateGrid = document.getElementById("templateGrid");
-      const tagList = document.getElementById("tagList");
-      const timelineList = document.getElementById("timelineList");
-      const taskInput = document.getElementById("taskInput");
-      const employeeSearch = document.getElementById("employeeSearch");
-      const heroTitle = document.getElementById("heroTitle");
-      const heroDesc = document.getElementById("heroDesc");
-      const modeSummaryText = document.getElementById("modeSummaryText");
-      const modeSummaryTag = document.getElementById("modeSummaryTag");
+      const contactList = document.getElementById("contactList");
+      const contactSearch = document.getElementById("contactSearch");
+      const chatName = document.getElementById("chatName");
+      const chatDescription = document.getElementById("chatDescription");
+      const chatAvatar = document.getElementById("chatAvatar");
+      const messageInput = document.getElementById("messageInput");
+      const sendButton = document.getElementById("sendButton");
+      const report = document.getElementById("report");
+      const reportScroll = document.getElementById("reportScroll");
+      const attachmentInput = document.getElementById("attachmentInput");
+      const attachmentName = document.getElementById("attachmentName");
+      let activeEmployee = 2;
 
       function escapeHtml(value) {
         return String(value).replace(/[&<>"']/g, function (char) {
@@ -785,243 +683,97 @@
         });
       }
 
-      function currentEmployee() {
-        return employees[activeEmployeeIndex];
+      function avatarMarkup(employee, className) {
+        return `<span class="${className} ${employee.photo ? "photo" : ""}" style="${employee.photo ? "" : `--avatar:${employee.color}`}">${employee.photo ? "" : escapeHtml(employee.avatar)}<span class="online-dot"></span></span>`;
       }
 
-      function renderEmployeeList() {
-        const visibleEmployees = employees
-          .map(function (item, index) { return { item: item, index: index }; })
-          .filter(function (entry) {
-            if (!employeeKeyword) return true;
-            const text = [entry.item.name, entry.item.role, entry.item.desc, entry.item.tags.join(" ")].join(" ");
-            return text.includes(employeeKeyword);
+      function renderContacts() {
+        const keyword = contactSearch.value.trim().toLowerCase();
+        const visible = employees
+          .map(function (employee, index) { return { employee, index }; })
+          .filter(function (item) {
+            return !keyword || (item.employee.name + item.employee.desc).toLowerCase().includes(keyword);
           });
 
-        employeeList.innerHTML = visibleEmployees.map(function (entry) {
-          const item = entry.item;
-          const active = entry.index === activeEmployeeIndex ? "active" : "";
+        contactList.innerHTML = visible.map(function (item) {
           return `
-            <button class="front-employee-card ${active}" type="button" data-employee-index="${entry.index}">
-              <div class="front-employee-row">
-                <span class="front-employee-avatar" style="background:${item.color}">${escapeHtml(item.icon)}</span>
-                <span class="front-employee-detail">
-                  <strong class="front-employee-name">${escapeHtml(item.name)}</strong>
-                  <span class="front-employee-sub">${escapeHtml(item.role)}</span>
-                  <p>${escapeHtml(item.desc)}</p>
-                </span>
-              </div>
+            <button class="contact-item ${item.index === activeEmployee ? "active" : ""}" type="button" data-employee="${item.index}">
+              ${avatarMarkup(item.employee, "contact-avatar")}
+              <span class="contact-copy">
+                <span class="contact-name">${escapeHtml(item.employee.name)}</span>
+                <span class="contact-desc">${escapeHtml(item.employee.desc)}</span>
+              </span>
+              <span class="contact-date">${escapeHtml(item.employee.date)}</span>
             </button>
           `;
-        }).join("") || '<div class="front-note">没有匹配的员工</div>';
+        }).join("") || '<div class="empty-contact">没有找到相关数字员工</div>';
       }
 
-      function renderTaskGrid() {
-        const tasks = currentEmployee().tasks;
-        taskGrid.innerHTML = tasks.map(function (task, index) {
-          return `
-            <button class="front-task-card ${index === 0 ? "active" : ""}" type="button" data-task-title="${escapeHtml(task.title)}">
-              <div class="front-task-head">
-                <div class="front-task-copy">
-                  <strong>${escapeHtml(task.title)}</strong>
-                  <span>${escapeHtml(task.desc)}</span>
-                </div>
-                <span class="front-status ${task.status}">${task.status === "running" ? "执行中" : "待审批"}</span>
-              </div>
-            </button>
-          `;
-        }).join("");
+      function selectEmployee(index) {
+        activeEmployee = index;
+        const employee = employees[index];
+        chatName.textContent = employee.name;
+        chatDescription.textContent = employee.desc;
+        chatAvatar.className = "contact-avatar" + (employee.photo ? " photo" : "");
+        chatAvatar.style.setProperty("--avatar", employee.color || "");
+        chatAvatar.innerHTML = (employee.photo ? "" : escapeHtml(employee.avatar)) + '<span class="online-dot"></span>';
+        renderContacts();
       }
 
-      function renderTemplateGrid() {
-        const templates = currentEmployee().templates;
-        templateGrid.innerHTML = templates.map(function (template, index) {
-          return `
-            <button class="front-template-card ${index === 0 ? "active" : ""}" type="button" data-template-index="${index}">
-              <div class="front-template-head">
-                <span class="front-template-icon">模</span>
-                <strong>${escapeHtml(template.title)}</strong>
-              </div>
-              <p class="front-template-desc">${escapeHtml(template.desc)}</p>
-            </button>
-          `;
-        }).join("");
-      }
-
-      function renderTags() {
-        tagList.innerHTML = currentEmployee().tags.map(function (tag) {
-          return `
-            <div class="front-tag-item">
-              <span class="front-tag-icon">签</span>
-              <span>${escapeHtml(tag)}</span>
-            </div>
-          `;
-        }).join("");
-      }
-
-      function renderTimeline() {
-        timelineList.innerHTML = timelineItems.map(function (item) {
-          return `
-            <div class="front-timeline-row">
-              <div class="front-timeline-head">
-                <strong>${escapeHtml(item.title)}</strong>
-                <span class="front-timeline-state ${item.state}">${item.state === "done" ? "已完成" : "进行中"}</span>
-              </div>
-              <p class="front-timeline-desc">${escapeHtml(item.desc)}</p>
-            </div>
-          `;
-        }).join("");
-      }
-
-      function setMode(mode) {
-        currentMode = mode;
-        document.querySelectorAll("[data-mode]").forEach(function (button) {
-          button.classList.toggle("active", button.dataset.mode === mode);
-        });
-        if (mode === "agent") {
-          modeSummaryText.textContent = "Agent · 可追溯执行";
-          modeSummaryTag.textContent = "需审批";
-          taskInput.placeholder = "描述任务目标、背景和期望产出，系统会按员工能力拆解执行...";
-        } else {
-          modeSummaryText.textContent = "Chat · 快速问答";
-          modeSummaryTag.textContent = "轻交互";
-          taskInput.placeholder = "输入你的问题，快速得到当前员工的回答与建议...";
-        }
-      }
-
-      function applyTemplate(index) {
-        const template = currentEmployee().templates[index] || currentEmployee().templates[0];
-        if (!template) return;
-        setMode("agent");
-        taskInput.value = "@" + currentEmployee().name + " " + template.desc;
-        taskInput.focus();
-        taskInput.setSelectionRange(taskInput.value.length, taskInput.value.length);
-      }
-
-      function fillTask(title) {
-        taskInput.value = "@" + currentEmployee().name + " 请处理：" + title;
-        taskInput.focus();
-        taskInput.setSelectionRange(taskInput.value.length, taskInput.value.length);
-      }
-
-      function renderEmployeeContext() {
-        const employee = currentEmployee();
-        heroTitle.textContent = employee.hero;
-        heroDesc.textContent = employee.heroDesc;
-        renderTaskGrid();
-        renderTemplateGrid();
-        renderTags();
-      }
-
-      function renderAll() {
-        renderEmployeeList();
-        renderEmployeeContext();
-        renderTimeline();
-      }
-
-      document.addEventListener("click", function (event) {
-        const navButton = event.target.closest("[data-nav]");
-        if (navButton) {
-          window.location.href = navButton.dataset.nav;
+      function sendMessage() {
+        const value = messageInput.value.trim();
+        if (!value) {
+          messageInput.focus();
           return;
         }
+        const message = document.createElement("div");
+        message.className = "user-message";
+        message.textContent = value;
+        report.appendChild(message);
+        messageInput.value = "";
+        sendButton.classList.remove("ready");
+        reportScroll.scrollTop = reportScroll.scrollHeight;
+      }
 
-        const employeeButton = event.target.closest("[data-employee-index]");
-        if (employeeButton) {
-          activeEmployeeIndex = Number(employeeButton.dataset.employeeIndex);
-          renderAll();
-          return;
-        }
-
-        const templateButton = event.target.closest("[data-template-index]");
-        if (templateButton) {
-          applyTemplate(Number(templateButton.dataset.templateIndex));
-          return;
-        }
-
-        const taskButton = event.target.closest("[data-task-title]");
-        if (taskButton) {
-          fillTask(taskButton.dataset.taskTitle);
-          return;
-        }
+      contactList.addEventListener("click", function (event) {
+        const button = event.target.closest("[data-employee]");
+        if (button) selectEmployee(Number(button.dataset.employee));
       });
-
-      document.getElementById("modeSwitch").addEventListener("click", function (event) {
-        const target = event.target.closest("[data-mode]");
-        if (!target) return;
-        setMode(target.dataset.mode);
+      contactSearch.addEventListener("input", renderContacts);
+      document.getElementById("backToWanjuan").addEventListener("click", function () {
+        window.location.href = "./front-work-v2.html";
       });
-
-      employeeSearch.addEventListener("input", function (event) {
-        employeeKeyword = event.target.value.trim();
-        renderEmployeeList();
+      document.getElementById("newChatButton").addEventListener("click", function () {
+        messageInput.value = "";
+        attachmentInput.value = "";
+        attachmentName.textContent = "";
+        attachmentName.classList.remove("show");
+        sendButton.classList.remove("ready");
+        messageInput.focus();
       });
-
-      document.getElementById("resetSearchBtn").addEventListener("click", function () {
-        employeeSearch.value = "";
-        employeeKeyword = "";
-        renderEmployeeList();
+      document.getElementById("attachButton").addEventListener("click", function () {
+        attachmentInput.click();
       });
-
-      document.getElementById("focusInputBtn").addEventListener("click", function () {
-        taskInput.focus();
+      attachmentInput.addEventListener("change", function () {
+        const file = attachmentInput.files && attachmentInput.files[0];
+        attachmentName.textContent = file ? file.name : "";
+        attachmentName.classList.toggle("show", Boolean(file));
       });
-
-      document.getElementById("newEmployeeTaskBtn").addEventListener("click", function () {
-        taskInput.value = "@" + currentEmployee().name + " ";
-        taskInput.focus();
-        taskInput.setSelectionRange(taskInput.value.length, taskInput.value.length);
+      messageInput.addEventListener("input", function () {
+        sendButton.classList.toggle("ready", Boolean(messageInput.value.trim()));
       });
-
-      document.getElementById("insertEmployeeBtn").addEventListener("click", function () {
-        const prefix = taskInput.value && !taskInput.value.endsWith(" ") ? " " : "";
-        taskInput.value += prefix + "@" + currentEmployee().name + " ";
-        taskInput.focus();
-      });
-
-      document.getElementById("insertTemplateBtn").addEventListener("click", function () {
-        applyTemplate(0);
-      });
-
-      document.getElementById("useTemplateBtn").addEventListener("click", function () {
-        applyTemplate(0);
-      });
-
-      document.getElementById("focusCurrentEmployeeBtn").addEventListener("click", function () {
-        taskInput.value = "当前员工：" + currentEmployee().name + "\n职责：" + currentEmployee().role + "\n请根据以上身份处理我的需求：";
-        taskInput.focus();
-        taskInput.setSelectionRange(taskInput.value.length, taskInput.value.length);
-      });
-
-      document.getElementById("sendTaskBtn").addEventListener("click", function () {
-        const content = taskInput.value.trim();
-        if (!content) {
-          taskInput.focus();
-          return;
-        }
-        const modeLabel = currentMode === "agent" ? "Agent 任务已创建" : "Chat 问答已发送";
-        timelineItems[2] = {
-          title: modeLabel,
-          desc: "已将任务分发给“" + currentEmployee().name + "”，输入内容：" + content.slice(0, 36) + (content.length > 36 ? "..." : ""),
-          state: "done"
-        };
-        timelineItems[3] = {
-          title: "结果沉淀与审批",
-          desc: currentMode === "agent" ? "任务已进入执行队列，后续会沉淀执行记录并根据动作触发审批。" : "问答结果将保留在当前工作台，必要时可一键转任务。",
-          state: "pending"
-        };
-        renderTimeline();
-      });
-
-      taskInput.addEventListener("keydown", function (event) {
-        if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
+      messageInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" && !event.shiftKey) {
           event.preventDefault();
-          document.getElementById("sendTaskBtn").click();
+          sendMessage();
         }
       });
+      sendButton.addEventListener("click", sendMessage);
 
-      setMode("chat");
-      renderAll();
+      renderContacts();
+      requestAnimationFrame(function () {
+        reportScroll.scrollTop = Math.min(250, reportScroll.scrollHeight - reportScroll.clientHeight);
+      });
     </script>
   </body>
 </html>
